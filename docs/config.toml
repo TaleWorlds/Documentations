@@ -1,0 +1,23 @@
+baseUrl = "http://localhost:4444/"
+languageCode = "en-us"
+DefaultContentLanguage = "en"
+title = "Taleworlds Documentation"
+theme = "hugo-theme-docdock-master"
+pygmentsCodeFences = true
+pygmentsStyle = "monokailight"
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir= false
+enableMissingTranslationPlaceholders = false
+
+[languages]
+    [languages.en]
+        contentDir = "content/english"
+        languageName = "English"
+
+# Add more languages here
+
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]
+
