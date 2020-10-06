@@ -22,8 +22,6 @@ Which are: \\
 4) siege \\
 5) civilian
 
-More info about usage of these levels can be found in: <a href="https://docs.google.com/document/d/1lVytkoeFfuIp64Wg381WhGJ5LsCNMEQW-JeBJ4LAWNo/edit?ts=5b0be88a"> Siege sahneleri tasarımı </a> \\
-(If you dont have access to this document, please request access from game play team)
 
 ## Setting Entity visibilities
 Making an entity only visible in a certain level combinations can be done with selecting an entity then going in <b>Scene Level Visibilities</b> panel under <b>Entity Inspector</b>.
