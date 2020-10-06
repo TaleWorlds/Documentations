@@ -6,6 +6,8 @@ weight = 1
 
 # Welcome to the Mount&Blade Bannerlord Modding Documentation
 
+To acces the "Frequently Asked Questions" section, see <strong>[F.A.Q]({{< ref "faq.md" >}})</strong>.
+
 For a quick guide on creating and registering modules, see <strong>[Modules-Quickguide]({{< ref "quickguide_create_a_mod.md" >}})</strong>.
 
 For further information:
