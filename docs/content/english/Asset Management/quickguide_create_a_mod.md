@@ -3,7 +3,7 @@ title = "Creating a Module - Quick Guide"
 weight = 1
 +++
 
-Modules can contain assets ranging from meshes to physics bodies, scenes, gameplay entities like factions, lords, troops, items and scripts and behaviours that can run any gameplay logic. In this gide, the process of creating one will be explained. 
+Modules can contain assets ranging from meshes to physics bodies, scenes, gameplay entities like factions, lords, troops, items, sounds, scripts and behaviours that can run any gameplay logic. In this guide, the process of creating one will be explained. 
 
 ##### Creating A New Module
 
