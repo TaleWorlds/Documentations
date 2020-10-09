@@ -1,11 +1,14 @@
 name: Auto Assign
-
 on:
-  pull_request_target:
-    types: [opened]
+  pull_request:
+    branches:
+      - master  # when the PR destination is master, executed this workflow
 
 jobs:
-  add-reviews:
+  run:
     runs-on: ubuntu-latest
     steps:
-      - uses: kentaro-m/auto-assign-action@eea5ee2e4421078bf163287c05e72d162781b30c
+      - uses: bubkoo/auto-assign@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_FILE: ".github/auto_assign.yml"
