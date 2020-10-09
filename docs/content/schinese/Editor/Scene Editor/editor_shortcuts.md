@@ -4,66 +4,66 @@ description = ""
 weight = 1
 +++
 
-General Editor Usage | Shortcut | Editor State
-------- | ------- | --------
-Show/hide helpers | H | Any mode
-New scene | Alt + 1 | Any mode
-Save scene | Alt + 2 | Any mode
-Open scene | Alt + 3 | Any mode
-Start mission | Alt + 4 | Any mode
-Start mission as | Alt + 5 | Any mode
-Scene Options | Alt + 6 | Any mode
-Terrain Options | Alt + 7 | Terrain select
-Terrain Elevation | Alt + 8 | Terrain Paint Elevate
-Terrain Paint | Alt + 9 | Terrain Paint Paint
-Shift between relevant 2 editor modes (select-add, select-elevatepaint etc) | Space | Any mode
-Undo/Redo | Ctrl+Z, Ctrl+Y | Any mode
+| 常用按键                           | 按键               | 编辑器模式 |
+| ------------------------------ | ---------------- | ----- |
+| 显示/隐藏帮助                        | H                | 任何模式  |
+| 创建场景                           | Alt \+ 1         | 任何模式  |
+| 保存场景                           | Alt \+ 2         | 任何模式  |
+| 打开场景                           | Alt \+ 3         | 任何模式  |
+| 开始任务                           | Alt \+ 4         | 任何模式  |
+| 以…方式开始任务                       | Alt \+ 5         | 任何模式  |
+| 场景选项                           | Alt \+ 6         | 任何模式  |
+| 地形选项                           | Alt \+ 7         | 地形选项  |
+| 地形海拔                           | Alt \+ 8         | 地形海拔  |
+| 地形涂色                           | Alt \+ 9         | 地形涂色  |
+| 切换相关编辑模式 \(选择\-增加，选择\-海拔和涂色等\) | 空格               | 任何模式  |
+| 返回/撤回                          | Ctrl\+Z, Ctrl\+Y | 任何模式  |
 
-Camera Controls | Shortcut | Editor State
-------- | ------- | --------
-Focus on selected entity | F | Entity Select
-Editor camera orbiting mode | Alt (Hold) + Right Mouse Button | Entity Select
-Pan | Alt (Hold) + Middle Mouse Button | Entity Select
-Zoom in/out | Alt (Hold) + Mouse scroll wheel | Entity Select
-Camera speed increase/decrease | Ctrl + Mouse scroll wheel | Any mode
-Camera speed set to 1 | Ctrl + Middle mouse button | Any mode
+| 视角控制       | 按键              | 编辑器模式    |
+| ---------- | --------------- | -------- |
+| 聚焦到选定模型    | F               | 选择Entity |
+| 编辑器摄像头旋转模式 | 按住Alt  \+鼠标右键滑动 | 选择Entity |
+| Pan        | 按住Alt  \+鼠标中键   | 选择Entity |
+| 拉近拉远摄像头    | 按住ALT \+ 滑动鼠标中键 | 选择Entity |
+| 加快减慢摄像头速度  | Ctrl \+ 滑动鼠标中键  | 任何模式     |
+| 摄像头速度设置为1  | Ctrl \+ 鼠标中键    | 任何模式     |
 
-Prefab transform | Shortcut | Editor State
-------- | ------- | --------
-Rotate while placing | Z, X, C, T, reset to default with R | Entity Add
-Move entity with placing on terrain | Hold P | Entity Select
-Move entity vertically | Hold N | Entity Select
-Move entity on the XY plane | Hold G | Entity Select
-Show translate triad | T | Entity Select
-Show rotating triad | R | Entity Select
-Show scaling triad | Y | Entity Select
-Duplicate the entity dragging on the translate triad | Shift+Click or Shift+Drag to side | Entity Select
-Hide any triad on selected entity | V | Entity Select
-Triads shown based on local coordinates (default) | Alt+L | Entity Select
-Triads shown based on world coordinates | Alt+W | Entity Select
-Material of an object under mouse opens in material editor (or material comes to inspector) | M+Click | Entity Select
+| PREFAB TRANSFORM | 按键                                 | 编辑器模式      |
+| ---------------- | ---------------------------------- | ---------- |
+| 原地旋转             | 垂直旋转按Z, 左右旋转按X, 前后旋转按C, T, 返回默认按 R | Entity Add |
+| 移动模型并放置在地面上      | 按住P                                | 选择Entity   |
+| 上下移动             | 按住N                                | 选择Entity   |
+| 水平移动             | 按住G                                | 选择Entity   |
+| 显示XYZ轴           | T                                  | 选择Entity   |
+| 显示旋转轴            | R                                  | 选择Entity   |
+| 显示大小比例轴          | Y                                  | 选择Entity   |
+| 复制粘贴模型           | Shift\+单击鼠标或者 Shift\+拖拽            | 选择Entity   |
+| 隐藏轴              | V                                  | 选择Entity   |
+| 切换为本地变换视图        | Alt\+L                             | 选择Entity   |
+| 切换为世界变换视图        | Alt\+W                             | 选择Entity   |
+| 打开模型材质视图         | M\+单击鼠标                            | 选择Entity   |
 
-Terrain | Shortcut | Editor State
-------- | ------- | --------
-Select all terrain nodes | Ctrl + A | Terrain Select
-Lower when rise selected | Alt + Click | Terrain Paint Elevate
-Rise when lower selected | Alt + Click | Terrain Paint Elevate
-Flatten when Rise or Lower selected | Ctrl + Left Mouse Click | Terrain Paint Elevate
-Smoothen when Rise or Lower selected | Shift + Click | Terrain Paint Elevate
-Transfer height value to Flatten (when flatten selected) | Alt + Click | Terrain Paint Elevate
-Flora paint (Not from layers) | Left Mouse Click  | Entity Paint
-Resize currently selected flora | B (hold) + Mouse drag left/right | Entity Paint
-Place 1 flora (flora seen on brush) | Ctrl + Left Mouse Click | Entity Paint
+| 地形                 | 按键           | 编辑器模式    |
+| ------------------ | ------------ | -------- |
+| 全选所有地形节点           | Ctrl \+ A    | 选择地形     |
+| 当选择提高时下降海拔         | Alt \+ 点击    | 地形海拔     |
+| 当选择下降时提高海拔         | Alt \+ 点击    | 地形海拔     |
+| 平整地形               | Ctrl \+鼠标左键  | 地形海拔     |
+| 平滑地形               | Shift \+ 点击  | 地形海拔     |
+| 当选择平整地形时，以该高度为平整海拔 | Alt \+ 单击    | 地形海拔     |
+| 添加植被（不在图层上增加）      | 鼠标左键         | 涂色Entity |
+| 重新规划当前植被面积大小       | 按住B\+鼠标左右拖拽  | 涂色Entity |
+| 放置单个植被             | Ctrl \+ 左键单击 | 涂色Entity |
 
-Navmesh hotkeys | Shortcut | Editor State
-------- | ------- | --------
-Fill in closest 4 vertices (creates a quad) | Shift + Click | Navigation Mesh Add
-Fill in the last 4 vertices (creates a quad) | Ctrl + Space | Navigation Mesh Add
-Move vertex without selecting | Ctrl + Drag | Navigation Mesh Add
-Delete face with mouse over (leaves vertices) | Alt + Click | Navigation Mesh Add
-Delete face and remove all vertices  | Alt + X + Click | Navigation Mesh Add
-Selection mode - vertex | 1 | Navigation Mesh Select
-Selection mode - edge | 2 | Navigation Mesh Select
-Selection mode - face | 3 | Navigation Mesh Select
-Select all vertices, edges or face (depends on the current selection) | Ctrl + A | Navigation Mesh Select
-Delete selected vertices, edges or face  | Delete | Navigation Mesh Select
+| NAVMESH HOTKEYS   | 按键             | 编辑器模式  |
+| ----------------- | -------------- | ------ |
+| 填充最近的4个顶点（形成一个面）  | Shift \+单击     | 添加导航网格 |
+| 填充最末端的4个顶点（形成一个面） | Ctrl \+ 空格     | 添加导航网格 |
+| 不用选择也可以挪动顶点       | Ctrl \+拖拽      | 添加导航网格 |
+| 删除面并留下顶点          | Alt \+ 单击      | 添加导航网格 |
+| 删除面及其顶点           | Alt \+ X \+ 单击 | 添加导航网格 |
+| 选择顶点模式            | 1              | 选择导航网格 |
+| 选择边模式             | 2              | 选择导航网格 |
+| 选择面模式             | 3              | 选择导航网格 |
+| 选择连接的所有顶点，边和面、    | Ctrl \+ A      | 选择导航网格 |
+| 删除顶点/边/面          | Delete         | 选择导航网格 |
