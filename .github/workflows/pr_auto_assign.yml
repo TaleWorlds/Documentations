@@ -5,9 +5,10 @@ on:
       - master  # when the PR destination is master, executed this workflow
 
 jobs:
-  add-reviews:
+  run:
     runs-on: ubuntu-latest
     steps:
-      - uses: kentaro-m/auto-assign-action@v1.1.2
+      - uses: bubkoo/auto-assign@v1
         with:
-          configuration-path: ".github/auto_assign.yml"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_FILE: ".github/auto_assign.yml"
