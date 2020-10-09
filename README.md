@@ -18,7 +18,14 @@ Then access to http://localhost:4444 or http://localhost:1313 (By Default) from 
 
 ## Contributing
 
-We accept a lot of different contributions including, but not limit to :beetle: Issues, :hammer_and_wrench: Pull Request, :question: Support, :earth_asia: Localization.
+We accept a lot of different contributions including, but not limit to :beetle: Issues, :hammer_and_wrench: Pull Request, :question: Support, :earth_asia: Localization. \
+
+To contribute:
+- Create a personal fork of the project on Github.
+- Clone the fork on your local machine.
+- Add or change the documentation as needed.
+- Commit your changes and Push your branch to your fork on Github.
+- From your fork open a pull request.
 
 ### Localization
 Localization contributions are welcomed.    
