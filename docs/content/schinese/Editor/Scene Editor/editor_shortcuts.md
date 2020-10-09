@@ -1,5 +1,5 @@
 +++
-title = "Editor Shortcuts"
+title = "编辑器快捷键"
 description = ""
 weight = 1
 +++
