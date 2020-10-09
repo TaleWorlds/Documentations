@@ -4,7 +4,7 @@ description = ""
 weight = 1
 +++
 
-# 欢迎来到《骑马与砍杀2：霸主》游戏 Modding 文档
+# 欢迎来到《骑马与砍杀2：霸主》 Mod 开发文档
 
 获取更多“常见问题解答”，请访问 <strong>[常见问题解答]({{< ref "faq.md" >}})</strong>.
 
