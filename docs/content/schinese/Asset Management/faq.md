@@ -9,7 +9,6 @@ weight = 1
 
 ##### 如何启动工具？
 
-You can use the SinglePlayer option from the Launcher and once you are in the Initial Menu, you can either press the Editor button or press the Ctrl + E key combination to start up the editor. 
 选择启动器中的 Singleplayer 选项并启动，等你进入到游戏主菜单界面后，你既可以单击 Editor 启动编辑器，也可以按下组合键 Ctrl + E 来启动编辑器。
 
 ##### 如何创建你自己的模组？
