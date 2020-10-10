@@ -60,14 +60,14 @@ weight = 1
 ### 播放音频的代码样例 
 
 ```C#
-    int soundIndex = SoundEvent.GetEventIdFromString("example/voice/charge"); //to avoid string operations in runtime soundIndex can be cached.
+    int soundIndex = SoundEvent.GetEventIdFromString("example/voice/charge"); // 缓存 soundIndex 对象来避免运行中的 string 操作。
     if (playOneshot)
     {
-        MakeSound(soundIndex, MainAgent.Position, false, true, -1, -1); //plays one shot sound at position with given parameters.
+        MakeSound(soundIndex, MainAgent.Position, false, true, -1, -1); // 给定的位置等参数信息，播放单触发 (one shot sound) 音频。
     }
     else
     {
-        SoundEvent eventRef = SoundEvent.CreateEvent(soundIndex, Scene); //get a reference to sound and update parameters later.
+        SoundEvent eventRef = SoundEvent.CreateEvent(soundIndex, Scene); // 给定音频的引用 (reference)，可以之后更新细节参数。
         eventRef.SetPosition(MainAgent.Position);
         eventRef.Play();
     }
