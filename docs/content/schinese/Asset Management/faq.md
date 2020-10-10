@@ -1,42 +1,50 @@
 +++
-title = "Frequently Asked Questions"
+title = "常见问题解答"
 weight = 1
 +++
 
-##### How to install the tools?
+##### 如何安装工具？
 
-You can download the “Mount & Blade Bannerlord Modding Tools” from the Tools section of steam. Note that the tools use some of the files downloaded within the game itself. Thus, the tools and game should be at the same version and installed on the same harddrive.
+从 Steam 库的工具部分中找到并下载“Mount & Blade Bannerlord Modding Tools”。请注意，本工具会使用部分已经下载好的游戏本体的文件，因此，工具的版本应与游戏版本一致并且应与游戏本体安装在同一驱动器中。
 
-##### How to launch the tools?
+##### 如何启动工具？
+
 You can use the SinglePlayer option from the Launcher and once you are in the Initial Menu, you can either press the Editor button or press the Ctrl + E key combination to start up the editor. 
+选择启动器中的 Singleplayer 选项并启动，等你进入到游戏主菜单界面后，你既可以单击 Editor 启动编辑器，也可以按下组合键 Ctrl + E 来启动编辑器。
 
-##### How to create your own module?
-We have a built-in functionality in the editor which creates a new module and populates it with example xml files registered to the module for ease of adding new content. After opening the editor, you can use the “Create New Module” option in the “File” menu from the top toolbar. Note that you need to restart the game in order to register the module from the Launcher. 
+##### 如何创建你自己的模组？
 
-##### How to edit Native resources?
-You cannot edit native resources, you can override them on your own module. For details look at http://docs.modding.bannerlord.com/asset-management/asset-types/overriding_assets/
+我们在编辑器里内置了一个功能，可以直接创建一个有 XML 模板文件的模组，方便你快速开始添加新内容。打开编辑器后，在顶端工具栏的“File”菜单下找到“Create New Module”选项，点击它。请注意，你需要重启游戏来让启动器识别该模组。
 
-##### I can’t add new meshes, textures etc.
-You cannot add resources to native modules, you should add them to your own module. First, you need to create a new module: http://docs.modding.bannerlord.com/asset-management/quickguide_create_a_mod/
-For the details of adding new assets: http://docs.modding.bannerlord.com/asset-management/asset-types/overriding_assets/
+##### 如何编辑游戏本体(Native)资源？
 
-##### Example scenes to look at?
+你无法直接编辑游戏本体资源，但你可以在你的模组中覆盖掉它们。详情请参阅： http://docs.modding.bannerlord.com/zh_cn/asset-management/asset-types/overriding_assets/
 
-empire_village_003
-khuzait_castle_002
-sturgia_town_b
-battle_terrain_v
-empire_castle_keep_a_l3_interior
-empire_house_c_tavern_a
-empire_dungeon_a
-arena_empire_a
-Main_map
-		
-##### Where to find example assets?
-You can inspect native resources from Resource Browser but there aren't source files for these and you cannot export them. We will be providing some example source files soon.
+##### 我无法添加新模型、材质等
 
-##### I have mods with DLL’s and my modding tools does not launch.
-If you have any mods with DLL’s enabled, be sure to copy them to the Modules\MOD_NAME\bin\Win64_Shipping_wEditor folder as well.
+你无法直接向游戏本体添加资源，你需要在你自己的模组里添加它们。首先，你需要新建一个模组：http://docs.modding.bannerlord.com/zh_cn/asset-management/quickguide_create_a_mod/
+更多关于添加新的资产的信息请参阅： http://docs.modding.bannerlord.com/zh_cn/asset-management/asset-types/overriding_assets/
 
-##### My modding tool does not launch.
-Be sure that Visual Studio 2013 Redist x64 is installed in your machine. Also, check whether the version numbers for the base game and modding tools match. If all of the above checks does not work, you can create a new topic in the “Bug & Crashes” section of the modding forums(https://forums.taleworlds.com/index.php?forums/bug-crash-reports.784/). 
+##### 可供参考的示例场景？
+
+empire_village_003<br>
+khuzait_castle_002<br>
+sturgia_town_b<br>
+battle_terrain_v<br>
+empire_castle_keep_a_l3_interior<br>
+empire_house_c_tavern_a<br>
+empire_dungeon_a<br>
+arena_empire_a<br>
+Main_map<br>
+
+##### 在哪能找到示例资产？
+
+你可以从资源浏览器(Resource Browser)中查看这些游戏本体的资源，但没有源文件提供，因此你也无法导出它们。我们很快会提供一些示例的源文件。
+
+##### 我有包含 DLL 文件的模组然后我的工具无法启动？
+
+如果你有任何包含 DLL 文件的模组，请确保它们同样被复制到了 Modules\MOD_NAME\bin\Win64_Shipping_wEditor 目录下。
+
+##### 我的模组工具无法启动
+
+请确定你的机器安装了 Visual Studio 2013 Redist x64。此外，请检查你的游戏本体版本是否与模组开发工具版本相匹配。如果完成了以上检查仍旧无法启动，你可以在官方论坛的modding forums分区下的“Bug & Crashes”板块发帖反馈：https://forums.taleworlds.com/index.php?forums/bug-crash-reports.784/
