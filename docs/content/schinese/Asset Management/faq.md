@@ -17,24 +17,25 @@ weight = 1
 
 ##### 如何编辑游戏本体(Native)资源？
 
-你无法直接编辑游戏本体资源，但你可以在你的模组中覆盖掉它们。详情请参阅： http://docs.modding.bannerlord.com/zh_cn/asset-management/asset-types/overriding_assets/
+你无法直接编辑游戏本体资源，但你可以在你的模组中覆盖掉它们。详情请参阅： <strong>[添加&覆盖资产]({{< ref "overriding_assets.md" >}})</strong>
 
 ##### 我无法添加新模型、材质等
 
-你无法直接向游戏本体添加资源，你需要在你自己的模组里添加它们。首先，你需要新建一个模组：http://docs.modding.bannerlord.com/zh_cn/asset-management/quickguide_create_a_mod/
-更多关于添加新的资产的信息请参阅： http://docs.modding.bannerlord.com/zh_cn/asset-management/asset-types/overriding_assets/
+你无法直接向游戏本体添加资源，你需要在你自己的模组里添加它们。  
+首先，你需要新建一个模组：<strong>[快速入门指南]({{< ref "quickguide_create_a_mod.md" >}})</strong>  
+更多关于添加新的资产的信息请参阅： <strong>[添加&覆盖资产]({{< ref "overriding_assets.md" >}})</strong>  
 
 ##### 可供参考的示例场景？
 
-empire_village_003<br>
-khuzait_castle_002<br>
-sturgia_town_b<br>
-battle_terrain_v<br>
-empire_castle_keep_a_l3_interior<br>
-empire_house_c_tavern_a<br>
-empire_dungeon_a<br>
-arena_empire_a<br>
-Main_map<br>
+empire_village_003  
+khuzait_castle_002  
+sturgia_town_b  
+battle_terrain_v  
+empire_castle_keep_a_l3_interior  
+empire_house_c_tavern_a  
+empire_dungeon_a  
+arena_empire_a  
+Main_map  
 
 ##### 在哪能找到示例资产？
 
