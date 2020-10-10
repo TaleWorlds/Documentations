@@ -1,5 +1,5 @@
 +++
-title = "Editor"
+title = "编辑器"
 description = "editor"
 weight = 1
 +++
