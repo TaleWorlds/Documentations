@@ -4,7 +4,7 @@ weight = 1
 +++
 
 《霸主》的音频系统是基于 FMOD 音频引擎建立的。     
-为了让音频引擎性能好同时大家也都可以用到，我们需要建立一个 中间层  (InterLayer)。
+为了保持音频引擎性能的同时让大家都能使用它，我们需要建立一个 中间层  (InterLayer)。
 
 ## 关键要素
 
@@ -13,7 +13,7 @@ weight = 1
 
 你可以查看 Native Mod 中的例子。
 
-## 基本指南
+## 基础指南
 
 1. 复制样例的文件和文件夹到你的 Mod 目录下；
 2. 添加新的音频文件到 ModuleSounds 文件夹；
@@ -46,7 +46,7 @@ weight = 1
     - mission_voice_shout (一般被远距离听到的人物/动物的声音，比如战斗的呐喊)
     - mission_voice (人或者动物咕噜 (grunts) 或者击倒 (knockouts) 的音频。)
     - mission_voice_trivial (比较安静的发声，比如攀爬和跳跃)
-    - mission_siege_loud (大型围城的声响，比如巨石冀中墙壁、火焰投石车以及城门破坏的音频)
+    - mission_siege_loud (大型攻城战的声响，比如巨石击中墙壁、火焰投石车以及城门破坏的音频)
     - mission_footstep (人类和小型动物的标准脚步)
     - mission_footstep_run (更大的脚步声，指那种可在一定距离的人群中能听到的声音)
     - mission_horse_gallop (马匹和骆驼疾驰的声音)
@@ -55,7 +55,7 @@ weight = 1
     - alert (伪3D音频 (Psuedo-3d sounds)，用于从中距离警告玩家)
     - campaign_node (位置性的声音节点，一般用于世界地图，农场，海和瀑布等)
     - campaign_bed (2D 环境声，一般用于世界地图，沙漠阵风和牧场的风等)
-* **'path'**: 声音文件的路径。路径是相对于你 Mod 的 ModuleSounds 文件夹，你可以创建自己的子目录。
+* **'path'**: 声音文件的路径。路径是基于你 Mod 的 ModuleSounds 文件夹的相对路径，你可以创建自己的子目录。
 
 ### 播放音频的代码样例 
 
