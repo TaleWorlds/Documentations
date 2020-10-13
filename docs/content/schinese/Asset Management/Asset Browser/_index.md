@@ -1,5 +1,5 @@
 +++
-title = "Asset Browser"
+title = "资产浏览器"
 description = ""
 weight = 1
 +++
