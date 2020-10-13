@@ -6,14 +6,14 @@ weight = 1
 Bannerlord audio system is built on proprietary FMOD Sound system.
 To keep audio engine performant while making it accessible to anyone, we needed to create an interlayer.
 
-#### Key Elements
+## Key Elements
 
-* ...\Modules\*YOUR_MOD*\ModuleData\module_sounds.xml file, where you add custom definitions for your own sounds
-* ...\Modules\*YOUR_MOD*\ModuleSounds folder where you put audio files (.ogg, .wav)
+* `...\Modules\*YOUR_MOD*\ModuleData\module_sounds.xml` file, where you add custom definitions for your own sounds
+* `...\Modules\*YOUR_MOD*\ModuleSounds folder where you` put audio files (`.ogg`, `.wav`)
 
 You can see examples in 'Native' module.
 
-#### Basic Guide
+## Basic Guide
 
 1. Copy example files and folder to your own module
 2. Add new sounds into the ModuleSounds folder
@@ -22,10 +22,13 @@ You can see examples in 'Native' module.
 5. Add new entry to your mod's module_sounds.xml
 6. Play the new sound entry from the code
 
-#### Moving Further
-##### Using module_sounds.xml
+## Moving Further
 
+### Using module_sounds.xml
+
+```xml
     <module_sound name="example/combat/hit" is_2d="true" sound_category="mission_combat" path="example_sound_modders.ogg" />
+```
 
 * **'name'**: Any unique name you want. This is the identifier for your sound.
     - Use while playing sound from the code.
@@ -45,7 +48,7 @@ You can see examples in 'Native' module.
     - mission_voice_trivial (Quiet vocalizations like climbing, jumping)
     - mission_siege_loud (Big siege sounds like boulder hits wall, Catapult fires, Door breaks)
     - mission_footstep (Standard footsteps for humans and smaller animals)
-    - mission_footstep_run (Louder footsteps that could be head from distance whn in crowds)
+    - mission_footstep_run (Louder footsteps that could be head from distance when in crowds)
     - mission_horse_gallop (Horse, camel gallops)
     - mission_horse_walk (Horse, camel single soft footstep)
     - ui (2D sounds for UI and notifications)
@@ -55,7 +58,9 @@ You can see examples in 'Native' module.
 * **'path'**: The sound file to be played. Path is relative to your module's ModuleSounds folder. You can create child folders.
 
 
-#### Playing Sound from Code Example
+### Playing Sound from Code Example
+
+```C#
     int soundIndex = SoundEvent.GetEventIdFromString("example/voice/charge"); //to avoid string operations in runtime soundIndex can be cached.
     if (playOneshot)
     {
@@ -67,6 +72,7 @@ You can see examples in 'Native' module.
         eventRef.SetPosition(MainAgent.Position);
         eventRef.Play();
     }
+```
 
 You have two ways to play sound:
 

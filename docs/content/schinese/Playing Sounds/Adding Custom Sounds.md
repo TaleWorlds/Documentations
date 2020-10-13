@@ -1,76 +1,81 @@
 +++
-title = "Adding Sounds to Your Module"
+title = "给你的Mod添加音乐"
 weight = 1
 +++
 
-Bannerlord audio system is built on proprietary FMOD Sound system.
-To keep audio engine performant while making it accessible to anyone, we needed to create an interlayer.
+《霸主》的音频系统是基于 FMOD 音频引擎建立的。     
+为了保持音频引擎性能的同时让大家都能使用它，我们需要建立一个 中间层  (InterLayer)。
 
-#### Key Elements
+## 关键要素
 
-* ...\Modules\*YOUR_MOD*\ModuleData\module_sounds.xml file, where you add custom definitions for your own sounds
-* ...\Modules\*YOUR_MOD*\ModuleSounds folder where you put audio files (.ogg, .wav)
+* `...\Modules\*YOUR_MOD*\ModuleData\module_sounds.xml` 文件， 你可以在此添加你自己音乐的定义。
+* `...\Modules\*YOUR_MOD*\ModuleSounds` 文件夹，你可以在此添加音频文件 （`.ogg` 或 `.wav`）。
 
-You can see examples in 'Native' module.
+你可以查看 Native Mod 中的例子。
 
-#### Basic Guide
+## 基础指南
 
-1. Copy example files and folder to your own module
-2. Add new sounds into the ModuleSounds folder
-3. Open the module_sounds.xml of your module
-4. You will see sound categories, code example for playing sounds and example module_sound entries in the original module_sounds.xml file
-5. Add new entry to your mod's module_sounds.xml
-6. Play the new sound entry from the code
+1. 复制样例的文件和文件夹到你的 Mod 目录下；
+2. 添加新的音频文件到 ModuleSounds 文件夹；
+3. 打开编辑你 Mod 下的 module_sounds.xml 文件；
+4. 你会在 module_sounds.xml 文件中看到音频的目录，播放音乐的代码样例，以及样例的 module_sound 实体 (Entries)；
+5. 在 module_sounds.xml 文件中为你的 Mod 添加新的音频实体；
+6. 根据代码播放新的音频实体。
 
-#### Moving Further
-##### Using module_sounds.xml
+## 下一步
 
+### 使用 module_sounds.xml 文件
+
+```xml
     <module_sound name="example/combat/hit" is_2d="true" sound_category="mission_combat" path="example_sound_modders.ogg" />
+```
 
-* **'name'**: Any unique name you want. This is the identifier for your sound.
-    - Use while playing sound from the code.
-    - Use to play animation sound. Add to animation's 'sound_code' attribute.
-* **'is_2d'**: If the sound's spatial properties won't be used. 3d sounds have properties as position, velocity etc.
-* **'sound_category'**: All sounds must be assigned to a category to route it correctly through our pipes. Available categories are,
-    - mission_ambient_bed (2D ambient loops like base wind)
-    - mission_ambient_3d_big (Sounds that should be heard from long distance, like a burning castle)
-    - mission_ambient_3d_medium (Sounds that should be heard from medium distance, like bonfires)
-    - mission_ambient_3d_small (Sounds that should be heard from nearby, like campfires)
-    - mission_material_impact (Physics material impacts like *metal* sword hitting *stone* wall)
-    - mission_combat_trivial (Unimportant damage sounds, like low/no damage)
-    - mission_combat (Damage sounds)
-    - mission_foley (Swings, movement sounds, animal movements)
-    - mission_voice_shout (Human/Animal voices that should be heard from long distance like battle yells)
-    - mission_voice (Human/Animal grunts, knockouts etc.)
-    - mission_voice_trivial (Quiet vocalizations like climbing, jumping)
-    - mission_siege_loud (Big siege sounds like boulder hits wall, Catapult fires, Door breaks)
-    - mission_footstep (Standard footsteps for humans and smaller animals)
-    - mission_footstep_run (Louder footsteps that could be head from distance whn in crowds)
-    - mission_horse_gallop (Horse, camel gallops)
-    - mission_horse_walk (Horse, camel single soft footstep)
-    - ui (2D sounds for UI and notifications)
-    - alert (Psuedo-3d sounds for alerting the player from mid distance)
-    - campaign_node (Positional sound nodes for World Map, farms, seas, waterfalls)
-    - campaign_bed (2D ambient sounds for World Map, desert gusts, pasture winds etc.)
-* **'path'**: The sound file to be played. Path is relative to your module's ModuleSounds folder. You can create child folders.
+* **'name'**: 任何你想要的唯一名字，这个是你音频的 ID。
+    - 通过代码播放音乐的时候使用。
+    - 想播放有声动画 (animation sound) 时，添加进动画 sound_code 特性 (attribute) 中。
+* **'is_2d'**: 是否使用音频的空间属性 (spatial properties)。 3D 音频会有例如 位置、速度等属性。
+* **'sound_category'**: 所有的音频必须被分配一个分类 (category) 来分配其在通信管道 (pipes) 中的路由 (route)。可用的分类有：
+    - mission_ambient_bed (2D 环境声 (ambient loops) 比如基本风声 )
+    - mission_ambient_3d_big (一般从远距离听到的音频，比如一个正在燃烧/战斗的城堡)
+    - mission_ambient_3d_medium (一般从中距离听到的音频，比如烽火)
+    - mission_ambient_3d_small (一般从附近近距离听到的音频，比如营火)
+    - mission_material_impact (物理材质效果比如 *金属* 剑击打 *石* 墙)
+    - mission_combat_trivial (造成不重要伤害时候的音频，比如低伤害或者无伤)
+    - mission_combat (普通造成伤害的音频)
+    - mission_foley (回转，移动以及动物移动的音频)
+    - mission_voice_shout (一般被远距离听到的人物/动物的声音，比如战斗的呐喊)
+    - mission_voice (人或者动物咕噜 (grunts) 或者击倒 (knockouts) 的音频。)
+    - mission_voice_trivial (比较安静的发声，比如攀爬和跳跃)
+    - mission_siege_loud (大型攻城战的声响，比如巨石击中墙壁、火焰投石车以及城门破坏的音频)
+    - mission_footstep (人类和小型动物的标准脚步)
+    - mission_footstep_run (更大的脚步声，指那种可在一定距离的人群中能听到的声音)
+    - mission_horse_gallop (马匹和骆驼疾驰的声音)
+    - mission_horse_walk (马匹和骆驼慢走的声音)
+    - ui (UI 和 提示的 2D 音频)
+    - alert (伪3D音频 (Psuedo-3d sounds)，用于从中距离警告玩家)
+    - campaign_node (位置性的声音节点，一般用于世界地图，农场，海和瀑布等)
+    - campaign_bed (2D 环境声，一般用于世界地图，沙漠阵风和牧场的风等)
+* **'path'**: 声音文件的路径。路径是基于你 Mod 的 ModuleSounds 文件夹的相对路径，你可以创建自己的子目录。
 
+### 播放音频的代码样例 
 
-#### Playing Sound from Code Example
-    int soundIndex = SoundEvent.GetEventIdFromString("example/voice/charge"); //to avoid string operations in runtime soundIndex can be cached.
+```C#
+    int soundIndex = SoundEvent.GetEventIdFromString("example/voice/charge"); // 缓存 soundIndex 对象来避免运行中的 string 操作。
     if (playOneshot)
     {
-        MakeSound(soundIndex, MainAgent.Position, false, true, -1, -1); //plays one shot sound at position with given parameters.
+        MakeSound(soundIndex, MainAgent.Position, false, true, -1, -1); // 给定的位置等参数信息，播放单触发 (one shot sound) 音频。
     }
     else
     {
-        SoundEvent eventRef = SoundEvent.CreateEvent(soundIndex, Scene); //get a reference to sound and update parameters later.
+        SoundEvent eventRef = SoundEvent.CreateEvent(soundIndex, Scene); // 给定音频的引用 (reference)，可以之后更新细节参数。
         eventRef.SetPosition(MainAgent.Position);
         eventRef.Play();
     }
+```
 
-You have two ways to play sound:
+你有两种方式可以播放音频：
 
-* One Shot
-    Better performance less control. Fire and forget. Good for combat-related sounds.
-* Creating and holding a reference
-    Worse performance. Control every parameter of sound whenever you want. i.e. Pause, Update position.
+* 单触发 (one shot)    
+  性能更好，控制的更少，发后即忘 (Fire and forget)。适合战斗相关的音频。
+* 创建并维持一个音频引用 (reference)  
+  性能稍差，可以控制声音的每一个参数，比如暂停和更新位置的时间。
