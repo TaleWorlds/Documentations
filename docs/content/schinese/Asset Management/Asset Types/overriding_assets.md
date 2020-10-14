@@ -1,20 +1,20 @@
 +++
-title = "Adding & Overriding Assets"
+title = "添加与覆盖资产"
 description = ""
 weight = 1
 +++
 
-In RGL you can easily override existing assets or create new ones within the editor for your custom mode. Override mechanism works by replacing existing assets with the one you supplied in your module's assets directory. It tries to match your custom assets with the ones previously registered by other modules by their names. This happens with respect to loading order of the modules.
+在 RGL 中，您可以轻松地覆盖现有资产或在编辑器中为自定义模组创建新资产。覆盖机制的生效方式是将现有资产替换为你的模组资产目录中提供的对应资产。 它会尝试匹配您的自定义资产与其他模块先前通过其名称注册的资产。模块的加载顺序会影响这一过程。
 
-If **Module A** and **Module B** are loaded in addition to the **Native** module respectively, list of final assets and their sources will be as follow :
+如果除了 **Native** 模块之外还分别加载了 **模组 A** 和 **模组 B** ，则最终资产及其来源列表如下：
 
 <table style="vertical-align: bottom">
 <thead>
     <tr>
         <th>Native</td>
-        <th>Module A</td>
-        <th>Module B</td>
-        <th>Result</td>
+        <th>模组 A</td>
+        <th>模组 B</td>
+        <th>结果</td>
     </tr>
 </thead>
 <tbody>
@@ -27,43 +27,43 @@ If **Module A** and **Module B** are loaded in addition to the **Native** module
 </tbody>
 </table>
 
-Currently moddable asset types are:
+当前可在自定义模组中替换的资产类型为：
 
-- [Material](#overriding-materials)
-- [Mesh](#overriding-meshes)
-- [Texture](#overriding-textures)
-- [Physics Shape](#overriding-physics-shapes)
+- [材质（Material）](#材质覆盖)
+- [网格模型（Mesh）](#网格模型覆盖)
+- [纹理(Texture)](#纹理覆盖)
+- [物理形状(Physics Shape)](#物理形状覆盖)
 
-### Folder Hierarchy
+### 文件夹结构
 
-Asset system treats some folders in module directory specially according to their names. Here is the list of these folders and their uesages : 
+资产系统会根据模块目录中的某些文件夹名称进行处理。这是这些文件夹及其用法的列表：
 
-- **Assets** : Includes editable *.tpac files which stores meta data of each asset.
-- **AssetSources** : Includes source files of imported assets(.psd, .fbx).
-- **AssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for client builds. 
-- **EmAssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for editor builds. 
-- **DsAssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for server builds.
-- **RuntimeDataCache** : Includes auto-generated data required by engine for each asset. Can be deleted but it might take time to generate from scratch during startup.
+- **Assets** : 包括可编辑的 *.tpac 文件，该文件存储每个资产的元数据。
+- **AssetSources** : 包括导入资产（.psd，.fbx）的源文件。
+- **AssetPackages** : 包括只读* .tpac 文件。当一个模组被打包用于客户端构建时，将生成该文件。
+- **EmAssetPackages** : 包括只读 *.tpac 文件。当一个模组被打包用于编辑器构建时，将生成该文件。
+- **DsAssetPackages** : 包括只读 *.tpac 文件。当一个模组被打包用于服务器构建时，将生成该文件。
+- **RuntimeDataCache** :  包括引擎所需的对每个资产自动生成的数据。可以删除，但在启动过程中从头开始生成可能会花费时间。
 
 ### Modding Permissions
 
-Asset system looks for different folders according to the version of game's running executable. According to presence of these folders it decides whether a module can be modified or it can be used only in read-only mode. If you want to distribute your module you can pack your assets and share packed folders without distributing thousands of files and their sources. You have three options to pack your assets : 
+资产系统会根据游戏运行的可执行文件的版本寻找不同的文件夹。根据这些文件夹的存在与否，它判定一个模块是否可以被修改，或只能在只读模式下使用。如果您想发布您的模块，您可以打包您的资产并共享打包后的文件夹，而不需要发布成千上万的文件及其源文件。您有三个选项来打包您的资产。
 
-- **Client** : Others can activate your module to play. You must distribute **AssetPackages** folder.
-- **Editor** : Others can use your module in editor but can not modify it. Used if you want others to derive modules from your module. You must distribute **EmAssetPackages** folder.
-- **Server** : Used for server builds. All data which is not related to server is stripped out. You must distribute **DsAssetPackages** folder.
+- **Client** : 其他人可以激活您的模组并运行。您必须分发 **AssetPackages** 文件夹。
+- **Editor** : 其他人可以在编辑器中使用您的模组，但不能修改它。如果您希望其他人从您的模组派生模组，则使用它。您必须分发 **EmAssetPackages** 文件夹。
+- **Server** : 用于服务器构建。需要剥离与服务器无关的所有数据。您必须分发 **DsAssetPackages** 文件夹。
 
-You can also share your module just like you are using it to allow others to modify it. In this case you must distribute **Assets**, **AssetSources** and optionally **RuntimeDataCache** folders.
+您也可以像使用您的模组一样共享您的模组，以允许其他人修改它。在这种情况下，你必须分发 **Assets**、**AssetSources** 和可选的 **RuntimeDataCache** 文件夹。
 
-### Overriding Materials
-Overriding materials can be done by creating a new material with the same name of the material you want to override.
-Navigate to assets directory of your module and right click on an empty place in the browser pane. Create a new material and rename it to the same name with the material you want to override.
+### 材质覆盖
+覆盖材料可以通过创建一个新的材质来完成，其名称与您要覆盖的材质相同。
+导航到您的模块的assets目录，并在浏览器窗格中的空白处右击。创建一个新的材质，并将其重命名为与您要覆盖的材质相同的名称。
 
-{{% panel footer="Material of an existing mesh overriden by ModuleA" %}}![](/img/modding/assets/material_override.png){{% /panel %}}
-At this point all material references in the system will be redirected to your custom material.
+{{% panel footer="被模组 A 覆盖的现有网格模型的材质" %}}![](/img/modding/assets/material_override.png){{% /panel %}}
+此时，系统中所有的材质引用将被重定向到您的自定义材质。
 <br><br>
-### Overriding Meshes
-Models can be imported from several file formats(e.g. Trf, Fbx). Resources imported from a single file are grouped by their names according to <>asset naming convetions<>. Imagine an fbx file as follow :
+### 网格模型覆盖
+模型可以从多种文件格式（如Trf、Fbx）导入。从单个文件导入的资源根据 <>资产命名规则<> 按其名称进行分组。想象如下一个fbx文件：
 
 - Model.fbx
     - wall(Mesh)
@@ -71,18 +71,18 @@ Models can be imported from several file formats(e.g. Trf, Fbx). Resources impor
     - wall.lod3(Mesh)
     - bo_wall(Physics Shape)
 
-According to asset naming conventions, first three resources will be grouped into a single mesh which has three submeshes belong to different LODs. At the end two asset will be imported from Model.fbx : wall(Mesh) and bo_wall(Physics shape). 
+根据资产命名的惯例，前三个资源将被归入一个网格，其中有三个子网格属于不同的 LOD，最后从 Model.fbx 导入两个资产：wall (Mesh）和 bo_wall (Physics shape)。最后将从 Model.fbx 中导入两个资产：wall (Mesh) 和 bo_wall (Physics shape)。
 
-By following these rules you can export a new geometry file(e.g. fbx) which contains a group of meshes with their names begin with **wall**. In this case a new **wall** mesh will be created from these submeshes and existing mesh will be replaced completely with the one you supplied. Name of the geometry file is not taken into account. It is worth to mention that mesh overrides occur on mesh level. It is not possible to override single submesh via module override.
+按照这些规则，您可以导出一个新的几何文件（例如 fbx)，其中包含一组名称以 **wall** 开头的网格。在这种情况下，一个新的 **wall** 网格将从这些子网格中创建，而现有的网格将被您提供的网格完全替换。几何图形文件的名称不在考虑之列。值得一提的是，网格覆盖是在网格层面进行的。不能通过模组覆盖来覆盖单个子网格。
 
-{{% panel footer="Existing cube mesh with name **testbox** overriden by ModuleA with a teapot" %}}![](/img/modding/assets/metamesh_override.png){{% /panel %}}
+{{% panel footer="现有的带有名称 **testbox** 的立方体网格被模组 A 用茶壶覆盖" %}}![](/img/modding/assets/metamesh_override.png){{% /panel %}}
 <br><br>
-### Overriding Textures
-Overriding textures is very similar to materials. You need to import a new texture with the same name of the texture you want to override. You can also rename any texture already imported to something that matches with the name of the texture to override.
+### 纹理覆盖
+纹理的覆盖与材质非常相似。你需要导入一个新的纹理，其名称与你要覆盖的纹理相同。你也可以将任何已经导入的纹理重命名为与要覆盖的纹理名称相匹配的字符。
 
-{{% panel footer="Existing albedo texture with name **roman_ground_d** overriden by ModuleA with a white texture" %}}![](/img/modding/assets/texture_override.png){{% /panel %}}
+{{% panel footer="现有的名为 **roman_ground_d** 的 albedo 纹理被模组 A 用白色纹理覆盖" %}}![](/img/modding/assets/texture_override.png){{% /panel %}}
 <br><br>
-### Overriding Physics Shapes
-Overriding physics shapes requires you to import a physics shape with the same name of asset you want to replace. Check <>Asset naming conventions<> to see hot to import physics shapes
+### 物理形状覆盖
+覆盖物理形状需要你导入一个与你要替换的资产名称相同的物理形状。检查 <>资产命名规则<> 以了解如何导入物理形状。
 
-{{% panel footer="Existing torus shape overriden by ModuleA with a custom aquila shape" %}}![](/img/modding/assets/physics_shape_override.png){{% /panel %}}
+{{% panel footer="现有的圆环形状被模组 A 用一个自定义的水蓝色形状覆盖" %}}![](/img/modding/assets/physics_shape_override.png){{% /panel %}}
