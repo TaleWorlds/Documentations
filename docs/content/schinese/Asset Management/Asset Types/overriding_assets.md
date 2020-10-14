@@ -29,10 +29,10 @@ weight = 1
 
 当前可在自定义模组中替换的资产类型为：
 
-- [材质（Material）](#overriding-materials)
-- [网格模型（Mesh）](#overriding-meshes)
-- [纹理(Texture)](#overriding-textures)
-- [物理形状(Physics Shape)](#overriding-physics-shapes)
+- [材质（Material）](#材质覆盖)
+- [网格模型（Mesh）](#网格模型覆盖)
+- [纹理(Texture)](#纹理覆盖)
+- [物理形状(Physics Shape)](#物理形状覆盖)
 
 ### 文件夹结构
 
