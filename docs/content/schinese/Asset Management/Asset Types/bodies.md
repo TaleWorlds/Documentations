@@ -1,12 +1,12 @@
 +++
-title = "Bodies"
+title = "物体"
 description = ""
 weight = 1
 +++
 
 物体定义了物体的物理边界，它们可以被分配给场景或者预制物件的实体。用户可以编辑“物体标识”（Body Flag) 来改变其行为。
 
-##### 物体选项标识(Body Flags)
+##### 物体标识(Body Flags)
 
 * 双面（Two Sided）：让物理引擎可以使用多边形的两面。
 * Ai限制器（AI Limiter）：用来标记只针对AI使用的物体，不包括玩家。
