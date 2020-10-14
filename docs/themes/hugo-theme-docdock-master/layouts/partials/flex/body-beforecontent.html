@@ -38,10 +38,13 @@
   <section class="page">
     
     <div class="nav-select">
-      <center>Navigation : 
+      <center>Navigation: 
         <select onchange="javascript:location.href = this.value;">
           {{partial "flex/selectnavigation.html" .}}
         </select>
+      </center>
+      <center>Language: 
+        {{partial "language-selector.html" . }}
       </center>
     </div>
 

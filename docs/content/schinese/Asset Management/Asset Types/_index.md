@@ -1,5 +1,5 @@
 +++
-title = "Asset Types"
+title = "资产类型"
 description = ""
 weight = 1
 +++
