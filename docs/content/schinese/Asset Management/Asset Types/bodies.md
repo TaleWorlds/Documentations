@@ -4,32 +4,32 @@ description = ""
 weight = 1
 +++
 
-Bodies define the physics boundaries of objects. They can be assigned to entities in scenes or prefabs. Users can edit the Body Flags to change their behaviour.
+物体定义了物体的物理边界，它们可以被分配给场景或者预制物件的实体。用户可以编辑“物体标识”（Body Flag) 来改变其行为。
 
-##### Body Flags
+##### 物体相关选项标识
 
-* Two Sided: Forces the physics engine to use both sides of the polygons for this body.
-* AI Limiter: Used to tag bodies which will only used against AI agents, excluding the player.
-* Destructible Door: Used by the automatic navigation mesh generator to not put nav mesh under destructable doors.
-* Disabled: Disables the physics for this prefab or entity instance.
-* Barrier: Enables smooth exit for agents exiting the interior of the body.
-* Exclude Path Snap: Path points does not snap to these bodies.
-* Don't Collide With Camera: Camera for the player does not collide with these bodies.
-* Dynamic: Physics engine simulates the movement of this entity.
-* Moveable: This flag indicates that this body and its owner entity can move. 
-* Ladder: Should be given to the ladder meshes so that they function properly.
-* Has Steps: Should be given to the bodies of the staircases so that the agent can climb them correctly. (The body of the stairs should be seperated from the other parts of the entity).
+* 双面：让物理引擎可以使用多边形的两面。
+* Ai限制器：用来标记只针对AI使用的物体，不包括玩家。
+* 可破坏的门: 通过自动导航网格生成器来使用，而非将导航网格直接置于可破坏的门之下。
+* 禁用:禁用预制物体，或者实体实例的物理特性。
+* 边界：使对象可以顺利移出物体内部
+* 排除路径对齐：适用于路径点无法对齐物体的情况
+* 避免镜头碰撞：玩家的镜头不会和对应物品产生碰撞。
+* 动态化：可以让物理引擎会模拟实体的运动
+* 可移动化：该标识标志该物品及其所有的实体可以移动 
+* 梯形化：赋予梯形网格，从而使其正常运行。
+* 台阶化：决定是否将实体物品楼梯化，使得对象能够正确地攀爬楼梯。(楼梯的物体应与实体的其他部分分开)。
 
-Agent physics require smooth and low poly physics objects for performance. Missile ones require more precision so that the stuck missiles are simulated better. The below flags can be used to have two different bodies per object which is the best of both worlds. If none of the flags are given, both missiles and agents react to the bodies.
+自主体的物理引擎要求平滑和低多边形的物理对象来保证性能。投射物则要求更高的精度，以达到能更好的模拟投射物卡顿效果。以下的标识可以用于让每个物体拥有两个不同的机体，以适应两种不同的情况。若两者均未被标记，投射物和自主体都会对该物体做出反应。
 	
-* Agent Only: Only the agents react into these bodies.
-* Missile Only: Only the missiles react into these bodies.
+* 仅限自主体（Agent Only）: 只有自主体会对该物体做出反应。
+* 仅限投射物（Missile Only）: 只有投射物会对该物体做出反应。
 
 
-##### Occluders
+##### 遮蔽器
 
-Occluders are bodies which are placed at mesh surfaces to tell the rendering system to not render the contents on the other side of that surface. They do not contribute to the physics simulation. Big towns and villages benefit largely from carefully placed occluders. User can place occluders directly to the scene or attach them to entities & prefabs. 
+遮蔽器被用于网格模型表面，从而让渲染系统渲染不会该表面另一边的内容。它们对物理模拟过程通常没有帮助。但对于大城镇和村庄来说，精心布置的遮蔽器将会非常有用。用户可以直接在场景中放置遮蔽器，也可以将其附加到到实体物品和预制件上。
 
 {{% notice info %}}
-The imported occluder bodies names should start with "occ_" phrase.
+导入的遮蔽器名称一般应该以" occ_"开头。
 {{% /notice %}}
