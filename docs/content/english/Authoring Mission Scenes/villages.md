@@ -70,15 +70,12 @@ As noted before, all spawn points need to be placed on top of navmesh (ID 2) and
 * You can check the Debug Window (documentation will cover that) to make sure you have placed the correct notable positions.
 * Go to the “Scene Entity Check Tab” and tick the “NPCs” Box and count.
 
-##### Patrol Spawnpoints
-
-* Prefabs: **sp_guard_patrol_simple**, **sp_guard_patrol**.
-* Use the same spawns as for normal villagers. Try to not have them do chores like farming.
-
 ##### Bandit Camps
 
 * Prefab: **common_area_x**.
-* Each village scene has 3 Bandit Camps outside the village, used for scene quests.
+* Each village scene has 3 Bandit Camps outside the village (place 3 prefabs), used for scene quests.
+* Use the same spawns as for normal villagers. Try to not have them do chores like farming.
+* You can also use patrol spawnpoints: **sp_guard_patrol_simple, sp_guard_patrol”.**
 * All spawn points in the radius will spawn bandits instead of villagers.
 * You can increase the radius by scaling the common area prefab.
 * Use civilian animation points as spawn points for bandits, some suggestions: “sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait”.
@@ -89,6 +86,7 @@ As noted before, all spawn points need to be placed on top of navmesh (ID 2) and
 
 ##### Animal Spawnpoints
 
+* Prefab: **sp_animalName**.
 * Use “DisableWandering” in the AnimalSpawnSettings script, to stop animals from walking around your scene.
 * Overall its best to put it on all bigger animals like cows and pigs if they aren't there to wonder around.
 
@@ -138,7 +136,7 @@ As noted before, all spawn points need to be placed on top of navmesh (ID 2) and
 
 #### Sounds
 
-#### Master Ambient Sound
+##### Master Ambient Sound
 
 * Prefab: **x_ambient_sound**.
 * Choose a mandatory master ambient sound.
