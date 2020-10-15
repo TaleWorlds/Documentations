@@ -1,19 +1,19 @@
 +++
-title = "Scripts"
+title = "脚本"
 description = ""
 weight = 1
 +++
 
-Script components are executable scripts that are attached to entities and can be used to implement various gameplay functionalities. In Bannerlord, many gameplay logic are written via script components. For example chairs, dropped weapon, siege machines. There are many different callbacks that can be inherited and filled in these script components. 
+脚本组件是附加在实体上的可执行脚本，可以用来实现各种游戏功能。在《霸主》中，很多游戏逻辑都是通过脚本组件来编写的。例如椅子、掉落的武器、攻城机。有很多不同的回调函数，可以被继承并填充在这些脚本组件中。
 
-##### Callbacks
+##### 回调函数
 
-* Constructor: In constructor one needs to assign default values to its public variables(variables which can be changed by the scene maker). In constructor script component is not assigned to an entity or scene. Also, you should not write any logic that has any side effect because , even though it is created, the script component may be deleted once the scene is opened because of the upgrade level system. 
-* OnPreInit: This is called after the script component is assigned to its owner entity in the scene. Once you are in this callback , you can be sure that the user defined variables from that script instance are set. However, the other script components of the other entities may not be assigned yet. Thus, in pre init there should not be any logic code that relies on other script components. Example, in pre-init ManagedObject registers himself to the managed object array in the current mission instance.
-* OnInit: This is called once the mission is loaded and all of the script components of the entities are initialized. You can use any type of logic code inside this callback. Run time instantiated scripts also get this callback called.
-* OnEditorInit: Editor version of on init. It is called when the scene is loaded from the editor. Beware that there is no mission or game state in editor.
-* OnTick: This is called for every script component every frame on mission from the same thread.
-* OnEditorTick: Editor version of the OnTick function. 
-* IsOnlyVisual: If you have a script component which is only visual and does not have any logic code that should be running in the dedicated server , you should return true in this function. This ensures that this type of scripts does not run on dedicated server.
-* OnEditorVariableChanged: This is called in editor whenever a public variable in that script component is changed by the user. This callback can be used for any visual-logic state change if the artist needs instant feedback on the editor scene.
-* OnRemoved: Called when the entity or the script component is being removed. If you have any allocated objects which are stored in somewhere else (for example static containers), you can use this callback to ensure that they are not leaked.
+* Constructor: 在构造函数中，我们需要给它的公有变量分配默认值（可以被场景制作者改变的变量）。在构造函数中，脚本组件不会被分配给实体或场景。另外，不要在这里写任何有副作用的逻辑，因为即使创建了脚本组件，由于升级等级系统的原因，一旦打开场景，脚本组件就可能会被删除。
+* OnPreInit: 当脚本组件被分配给场景中的所有者实体后，这个回调被调用。一旦你进入了这个回调，那么该脚本实例中的用户定义变量就被设置了。然而，其他实体的脚本组件可能还没有被分配。因此，在预初始化中，不应该有任何依赖于其他脚本组件的逻辑代码。例如，在预初始化中，ManagedObject将自己注册到当前任务实例中的托管对象数组。
+* OnInit: 当任务被加载且所有实体的脚本组件被初始化，这个回调就会被立刻调用。你可以在这个回调里面使用任何类型的逻辑代码。运行时实例化的脚本也会得到这个回调的调用。
+* OnEditorInit: OnInit的编辑器版本，在从编辑器加载场景时被调用。当场景从编辑器中加载时，它会被调用。确保编辑器中没有任务或游戏状态。
+* OnTick: 对于每个脚本组件，该任务在同一线程的任务的每个帧中都被调用。
+* OnEditorTick: OnTick的编辑器版本
+* IsOnlyVisual: 如果你有一个脚本组件，只是可视化的，没有任何应该在服务器版本上运行的逻辑代码，你应该在这个函数中返回true。这确保了这种类型的脚本不会在服务器版本上运行。
+* OnEditorVariableChanged: 在编辑器中，每当用户改变该脚本组件中的公有变量时，就会调用这个回调。如果艺术家需要在编辑器场景中得到即时反馈，这个回调可以用于任何视觉-逻辑状态的改变。
+* OnRemoved: 当实体或脚本组件被移除时调用。如果你有任何已分配内存的对象被存储在其他地方（例如静态容器），你可以使用这个回调来确保它们被回收，避免泄露内存。
