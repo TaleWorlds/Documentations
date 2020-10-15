@@ -74,7 +74,7 @@ As noted before, all spawn points need to be placed on top of navmesh (ID 2) and
 
 * Prefab: **common_area_x**.
 * Each village scene has 3 Bandit Camps outside the village (place 3 prefabs), used for scene quests.
-* Use the same spawns as for normal villagers. Try to not have them do chores like farming.
+* Use the same spawns as for normal villagers (~15 per camp). Try to not have them do chores like farming.
 * You can also use patrol spawnpoints: **sp_guard_patrol_simple, sp_guard_patrol”.**
 * All spawn points in the radius will spawn bandits instead of villagers.
 * You can increase the radius by scaling the common area prefab.
