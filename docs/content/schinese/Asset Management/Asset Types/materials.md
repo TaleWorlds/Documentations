@@ -1,8 +1,7 @@
 +++
-title = "Materials"
+title = "材质"
 description = ""
 weight = 1
 +++
 
-Materials define the rendering characteristics of meshes. They contain the shader and texture information, also the rendering flags (defined from by shader and the global ones). 
-A mesh can have a single material. The initial value of a mesh's material will be assigned through it's given material name in the 3rd party mesh editing applications. Materials can be created and edited through the Material Browser which can be accessed through the Resource Browser. The material can also be edited at runtime through scripts and behaviours. More information about material editing and default materials of the engine can be found at the <strong>[Material Editor]({{< ref "material_editor.md" >}})</strong>. 
+材质（Materials）定义了网格模型的渲染特性。它们包含着色器和纹理信息，也包含渲染标志（由着色器和全局标志定义）。一个网格模型可以拥有一个材质。在第三方网格编辑程序中，网格材质的初始值将通过它的材质名称来分配。材质可以通过材质浏览器来创建和编辑，而材质浏览器则可以通过资源浏览器来访问。材质也可以在运行时通过脚本和行为进行编辑。更多关于材质编辑和引擎默认材质的信息可以可以参阅<strong>[材质编辑器 (Material Editor) ]({{< ref "material_editor.md" >}})</strong>章节。 

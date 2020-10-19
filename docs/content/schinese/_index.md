@@ -6,9 +6,9 @@ weight = 1
 
 # 欢迎来到《骑马与砍杀2：霸主》 Mod 开发文档
 
-获取更多“常见问题解答”，请访问 <strong>[常见问题解答]({{< ref "faq.md" >}})</strong>.
+获取更多“常见问题解答”，请访问 <strong>[常见问题解答]({{< ref "faq.md" >}})</strong>。
 
-想要快速创建并且注册一个游戏 Mod 请访问 <strong>[快速入门指南]({{< ref "quickguide_create_a_mod.md" >}})</strong>.
+想要快速创建并且注册一个游戏 Mod 请访问 <strong>[快速入门指南]({{< ref "quickguide_create_a_mod.md" >}})</strong>。
 
 更多信息请参阅：
 
