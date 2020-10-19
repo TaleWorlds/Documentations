@@ -4,7 +4,7 @@ description = ""
 weight = 1
 +++
 
-阶段设计器 (Level designer) 可以在场景编辑器 (Scene Editor) 中轻易的增加、修改和删除路径 (Path) 和路径点 (Path Point)。
+关卡设计师 (Level designer) 可以在场景编辑器 (Scene Editor) 中轻易的增加、修改和删除路径 (Path) 和路径点 (Path Point)。
 
 ##### 添加一个新的了路径
 
