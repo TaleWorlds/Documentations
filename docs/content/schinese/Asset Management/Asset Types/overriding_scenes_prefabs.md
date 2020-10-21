@@ -12,8 +12,7 @@ weight = 1
 
 ### 预制件 (Prefabs)
 
-预制件在 xml 文件中的定义在 ** 预制件 ** 以及其子文件夹下可以找到。
-Prefab definitions are stored in xml files located in **Prefabs** folder in each module's directory.
+预制件在 xml 文件中的定义在 **Prefabs** 以及其子目录下可以找到。
 
 ### 场景 (Scenes)
 
