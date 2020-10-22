@@ -1,5 +1,5 @@
 +++
-title = "场景战术阵地"
+title = "行动的战术位置"
 description = ""
 weight = 1
 +++
@@ -8,7 +8,7 @@ weight = 1
 
 这些是让AI了解地形特征的脚本实体。与攻城战中不同，AI不会总是使用你放置的战术阵地或区域。他们会在自己认为有利的条件下使用它们。
 
-由于玩家的移动路径和进入场景阵地随机化，在战斗中可能出现的情况非常多。因此，最好尽可能多地标记有意义的阵地和区域。漏掉一些有意义的阵地标记将不会导致像攻城战中那样明显的错误，但会导致战斗的趣味性降低，因为AI不会意识到他们周围的环境。下面是关于战术阵地和战术区域的类型以及使用方法。
+由于玩家的移动路径和AI刷入路径随机化，在战斗中可能出现的情况非常多。因此，最好尽可能多地标记有意义的阵地和区域。漏掉一些有意义的阵地标记将不会导致像攻城战中那样明显的错误，但会导致战斗的趣味性降低，因为AI不会意识到他们周围的环境。下面是关于战术阵地和战术区域的类型以及使用方法。
 
 #### 战术阵地
 ##### 高地（High ground），坡面方向
@@ -17,12 +17,12 @@ weight = 1
 方向是最重要的部分。要防守的阵地将面对阵地的前进方向（编辑器中的绿色箭头）。参数如下。
 
 {{% notice info %}}
-* _width: AI会尝试在整个 _width 范围内展开自己，如果它太小且AI兵力过多，或者过大而AI兵力不足，则AI会认为这个阵地是不合适的。
+* _width: AI会尝试在整个 _width 范围内展开阵型，如果它太小且AI兵力过多，或者过大而AI兵力不足，则AI会认为这个阵地是不合适的。
 * _slope: 对于选择不同战术阵地也很重要，单位是度数，AI认为合适的最大坡度是60度。它应该大致估算出阵地的陡度。
 * _isInsurmountable: false （是否不可逾越）
 * _isOuterEdge: false （是否是外边缘）
 * _tacticalPositionType: HighGround
-* _tacticalPositionMembership: 决定周围的地形是否是森林、开阔地或障碍地形。
+* _tacticalPositionMembership: 标记周围的地形是否是森林、开阔地或障碍地形。
 * _tacticalPositionSide: BehaviorSideNotSet
 {{% /notice %}}
 
@@ -38,7 +38,7 @@ weight = 1
 * _isInsurmountable => true	这就是山顶类型的主要特征。
 * _isOuterEdge => false
 * _tacticalPositionType => HighGround
-* _tacticalPositionMembership => 决定周围的地形是否是森林、开阔地或障碍地形。
+* _tacticalPositionMembership => 标记周围的地形是否是森林、开阔地或障碍地形。
 * _tacticalPositionSide => BehaviorSideNotSet
 {{% /notice %}}
 
@@ -50,12 +50,12 @@ weight = 1
 
 {{% notice info %}}
 * Direction 是最重要的部分。防守阵地将面对该阵地的前进方向（编辑器中的绿色箭头） ***
-* _width 很重要，AI会尝试在整个 _width 范围内展开自己，如果它太小且AI兵力过多，或者过大而AI兵力不足，则AI会认为这个阵地是不合适的。
+* _width 很重要，AI会尝试在整个 _width 范围内展开阵型，如果它太小且AI兵力过多，或者过大而AI兵力不足，则AI会认为这个阵地是不合适的。
 * Slope 对于阵地之间的选择也很重要，它以度为单位，并且AI最多可以识别60度的坡度。它应该粗略估计阵地的陡度。
 * _isInsurmountable => false	(目前这个字段对隘口没有任何作用，但我会在_isInsurmountable为真的情况下，增加同一个隘口的前后两个方向防守功能，因此如果有一个隘口可以用来对付前面和后面的敌人，就将它标记为true，而不是布置两个方向相反的隘口)
 * _isOuterEdge => false
 * _tacticalPositionType => ChokePoint
-* _tacticalPositionMembership => 决定周围的地形是否是森林、开阔地或障碍地形。
+* _tacticalPositionMembership => 标记周围的地形是否是森林、开阔地或障碍地形。
 * _tacticalPositionSide => BehaviorSideNotSet
 {{% /notice %}}
 
@@ -68,13 +68,13 @@ weight = 1
 {{% notice info %}}
 * 悬崖阵地应该是当母体隘口被其他防守者占据时，敌人无法到达的阵地。
 * 当符合条件时，远程火力阵型将移动到这个阵地。
-* 悬崖阵地的方向将决定弓箭手阵型使用此阵地时面对的阵地。
-* _width 很重要，AI会尝试在整个 _width 范围内展开自己，如果它太小且AI兵力过多，或者过大而AI兵力不足，则AI会认为这个阵地是不合适的。
+* 悬崖阵地的方向将决定弓箭手阵型使用此阵地时的朝向。
+* _width 很重要，AI会尝试在整个 _width 范围内展开阵型，如果它太小且AI兵力过多，或者过大而AI兵力不足，则AI会认为这个阵地是不合适的。
 * _slope => 不重要
 * _isInsurmountable => false
 * _isOuterEdge => false
 * _tacticalPositionType => Cliff
-* _tacticalPositionMembership => 决定周围的地形是否是森林、开阔地或障碍地形。
+* _tacticalPositionMembership => 标记周围的地形是否是森林、开阔地或障碍地形。
 * _tacticalPositionSide => BehaviorSideNotSet
 {{% /notice %}}
 
