@@ -1,14 +1,12 @@
 +++
-title = "Meshes"
+title = "网格"
 description = ""
 weight = 1
 +++
 
-Meshes contain the polygon positions and attributes to be used at the rendering pass. Every mesh has one material that defines their rendering behaviour. They are grouped inside MetaMesh's by their LOD level. Also, at the same LOD level, there can be multiple meshes with different materials. More information about importing meshes to the engine can be found at <strong>[Material Editor]({{< ref "asset_naming_conventions.md" >}})</strong>.
+网格(Meshes)包含了多边形的位置和渲染时使用的属性。每个网格都会有一个材质以定义其的渲染行为。它们在网格内将按照其LOD级别进行分组。同时，在同一个LOD级别中可以同时有多个不同材质的网格。若想了解更多关于将网格导入引擎的信息,请参阅 <strong>[Material Editor]({{< ref "asset_naming_conventions.md" >}})</strong>.
 
 
-##### LOD System
+##### 细节级别 (LOD)
 
-Modern engines use LOD(level of detail) systems to ensure that the amount of GPU share used by the closer parts of the screen is more than the far ones. This is done by reducing the mesh qualiy with respect to the distance to the camera. This system ensures that the polygon per pixel ratio is similar across the screen as much as possible. The default LOD distances are as follows: 15, 22.5, 30, 50, 70, 130, 210 meters. These distances are for the best graphics quality and they can be reduced via the Environment Quality and Character Quality options.
-
- 
+现代引擎通常使用LOD(Level of detail)系统，以确保相机近处位置使用的GPU资源量多于远处位置。这将通过增加摄像头的距离时减少网格质量来实现。这一系统将确保每个像素的多边形比例在整个屏幕上都尽可能的相似。默认的LOD距离将包含：15, 22.5, 30, 50, 70, 130, 210米。这些距离设置将保证最佳的图形质量，通过在游戏中设置环境和人物质量可以对其进行调节。

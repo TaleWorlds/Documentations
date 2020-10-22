@@ -1,45 +1,44 @@
 +++
-title = "Script Component Callbacks"
+title = "脚本组件回调函数"
 
 [menu.main]
 identifier = "script_components"
 +++
 
-The callbacks of the script components are listed below.
+以下为脚本组件 (Script Components) 的回调函数 (Callbacks)。
 
-#### Constructor
+#### 构造函数 (Constructor)
 
-In constructor one needs to assign default values to its public variables(variables which can be changed by the scene maker). In constructor script component is not assigned to an entity or scene. Also, you should not write any logic that has any side effect because , even though it is created, the script component may be deleted once the scene is opened because of the upgrade level system. 
+在构造函数中，需要指定一些公共变量 (Public Variables) 的默认值（变量可能会被场景设计师修改）。在构造函数中，脚本组件是不会指定到一个特定的实体或者场景的。同时，你不应该在构造函数中写任何有副作用 (Side Effect) 的逻辑代码，因为即使创建了，脚本组件也可能会在场景打开时，因为关卡系统 (Level System) 的升级而被删除。
 
 #### On Pre Init
 
-This is called after the script component is assigned to its owner entity in the scene. Once you are in this callback , you can be sure that the user defined variables from that script instance are set. However, the other script components of the other entities may not be assigned yet. Thus, in pre init there should not be any logic code that relies on other script components. Example, in pre-init ManagedObject registers himself to the managed object array in the current mission instance.
+当一个脚本组件被指定一个场景中的实体时，调用本函数。当你回调该函数时，你要确定用户在脚本中定义的变量都是设定好的。但是，其他实体的脚本组件可能还没有指定。所以，在 pre init 函数中，不应该有任何需要调用其他脚本组件的逻辑代码。例如，ManagedObject 在 pre-init 函数中指定它自己到当前任务实例中的对象数列 (managed object array) 中。
 
 #### On Init 
 
-This is called once the mission is loaded and all of the script components of the entities are initialized. You can use any type of logic code inside this callback. Run time instantiated scripts also get this callback called.
+这个函数在任务载入的时候被调用，函数会初始化脚本组件中的所有实体。你可以在此回调函数中添加任何类型的逻辑代码。运行实例化脚本 (Run Time Instantiated Scripts) 也会调用该函数。
 
 #### On Editor Init
 
-Editor version of on init. It is called when the scene is loaded from the editor. Beware that there is no mission or game state in editor.
+编辑器版本的 On Init 函数。这个函数是在场景在编辑器中加载时候调用的。值得注意的是，在编辑器中没有任务或者游戏状态 (game state)。
 
 #### On Tick
 
-This is called for every script component every frame on mission from the same thread.
+在同一个线程下，每一个脚本组件的任务的每一帧都会调用这个函数。
 
 #### On Editor Tick
 
-Editor version of on tick. 
+编辑器版本的 On Tick 函数。
 
 #### Is Only Visual
 
-If you have a script component which is only visual and does not have any logic code that should be running in the dedicated server , you should return true in this function. This ensures that this type of scripts does not run on dedicated server.
+如果你的脚本组件是仅供查看，即不会在专用服务器 (dedicated server) 上运行任何逻辑代码，那么你想要在函数中设置返回值为 真 (True)。这个可以确保这个类型的脚本不会在服务器上运行。
 
 #### On Editor Variable Changed
 
-This is called in editor whenever a public variable in that script component is changed by the user. This callback can be used for any visual-logic state change if the artist needs instant feedback on the editor scene.
+在编辑器中，当一个脚本组件中的公共变量被用户修改的时候，调用该函数。当设计者需要在编辑场景中得到即时反馈的时候，该函数可以被用于任何视觉和逻辑上的状态改变。
 
 #### OnRemoved
 
-Called when the entity or the script component is being removed. If you have any allocated objects which are stored in somewhere else (for example static containers), you can use this callback to ensure that they are not leaked.
-
+当实体或者是脚本组件被移除的时候，调用该函数。当你有一些分配好的对象存在其他地方的时候（例如存在静态容器中），你可以用这个回调函数来确保他们不会出现内存泄漏的问题。
