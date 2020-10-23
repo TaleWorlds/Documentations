@@ -29,7 +29,7 @@ parent = "bannerlord_scenes"
 
 ## 3. 导航网格检查选项卡 (Navigation Mesh Check Tab)
 
-这个工具标记了没在导航网络或者被“Navigation Mesh Deactivator”停用的导航网络中的出生点。如果一个场景没有“Navigation Mesh Deactivator”那么停用的面包 ID 将会为 0，同时场景实体检查选项卡中会提醒设计师要放一个上去。点击“CHECK”按钮，同时勾选分类，将给不合法的出生点生成对应分类颜色 Debug 线。
+这个工具标记了没在导航网络或者被“Navigation Mesh Deactivator”停用的导航网络中的出生点。如果一个场景没有“Navigation Mesh Deactivator”那么停用的面部 ID 将会为 0，同时场景实体检查选项卡中会提醒设计师要放一个上去。点击“CHECK”按钮，同时勾选分类，将给不合法的出生点生成对应分类颜色 Debug 线。
 
 导航网格检查工具展示了场景级别 (Scene Level) 的出生点。每一个勾选框将会激活两个按钮，分别叫做“Previous”和“Next”。点击这两个按钮可以分别使编辑器镜头 (Camera) 一个一个聚焦于放错的出生点。
 
