@@ -9,7 +9,7 @@ title = "元模型编辑器"
 * 重新计算法线 (Normals)：导入元模型时，计算所有子模型的法线向量，而不是单单全部导入。
 * 法线计算：决定法线向量的计算是否依靠面部区域 (Face Area)，是 (weighted) 或者是 否 (default).
 * 重新计算切线 (Tangents)：导入元模型时，计算所有子模型的切线向量，而不是单单全部导入。
-* 白化 (whiten)：在每一个颜色通道 (channel) 中顶点颜色和白色之间的线性插值 (linear interpolation amount)。
+* 抗锯齿 (whiten)：为每个像素点计算其顶点色和白色的线性插值 (linear interpolation amount)。
 
 #### 多细节层次 (Lod) 模型
 
