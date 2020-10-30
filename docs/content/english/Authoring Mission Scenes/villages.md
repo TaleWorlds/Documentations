@@ -15,8 +15,8 @@ This list of checkpoints should aid you in creation of village scenes and provid
 * In order to make the agents follow roads, we label the faces on top of the roads with the ID 2. 
 * Note that all of the agent spawnpoints should be connected by navigation mesh faces with ID 2. 
 * For the animals, navigation mesh ID 3 can be used. Typically, these faces are kept within separate islands in structures like ditches. The animals will then roam inside those islands only. 
-* All other faces should have the ID 0.
-* Remember that the agents should use the navigation mesh ID's 1 in order to create realistic pathing (on roads), scene designer should put an entity with the Navigation Mesh Deactivator (prefab name is Navigation_Mesh_Deactivator). It can be placed anywhere in the scene. Its purpose is to disable the ID 0 faces in civilian modes. The DisableFaceWithID variable of the script should be 1.
+* Change the ID's of all other faces to 1 (from 0).
+* Remember that the agents will use the navigation mesh ID's 2. In order to create realistic pathing (on roads), scene designers should place a Navigation Mesh Deactivator (prefab name is Navigation_Mesh_Deactivator). It can be placed anywhere in the scene. Its purpose is to disable the ID 1 faces in civilian modes. The DisableFaceWithID variable of the script should be 1.
 * For the animals, the variable "DisableFaceWithIDForAnimals" within the same script should be 3. 
 * Make sure the faces are fairly equal in size outside of the village area / where troops will maneuver.
 * Make sure there are no disconnected navmeshes.
@@ -70,15 +70,12 @@ As noted before, all spawn points need to be placed on top of navmesh (ID 2) and
 * You can check the Debug Window (documentation will cover that) to make sure you have placed the correct notable positions.
 * Go to the “Scene Entity Check Tab” and tick the “NPCs” Box and count.
 
-##### Patrol Spawnpoints
-
-* Prefabs: **sp_guard_patrol_simple**, **sp_guard_patrol**.
-* Use the same spawns as for normal villagers. Try to not have them do chores like farming.
-
 ##### Bandit Camps
 
 * Prefab: **common_area_x**.
-* Each village scene has 3 Bandit Camps outside the village, used for scene quests.
+* Each village scene has 3 Bandit Camps outside the village (place 3 prefabs), used for scene quests.
+* Use the same spawns as for normal villagers (~15 per camp). Try to not have them do chores like farming.
+* You can also use patrol spawnpoints: **sp_guard_patrol_simple, sp_guard_patrol”.**
 * All spawn points in the radius will spawn bandits instead of villagers.
 * You can increase the radius by scaling the common area prefab.
 * Use civilian animation points as spawn points for bandits, some suggestions: “sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait”.
@@ -89,6 +86,7 @@ As noted before, all spawn points need to be placed on top of navmesh (ID 2) and
 
 ##### Animal Spawnpoints
 
+* Prefab: **sp_animalName**.
 * Use “DisableWandering” in the AnimalSpawnSettings script, to stop animals from walking around your scene.
 * Overall its best to put it on all bigger animals like cows and pigs if they aren't there to wonder around.
 
@@ -138,7 +136,7 @@ As noted before, all spawn points need to be placed on top of navmesh (ID 2) and
 
 #### Sounds
 
-#### Master Ambient Sound
+##### Master Ambient Sound
 
 * Prefab: **x_ambient_sound**.
 * Choose a mandatory master ambient sound.
