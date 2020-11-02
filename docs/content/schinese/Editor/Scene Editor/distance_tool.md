@@ -1,22 +1,23 @@
 +++
-title = "Distance Tool"
+title = "距离工具"
 
 [menu.main]
 identifier = "distance_tool"
 parent = "core_components"
 +++
 
-## Distance Measure Tool
-The <b>Distance Tool</b> measures the distance between two points in the scene.
-Distance measure mode can be activated by either pressing <b>Alt + D</b> shortcut or the respective button on the editor toolbar. 
+## 测距工具
 
-While holding the <b>left mouse button</b>, drag the mouse between two points in the scene to measure distance. The tool snaps to vertices if close enough to a one by default, holding down <b>Left Shift</b> overrides this.
+<b> Distance Tool </b> 可以测量场景内两个点之间的距离。
+可以通过按 <b> Alt + D </b> 快捷键 或者点击编辑器工具栏上的对应按钮来激活距离测量模式 (Distance Measure Mode)。
 
-The tool can be de-activated by pressing <b>Alt + D</b> or the respective button on the editor toolbar again. For further use, the gizmos stay visible even after the tool is de-activated. Pressing <b>Alt + Shift + D</b> clears these gizmos from the screen.
+使用时，按住 <b> 鼠标左键 </b>，在场景内从一个点拖动鼠标到另一个点来测量距离。如果靠近一个点过近，工具会默认吸附在顶点上，按住 <b>左 Shift</b> 来取消吸附。
 
-![](/img/distance_tool/distance_tool_gizmos.png)
-<center><b>Helper Gizmos</b></center>
+该模式可以通过按 <b> Alt + D </b> 或者点击编辑器工具栏上对应按钮来取消（操作）。为了以后方便，测量的图标 (Gizmo) 在取消模式后也会一直可见。按住 <b> Alt + Shift + D </b> 来清除屏幕中的测量图标。
 
-* <b>Green line</b> shows the actual distance between points.
-* <b>Blue lines</b> show the lateral and longtidunal distances.
-* <b>Yellow circle</b> depicts the range.
+![](/img/distance_tool/distance_tool_gizmos.PNG)
+<center><b> 辅助性的图标 </b></center>
+
+* <b> 绿线 </b> 展示了点之间的实际距离。
+* <b> 蓝线 </b> 展示了经纬度坐标距离。
+* <b> 黄色圆圈 </b> 描述了范围。
