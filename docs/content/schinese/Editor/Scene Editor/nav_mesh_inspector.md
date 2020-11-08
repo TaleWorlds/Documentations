@@ -1,81 +1,81 @@
 +++
-title = "Navigation Mesh Inspector"
+title = "导航网格查看器"
 description = ""
 weight = 20
 +++
 
-#### Tools 
-These tools help you to generate and manipulate the navigation mesh:
+#### 工具
+这些工具可以帮助您生成和操作导航网格：
 
-#### Generation Tools
+#### 生成工具（Generation Tools）
 
 ![](/img/inspectors/nav_mesh_inspector/generation_tools.PNG)
 
-* Auto Generate: As the name implies, automatically generates the navigation mesh with resppect to the parameters above.
-* Generate Grids: Generates grid navigation mesh for the terrain only. It ignores the entities on the scene.
-* Create New Face: Creates a new navigation mesh quad face on the coordinates where the camera is.
+* Auto Generate: 顾名思义，将根据上述参数自动生成导航网格物体。
+* Generate Grids: 仅为地形生成格子状导航网格。它会忽略场景中的实体。
+* Create New Face: 在相机所在的坐标上创建一个新的导航网格四边形面。
 * Extrude: 
-* Remove: Removes the selected navigation mesh edge.
-* Fill: Fills between the selected navigation mesh vertices and forms a face.
-* Grow Selection: Grows the selection by selecting the adjacent elements to the selected elements (Works for all vertex, edge and face structures)
-* Connect: Connects the selected two navigation mesh vertices by drawing an edge between them.
-* Subdivide: Divides the navigation mesh edge by putting a vertex on the middle of it. This vertex is connected to the adjacent vertices and divides the face of interest.
-* Weld: Removes vertices forming the edge and makes the edge one single vertex. It connects the old adjacent vertices to the newly generated vertex.
-* Import Faces From Prefabs: Imports faces which were exported for later use.
+* Remove: 删除选定的导航网格边。
+* Fill: 在选定的导航网格顶点之间填充并形成一个面。
+* Grow Selection: 选择选定元素的相邻元素来扩大选择范围（适用于所有顶点，边和面结构）。
+* Connect: 绘制一条边来连接选定的两个导航网格顶点。
+* Subdivide: 通过在顶点的中间放置一个顶点来划分它。该顶点连接到相邻的顶点并划分感兴趣的面。
+* Weld: 移除边而代之以单个顶点。它将旧边的相邻顶点连接到新生成的顶点。
+* Import Faces From Prefabs: 导入之前导出的面。
 * Import Body: <not_known>
-* Make Quads When Possible: Selects adjacent triangle faces, which can construct quads (which do not form a concave polygon). This is not going to construct the most optimal nav mesh, having faces with the greatest surface areas, but it will locally select the triangles forming the greatest surface area. It will still reduce the total number of faces strongly.
+* Make Quads When Possible: 选择相邻的三角形面，这些面可以构造四边形（不形成凹多边形）。这不会构造出具有最大表面积的面的最佳导航网格，但是它将局部选择形成最大表面积的三角形。仍然会大大减少面的总数。
 
-#### Debugging Tools
+#### 调试工具（Debugging Tools）
 
 ![](/img/inspectors/nav_mesh_inspector/debugging_tools.PNG)
 
-* X-Z Keys: Puts two different spheres per key, and when both are put, gives statistics about the path defined between these two spheres.
-* Select Vertices Below Entities: The name implies the purpose.
+* X-Z Keys: 每个键放入两个不同的球体，当两个球体都放入时，给出这两个球体之间定义路径的统计。
+* Select Vertices Below Entities: 选择实体下面的顶点。
 * Select Unwalkable Edges: <not_known>
-* Fix Concave Faces: Makes the concave faces convex.
+* Fix Concave Faces: 使凹面凸出。
 * Select Unconnected Faces: <not_known>
 * Calculate Auto Weld Points: <not_known>
-* Select Inverted Faces: Finds and selects the inverse faces, facing towards the terrain.
+* Select Inverted Faces: 查找并选择面向地形的反面。
 * Find Path: <not_known>
-* Paste Copied Faces: The name implies the purpose.
-* Copy Selected Faces: The name implies the purpose.
-* Export Faces as Prefab: Exports the selected faces for later use.
-* Ensure Faces Are Not Below Ground: The name implies the puspose.
-* Remove Unreachable Faces: Removes the faces which are not connected to any island, in which there is a spawn point. (Spawn points are decided according to the entities in Prefabs/editor_spawnpoints.xml, also entities containing AnimationPoint script.)
-* Find Tight Faces: Finds faces whose surface area is below the desired value, and selects them. You can press the "delete" button to remove these faces. After doing this, do not forget to "Remove Unused Vertices", which I'll be mentioning a few lines below.
-* Remove Unused Vertices: This will remove the vertices which are not connected to any face. 
-* Select Vertices At The Edges: Selects the vertices connected to only 2 edges, hence, not being a part of a continuous face component.
-* Select Vertices Without Edges: This will just select the faces which are not connected to any edge or face.
-* Mark Elevation Problem Faces: Faces having distance greater than 1.2 meters to the bottom (a mesh or the terrain) will be selected for debug purposes.
+* Paste Copied Faces: 粘贴复制的面。
+* Copy Selected Faces: 复制选定的面。
+* Export Faces as Prefab: 导出所选面以供以后使用。
+* Ensure Faces Are Not Below Ground: 确保面不在地下。
+* Remove Unreachable Faces: 删除孤岛面（其中有一个生成点）。（生成点是根据Prefabs/editor_spawnpoints.xml中的实体来确定的，该实体还包含AnimationPoint脚本。）
+* Find Tight Faces: 查找表面积低于所需值的面，然后选择它们。您可以按“删除”按钮删除这些面孔。完成此操作后，请不要忘记“删除未使用的顶点”，我将在下面提到几行。
+* Remove Unused Vertices: 删除未连接到任何面的顶点。
+* Select Vertices At The Edges: 选择仅连接到2条边，因此不成为连续面组件的一部分的顶点。
+* Select Vertices Without Edges: 这将只选择未连接到任何边或面的面。
+* Mark Elevation Problem Faces: 到底部（网格或地形）的距离大于1.2米的面将被选中以进行调试。
 
-#### Auto Generation Parameters
+#### 自动生成参数（Auto Generation Parameters）
 
 ![](/img/inspectors/nav_mesh_inspector/auto_generation_parameters.PNG)
 
-These parameters arrange the precision, extend and operation details of the navigation mesh generation. Explanation of the parameters are as following:
+这些参数决定导航网格生成的精度、扩展和操作细节。参数说明如下：
 
-* Build Detailed Nav Mesh: Checking this box makes use of the following parameters and builds a detailed nav mesh according to them. If not checked, the following parameters won't make any difference.
-* Cell Size: Defines the horizontal edge length of the sample voxel examined by the Recast Library.
-* Cell Height: Defines the vertical edge length of the sample voxel examined by the Recast Library.
-* Agent Max Slope: Maximum angle in which  the agent can climb (in degrees).
-* Agent Height: The name defines itself.
-* Agent Max Climb: Maximum meters the agent can step on.
-* Agent Radius: The name defines itself.
-* Edge Max Length: Maximum possible edge length of the polygons generated by Recast.
-* Edge Max Error: The maximum distance a simplfied contour's border edges should deviate the original raw contour. (Definition from the Recast document)
-* Region Min Size: The minimum number of cells [voxels] allowed to form isolated island areas. (Definition from the Recast document)
-* Region Merge Size: Any regions with a span count smaller than this value will, if possible, be merged with larger regions. (Definition from the Recast document)
-* Detail Sample Distance: Sets the sampling distance to use when generating the detail mesh. (For height detail only.) (Definition from the Recast document)
-* Detail Sample Max Error: The maximum distance the detail mesh surface should deviate from heightfield data. (For height detail only.) (Definition from the Recast document)
+* Build Detailed Nav Mesh: 选中此框将使用以下参数，并根据这些参数构建详细的导航网格物体。如果未选中，则以下参数不会生效。
+* Cell Size: 定义Recast库测试的样本体素的水平边缘长度。
+* Cell Height: 定义Recast库测试的样本体素的垂直边缘长度。
+* Agent Max Slope: agent可以攀爬的最大角度（单位度）。
+* Agent Height: agent高度。
+* Agent Max Climb: agent每次攀爬的最大幅度。
+* Agent Radius: agent可以攀爬的半径。
+* Edge Max Length: Recast库生成的多边形的最大边长。
+* Edge Max Error: 简化后的等高线边界与原始等高线的最大偏差。(定义来自Recast文档)
+* Region Min Size: 允许形成孤岛区域的细胞[voxels]的最小数量。(定义来自Recast文档)
+* Region Merge Size: 跨度计数小于此值的任何区域，将与较大的区域合并。(定义来自Recast文档)
+* Detail Sample Distance: 设置生成细节网格时要使用的采样距离。仅适用于高度细节。(定义来自Recast文档)
+* Detail Sample Max Error: 细节网格面与高度场数据的最大距离。仅适用于高度细节。(定义来自Recast文档)
 
 
-### Auto Generation Steps
-* First, fill in the blank fields in the parameters tab. You may prefer to stick to the default parameters as well.
-* Click on the "Auto Generate" button (generation tools) and wait for the operation to end.
-* Click on the "Make Quads When Possible" button (generation tools) to quadify the triangles which form a convex shape.
-* Click on the "Find Tight Faces" button (debugging tools) to find and select the tight faces on the borders.
-* Press the "Delete" button on the keyboard to delete these selected faces.
-* If there are still tight faces appearing on the borders, apply the same procedure until it all ends.
-* Click on the "Remove Unused Vertices" button (debugging tools) to remove vertices which are no longer connected to any face.
-* Manually correct the regions which are broken due to the removed tight faces.
-* You can debug and polish further using the tools mentioned before.
+### 自动生成步骤 (Auto Generation Steps)
+* 首先，在“参数”标签中填写空白字段。您可能还希望保留默认参数。
+* 单击“自动生成”按钮（生成工具），然后等待操作结束。
+* 单击“在可能时制作四边形”按钮（生成工具）以对形成凸形的三角形进行四边形化。
+* 点击 "查找紧面 "按钮（调试工具），查找并选择边框上的紧面。
+* 按下键盘上的“删除”按钮以删除这些选定的面。
+* 如果边框上仍然出现紧面，请应用相同的步骤，直到结束为止。
+* 单击“删除未使用的顶点”按钮（调试工具）以删除不再连接到任何面的顶点。
+* 手动校正由于去除了紧密面而破裂的区域。
+* 您可以使用前面提到的工具进一步调试和完善。
