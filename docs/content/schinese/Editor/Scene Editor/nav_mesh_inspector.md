@@ -70,12 +70,12 @@ weight = 20
 
 
 ### 自动生成步骤 (Auto Generation Steps)
-* 首先，在“参数”标签中填写空白字段。您可能还希望保留默认参数。
-* 单击“自动生成”按钮(generation tools)，然后等待操作结束。
-* 单击“在可能时制作四边形”按钮(generation tools)以对形成凸形的三角形进行四边形化。
-* 点击 "查找紧面 "按钮(debugging tools)，查找并选择边框上的紧面。
+* 首先，在“parameters”标签中填写空白字段。您可能还希望保留默认参数。
+* 单击““Auto Generate”按钮(generation tools)，然后等待操作结束。
+* 单击“Make Quads When Possible”按钮(generation tools)以对形成凸形的三角形进行四边形化。
+* 点击 "Find Tight Faces"按钮(debugging tools)，查找并选择边框上的紧面。
 * 按下键盘上的“Delete”按钮以删除这些选定的面。
 * 如果边框上仍然出现紧面，请应用相同的步骤，直到结束为止。
-* 单击“删除未使用的顶点”按钮(debugging tools)以删除不再连接到任何面的顶点。
+* 单击“Remove Unused Vertices”按钮(debugging tools)以删除不再连接到任何面的顶点。
 * 手动校正由于去除了紧密面而破裂的区域。
 * 您可以使用前面提到的工具进一步调试和完善。
