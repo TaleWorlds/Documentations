@@ -87,7 +87,7 @@ DestructibleComponent是一个ScriptComponent，可以应用于场景中的任�
 | ![](/img/destructible_component/SiegeBarricade_States.png) 当前，不同的状态没有任何特殊的粒子或动态实体，但是以后可以轻松添加它们。带有“dynamic”主体标记的实体和粒子系统在生成时会自动触发。 |
 
 {{% notice tip %}}
-被破坏的路障的每个阶段都有自己独特的碰撞体。这使人们可以在以后的破坏中更轻松地发射箭头，并可以通过state_5移动。
+被破坏的路障的每个阶段都有自己独特的碰撞体。这使人们可以在路障被破坏的更严重时更轻松地射击，并可以通过设为状态state_5来移除。
 {{% /notice %}}
 
 | 场景中的围城路障等级 | 围城路障脚本组件 |
