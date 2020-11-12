@@ -68,7 +68,7 @@ DestructibleComponent是一个ScriptComponent，可以应用于场景中的任�
 
 | 单个城垛的脚本示例 |
 | ------ |
-| ![](/img/destructible_component/Wall_Script.png) 每个城垛都有完全相同的脚本。当它们被摧毁时，它们都会产生“碎片”预制件。我们决定让它们被mangonel攻击一次后立即销毁，因此它们的杀伤点非常低。DestroyedByStoneOnly使它们忽略所有其他武器（箭头，剑，斧头等）的伤害。由于“CanBeDestroyedInititally”，因此这些城垛可能在进入场景时就已经被破坏。人鱼需要一个ReferenceEntity实体来确定损坏的预制件的生成框架。 |
+| ![](/img/destructible_component/Wall_Script.png) 每个城垛都有完全相同的脚本。当它们被摧毁时，它们都会产生“碎片”预制件。我们决定让它们被mangonel攻击一次后立即销毁，因此它们的耐久度（HitPoint)非常低。DestroyedByStoneOnly使它们忽略所有其他武器（箭头，剑，斧头等）的伤害。由于“CanBeDestroyedInititally”，因此这些城垛可能在进入场景时就已经被破坏。人鱼需要一个ReferenceEntity实体来确定损坏的预制件的生成框架。 |
 
 **城墙和城垛碎片的起源**
 
