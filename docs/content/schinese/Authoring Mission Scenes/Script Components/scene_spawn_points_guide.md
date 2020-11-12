@@ -1,141 +1,140 @@
 +++
-title = "Scene Spawn Point Guide"
+title = "场景生成点指南"
 
 [menu.main]
 identifier = "scene_spawn_point_guide"
 parent = "bannerlord_scenes"
 +++
 
-## How to design fully featured scenes in Bannerlord
+## 如何在Bannerlord中设计功能齐全的场景
 
-Each scene has own basic necessities to run without crashing and has extras to give better experience to player. Designers can check these necessities with "<a href="http://rglwebserver.taleworlds.com:1313/spawn_point_debug_tool/">Spawn Point Debug Tool</a>" to be sure that their scene will not crash. 
+每个场景都需要有一定的必备元素以避免游戏崩溃，并提供额外的功能，为玩家带来更好的体验。设计人员可以使用 !["Spawn Point Debug Tool"](http://rglwebserver.taleworlds.com:1313/spawn_point_debug_tool/) 检查这些必要性，以确保其场景不会崩溃。
 
-## 1. Town Center Scene
+## 1. 城市中心场景
 
-Player will be spawned on the "sp_player_outside" prefab if he/she is entering the city for the first time, 
-because of this feature "sp_player_outside" must be placed far from city's entrance; otherwise player will be 
-spawned on "sp_player" and this spawnpoint can be next to the entrance gate. Town center scene has some 
-mandatory characters as follows:
+如果玩家是第一次进入城市，将在“ sp_player_outside”预制件上生成玩家，因此，“sp_player_outside”必须放置在离城市入口有一段距离的位置；否则，将在“sp_player”上生成玩家，并且该生成点可以在入口大门旁边。城镇中心场景具有一些必要字段，如下所示：
 
-|Player Spawn Point|
+| 玩家生成点 |
 |-----|
-|When player enters the town center from top right panel in the map scene, player and the conversation NPC will be spawned on "sp_player_conversation" prefab. Scene must have these prefabs more than 1 in order increase variation. {{% notice warning %}} The scale of the conversation prefab must not change.
+|当玩家从地图场景的右上方面板进入城镇中心时，玩家和对话NPC将在“sp_player_conversation”预制件上生成。为了增加变化，场景必须使这些预制件总数大于1。{{％notice warning％}} {{% notice warning %}} conversation预制的规模无法改动。
 {{% /notice %}}|
 
-|Traders|
+|贸易商|
 |-----|
-|Traders such as armorers, blacksmiths and horse merchants are mandatory for town center scenes. If scene has more than one market place, it is ok to have more then one trader NPCs. Traders in market places may have their own sets. These sets can be considered as prefabs with some spawn points in it. For example, for weaponsmith there can be 3 points in weaponsmith set but there must be 1 spawned weaponsmith. This NPC will go to these points randomly, in a word NPC may go to his/her selling table and start trading or go to the backside of his/her shop and sit on a chair for some time. {{% notice tip %}} Designer may want to change these wait times between actions with "MinWaitInSeconds" and "MaxWaitInSeconds" parameters. (-1: forever).
+|镇中心场景中必须强制使用盔甲匠，铁匠和马商等商人。如果场景具有多个市场，则可以拥有一个以上的交易员NPC。市场上的交易者可能有自己的集合。这些集合可以被视为带有某些生成点的预制件。例如武器匠，武器匠集合中可以有3个定位点，但必须有1个已刷出的武器匠。这个NPC会随机到达这些点，也就是说NPC可能会去他/她的销售台开始交易，或者去他/她的商店的后方坐在椅子上一段时间。{{% notice tip %}} 设计者可能希望使用“ MinWaitInSeconds”和“ MaxWaitInSeconds”参数来更改两次操作之间的等待时间。（-1表示永远不会改变位置）。
 {{% /notice %}}|
 
-|Notables|
+|要人|
 |-----|
 
-## Notable Parent Prefab
+## 要人的父级预制件
 
-Scene must have some notables. In order to find them easy, notable spawn points must be placed near center area of the city.
-Every notable have their own spawn point tag and every notable have their unique helper characters. 
+场景一定要有一些要人。为了能轻松找到它们，必须在城市中心区域附近放置明显的生成点。
+每个要人都有自己的生成点标签和自己独特的助手。
 
-| Notable | Spawn Point Tag | Helper Character Tag |
+| 要人 | 生成点标签 | 专属助手标签 |
 | ------ | ------ | ------ | 
-| **Preacher** | sp_notable_preacher | sp_preacher_notary |
-| **Gang Leader** | sp_notable_gangleader | sp_gangleader_bodyguard |
-| **Rural Notable** | sp_notable_rural_notable | sp_rural_notable_notary |
-| **Artisan** | sp_notable_artisan | sp_artisan_notary |
-| **Merchant** | sp_notable_merchant | sp_merchant_notary |
+| **牧师** | sp_notable_preacher | sp_preacher_notary |
+| **帮派头目** | sp_notable_gangleader | sp_gangleader_bodyguard |
+| **乡老** | sp_notable_rural_notable | sp_rural_notable_notary |
+| **工匠** | sp_notable_artisan | sp_artisan_notary |
+| **商人** | sp_notable_merchant | sp_merchant_notary |
 
-Notables have one parent prefab named **"sp_notables_parent"**. Each notable has 1 set as child so, parent prefab has 5 child notable sets. 
+要人有一个名为**"sp_notables_parent"** 的父级预制件。每个要人有1个子集，因此，父级预制体有5个子级要人的集合。
 
-Artists must place this parent prefab and put it in a prominent place of town center. Also prefab must be seen easily by player. After mission start, game logic will activate the notable set according to the notables in the town center.
+mod制作者必须将这个父级预制件放到市中心的显眼位置。玩家也必须容易看到预制件。场景开始后，游戏逻辑将根据镇中心的标记激活标记集。
 
-In the notable sets, every notable will have unique helper character and their spawn point as well. (bodyguards for gangleader, notary for merchant...). 
+在要人的集合中，每个要人将具有专属辅助角色以及它们的生成点。（帮派头目的打手，商人的公证人等等）。
 
-In the picture below. There were 2 parent prefabs in the scene. After mission start, one prefab is activated for **gangleader** and her bodyguards. Other prefab is activated for **merchant** and his notary.
+下面的图片中。现场有2个父级预制件。场景开始后，将为**帮派头目**和她的打手激活一个预制件。**商人**及其公证人激活了另一个预制件。
 
 {{% notice tip %}}
-Every settlement can have at most 6, every village can have at most 3 notables. So, artist must consider this and place at least 8 parent prefab for town center scenes and place at least 5 parent prefab for village scenes. And town center's have 3 workshop. Each worshop must have 1 parent prefab.
-So, for town center scenes 8 + 3 (from workshops) ~10 parent prefabs must be added.
+每个定居点最多只能有6位知名人士，每个村庄最多可以有3位知名人士。因此，mod制作者必须考虑到这一点，并为城镇中心场景放置至少8个父级预制件，并为乡村场景放置至少5个父级预制件。市中心有3个工场。每个工场必须有1个父级预制件。
+因此城市中心场景必须有 8 + 3 (工场) ~ 10个父级预制件.
 {{% /notice %}}
 
 {{% notice warning %}}
-All points in the notable sets have rotations according to their motion capture animations, so don't rotate the points or animations will not syncronize.
+值得注意的是要人集合中的所有定位点都会根据其运动捕捉动画进行旋转，因此不要旋转这些点，否则动画将无法同步。
 {{% /notice %}}
 
 ![](/img/notable_spawn_points/document1.png)
 
-|Guards|
+|守卫(guards)|
 |-----|
-|There are some idle guards and patrolling guards. Patrolling guards are programmed as moving one point to another while activating the next point and deactivating the current one.|
+|有一些闲散的警卫和巡逻警卫。巡逻警戒被编程为将一个点移动到另一个点，同时激活下一个点并禁用当前点。|
 
-|Passages|
+|通道(Passages)|
 |-----|
-|Town center scene must include all passages to other scenes such as Tavern, Arena, Lords hall...|
+|市中心的场景必须包括到其他场景的所有通道，例如小酒馆，竞技场，领主大厅。..|
 
-|Battle Sets|
+|战斗区域(Battle Sets)|
 |-----|
-|For town scenes, battle sets are only used for common area clearing. so they should not be too far apart, and should be placed to represent a fight between gangs rather than a battle between armies.|,
+|对于城镇场景，战场仅用于公共区域的清理。因此，它们之间不应相距太远，应放置在代表帮派之间的战斗而不是军队之间的战斗的位置。|
 
-|Townsfolk|
+|镇民(Townsfolk)|
 |-----|
-|NPCs are always moving around the city. In order to prettify the scene, designer may want to use some extra prefabs. If scene has "sp_npc_repair_set", one NPC will go to that point and start hammering away while other NPC complains about the situation or scene may have some beggars begging for townsfolk help.|
+|NPC总是在城市中移动。为了美化场景，设计人员可能希望使用一些额外的预制件。如果场景具有“sp_npc_repair_set”，则一个NPC将到达该点并开始攻击周围，而其他NPC则抱怨情况或场景可能会有一些乞乞乞求镇民的帮助。|
 
 
-## 2. Tavern Scene
+## 2. 小酒馆场景（Tavern）
 
-|Player Spawn Point|
+|玩家生成点|
 |-----|
-|Spawnpoint for player, "sp_player",  must be placed nearby to the town center passage. Scene must include at least one "sp_player_conversation" prefab or more. {{% notice warning %}} The scale of the conversation prefab must not change.
+|玩家的Spawnpoint，“ sp_player”，必须放置在通向市中心的通道附近。场景必须至少包含一个或多个“sp_player_conversation”预制件。
+{{% notice warning %}} 
+对话预制件数量不可更改
 {{% /notice %}}|
 
-|Game Hosts (Gambler NPCs)|
+|游戏发起人（赌徒NPC）|
 |-----|
-|Each tavern scene must have gambler (game host) NPC. The chair underneath NPC must have "gambler_npc" and "npc_wait" tags both. The chair which player will use to join game must have "gambler_player" and "reserved" tags both.|
+|每个小酒馆场景都必须有一个赌徒（游戏发起人）NPC。NPC下方的椅子必须同时具有“gambler_npc”和“npc_wait”标签。玩家将用来加入游戏的椅子必须同时具有“gambler_player”和“reserved”标签。
 
-## 3. Lords Hall Scene
+## 3. 领主大厅场景
 
-|Player Spawn Point|
+|玩家生成点|
 |-----|
-|Player spawn points for Lords Hall scene is as same as Tavern scene. Spawn point for player must be placed nearby to the town center passage.|
+|领主大厅场景的玩家生成点与小酒馆场景相同。玩家的生成点必须放置在通向市中心的通道附近。|
 
-## 4. Village Scene
+## 4. 乡村场景
 
-|Player Spawn Point|
+|玩家生成点|
 |-----|
-|Village scene don't have "sp_player_outside" prefab. "sp_player" prefab must not be placed far from village center nor very near. When spawned, player must see the walking villagers from afar. When player enters the village from top right panel in the map scene, player and the conversation NPC will be spawned on "sp_player_conversation" prefab. Scene must have these prefabs more than one in order to increase variation. {{% notice warning %}} The scale of the conversation prefab must not change.
+|乡村场景没有“ sp_player_outside”预制件。不能将“ sp_player”预制件放置在离村中心很远的地方，也不能太近。生成时，玩家必须从远处看到步行的村民。当玩家从地图场景的右上方面板进入村庄时，玩家和对话NPC将在“sp_player_conversation”预制板上生成。场景必须具有多个这些预制件，以增加变化。{{% notice warning %}}对话预制件的规模不得更改。
 {{% /notice %}}|
 
-|Notables|
+|要人|
 |-----|
-|Scene must have some notables. In order to find them easy, notable spawn points must be placed near center area of the city.|
+|场景一定要有一些要人。为了轻松找到它们，必须在乡村中心区域附近放置明显的生成点。|
 
-|Villagers|
+|村民|
 |-----|
-|Villagers have lots of extra activities in village center such as collecting grapes, repairing something or grooming horse. The activities must be balanced between physical and social activities. Villager NPC may go and clean walls then sit and chat with others.|
+|村民在村中心有很多额外的活动，例如收集葡萄，修理东西或梳马。这些活动必须在体育活动和社交活动之间取得平衡。村民NPC可能会去清理墙壁，然后坐下来与他人聊天。|
 
-|Common areas|
+|公共区域|
 |-----|
-|Each village has 3 common areas which are not in the village center. Any type of spawn points can be used inside of the common area. "common_area_NUMBER" prefabs should be placed to specify the area. This prefabs has a script attached named "CommonAreaScript". The script has some parameters as follows:|
-|AreaRadius : Artist can change this parameter script to extend or reduce the area. |
-|AreaIndex : Already set in prefabs for three common areas|
-|Type : Type of the area should be set from the list below|
+|每个村庄都有3个不在村庄中心的公共区域。在公共区域内可以使用任何类型的生成点。应放置“common_area_NUMBER”预制件以指定区域。该预制件带有一个名为“CommonAreaScript”的脚本。该脚本具有一些参数，如下所示：|
+|AreaRadius : 艺术家可以更改此参数脚本以扩展或缩小区域。 |
+|AreaIndex : 已在三个常见区域的预制件中设置 |
+|Type : 区域类型应从下面的列表中设置 |
 
-|Area Types|Scene|Explanation|
+|区域类型|场景|说明|
 |-----|-----|-----|
-Backstreet|Town Center|Back alley where thugs are spawned
-Clearing|Town Center|Open area
-Waterfront|Town Center|Near coast or port
-Pasture|Village|Pasture, forage (usually a heath or moor)
-Thicket|Village|Shrubbery
-Bog|Village|Swampy area
-Forest|Village|Lots of trees
-Ravine|Village|Valley or canyon
-Spring|Village|Puddle in desert
-Cove|Village|Bay
-Marsh|Village|Swampy area near river
-Wadi|Village|Valley, does not have rocks on both sides
+Backstreet|市镇中心|生成暴徒的后巷
+Clearing|市镇中心|开阔地
+Waterfront|市镇中心|靠近海岸或港口
+Pasture|乡村|牧场，草料（通常是荒地或沼泽地）
+Thicket|乡村|灌木
+Bog|乡村|沼泽区
+Forest|乡村|很多树木
+Ravine|乡村|山谷或峡谷
+Spring|乡村|在沙漠里的水坑
+Cove|乡村|水湾
+Marsh|乡村|河附近的沼泽地区
+Wadi|乡村|山谷，两边都没有岩石
 
-|Battle Spawnpoints|
+|战场生成点(Battle Spawnpoints)|
 |-----|
-|If game is opening the scene with battle mode. Battle sets will be initiated and battle troops will be spawned on each. Battle sets must be placed far from each other, and with defender and attacker sides in mind.|
+|如果游戏使用战斗模式打开场景，将会初始化参战部队。参战部队双方必须彼此远离，并牢记防御者和攻击者的方向。|
 
 
 
