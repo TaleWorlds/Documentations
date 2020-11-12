@@ -1,30 +1,30 @@
 +++
-title = "Scene Barrier Builder"
+title = "场景屏障生成器"
 
 [menu.main]
 identifier = "scene_barrier_builder"
 parent = "bannerlord_scenes"
 +++
 
-## Introduction
+## 简介
 
-Barrier Builder is a tool that helps artist to generate barriers over walls to prevent agents to fall down.
+屏障生成器是一种工具，可帮助mod制作者在城墙上生成屏障以防止agent坠落。
 
-## Usage
+## 用法
 
-- Create a path, you can use the button on toolbar
+- 添加路径，可使用工具条上按钮
 ![](/img/barrier_builder/add_path.png)
 
-- Give a name to path
+- 命名路径
 ![](/img/barrier_builder/name_path.png)
 
-- Build your path as you wish
+- 随心所欲的创建路径
 ![](/img/barrier_builder/create_path.png)
 
 
-- Press "Enable Barrier Build" chekbox on path inspector, it will create your barrier entity for you.
+- 在路径查看器中勾选"Enable Barrier Build"选择框, 它将为您创建屏障实体。
 ![](/img/barrier_builder/create_barrier.png)
 
-- You can go to that entity with "Go to Entity" Button and chnage its options like height, the entity named as "path_barrier_PATHNAME"
+- 您可以使用"Go to Entity"按钮转到该实体，并更改其选项，例如高度，该实体名为"path_barrier_PATHNAME"
 
 ![](/img/barrier_builder/change_barrier.png)
