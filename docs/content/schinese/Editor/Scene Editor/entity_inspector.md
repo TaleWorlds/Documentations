@@ -43,7 +43,7 @@ Gizmo可以在三个不同的空间工作：[世界]({{< ref "#world-space" >}})
 局部坐标是相对于实体本身而言的，每一次变换的定义都是以实体的中心为宇宙的中心。
 
 ##### Screen space #####
-画面空间的坐标是相对于摄像机的。视口的右边总是<span style="color: #CC4000">X</span>轴，顶部总是<span style="color: #40AA00">Y</span>轴，向前总是<span style="color: #0080DD">Z</span>（负Z）轴。
+屏幕空间的坐标是相对于摄像机的。视口的右边总是<span style="color: #CC4000">X</span>轴，顶部总是<span style="color: #40AA00">Y</span>轴，向前总是<span style="color: #0080DD">Z</span>（负Z）轴。
 
 ### 实体标签系统 ###
 编辑器上的实体可以通过用户定义的标签来标识。
