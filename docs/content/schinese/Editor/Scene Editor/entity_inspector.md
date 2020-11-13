@@ -1,61 +1,59 @@
 +++
-title = "Entity Inspector"
+title = "实体查看器"
 description = ""
 weight = 20
 +++
 
-### Transform Panel ###
+### Transform面板 ###
 ![](/img/inspectors/entity_inspector/transform/transform.PNG)
 
-Transform panel allows you to change position, rotation and scale properties of the selected entities.
-All of these values are relative to the parent of the selected entity. If Entity has no parent, then they are the Global values. (in <b>[World]({{< ref "#world-space" >}})</b> space).
+Transform面板允许您改变所选实体的位置transform、旋转rotation和缩放scale属性。
+所有这些值都是相对于所选实体的父实体而言的，如果实体没有父实体，那么它们就是全局值。(在<b>[世界]({{< ref "#world-space" >}})</b> 空间中).
 
 #### Scale ####
-##### Locked #####
+##### 已锁定 #####
 ![](/img/inspectors/entity_inspector/transform/scale_locked.PNG)
-If the lock icon is in locked state, changing any component of scale parameter will set all scale components to the same value, entity will be in uniform scaling mode.
-##### Unlocked #####
+如果锁定图标处于锁定状态，改变比例参数中的任何一个分量，都会将所有比例分量设置为相同的值，实体将处于统一的缩放模式。
+##### 未锁定 #####
 ![](/img/inspectors/entity_inspector/transform/scale_unlocked.PNG)
-If the lock icon is in unlocked state, every scale component can be changed independently, and will allow non-uniform scaling.
+如果锁定图标处于解锁状态，每个比例分量都可以独立改变，并将允许不均匀缩放。
 
-### Transform with Gizmo ###
+### 使用Gizmo进行Transform ###
 
-#### Transform modes ####
+#### Transform模式 ####
 
-All of the transformation can also be done using Gizmo.
-Gizmo can be activated by selecting an entity (or multiple entities) and pressing one of the hotkeys below.
+所有转换也可以使用Gizmo完成。
+可以通过选择一个或多个实体并按下下面的热键之一来激活Gizmo。
 
 Rotate | Translate | Scale
 ---- | ---- | ----
-Hotkey: R | Hotkey: T | Hotkey: Y
+热键： R | 热键： T | 热键： Y
 ![](/img/inspectors/entity_inspector/transform/gizmo_rotate.PNG) | ![](/img/inspectors/entity_inspector/transform/gizmo_translate.PNG) | ![](/img/inspectors/entity_inspector/transform/gizmo_scale.PNG)
 
-#### Transform spaces ####
+#### Transform空间 ####
 
-Gizmo can work in three different spaces; <b>[World]({{< ref "#world-space" >}})</b> space, <b>[Local]({{< ref "#local-space" >}})</b> space and <b>[Screen]({{< ref "#screen-space" >}})</b> space.
+Gizmo可以在三个不同的空间工作：[世界]({{< ref "#world-space" >}})空间，[本地]({{< ref "#local-space" >}})空间和[屏幕]({{< ref "#screen-space" >}})空间。
 
 ##### World space #####
 
-World coordinates is just a fixed, parent coordinate system. This is the global coordinate system that everything is defined relative to.
-World Coordinate has a fixed [1, 0, 0] in the <span style="color: #CC4000">X</span> direction, [0, 1, 0] in the <span style="color: #40AA00">Y</span> direction, and [0, 0, 1] in the <span style="color: #0080DD">Z</span> direction.
+世界坐标只是一个固定的、父坐标系。这是一个全局坐标系，所有的东西都是相对这个坐标系定义的。
+世界坐标在<span style="color: #CC4000">X</span>方向上具有固定的[ 1，0，0]，在<span style="color: #40AA00">Y</span>方向上具有固定的[ 0，1，0 ]，在<span style="color: #0080DD">Z</span>方向上具有固定的[0，0，1] 。
 
 ##### Local space #####
-Local coordinates are relative to the entity itself, every transform is defined such as that the center of the entity is center of the universe.
+局部坐标是相对于实体本身而言的，每一次变换的定义都是以实体的中心为宇宙的中心。
 
 ##### Screen space #####
-Screen space coordinates are relative to the camera. Right of your viewport is always the <span style="color: #CC4000">X</span> axis, Top is always the <span style="color: #40AA00">Y</span> axis, and forward is always the <span style="color: #0080DD">-Z</span> (minus Z) axis.
+画面空间的坐标是相对于摄像机的。视口的右边总是<span style="color: #CC4000">X</span>轴，顶部总是<span style="color: #40AA00">Y</span>轴，向前总是<span style="color: #0080DD">Z</span>（负Z）轴。
 
+### 实体标签系统 ###
+编辑器上的实体可以通过用户定义的标签来标识。
 
+#### 添加标签
+在实体查看器的“Tags”标题下，有一个标签为“Add New Tag”的按钮。此按钮将打开一个窗口，询问新标签名称。
 
-### Entity Tag System ###
-An entity on editor can be identified by a tag defined by the user. 
+#### 使用现有标签
+点击“Add New Tag”按钮后，从窗口的下拉菜单中，您可以选择以前添加到当前场景实体中的标签。 
 
-####  Adding Tags
-In the Entity Inspector, under the "Tags" title, there is a button with label "Add New Tag". This button opens a window asking for the name of the tag.
-
-#### Using an Existing Tag
-After clicking on the "Add New Tag" button, from the dropdown menu in the window, you can select tags, which were added to the current scene entities before.
-
-#### A Special Case: Prefabs
-If you are modifying a prefab entity, adding tags to the prefab does not break it. In other words, if you change the prefab after tagging the prefab entity in the scene, the scene entity will have all the changes as well.
-The tags are stored in the xml files with "< tags  >... < / tags >" syntax. (without the white spaces between characters)
+#### 特例：预制件
+如果你正在修改一个预制实体，给预制实体添加标签不会破坏它。换句话说，如果你在场景中给预制实体打上标签后又改变主意修改了预制实体，使用了预制实体的场景实体也会有所有的改变。
+标签以"<tags>...</tags>"的语法存储在xml文件中。(不含字符之间的空格)
