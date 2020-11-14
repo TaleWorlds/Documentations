@@ -18,13 +18,13 @@ parent = "bannerlord_scenes"
 - 命名路径
 ![](/img/barrier_builder/name_path.png)
 
-- 随心所欲的创建路径
+- 随心所欲地创建路径
 ![](/img/barrier_builder/create_path.png)
 
 
 - 在路径查看器中勾选"Enable Barrier Build"选择框, 它将为您创建屏障实体。
 ![](/img/barrier_builder/create_barrier.png)
 
-- 您可以使用"Go to Entity"按钮转到该实体，并更改其选项，例如高度，该实体名为"path_barrier_PATHNAME"
+- 您可以使用"Go to Entity"按钮转到该实体，并更改其选项，例如高度，该实体名为"path_barrier_路径名称"
 
 ![](/img/barrier_builder/change_barrier.png)
