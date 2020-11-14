@@ -43,8 +43,8 @@ parent = "core_components"
 
 有两个选项可以查看具有不同级别可见性的实体。
 
-__1) 要求所有级别 Require all levels（与场景完全相同）
-__2) 要求至少一个级别 Require at least one level（仅编辑器，一次查看所有实体）__
+1. 要求所有级别 Require all levels（与场景完全相同）
+2. 要求至少一个级别 Require at least one level（仅编辑器，一次查看所有实体）
 
 ### Require all levels
 在此模式下，可见性系统将和场景保持一致，你可以用此模式来测试哪些实体将以何种组合在场景中可见。
