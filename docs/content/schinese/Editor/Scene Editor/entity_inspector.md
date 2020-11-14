@@ -7,7 +7,7 @@ weight = 20
 ### Transform面板 ###
 ![](/img/inspectors/entity_inspector/transform/transform.PNG)
 
-Transform面板允许您改变所选实体的位置transform、旋转rotation和缩放scale属性。
+Transform面板允许您改变所选实体的transform、rotation和scale属性。
 所有这些值都是相对于所选实体的父实体而言的，如果实体没有父实体，那么它们就是全局值。(在<b>[世界]({{< ref "#world-space" >}})</b> 空间中).
 
 #### Scale ####
