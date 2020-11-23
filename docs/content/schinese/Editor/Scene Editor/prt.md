@@ -1,85 +1,84 @@
 +++
-title = "Precomputed Radiance Transfer - GI System"
+title = "预计算辐射传递 - GI系统"
 
 [menu.main]
 identifier = "prt_system"
 parent = "core_components"
 +++
 
-We introduce a new global illumination system to the engine. It is based on a pre-baked system called "Precomputed Radiance Transfer". This technique allow us to bake the local ambient in the scene and display it in an optimized manner at runtime. Baked data is independent from the atmospheres. Thus, we can light the scene with the same bake data for every atmosphere.
+我们为引擎引入了一个新的全局照明系统。它是基于一个叫做"Precomputed Radiance Transfer"的预制系统。该技术允许我们在场景中烘焙本地环境，并在运行时以优化的方式显示。烘焙的数据是独立于氛围的。因此，我们可以为每个氛围使用相同的烘焙数据来照明场景。
 
-| With | Without |
+| 使用后 | 使用前 |
 | ------ | ------------ |
 | ![](/img/prt_system/prt_ss_gi.png) | ![](/img/prt_system/prt_ss_sky_access.png) |
 
-### Baking Procedure
+### 烘焙过程 Baking Procedure
 
-Scene baking is divided into a couple of parts:
+场景烘焙分为两个部分：
 
-- First, the artist should place the border probes to identify the GI boundaries of the scene. 
+- 首先，艺术家应该放置边界探头，以确定场景的GI边界。
 
-Side Note 1: If you minimize the GI boundaries as much as possible(not extending it to distant places from navigatable area) , you can decrease the grid dimensions and thus you will have more precision inside the town where it matters the most. For town scenes, we generally use grid dimensions of 1.5 meters width and 2.5 meters height. 
+附注1：如果要尽量减少GI的边界（不要延伸到远离可导航区处），可以减少网格尺寸，这样在城镇内最重要的地方就会有更高的精度。对于城镇场景，我们一般使用宽1.5米、高2.5米的网格尺寸。
 
-Side Note 2: For the pixels outside the GI borders, we use a fallback probe from the scene. The default is the highest active probe near to the left corner of the GI order. Artist can select any other probe from the scene by first selecting probe and checking the "Fallback Probe" checkbox in the UI.
+附注2：对于GI边界外的像素，我们使用场景中的后备探头。默认情况下，我们使用的是GI顺序中靠近左角的最高活动探头。艺术家可以通过先选择探头，并在用户界面中选中"Fallback Probe"复选框。从场景中选择任何其他探头。
 
 ![](/img/prt_system/grid1.png) ![](/img/prt_system/grid2.png)
 
-- AT the next pass, the GI probes are created. The initial positions of the probes computed automatically by using the navigation mesh of the scene. With the navigation mesh, we place the probes where the agents can move and also to everywhere visible from those navigation points. The probes are generated within a 3d grid structure. A directional ambient data is computed for every probe position. Using these ambient light values, every pixel in the screen is illuminated by the nearest 8 probes. In some cases, when the lighting between neighbour probes have a very high difference, light or shadow leaking can occur. In order to fix these issues, we render shadowmaps from the probes just like point lights. Probes with shadowmaps are named as "Visibility Probes". For memory usage issues, there is a limit for these Visibility Probes, which is 2048. At the automatic placement phase, the system also tries to find the most probable leak positions and assign those probes as Visibility Probes. It takes into account the ambient light difference. For additional leak fixes, the system leaves the last 5 percent Visibility Probe limit empty, so that the scene designer can fix the remaining leak issues.
+- 在下一个通道，创建GI探针。探针的初始位置是使用场景的导航网格自动计算获得的。 通过导航网格，我们将探针放置在代理可以移动的地方，同时也放置在这些导航点可见的任何地方。探针是在一个三维网格结构中生成的。每一个探针位置都会计算出一个方向性的环境数据。 使用这些环境光值，屏幕中的每个像素都会被最近的8个探针照亮。在某些情况下，当相邻探针之间的光照相差非常大时，就会出现漏光或漏影现象。为了解决这些问题，我们会像点光源一样，从探针中渲染出阴影图。带有阴影图的探头被命名为可见度探头（"Visibility Probes"）。为了解决内存使用问题，可见度探头的最大数量不得超过2048。在自动放置阶段，系统也会尝试寻找最可能的漏光位置，并将这些探头分配为可见度探头。它考虑到了环境光差。对于额外的漏光修复，系统会闲置最后5%的可见度探头，以便场景设计师使用它们修复剩余的漏光问题。
 
 ![](/img/prt_system/prt_probes.png)
 ![](/img/prt_system/diffuse_ambient.png)
 
 ### PRT Files
 
-Just like the scene edit data system, prt data is divided into two parts. prt_data.bin is located inside the SceneObj folder and is the compressed version which is stripped of any editing data. This file should be sent to the source control. The other file is the edit data file. It is very big (at around 2 - 3 gb) and automaticaly sent to the edit data folder inside the network. Once you open a pre-baked scene in editor, only the compressed data is loaded. To be able to edit the bake data, you should Load the edit data with the 'Load' button in the "General Info" panel of the PrtInspector.
+prt_data.bin 位于 SceneObj 文件夹内，是去掉任何编辑数据的压缩版本。这个文件应该被发送到源代码控制系统。另一个文件是编辑数据文件。它非常大(大约2 - 3 GB)，会自动发送到网络中的edit data文件夹。一旦你在编辑器中打开一个预制场景，只有压缩数据被加载。为了能够编辑烘焙数据，你应该在PrtInspector的 "General Info "面板上用 "Load "按钮加载编辑数据。
 
-**Important Node** : After any changes to the prt data, do not forget to save the data with the 'Save' button in the "General Info" panel of the PrtInspector.
+**重要节点**：在对 prt 数据进行任何修改后，不要忘记在PrtInspector的"General Info"面板上点击"Save"按钮保存数据。
 
-### PRT Operations
+### PRT 操作
 
 ![](/img/prt_system/gi_operations_tab.png)
 
-- **Load** :  Loads the edit data from the server.
-- **Save** :  Saves the current edit data to the server.
-- **Auto Height Boundary** :  Adjusts the PRT boundary probes's height to the min/max of the scene.
-- **Bake Single Level** :  Bakes the scene with the current levels, should be used for the interior scenes
-- **Bake All Levels** :  Bakes the scene with the pre-defined multiple levels(namely level-1/level-2/level-3 and siege/civilian) combinations. 
+- **Load** : 服务器载入编辑数据。
+- **Save** : 将当前的编辑数据保存到服务器上。
+- **Auto Height Boundary** :  根据场景的最小/最大高度自动调整 PRT 边界探头的高度。
+- **Bake Single Level** :  用当前使用级别烘培场景，应该用于内部场景。
+- **Bake All Levels** :  用预定义的多级（即level-1/level-2/level-3和siege/civilian）组合烘培场景。
 
 
-### Probe Placement Parameters:
-- **Grid Width** : Determines the probe grid cell size in XY plane. For towns, you can use 1.5. For interiors scenes, you can use between 0.5 to 1.0.
-- **Grid Height** : Determines the probe grid cell height. For towns, you should use a value near 2.5. For interiors scenes, you can use between 0.5 to 1.0.
+### 探针放置参数 Probe Placement Parameters：
+- **Grid Width**：确定XY平面中探针网格单元的大小。对于城镇，可以使用1.5。对于室内场景，可以使用0.5至1.0。
+- **Grid Height**：确定探针网格单元的高度。对于城镇，应使用接近2.5的值。对于室内场景，可以使用0.5至1.0。
 	 
-### Selection Tools:
-To ensure fast and smooth editing of probes, various selection tools are implemented.
+### 选择工具 Selection Tools:
+为了保证快速、顺利编辑的探针，我们采用了多种选择工具。
 
-- **Select All** :  Selects all probes.
-- **Grow** : Grows the selection to include neighbour probes in XY plane. 
-- **Shrink** : Shrink the selection to only include the inner neighbour probes in XY plane.
-- **Fill** : Finds the inner probes of the current selected probe group and selectes them.
-- **Select Border** : Finds and selects the border probes of the current selection.
-- **Select Inner Border** : Finds and selects the inner border of the current selection.
-- **Select Outer Border** : Finds and selects the outer border of the current selection.
-- **Lasso Tool** : We implemented a screen space lasso tool for easy selection of a group of probes. It can be started by pressing 'r' and finished by either double clik or pressing 'r' again.
+- **Select All** :  选择所有的探针。
+- **Grow** : 增长选区以包括XY平面上的邻近探针。
+- **Shrink** : 将选区缩小到只包括XY平面上的邻近探针。
+- **Fill** : 查找当前选择的探针组的内部探针并选择它们。
+- **Select Border** : 查找并选择当前选区的边框探针。
+- **Select Inner Border** : 查找并选择当前选区的内边框。
+- **Select Outer Border** : 查找并选择当前选区的外边框。
+- **Lasso Tool** : 我们实现了一个屏幕空间的套索工具，以方便选择一组探头。可以通过按'r'开始，并通过双击或再次按'r'完成。
 
 ![](/img/prt_system/lasso.png)
 
 ### Visibility Tools
 
-- **Show Active Probes** :  Shows all active probes
-- **Show Deactive Probes** :  Show deactived probes.
-- **Show Visibility Probes** :  Show the Visibility probes (the ones with the visibility calculation to prevent leaking).
-- **Level To Show** :  Selects the Z level to show. -1 means all levels.
-- **Show Probe Radius** :  Determines the probe radius for debug visualization.
-- **Box Tool** :  Enables a mode where you .
+- **Show Active Probes** ：显示所有活动的探头
+- **Show Deactive Probes** ：显示停用的探头。
+- **Show Visibility Probes** : 显示可见性探头（为了防止漏光，计算可见性的探头）。
+- **Level To Show** :  选择要显示的Z级。-1表示所有级别。
+- **Show Probe Radius** ：确定调试可视化的探头半径。
+- **Box Tool** :  启用一种模式，在这种模式下，您可以用.NET技术进行调试。
 
-Side Not : This system only renders the nearest 100 probes with respect to the camera.
+旁注：本系统只渲染相对于摄像机最近的100个探头。
 
-### Useful Shortcuts
+### 有用的快捷键
 
-- **Left Ctrl + x**: Enable/Disable the selected probes
-- **Left Ctrl + c**: Toggles the "Visibility Probe" status
-- **Left Alt + Left Mouse Click**: Select the probes that influences a pixel
-(very neat tool for fixing the leak issue, select the pixel and use the toggle visibility status shortcut to fix the issue) 
+- **Left Ctrl + x**: 启用/禁用所选探头
+- **Left Ctrl + c**: 切换"可见度探头"状态。
+- **Left Alt + Left Mouse Click**：选择影响某个像素的探头。(非常平滑的修复漏光问题的工具，选择像素，使用切换可见性状态的快捷方式来修复问题) 
 
 
