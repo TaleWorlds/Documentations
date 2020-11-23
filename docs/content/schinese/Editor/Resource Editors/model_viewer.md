@@ -1,5 +1,5 @@
 +++
-title = "Model Viewer"
+title = "模型查看器"
 
 [menu.main]
 identifier = "model_viewer"
@@ -8,40 +8,40 @@ identifier = "model_viewer"
 
 ------------------
 
-The Model Viewer can be accesed from; Editor <strong>></strong> Window <strong>></strong> Show Model Viewer
+可以从以下位置访问模型查看器：**Editor > Window > Show Model Viewer**
 ![](/img/model_viewer/mv_empty.PNG)
 
-From the left panel, you can change Atmosphere, hide/show ground, or add as many entities as you want. The entities can either be <strong>Human</strong> or simple <strong>Mesh.</strong>
-Pressing <strong>Add Entity</strong> will open a modal window for you to select the entity type.
+在左侧面板中，您可以更改氛围，隐藏/显示地面或添加任意数量的实体。实体可以是**人类**或简单的**网格**。 
+按**Add Entity**会打开一个模式窗口，供您选择实体类型。
 ![](/img/model_viewer/mv_add_entity.PNG)
 
 
 #### Transform ####
-From this panel, you can set entities Tranform, Rotation, and Scale.
+在这个面板上，你可以设置实体的转换Tranform、旋转Rotation和缩放Scale。
 
-#### Animation ####
-From this panel, you can choose Skeleton type, and Animation. \\
-You can also filter animations by their name. \\
-Filtering system is quite strong through all the engine, so you can fine tune your filtering. Some examples; \\
-idle = Will filter animations that contains "idle" \\
-.idle = Will filter animations that starts with "idle" \\
-idle. = Will filter animations that ends with "idle" \\
--idle = Will filter animations that does not contain "idle" \\
- --- *You can also use combinations of those filters by putting a space between them* \\
-"idle -barmaid 2." = Will filter animations that contains "idle", and does not contains "barmaid", and ends with "2". (like "guard_idle_2" which fits this condition) \\
-"idle hangout 7" = Will filter animations that contains "idle", "hangout", and "7". (like "anim_hangout_idle_7" which fits this condition)
+#### 动画 Animation ####
+在这个面板上，你可以选择骨骼类型和动画。
+您还可以按动画名称过滤动画。
+所有引擎的过滤系统都非常强大，因此您可以微调过滤条件。一些例子：
+- idle：将过滤包含“idle”的动画。
+- .idle：将过滤以“idle”开头的动画。
+- idle.：将过滤以“idle”结尾的动画。
+- -idle：将过滤不包含“idle”的动画。
 
---- You can also blend an another animation using the blend panel.
+**也可以使用以空格分隔的多个过滤器组成的组合**
+- "idle -barmaid 2."：将过滤包含 "idle"但不包含"barmaid"，并且以"2"结尾的动画。（例如"guard_idle_2"）
+- "idle hangout 7"将过滤同时包含"idle"，"hangout"，"7"的动画。(例如"anim_hangout_idle_7")
 
-#### Visuals ####
+您也可以使用“blend”面板混合另一个动画。
 
-From this panel, you can put any mesh at any part of the human, and you can choose this humans gender.
+#### 视觉效果 Visuals ####
+
+在此面板中，您可以将任何网格物体放置在人类的任何部位，也可以选择人类模型的性别。
 
 ![](/img/model_viewer/mv_full.PNG)
 ![](/img/model_viewer/mv_fun.PNG)
 
-## Save / Load scene ##
+## 保存/加载场景 ##
 
-You can also Save / Load the current working scene, by clicking; File <strong>></strong> Save Scene <strong>></strong> *..Save Name..* \\
-Then you can load it with; File <strong>></strong> Load Saved Scene <strong>></strong> *..Write Saved Name..* \\
-Which will restore everyting to the state where you saved it.
+您还可以通过单击"File > Save Scene > *..Save Name..*"来保存当前的工作场景。
+之后你可以通过 "File > Load Saved Scene > *..Write Saved Name..*" 加载之前保存的场景。
