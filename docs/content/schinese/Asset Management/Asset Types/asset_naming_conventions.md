@@ -1,15 +1,15 @@
 +++
-title = "Naming Conventions"
+title = "命名转换"
 description = ""
 weight = 1
 +++
 
-To distinguish and organize assets and simplfy asset authoring process there are some predefined rules to consider.
+为了区分和组织资产，并简化资产创作过程，我们需要注意其中的一些预定义规则。
 
-##### Meshes
+##### 网格
 
-All meshes imported from a single geometry file(e.g. fbx) are grouped by their names. To add a LOD mesh simply append **".lod\<n\>"** to the name of your mesh. Here **n** is the number of lod.  
-Consider an fbx file as below :
+所有从单一几何体文件(如fbx)导入的网格都会以其名称进行分组。要添加一个LOD网格模型，只需在网格模型名称后加上 **".lod\<n\>"**（**n** 是指LOD的数量）。
+具体范例请参考以下文件：
 
 asset.fbx : 
 
@@ -19,35 +19,37 @@ asset.fbx :
 - wall_damaged.lod1
 - wall_damaged.lod2
 
-Two meshes will be imported from asset.fbx file : wall_damaged, wall_damaged_v2. These meshes will have one and two lods respectively. If your modelling software does not support dots in names(e.g. Maya) you can also use "\_" insted of "." to specifiy lods(e.g. wall_damaged_v2_lod1).  
-A mesh can not have more than one material so during import phase meshes wil be divided into submeshes according to material usages of polygons. Consecutive numbers will be appended to the names of these auto generated meshes. Consider a mesh **wall_damaged** using three different materials. Name of the imported mesh will be **wall_damaged** and it will have three submeshes with names **wall_damaged.1**, **wall_damaged.2**, **wall_damaged.3**.
+该范例中，我们从 asset.fbx 文件中导入两个网格：wall_damaged, wall_damaged_v2。其中wall_damaged_v2有一个lod文件，而wall_damaged有两个lod文件。如果你的建模软件不支持用"."命名(如Maya)，你也可以用"_"代替". "来指定网格(如wall_damaged_v2_lod1)。
+一个网格模型只能对应一个材质，所以在导入阶段，网格模型将根据的不同功能的多边形模型划分为子网格。这些自动生成的附属模型名字后会以连续的数字命名。以使用三种不同材质的网格**wall_damaged** 为例：导入的网格名称为**wall_damaged** ，它三个子模型，分别命名为**wall_damaged.1**, **wall_damaged.2**, **wall_damaged.3**。
+
 
 {{% notice info %}}
-During mesh import, materials defined in geometry files are not created. You should create materials manually with the same name they are referenced from geometry files.
+在导入模型时，几何图形文件中定义的材质不会被同时创建。您应该手动创建与几何图形文件中名称对应的材质。
 {{% /notice %}}
 
-##### Physics shapes
+##### 物理形状
 
-You can export physics shapes just like regular meshes. The only difference between a mesh and a physics shape is that name of physics shapes begin with "bo_" prefix. You can also export analytical capsules and spheres as well.
+您可以像导出常规网格一样导出物理形状。网格和物理形状之间的唯一区别是物理形状的名称以 "bo_"开头。您也可以同时导出分析胶囊和球体。
 
-**Capsules**
+**胶囊**
 
-If name of a node begins with **"bo_capsule"** it will be imported as an analytical capsule shape. Sizes of this capsule is determined by following rules : 
+如果一个节点的名称以 **"bo_capsule"** 开头，它将作为一个分析性的胶囊形状被导入。这个胶囊的大小由以下规则决定。
 
-- Local XY axes assumed as the radial plane of capsule
-- Local Z axis assumed as the direction of capsule(height)
-- Scale of object in XY directions should be equal
+- 以局部XY轴采用胶囊的径向平面。
+- 局部Z轴采用为胶囊方向（高度）。
+- 物体在XY方向上的比例应该是相等的。
 
-Only orientation and extents of capsule nodes are used. Any content attached to them(like mesh) is ignored.
+只有胶囊节点的方向和外延会被使用。任何附加在它们上面的内容（如网格）都会被忽略。
 
-**Spheres**
+**球体**
 
-If name of a node begins with **"bo_sphere"** it will be imported as an analytical sphere shape. Sizes of this sphere is determined by the extents of the node. Center of the node will also be the center of the sphere shape.
-Only orientation and extents of sphere nodes are used. Any content attached to them(like mesh) is ignored.
+如果一个节点的名称以 **"bo_sphere"**开头，它将被导入为一个分析球体形状。这个球体的大小是由节点的外延决定的，节点的中心也是球体形状的中心。节点的中心也将是球体形状的中心。只有球体节点的方向和外延被使用。
+任何附加在它们上的内容（如网格）都会被忽略。
 
-**Composite Shapes**
+**复合形状**
 
-You can combine different shape types to create more complex shapes. To export a composite shape you must create a node whose name begins with **"bo_composite"**. You can append child nodes with different shape types to this node.
+您可以结合不同的形状类型来创建更复杂的形状。要导出一个复合形状，你必须创建一个名称以 **"bo_composite"** 开头的节点。你可以将不同形状类型的子节点附加到这个节点上。
+
 
 - bo_composite_building1
  - bo_capsule1
@@ -55,35 +57,33 @@ You can combine different shape types to create more complex shapes. To export a
  - bo_sphere
  - bo_building_walls
 
- This shape will be imported as a single asset with name **bo_composite_building1**.
+ 这个形状将作为一个单独的资产导入，名称为 **bo_composite_building1** 。
 
-##### Textures
+##### 纹理
 
-You can provide basic hints for your texture by following by following these rules:
+您可以通过以下规则为你的纹理提供基本提示。
+- 反射率纹理，以_d结尾
+- 普通纹理，以_n结尾
+- 镜面纹理，以_s结尾
+- 高度图纹理，以_h结尾
+尽管这些规则并不是强制性的，但它将帮助引擎在第一次导入时决定最佳的编译规则，并帮助编辑器的一些功能工作（例如，自动完成材料的正常纹理槽）。如果您的纹理不符合这些规则，您可以在以后更改导入设置。
 
-- Albedo textures ends with _d
-- Normal textures ends with _n
-- Specular textures ends with _s
-- Heightmap textures ends with _h
+##### 骨骼
 
-Despite these rules are not obligatory, it will help engine to decide best compilation rules during first import and help some features of editor to work(e.g. auto completing normal texture slot of material). If your textures do not follow them you can change import settings later though.
+大多数内部资产的组织方式是将骨架、网格和使用这些骨架的动画都存储在单独的文件中。所以我们遵循一些命名规则来正确建立这些文件之间的交叉引用（如果你也打算从不同的文件中导入骨骼、网格和动画的话）：
 
-##### Skeletons
-
-Most of in-house assets are organized so that skeletons, meshes and animations using these skeletons are stored in separate files. So we follow some naming rules to correctly establish cross-references between these files. If you are also planning to import skeletons, meshes and animations from different files :
-
-- Bone hierarchy of skeletons must match
-- Every bone node should have its name ending with a hardcoded bone number(e.g. _0, _1) to make sure skeletons originating from different files have their bone numbers match regardless of export process of your modelling software or exporting tool. There are these rules that each bone name must follow :
- - Appended bone indices must start from zero
- - Appended bone indices must not be greater than or equal to number of bones
- - Two bones can not have same bone index
+- 骨架的骨架层次结构必须匹配
+- 每一个骨骼节点的名称都应该以硬编码的骨骼编号结尾(如_0, _1)，以确保无论您的建模软件或导出工具的导出过程如何，来自不同文件的骨骼都有其骨骼编号。每个骨骼名称必须遵循以下规则。
+- 附加的骨骼指数必须从零开始。
+- 所附骨指数不得大于或等于骨数
+- 两个骨骼的骨指数不可能相同
 
 {{% notice info %}}
-If you want to export only skeleton related assets(e.g. skinned mesh or animation) but not the skeleton itself -which is the case if you have a file you imported your skeleton from and you regularly import new meshes for that skeleton from different files- you should append **_notused** to the name of skeleton to make engine automatically ignore it and import only other assets.
+如果你只想导出与骨架相关的资产（如蒙皮网格或动画），而非导出骨架本身——或者是你从一个文件中导入了骨架，而你又经常从不同的文件中导入该骨架的新网格，那么你应该在骨架的名字后面加上 **_notused** ，这样引擎便会自动忽略它，从而只导入其他资产。
 {{% /notice %}}
 
-Skeletons take their names from the root node of bone hierarchy in your geometry file. This is to let you name your skeletons something other than the name of root bone. If your root bone does not have a parent node, you can create a dummy node and make your root bone child of it. By renaming dummy node you will be able to rename your skeleton without affecting bone names.
+骨骼的名称来自几何文件中骨骼层次结构的根节点。这是为了让你给你的骨骼命名，而非根骨骼的名字。如果您的根骨骼没有父节点，您可以创建一个虚拟节点，并使您的根骨骼成为它的子节点。通过重命名虚拟节点，您将能在不影响骨骼名称的情况下重命名您的骨骼。
 
 {{% notice info %}}
-Some softwares automatically export animations with a predefined names(e.g. 3DS Max -> take_001). This will cause multiple skeleton animations to be imported with same name if you have more than one skeleton defined in your geometry file since engine interprets animation data defined for each skeleton as different assets. Because of this you will receive a **duplicate asset** warning. To avoid this it is best to export one skeleton per geometry file. You can also disable **animation import** from import settings of that file.
+有些软件会自动导出带有预定义名称的动画（如3DS Max -> take_001）。如果您在几何文件中定义了一个以上的骨骼，将会导致多个骨架动画以相同的名称被导入，因为引擎会将每个骨架定义的动画数据为不同的资产。因此，您将收到一个**duplicate asset**（重复的资产）警告。为了避免这种情况，最好是每个几何体文件导出一个骨架。您也可以在该文件的导入设置中禁用 **animation import** （动画导入）。
 {{% /notice %}}
