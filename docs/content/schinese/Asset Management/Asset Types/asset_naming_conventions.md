@@ -19,7 +19,7 @@ asset.fbx :
 - wall_damaged.lod1
 - wall_damaged.lod2
 
-该范例中，我们从 asset.fbx 文件中导入两个网格：wall_damaged, wall_damaged_v2。其中wall_damaged_v2有一个lod文件，而wall_damaged有两个lod文件。如果你的建模软件不支持用"."命名(如Maya)，你也可以用"_"代替". "来指定网格(如wall_damaged_v2_lod1)。
+该范例中，我们从 asset.fbx 文件中导入两个网格：wall_damaged, wall_damaged_v2。其中wall_damaged_v2有一个lod文件，而wall_damaged有两个lod文件。如果你的建模软件不支持用转义字符"\_"命名(如Maya)，您也可以用"_"代替". "来指定网格(如wall_damaged_v2_lod1)。
 一个网格模型只能对应一个材质，所以在导入阶段，网格模型将根据的不同功能的多边形模型划分为子网格。这些自动生成的附属模型名字后会以连续的数字命名。以使用三种不同材质的网格**wall_damaged** 为例：导入的网格名称为**wall_damaged** ，它三个子模型，分别命名为**wall_damaged.1**, **wall_damaged.2**, **wall_damaged.3**。
 
 
