@@ -7,7 +7,7 @@ parent = "bestpractices"
 +++
 
 
-##### Performance Requirements of Mount&Blade Bannerlord
+##### Performance Requirements of Mount & Blade II: Bannerlord
 - Singleplayer Scenes: Very High Config / 60 FPS / Gtx 1060.
 - Multiplayer Scenes: Very High Config / 60 FPS / Gtx 970.
 
@@ -31,4 +31,16 @@ The grass like flora that we use in our scenes has a limited viewing range. Also
 For modern GPUs, performance wise, polygon density per pixel is much more important than the total polygon count. In this case, the worst situation are meshes without LOD. This can be checked by switching into wireframe mode. Every triangle in the scene should contain a healthy amount of pixels inside, not the other way around. You should contact the ART team if you find a mesh without LOD’s.
 
 ##### Terrain LOD Multiplier and Vertex Density
-Always check your terrain vertex density. In many cases, the terrain resolution can be reduced without any noticeable change. Also, try not to use terrain LOD multiplier for terrain nodes. Having more nodes and only using terrain LOD multiplier in nodes with detailed curvature will increase your scene's performance.
+Always check your terrain vertex density. In many cases, the terrain resolution can be reduced without any noticeable change. Also, try not to use terrain LOD multiplier for terrain nodes. Having more nodes and only using terrain LOD multiplier in nodes with detailed curvature will increase your scene's performance. Terrain LOD multiplier should be set accordingly, preferably **not over 3**.
+
+##### Vertex / Meter Ratio
+Vertex / Meter ratio should be **at most 1.8**.
+
+##### Nodes & & Dimensions
+There should be **at least 10 nodes** in each dimension for better LOD management by the engine. Each dimension should be **no more than 1.6 km wide**. Beyond that, outer meshes can be used to give the feeling of a large landscape.
+
+##### Outer Terrain Nodes
+Outer terrain nodes that the player can't access, with respect to their complexity, should have a lower vertex density than the center ones.
+
+##### Terrain Flora Density
+Terrain flora density should in general **not exceed 60** apart from certain cases (low polycount flora).
