@@ -37,10 +37,10 @@ Always check your terrain vertex density. In many cases, the terrain resolution 
 Vertex / Meter ratio should be **at most 1.8**.
 
 ##### Nodes & & Dimensions
-There should be **at least 10 nodes** in each dimension for better LOD management by the engine. Each dimension should be **no more than 1.6 km wide**. Beyond that, outer meshes can be used to give the feeling of a large landscape.
+There should be **at least 10 nodes** in each dimension for better LOD management by the engine. Each dimension should be **no more than 1.6 km wide** (total width of the scene). Beyond that, outer meshes can be used to give the feeling of a large landscape.
 
 ##### Outer Terrain Nodes
 Outer terrain nodes that the player can't access, with respect to their complexity, should have a lower vertex density than the center ones.
 
 ##### Terrain Flora Density
-Terrain flora density should in general **not exceed 60** apart from certain cases (low polycount flora).
+Terrain flora density should in general **not exceed 60** apart from certain cases (low polycount flora, for example, flora_reed_X or flora_dry_plant_f). That value is recommended when no colony setting is used(radius=0, threshold=0). Colony system works by removing flora which reduces visible density.
