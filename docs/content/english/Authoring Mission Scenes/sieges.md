@@ -15,19 +15,18 @@ This list of siege-specific features will aid you when creating towns and castle
 * Add the tag “broken_child” to the broken wall, and add the tag “solid_child” to the solid wall.
 * Add two entities as child entities to the solid wall. First one for where defender troops will wait as attackers approach the castle, and second for where they should stand for defending position. These entities should have the tags “wait_pos” and “middle_pos'' respectively. 
 
-![](/img/siege_scenes/Show_middle_pos_and_wait_pos.png)
+![](/img/siege_scenes/Show_middle_pos_and_wait_pos.png =1200x)
 
 * For the broken wall, add three child entities. They should have the tags “wait_pos”, “middle_pos” and “attacker_wait_pos”. First two are the same as solid wall and attacker wait pos is where Attacker troops will wait (preferably behind covers) while other siege engines get into position.
+* WallSegment script
+    * Enter the side of the siegeable wall (it should be either left or right, middle is reserved for the gatehouse regardless of its position).
+    * Enter the navigation mesh ids you will use for that siegeable wall.
+    * Remake and id the navigation mesh accordingly.
+    * Make sure that new navigation mesh faces have correct levels.
 
-**WallSegment script**
-* Enter the side of the siegeable wall (it should be either left or right, middle is reserved for the gatehouse regardless of its position).
-* Enter the navigation mesh ids you will use for that siegeable wall.
-* Remake and id the navigation mesh accordingly.
-* Make sure that new navigation mesh faces have correct levels.
-
-![](/img/siege_scenes/Show_middle_pos_and_wait_pos.png)
-![](/img/siege_scenes/siegable_walls_1.png)
-![](/img/siege_scenes/siegable_walls_2.png)
+![](/img/siege_scenes/Show_middle_pos_and_wait_pos.png =1200x)
+![](/img/siege_scenes/siegable_walls_1.png =1200x)
+![](/img/siege_scenes/siegable_walls_2.png =1200x)
 
 * If you are not going to use under debris navmesh ids you can enter “-1” to corresponding ID’s on the wall segment script.
 * In this example when the wall is not broken, 328 will connect to 342, 331 will connect to 391, 341 will be active, and 351 will be active.
@@ -41,33 +40,31 @@ This list of siege-specific features will aid you when creating towns and castle
 
 * Place the outer and inner gates.
 * Outer gate should have an “outer_gate” tag, and the inner gate should have an “inner_gate” tag.
-
-**CastleGate script**
-* Enter the navigation mesh id you will use for the gate.
-* Make the side variable “middle”.
-* Change the HP of the gate according to its position and level (For outer gates HP’s should be: 12000 on level 1, 15000 on level 2 and 18000 on level 3. Inner gates HP’s should be 1000 for all levels.)
-* Remake and id the navigation mesh accordingly.
-* Make sure that new navigation mesh faces have correct levels.
-
+* CastleGate script
+    * Enter the navigation mesh id you will use for the gate.
+    * Make the side variable “middle”.
+    * Change the HP of the gate according to its position and level (For outer gates HP’s should be: 12000 on level 1, 15000 on level 2 and 18000 on level 3. Inner gates HP’s should be 1000 for all levels.)
+    * Remake and id the navigation mesh accordingly.
+    * Make sure that new navigation mesh faces have correct levels.
 * Adjust the position of “middle_position” of the outer gate. It should be really close to the inner side of the inner gate.
 * You can turn off the navmeshes, for open state of the gate using [navigationmeshidtodisableonopen] navmesh id.
 
-![](/img/siege_scenes/navigationmeshidtodisableonopen.png)
+![](/img/siege_scenes/navigationmeshidtodisableonopen.png =1200x)
 
-**Related prefabs**
-* Aserai_castle_gate_inner_l1
-* Aserai_castle_gate_outer_l1
-* Battania_castle_gate_inner_l3
-* Battania_castle_gate_outer_l3
-* Empire_castle_gate_inner_l2
-* Empire_castle_gate_inner_l3
-* Empire_castle_gate_outer_l2
-* Empire_castle_gate_outer_l3
-* European_castle_gate_outer_l1
-* European_castle_gate_outer_l2
-* Khuzait_castle_gate_outer_l1
-* Sturgia_castle_gate_inner_l3
-* Sturgia_castle_gate_outer_l3
+* Related prefabs
+    * Aserai_castle_gate_inner_l1
+    * Aserai_castle_gate_outer_l1
+    * Battania_castle_gate_inner_l3
+    * Battania_castle_gate_outer_l3
+    * Empire_castle_gate_inner_l2
+    * Empire_castle_gate_inner_l3
+    * Empire_castle_gate_outer_l2
+    * Empire_castle_gate_outer_l3
+    * European_castle_gate_outer_l1
+    * European_castle_gate_outer_l2
+    * Khuzait_castle_gate_outer_l1
+    * Sturgia_castle_gate_inner_l3
+    * Sturgia_castle_gate_outer_l3
 
 #### Deployment Points
 
@@ -76,13 +73,13 @@ This list of siege-specific features will aid you when creating towns and castle
 * There needs to be 4 of those for the defender siege machines. 4 for the attacker siege machines. 2 for each siege tower. And one for the battering ram.
 * The siege machines can be connected to these deployment points, by either placing them in their radius, or by tags.
 
-![](/img/siege_scenes/Deploymentpoint.png)
+![](/img/siege_scenes/Deploymentpoint.png =1200x)
 
-**Best practices**
-* Make sure the radiuses of the Deployment Points don't overlap.
-* You'll need to have different Deployment Points for each layer, for example:
-    * Since the walls change with each layer, the defender siege machines naturally have to be in different positions on top of them.
-	* Since the gate house position changes, the battering ram needs to take a different path. The same goes for siege towers.
+* Best practices
+    * Make sure the radiuses of the Deployment Points don't overlap.
+    * You'll need to have different Deployment Points for each layer, for example:
+        * Since the walls change with each layer, the defender siege machines naturally have to be in different positions on top of them.
+    	* Since the gate house position changes, the battering ram needs to take a different path. The same goes for siege towers.
 
 #### Secondary Siege Machines
 
@@ -93,12 +90,12 @@ This list of siege-specific features will aid you when creating towns and castle
 * Both siege machines and deployment points have a “side” variable, make sure those variables are correct.
 * No siege machine should be under control of more than one deployment point.
 
-**Related prefabs**
-* Ballista_a_spawner
-* Ballista_b_spawner
-* Mangonel_a_spawner
-* Mangonel_b_spawner
-* trebuchet_a_spawner
+*Related prefabs
+    * Ballista_a_spawner
+    * Ballista_b_spawner
+    * Mangonel_a_spawner
+    * Mangonel_b_spawner
+    * trebuchet_a_spawner
 
 #### Siege Tower
 
@@ -108,38 +105,36 @@ This list of siege-specific features will aid you when creating towns and castle
 * Adjust the angle of the deployable exit ramp of the either by selecting the ramp and rotating it or using the “RampRotationDegree” parameter within the “SiegeTowerSpawner” script 
 * If your exit ramp has a large slope angle either upwards or downwards, make sure that the navigation mesh prefab fits the ramp, otherwise make one.
 * <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path for the siege tower</a>, using the path tool.
-
-**SiegeTowerSpawner script**
-* Enter the path name.
-* Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The siege tower will search for that tag and then search for its child entities to direct AI troops accordingly.
-* Enter the side tag.
-* Once the tower is connected to its path, place the deployment point at the beginning of the path in connection to the siege tower.
-
+* SiegeTowerSpawner script
+    * Enter the path name.
+    * Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The siege tower will search for that tag and then search for its child entities to direct AI troops accordingly.
+    * Enter the side tag.
+    * Once the tower is connected to its path, place the deployment point at the beginning of the path in connection to the siege tower.
 * You can mark the merlons on the way of the siege tower with the tag `tower_merlon`. These merlons will be removed once a siege tower is deployed to the scene. Make sure that they have a “DestructableComponent” script and “CanBeDestroyedInitially” tag is selected.
 * Place a “_barrier_ai_04x04m” prefab on the wall where the siege tower will approach. Give the barrier a unique tag like “tower_barrier_lvl3”. Now insert this tag within the “BarrierTagToRemove” parameter under the SiegeTowerSpawner script. The tagged barrier will be removed once the ramp of the siege tower is open.
 
-**Related prefabs**
-* Siege_tower_5m_spawner
-* Siege_tower_9m_spawner
-* siege_tower_12m_spawner
+*Related prefabs
+    * Siege_tower_5m_spawner
+    * Siege_tower_9m_spawner
+    * siege_tower_12m_spawner
 
 
 #### Battering Ram
 
-*Battering ram is the prefab that supports the situation when siegers build a battering ram in the campaign. The battering ram will be connected to the `side tag` and will damage the outer gate once it reaches the gates and troops swing the ram.*
+*Battering ram is the prefab that supports the situation when siegers build a battering ram in the campaign. The battering ram will be connected to the side tag and will damage the outer gate once it reaches the gates and troops swing the ram.*
 
-* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path using the path tool</a>. The `crash` indicator on the ghost entity of the battering ram prefab should make contact with the gate to match animations and visuals.
+* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path using the path tool</a>. The crash indicator on the ghost entity of the battering ram prefab should make contact with the gate to match animations and visuals.
 
-![](/img/siege_scenes/crashindicator.png)
+![](/img/siege_scenes/crashindicator.png =1200x)
 
-**BatteringRamSpawner script**
-* Enter Side Tag 
-* GateTag: outer_gate
-* Enter the path name to the script.
-* Once the battering ram is connected to its path, place the deployment point at the beginning of the path in connection to the battering ram.
+*BatteringRamSpawner script
+    * Enter Side Tag 
+    * GateTag: outer_gate
+    * Enter the path name to the script.
+    * Once the battering ram is connected to its path, place the deployment point at the beginning of the path in connection to the battering ram.
 
-**Related prefabs**
-* Batteringram_a_spawner
+*Related prefabs
+    * Batteringram_a_spawner
 
 #### Ditch Fillers
 
@@ -155,7 +150,7 @@ This list of siege-specific features will aid you when creating towns and castle
 * Make sure new navigation mesh faces have correct levels.
 
 ![](/img/siege_scenes/Ditchfiller.png)
-![](/img/siege_scenes/Ditchfiller_numbers.png)
+![](/img/siege_scenes/Ditchfiller_numbers.png =1200x)
 
 * In this example, when there is no ditch filler, 423, 426, and 424 will be deactivated. 422 and 433 will stay connected 427 will be active, 432 and 425 will be connected.
 * When there is a ditch filler, 422 will disconnect from 433 and connect to 423, 426 will be active, 425 will be disconnected from 432 and connect to 424, and 427 will be deactivated.
@@ -165,67 +160,64 @@ This list of siege-specific features will aid you when creating towns and castle
 *Siege ladders are deployed by default to both siegeable walls unless there is a siege tower or a breach.*
 
 * Choose the correct size of the ladder spawner, never resize the ladder spawners height.
-
-**SiegeLadderSpawner script**
-* Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The ladder will search for that tag and then search for its child entities to direct AI troops accordingly.
-* Enter the id of the navigation mesh you will use.
-* Enter the SideTag.
-* "merlon_solid_left" or "merlon_solid_right" tag have to add both ladder merlons according to walls right or left position. These tags are added to make sure tagged merlons do not break and cause physics problems with AI troops movements.
-
+* SiegeLadderSpawner script
+    * Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The ladder will search for that tag and then search for its child entities to direct AI troops accordingly.
+    * Enter the id of the navigation mesh you will use.
+    * Enter the SideTag.
+    * "merlon_solid_left" or "merlon_solid_right" tag have to add both ladder merlons according to walls right or left position. These tags are added to make sure tagged merlons do not break and cause physics problems with AI troops movements.
 * Remake and id the navmesh accordingly.
 * Nav mesh face on the siege ladder should be one directional towards the wall.
 
-![](/img/siege_scenes/directionalladdernavmesh.png)
+![](/img/siege_scenes/directionalladdernavmesh.png =1200x)
 
 * Adjust the standing and fork holder positions using the “UpperStateRotationDegree” and “DownStateRotationDegree” to match the terrain and the walls.
 * Place a “_barrier_ai_04x04m” prefab on the wall where the ladder will land. Give the barrier a unique tag like “left_ladder_barrier_a”. Now insert this tag to the ladder's “BarrierTagToRemove” parameter. The tagged barrier will be removed once the siege ladder is lifted up to the walls.
 
-**Related prefabs**
-* Siege_ladder_6m_spawner
-* Siege_ladder_7m_spawner
-* Siege_ladder_8m_spawner
-* Siege_ladder_11m_spawner
-* Siege_ladder_14m_spawner
+* Related prefabs
+    * Siege_ladder_6m_spawner
+    * Siege_ladder_7m_spawner
+    * Siege_ladder_8m_spawner
+    * Siege_ladder_11m_spawner
+    * Siege_ladder_14m_spawner
 
 #### Archer Positions
 
-* Archer positions are AI direction locations with which scene designers can define locations where archers can shoot from. There are 2 types of archer positions.*
+*Archer positions are AI direction locations with which scene designers can define locations where archers can shoot from. There are 2 types of archer positions.*
 
-**Big archer positions**
-* Positions used by archer formations.
-* With prefab names “defender_archer_position” and “attacker_archer_position”.
-* They have the tags “archer_position” and “archer_position_attacker”.
+* Big archer positions
+    * Positions used by archer formations.
+    * With prefab names “defender_archer_position” and “attacker_archer_position”.
+    * They have the tags “archer_position” and “archer_position_attacker”.
 
-**Small archer positions**
-* Positions used by archer agents.
-* With prefab names “strategic_archer_point” and “strategic_attacker_archer_position”.
-* They have the script “strategicarea”. The script has variables for:
-    * Attacker or defender side.
-    * Range (an archer position should be in their range for them to be used). There must be a big archer position inside this range for the small archer position to be active. The default range is 40m for defender and 60m for attacker.
-    * Depth and width: Both represent the size of the area usable by troops. 1x1 is suitable for one troop in a 1m x 1m area. 4x2 is suitable for 8 troops in a 4m x 2m area.
+* Small archer positions
+    * Positions used by archer agents.
+    * With prefab names “strategic_archer_point” and “strategic_attacker_archer_position”.
+    * They have the script “strategicarea”. The script has variables for:
+        * Attacker or defender side.
+        * Range (an archer position should be in their range for them to be used). There must be a big archer position inside this range for the small archer position to be active. The default range is 40m for defender and 60m for attacker.
+        * Depth and width: Both represent the size of the area usable by troops. 1x1 is suitable for one troop in a 1m x 1m area. 4x2 is suitable for 8 troops in a 4m x 2m area.
 
-**Related prefabs**
-* Defender_archer_position
-* Attacker_archer_position
-* Strategic_archer_point
-* strategic_attacker_archer_position
+* Related prefabs
+    * Defender_archer_position
+    * Attacker_archer_position
+    * Strategic_archer_point
+    * strategic_attacker_archer_position
 
 #### Deployment Boundaries
 
 *We place boundary entities to the scene to specify where attackers and defenders can deploy their troops. They work pretty much like soft borders.*
 
-All boundary entities should have these 3 tags:
-* walk_area_vertex
-* defender or attacker
-* deployment_castle_boundary_[insert number]
-
+* All boundary entities should have these 3 tags:
+    * walk_area_vertex
+    * defender or attacker
+    * deployment_castle_boundary_[insert number]
 * deployment_castle_boundary_[insert number] tag with the same number in [insert number] are connected to each other to create a convex area. For example 5 entities with deployment_castle_boundary_3 tag will create a pentagon, defining a border area.
 * You can use prefabs “attacker_boundry“, “defender_boundry“  and edit them to your needs.
 * If you add an “out” tag to one of those boundary sets it acts like a negative space, subtracting from the deployment zone instead of adding to it. With this method you can create concave deployment zones.
 
-**Related prefabs**
-* Attacker_boundry
-* Defender_boundry
+* Related prefabs
+    * Attacker_boundry
+    * Defender_boundry
 
 #### Camera
 
@@ -250,18 +242,18 @@ All boundary entities should have these 3 tags:
 * Defenders should run to the keep.
 * To be active, the Flee lines must be covered by navigation mesh.
 
-**Related prefabs**
-* Flee_line_attacker
-* Flee_line_defender
+* Related prefabs
+    * Flee_line_attacker
+    * Flee_line_defender
 
 #### Tactical Position Script
 
-* The script [tacticalposition] enables us to modify the width of various AI positions.*
+*The script [tacticalposition] enables us to modify the width of various AI positions.*
 
 * Once added to an entity you can change many parameters within it. For siege purposes, the only important one is _width. Value entered here is equal to the width of the formation in meters.
 * You can use this script in [wait_pos], [middle_pos], [attacker_wait_pos], archer positions and siege ladder wait positions.
 
-![](/img/siege_scenes/tactical_position.png)
+![](/img/siege_scenes/tactical_position.png =1200x)
 
 #### AI Barrier
 
@@ -284,7 +276,7 @@ All boundary entities should have these 3 tags:
 * You can have multiple throw_pos per volume_box. Just duplicate the throw_pos entity.
 * You connect throw_pos entities to a volume_box by adding a tag to the volume_box and entering that tag name to the script of throw_pos.
 
-![](/img/siege_scenes/stone_throw.png)
+![](/img/siege_scenes/stone_throw.png =1200x)
 
 #### Using Throwable rock piles and Archer position (and pretty much everything else) under Broken and Solid walls
 
@@ -293,11 +285,11 @@ All boundary entities should have these 3 tags:
 
 | Example of Solid Walls |
 | ------ |
-| ![](/img/siege_scenes/solid.png) |
+| ![](/img/siege_scenes/solid.png =1200x) |
 
 | Example of Broken Walls |
 | ------ |
-| ![](/img/siege_scenes/broken.png) |
+| ![](/img/siege_scenes/broken.png =1200x) |
 
 #### Merlons and other Destructible components
 
