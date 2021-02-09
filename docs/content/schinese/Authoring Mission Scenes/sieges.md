@@ -15,7 +15,7 @@ This list of siege-specific features will aid you when creating towns and castle
 * Add the tag “broken_child” to the broken wall, and add the tag “solid_child” to the solid wall.
 * Add two entities as child entities to the solid wall. First one for where defender troops will wait as attackers approach the castle, and second for where they should stand for defending position. These entities should have the tags “wait_pos” and “middle_pos'' respectively. 
 
-![](/img/siege_scenes/Show_middle_pos_and_wait_pos.png =1200x)
+<img src="/img/siege_scenes/Show_middle_pos_and_wait_pos.png" width="1200px" />
 
 * For the broken wall, add three child entities. They should have the tags “wait_pos”, “middle_pos” and “attacker_wait_pos”. First two are the same as solid wall and attacker wait pos is where Attacker troops will wait (preferably behind covers) while other siege engines get into position.
 * WallSegment script
@@ -24,9 +24,9 @@ This list of siege-specific features will aid you when creating towns and castle
     * Remake and id the navigation mesh accordingly.
     * Make sure that new navigation mesh faces have correct levels.
 
-![](/img/siege_scenes/Show_middle_pos_and_wait_pos.png =1200x)
-![](/img/siege_scenes/siegable_walls_1.png =1200x)
-![](/img/siege_scenes/siegable_walls_2.png =1200x)
+<img src="/img/siege_scenes/Show_middle_pos_and_wait_pos.png" width="1200px" />
+<img src="/img/siege_scenes/siegable_walls_1.png" width="1200px" />
+<img src="/img/siege_scenes/siegable_walls_2.png" width="1200px" />
 
 * If you are not going to use under debris navmesh ids you can enter “-1” to corresponding ID’s on the wall segment script.
 * In this example when the wall is not broken, 328 will connect to 342, 331 will connect to 391, 341 will be active, and 351 will be active.
@@ -49,7 +49,7 @@ This list of siege-specific features will aid you when creating towns and castle
 * Adjust the position of “middle_position” of the outer gate. It should be really close to the inner side of the inner gate.
 * You can turn off the navmeshes, for open state of the gate using [navigationmeshidtodisableonopen] navmesh id.
 
-![](/img/siege_scenes/navigationmeshidtodisableonopen.png =1200x)
+<img src="/img/siege_scenes/navigationmeshidtodisableonopen.png" width="1200px" />
 
 * Related prefabs
     * Aserai_castle_gate_inner_l1
@@ -73,7 +73,7 @@ This list of siege-specific features will aid you when creating towns and castle
 * There needs to be 4 of those for the defender siege machines. 4 for the attacker siege machines. 2 for each siege tower. And one for the battering ram.
 * The siege machines can be connected to these deployment points, by either placing them in their radius, or by tags.
 
-![](/img/siege_scenes/Deploymentpoint.png =1200x)
+<img src="/img/siege_scenes/Deploymentpoint.png" width="1200px" />
 
 * Best practices
     * Make sure the radiuses of the Deployment Points don't overlap.
@@ -125,7 +125,7 @@ This list of siege-specific features will aid you when creating towns and castle
 
 * <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path using the path tool</a>. The crash indicator on the ghost entity of the battering ram prefab should make contact with the gate to match animations and visuals.
 
-![](/img/siege_scenes/crashindicator.png =1200x)
+<img src="/img/siege_scenes/crashindicator.png" width="1200px" />
 
 *BatteringRamSpawner script
     * Enter Side Tag 
@@ -149,8 +149,8 @@ This list of siege-specific features will aid you when creating towns and castle
 * Remake and id the navigation mesh accordingly.
 * Make sure new navigation mesh faces have correct levels.
 
-![](/img/siege_scenes/Ditchfiller.png)
-![](/img/siege_scenes/Ditchfiller_numbers.png =1200x)
+<img src="/img/siege_scenes/Ditchfiller.png" />
+<img src="/img/siege_scenes/Ditchfiller_numbers.png" width="1200px" />
 
 * In this example, when there is no ditch filler, 423, 426, and 424 will be deactivated. 422 and 433 will stay connected 427 will be active, 432 and 425 will be connected.
 * When there is a ditch filler, 422 will disconnect from 433 and connect to 423, 426 will be active, 425 will be disconnected from 432 and connect to 424, and 427 will be deactivated.
@@ -168,7 +168,7 @@ This list of siege-specific features will aid you when creating towns and castle
 * Remake and id the navmesh accordingly.
 * Nav mesh face on the siege ladder should be one directional towards the wall.
 
-![](/img/siege_scenes/directionalladdernavmesh.png =1200x)
+<img src="/img/siege_scenes/directionalladdernavmesh.png" width="1200px" />
 
 * Adjust the standing and fork holder positions using the “UpperStateRotationDegree” and “DownStateRotationDegree” to match the terrain and the walls.
 * Place a “_barrier_ai_04x04m” prefab on the wall where the ladder will land. Give the barrier a unique tag like “left_ladder_barrier_a”. Now insert this tag to the ladder's “BarrierTagToRemove” parameter. The tagged barrier will be removed once the siege ladder is lifted up to the walls.
@@ -253,7 +253,7 @@ This list of siege-specific features will aid you when creating towns and castle
 * Once added to an entity you can change many parameters within it. For siege purposes, the only important one is _width. Value entered here is equal to the width of the formation in meters.
 * You can use this script in [wait_pos], [middle_pos], [attacker_wait_pos], archer positions and siege ladder wait positions.
 
-![](/img/siege_scenes/tactical_position.png =1200x)
+<img src="/img/siege_scenes/tactical_position.png" width="1200px" />
 
 #### AI Barrier
 
@@ -276,7 +276,7 @@ This list of siege-specific features will aid you when creating towns and castle
 * You can have multiple throw_pos per volume_box. Just duplicate the throw_pos entity.
 * You connect throw_pos entities to a volume_box by adding a tag to the volume_box and entering that tag name to the script of throw_pos.
 
-![](/img/siege_scenes/stone_throw.png =1200x)
+<img src="/img/siege_scenes/stone_throw.png" width="1200px" />
 
 #### Using Throwable rock piles and Archer position (and pretty much everything else) under Broken and Solid walls
 
@@ -285,11 +285,11 @@ This list of siege-specific features will aid you when creating towns and castle
 
 | Example of Solid Walls |
 | ------ |
-| ![](/img/siege_scenes/solid.png =1200x) |
+| <img src="/img/siege_scenes/solid.png" width="1200px" /> |
 
 | Example of Broken Walls |
 | ------ |
-| ![](/img/siege_scenes/broken.png =1200x) |
+| <img src="/img/siege_scenes/broken.png" width="1200px" /> |
 
 #### Merlons and other Destructible components
 

@@ -1,5 +1,5 @@
 +++
-title = "Destructible Component"
+title = "可破坏组件"
 
 [menu.main]
 identifier = "bannerlord_destructible_component"
@@ -7,97 +7,97 @@ parent = "bannerlord_scenes"
 +++
 
 
-The destruction system which gives artists a lot more freedom is explained below.
+破坏系统为mod制作者们提供了下列可选项。
 
-## Characteristics
+## 它是什么？
 
-It is a ScriptComponent which can be applied to any entity in a scene, as long as that entity has a collision body.
+DestructibleComponent是一个ScriptComponent，可以应用于场景中的任何实体，只要该实体具有碰撞体即可。
 
-When not given any information, the script will just make the entity disappear after being destroyed. It will also re-appear when the mission resets.
+如果不提供任何信息，脚本将使实体在被破坏后消失。场景重置后，它也会重新出现。
 
-The script can be used to destroy entities in one or more states, with optional sound, particles and dynamic objects spawning in each state.
+该脚本可用于销毁处于一种或多种状态的实体，并在每种状态下生成可选的声音，粒子和动态对象。
 
-Any existing prefab that has a DestructibleComponent script (Siege towers, gates, ballistas, ..) will continue to work even when you remove that script. It will only no longer be destructible.
+如果删除了该脚本，任何具有DestructibleComponent脚本的现有预制件（攻城塔，大门，投石机等）将继续工作。它将不再是可破坏的。
 
-One entity can have multiple DestructibleComponent scripts. E.g. the battering ram is destructible, but it also has individual rooftiles which can be destroyed too. Any damage that is applied to a child will also be applied to the parent(s).
+一个实体可以有多个DestructibleComponent脚本。例如，撞锤是可破坏的，但它的顶棚也可以被单独摧毁。对子级施加的任何损坏也将应用于它的父级（可能是多层父级）。
 
-Destroyed prefabs can always be tweaked and improved later without breaking any scenes, because they are not part of the intact entity (They are spawned at runtime).
+始终可以调整和改进被销毁的预制件，而不必破坏任何场景，因为它们不是完整实体的一部分（它们是在运行时生成的）。
 
-| Example Script of Siege Tower |
+| 攻城塔脚本范例 |
 | ------ |
 | ![](/img/destructible_component/Script_Overview.png) |
-| **DestructionStates**, can be one or more prefabs. Seperated by "," (comma).
-| **DestroyedByStoneOnly**, True means that only projectiles from mangonels or trebuchets can damage this entity. False means anything can damage this entity.
-| **CanBeDestroyedInititally**, defines if this entity can be destroyed already when loading the scene. This is controlled from the campaign map based on a destruction percentage from bombardements. This is generally only true on wall merlons. But it can also be used on aesthetic entities to make the scene look more destroyed from the start. Entities to be destroyed are selected randomly.
-| **MaxHitPoint** are the starting hitpoints from this entity. Every time the mission resets, the entity will also have its current hitpoints set back to the MaxHitPoints.
-| **ReferenceEntityTag** is an optional tag for when a DestructionState prefab has a different frame than its parent or to copy animation states. You can add an extra entity (under the entity with the DestructibleComponent script) with a correct frame and supply it with a reference tag, so that the spawned DestructionState prefab will use that frame. If there is no ReferenceEntity, the frame of the entity with the DestructibleComponent script will be used. Reference entity can also be used in special scenarios like a castlegate (opening/closing animations), to get the animation state from the reference entity and apply it to the newly spawned damaged entity.
-| **OriginalStateTag** is only required when you have multiple DestructionStates. Usually, when an entity is destroyed, we hide the entity which has the script component applied, and spawn a new entity from the DestructionState (without a parent). But for some entities (like gates), we do not want to hide the entire entity because it has to keep functioning as a gate until it is fully destroyed. Using the OriginalStateTag, we will only hide the entity which has this tag applied, and the rest of the hierarchy (particles, standing points, ..) will still be visible. Any DestructibleComponent that has more than one destructionState will spawn the damaged prefabs as child entities.
-| **HeavyHitParticlesTag** is a tag which can be applied to any child-entities that have a particle-system. These particles will burst once, when a certain amount of damage is taken in a single blow. This particle system is generally shared between all destruction states (It's not part of the entities that get hidden/spawned).
-| **HeavyHitParticlesThreshold** is the minimum damage that is required to be taken in a single blow, to trigger particles with HeavyHitParticlesTag tag.
+| **DestructionStates**, 可以是一个或多个预制件。以“,”（英文逗号）分隔。
+| **DestroyedByStoneOnly**, 如果为True，则表示只有来自mangonels或trebuchets(两种投石机)的弹丸才能损坏此实体。False表示任何东西都可能损坏此实体。
+| **CanBeDestroyedInititally**, 定义在加载场景时是否可以销毁此实体。这是根据从战役地图上控制的轰炸破坏百分比。这通常仅适用于城垛。但是，它也可以用于装饰实体，以使场景从一开始就显得饱受摧残。要销毁的实体是随机选择的。
+| **MaxHitPoint** 是此实体的起始耐久度。每次场景重置时，实体还将其当前的生命值设置回MaxHitPoints。
+| **ReferenceEntityTag** 是一个可选标记，用于DestructionState预制件的框架与其父级不同时，亦或用于复制动画状态。您可以添加一个具有正确框架的额外实体（在带有DestructibleComponent脚本的实体下），并为其提供参考标记，以便生成的DestructionState预制件将使用该框架。如果没有参考实体，将使用带有DestructibleComponent脚本的实体框架。参考实体还可以在特殊情况下使用，例如城堡门（打开/关闭的动画），以从参考实体获取动画状态并将其应用于新生成的被破坏实体。
+| **OriginalStateTag** 仅当您具有多个DestructionStates时才需要它。通常，当一个实体被销毁时，我们将隐藏应用了脚本组件的实体，并从DestructionState（不带父级）中生成一个新实体。但是对于某些实体（如门），我们不想隐藏整个实体，因为它必须保持其功能，直到其被完全破坏为止。使用OriginalStateTag，我们将只隐藏应用了此标签的实体，其余层次结构（粒子，射手站立点等）仍然可见。任何具有多个destroyationState的DestructibleComponent都会将被损坏的预制件作为子实体渲染。
+| **HeavyHitParticlesTag** 是可以应用于具有粒子系统的任何子实体的标签。当实体耐久在单次打击中达到一定程度，这些粒子将破裂一次。该粒子系统通常在所有破坏状态之间共享（它不属于隐藏/生成的实体的一部分）。
+| **HeavyHitParticlesThreshold** 是在单次打击中触发HeavyHitParticlesTag标签定义的粒子效果所需的最小耐久降低值。
 
-## Effects
+## 特效（Effects）
 
-Generally, we try to keep the spawned prefabs as small as possible for performance reasons, and also to avoid entity duplication.
-You have access to the following functionality to add effects:
+通常，出于性能考虑，我们尝试将生成的预制件保持尽可能小，并避免实体重复。
+您可以使用以下功能来添加效果：
 
-- On the damaged prefab, when spawned: All particle systems on every entity in the hierarchy, will automatically be bursted once.
-- On the damaged prefab, when spawned: All dynamic bodies on every entity in the hierarchy, will automatically receive the impulse from the last hit that destroyed the previous state.
-- On the damaged prefab, when spawned: All other meshes on every entity in the hierarchy, will remain in place if they have no dynamic body-flag.
-- Part of the entity hierarchy: Heavy hit particles have to be shared between all destruction states, and are played whenever the DestructibleComponent takes _HeavyHitParticlesThreshold_ damage.
-- You can play custom animations on DestructibleComponents that have a skeleton (e.g. castlegate being hit by battering ram). The animation progress will transfer to the newly spawned damaged entities.
-- You can add a script of type AmbientSoundEmitter on a damaged prefab and provide the sound event. It will automatically play when the entity is spawned.
-- Apart from using multiple states, you can also add multiple child entities with DestructibleComponents (e.g. battering ram rooftiles which are individually destructible). Keep in mind that any damage that is applied to a child DestructibleComponent is also applied to every parent in the hierarchy. Currently, we don't know the performance implications of having too many of these.
+- 在损坏的预制件上生成时：层次结构中每个实体上的所有粒子系统将自动爆发一次。
+- 在损坏的预制件上生成时：层次结构中每个实体上的所有动态实体，将自动从破坏前状态受到的最后一次碰撞中接收脉冲。
+- 在损坏的预制件上生成时：如果层次结构中每个实体上的所有其他网格都没有动态的body-flag，它们将保留在原位。
+- 实体层次结构的一部分：重击粒子必须在所有销毁状态之间共享，并且每当DestructibleComponent受到HeavyHitParticlesThreshold破坏时就触发。
+- 您可以在具有骨架的DestructibleComponents上播放自定义动画（例如，城堡门被击打的撞锤击中）。动画进度将转移到新生成的受损实体。
+- 您可以在损坏的预制件上添加AmbientSoundEmitter类型的脚本，并提供声音事件。产生实体时它将自动播放。
+- 除了使用多个状态外，您还可以添加带有DestructibleComponents的多个子实体（例如，可单独破坏的撞锤顶棚）。请记住，应用于子DestructibleComponent的任何损坏也将应用于层次结构中的每个父级。当前，我们尚不知道拥有太多子实体对性能的影响。
 
 {{% notice tip %}}
-Any hit from a weapon will already play the default impact particle effects and sounds based on the material type (wood, stone, ..), so don't go too crazy with extra effects.
+武器的任何打击都会根据材料类型（木材，石材，..）播放默认的碰撞粒子效果和声音，因此不要为获得额外效果而疯狂。
 {{% /notice %}}
 
 {{% notice warning %}}
-Any dynamic mesh that is flying around after spawning a damaged entity, is temporary and should have no physics collision with the player! They should not affect gameplay, because we don't synchronize these for players in multiplayer.
+渲染损坏的实体后飞来飞去的任何动态网格都是临时的，不应与玩家发生物理碰撞！它们不会影响游戏玩法，因为我们不会为多人游戏中的玩家同步这些游戏。
 {{% /notice %}}
 
-## Examples
+## 示例
 
-### Example 1: Wall with breakable merlons
+### 示例1：带有可破坏城垛（merlon）的城墙
 
-For walls, we can only destroy the merlons and nothing else. They can only be damaged by mangonels/trebuchets and they will only take one hit before being destroyed.
+对于城墙，我们只能摧毁城垛，而不能破坏其他东西。它们只能被mangonels/trebuchets两种投石器损坏，并且在被破坏前只能承受一击。
 
-| Hierarchy of WallSegment |
+| 单个墙段(WallSegment)的架构 |
 | ------ |
-| ![](/img/destructible_component/Wall_Hierarchy_Edited.png) This is what our scene hierarchy looks like for a single wall piece. European_castle_wall_a_l3 is an entity with script WallSegment. It does not care if it has destructible children or not. Every merlon is a different child-entity that has its own DestructibleComponent script. Once they are destroyed, they all spawn the same destroyed prefab. Every merlon has a debris_holder entity, which is an empty entity. It just hold a ReferenceEntityTag tag, and the correct frame to spawn the destroyed prefab from (Important because of mesh bending: Location and rotation may change compared to the parent). |
+| ![](/img/destructible_component/Wall_Hierarchy_Edited.png) 这就是单个墙段的场景层次结构。European_castle_wall_a_l3是带有脚本WallSegment的实体。它不在乎是否有可销毁的子级。每个城垛是一个不同的子实体，都有自己的DestructibleComponent脚本。一旦销毁它们，它们都会产生相同的销毁预制件。每个城垛都有一个debris_holder实体，它是一个空实体。它仅保留一个ReferenceEntityTag标签，并从中生成损坏的预制件的正确框架（由于网格弯曲，这一点很重要：与父对象相比，位置和旋转可能会发生变化）。 |
 
-| Script example of a single merlon |
+| 单个城垛的脚本示例 |
 | ------ |
-| ![](/img/destructible_component/Wall_Script.png) Every merlon has the exact same script. They will all spawn the "debris" prefab when destroyed. We decided to make them destroy after a single hit from a mangonel, so they have very low hitpoints. DestroyedByStoneOnly makes them ignore damage from all other weapons (arrows, swords, axes, ..). Because of CanBeDestroyedInititally, these merlons have a chance to already be broken when entering the mission. The merlons need a ReferenceEntity entity to determine the spawn frame for the broken prefabs. |
+| ![](/img/destructible_component/Wall_Script.png) 每个城垛都有完全相同的脚本。当它们被摧毁时，它们都会产生“碎片”预制件。我们决定让它们被mangonel攻击一次后立即销毁，因此它们的耐久度（HitPoint)非常低。DestroyedByStoneOnly使它们忽略所有其他武器（箭头，剑，斧头等）的伤害。由于“CanBeDestroyedInititally”，因此这些城垛可能在进入场景时就已经被破坏。人鱼需要一个ReferenceEntity实体来确定损坏的预制件的生成框架。 |
 
-**Origin of wall and merlon pieces**
+**城墙和城垛碎片的起源**
 
 |     |     |
 |-----|-----|
-![](/img/destructible_component/Wall_Origin_Merlon_Hierarchy.png) | ![](/img/destructible_component/Wall_Origin_Merlon.png) Each merlon is a unique mesh, which has its origin point at the bottom of the wall (same as the wall).
-![](/img/destructible_component/Wall_Origin_Debris_Hierarchy.png) | ![](/img/destructible_component/Wall_Origin_Debris.png) Every merlon shares the same destroyed prefab, which has a local origin. debris_holder has a ReferenceEntityTag.
-| ![](/img/destructible_component/Debris_Hierarchy.png) | ![](/img/destructible_component/Debris.png) Every child of the debris prefab is an entity with flag "dynamic" and has a collision body. When spawned, it will automatically receive the last impulse that the DestructibleComponent received when destroyed.
+![](/img/destructible_component/Wall_Origin_Merlon_Hierarchy.png) | ![](/img/destructible_component/Wall_Origin_Merlon.png) 每个城垛是一个唯一的网格，其起点在城墙的底部（与城墙基点重合）。
+![](/img/destructible_component/Wall_Origin_Debris_Hierarchy.png) | ![](/img/destructible_component/Wall_Origin_Debris.png) 每个城垛共享同一个被毁坏的预制件，但每个城垛都有自身的起源。debris_holder具有ReferenceEntityTag。
+| ![](/img/destructible_component/Debris_Hierarchy.png) | ![](/img/destructible_component/Debris.png) 碎片预制件的每个子对象都是带有"dynamic"的具有碰撞体的实体。生成时，它将自动接收DestructibleComponent销毁时收到的最后一个脉冲。
 
-### Example 2: Siege Barricade
+### 示例2：围城路障（Barricade）
 
-Siege barricades are very simple objects. They are static entities and their only function is to block incoming projectiles. However, they can be destroyed in multiple stages. Each stage looking more destroyed than the one before.
+围城路障是非常简单的对象。它们是静态实体，其唯一功能是阻止射入的弹药。但是，它们可以分多个阶段销毁。每个阶段看起来比以前的阶段更受破坏。
 
-| The different destruction states of a siege barricade |
+| 围城路障的不同破坏状态 |
 | ------ |
-| ![](/img/destructible_component/SiegeBarricade_States.png) Currently, the different states do not have any special particles or dynamic entities, but they can easily be added later on. Entities with the "dynamic" body flag, and particle systems will automatically trigger when spawned. |
+| ![](/img/destructible_component/SiegeBarricade_States.png) 当前，不同的状态没有任何特殊的粒子或动态实体，但是以后可以轻松添加它们。带有“dynamic”主体标记的实体和粒子系统在生成时会自动触发。 |
 
 {{% notice tip %}}
-Every stage of the destroyed barricade has its own unique collision body as well. This allows people to shoot arrows more easily through the later destructions, and also move through state_5.
+被破坏的路障的每个阶段都有自己独特的碰撞体。这使人们可以在路障被破坏的更严重时更轻松地射击，并可以通过设为状态state_5来移除。
 {{% /notice %}}
 
-| Hierarchy of siege barricade in scene | Siege Barricade script component |
+| 场景中的围城路障等级 | 围城路障脚本组件 |
 | -------- | ------- |
 | ![](/img/destructible_component/SiegeBarricade_Hierarchy_Edited.png) | ![](/img/destructible_component/SiegeBarricade_Script.png) |
 
-siege_barricade_a is an empty parent. It just holds the script. siege_barricade_a_state1 is the actual mesh + body and has the "original_state" tag. When the barricade takes enough damage, siege_barricade_a_state1 will be made invisible, the next damaged prefab will be spawned and added to siege_barricade_a as a child. This is important because the DestructibleComponent needs to be informed of hits, and it can only do that if it has a (visible) collision body on itself or on a child.
+siege_barricade_a是空父级。它只保存脚本。siege_barricade_a_state1是实际的网格+实体，并具有“ original_state”标签。当路障受到足够的伤害时，将使siege_barricade_a_state1不可见，生成下一个损坏的预制件并作为子级添加到siege_barricade_a中。这很重要，因为需要向DestructibleComponent告知命中情况，并且只有在其自身或孩子身上具有（可见）碰撞体的情况下，它才能这样做。
 
-the last state (state_5 in this case) will be spawned when the entity has 0 health (fully destroyed). The other ones will be used in between MaxHitPoints and 0.
+当实体的耐久度为0（完全销毁）时，将生成最后一个状态（在这种情况下为state_5）。其他的将在MaxHitPoints和0之间使用。
 
-When the mission is reset (Health is reset to MaxHitPoint), the original entity (entity with tag "original_state") will be made visible again.
+重置场景后（耐久度重置为MaxHitPoint），原始实体（带有标签“ original_state”的实体）将再次变为可见。
 
-Every DestructionState prefab has the same origin and rotation, so we don't have to use a ReferenceEntity.
+每个DestructionState预制件都具有相同的原点和旋转度，因此我们不必使用ReferenceEntity。
