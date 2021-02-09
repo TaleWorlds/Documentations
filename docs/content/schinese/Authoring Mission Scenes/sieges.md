@@ -99,9 +99,7 @@ ___
 * There should be 4 “Deployment Point” positions for defenders and 4 for attackers.
 * Both siege machines and deployment points have a “side” variable, make sure those variables are correct.
 * No siege machine should be under control of more than one deployment point.
-
-\
-
+<br><br>
 * **Related prefabs**
     * Ballista_a_spawner
     * Ballista_b_spawner
@@ -126,9 +124,7 @@ ___
     * Once the tower is connected to its path, place the deployment point at the beginning of the path in connection to the siege tower.
 * You can mark the merlons on the way of the siege tower with the tag `tower_merlon`. These merlons will be removed once a siege tower is deployed to the scene. Make sure that they have a “DestructableComponent” script and “CanBeDestroyedInitially” tag is selected.
 * Place a “_barrier_ai_04x04m” prefab on the wall where the siege tower will approach. Give the barrier a unique tag like “tower_barrier_lvl3”. Now insert this tag within the “BarrierTagToRemove” parameter under the SiegeTowerSpawner script. The tagged barrier will be removed once the ramp of the siege tower is open.
-
-\
-
+<br><br>
 * **Related prefabs**
     * Siege_tower_5m_spawner
     * Siege_tower_9m_spawner
@@ -149,9 +145,7 @@ ___
     * GateTag: outer_gate
     * Enter the path name to the script.
     * Once the battering ram is connected to its path, place the deployment point at the beginning of the path in connection to the battering ram.
-
-\	
-
+<br><br>
 * **Related prefabs**
     * Batteringram_a_spawner
 
@@ -196,9 +190,7 @@ ___
 
 * Adjust the standing and fork holder positions using the “UpperStateRotationDegree” and “DownStateRotationDegree” to match the terrain and the walls.
 * Place a “_barrier_ai_04x04m” prefab on the wall where the ladder will land. Give the barrier a unique tag like “left_ladder_barrier_a”. Now insert this tag to the ladder's “BarrierTagToRemove” parameter. The tagged barrier will be removed once the siege ladder is lifted up to the walls.
-
-\
-
+<br><br>
 * **Related prefabs**
     * Siege_ladder_6m_spawner
     * Siege_ladder_7m_spawner
@@ -216,9 +208,7 @@ ___
     * Positions used by archer formations.
     * With prefab names “defender_archer_position” and “attacker_archer_position”.
     * They have the tags “archer_position” and “archer_position_attacker”.
-
-\
-	
+<br><br>
 * **Small archer positions**
     * Positions used by archer agents.
     * With prefab names “strategic_archer_point” and “strategic_attacker_archer_position”.
@@ -226,9 +216,7 @@ ___
         * Attacker or defender side.
         * Range (an archer position should be in their range for them to be used). There must be a big archer position inside this range for the small archer position to be active. The default range is 40m for defender and 60m for attacker.
         * Depth and width: Both represent the size of the area usable by troops. 1x1 is suitable for one troop in a 1m x 1m area. 4x2 is suitable for 8 troops in a 4m x 2m area.
-
-\		
-		
+<br><br>	
 * **Related prefabs**
     * Defender_archer_position
     * Attacker_archer_position
@@ -248,9 +236,7 @@ ___
 * deployment_castle_boundary_[insert number] tag with the same number in [insert number] are connected to each other to create a convex area. For example 5 entities with deployment_castle_boundary_3 tag will create a pentagon, defining a border area.
 * You can use prefabs “attacker_boundry“, “defender_boundry“  and edit them to your needs.
 * If you add an “out” tag to one of those boundary sets it acts like a negative space, subtracting from the deployment zone instead of adding to it. With this method you can create concave deployment zones.
-
-\
-
+<br><br>
 * **Related prefabs**
     * Attacker_boundry
     * Defender_boundry
@@ -283,9 +269,7 @@ ___
 
 * Defenders should run to the keep.
 * To be active, the Flee lines must be covered by navigation mesh.
-
-\
-
+<br><br>
 * **Related prefabs**
     * Flee_line_attacker
     * Flee_line_defender
