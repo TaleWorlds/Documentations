@@ -1,148 +1,150 @@
 +++
-title = "Material Editor"
+title = "材质编辑器"
 description = ""
 weight = 1
 +++
 
-### Overview ###
+### 总览 ###
 <img src="/img/material_editor/overview.png" width="1280">
-Our proprietary game engine uses standard metallic PBR pipeline for material authoring. <br>
-New materials can easily be created after navigating to a folder, right click on empty space, and select <strong>Create > Material</strong>. <br>
-<br>
-Material editor can be opened by double clicking an existing material in the resource browser. <br>
+我们专有的游戏引擎使用标准的金属PBR管道进行材料创作。
+导航到文件夹后，右键单击空白处，然后选择 Create > Material，可以轻松创建新材料。
+
+可以通过双击资源浏览器中的现有材料来打开材料编辑器。
 <img src="/img/material_editor/create_new.png">
 
-### Inspector ###
-#### Shader ####
+### 查看器 ###
+#### 着色器(shader) ####
 <img src="/img/material_editor/shader.png">
-You can select apporopriate shader from this Shader Selection widget.  <br>
-There are a few mainly used shaders; most important ones are pbr_metallic and pbr_shading.
+您可以从此“着色器选择”小部件中选择适当的着色器。
+有几种常用的着色器。最重要的是pbr_metallic和pbr_shading两种。
 
 ##### pbr_shading #####
-This shader is heavily used and exists just because our engine did not use PBR shading pipeline in the early years of development, most content was not created for PBR pipeline, so this shader is created to support our already existing content and only used during the transition phase. <br>
-New content should not use this shader, instead you should use pbr_metallic.
+此着色器得到了广泛的使用，而原因仅在于我们的引擎在开发的早期没有使用PBR着色管道，大多数内容不是为PBR管道创建的，因此创建此着色器是为了支持我们已经存在的内容，并且仅在过渡期间使用。
+新内容不应使用此着色器，而应使用pbr_metallic。
 
 ##### pbr_metallic #####
-This is what you should use most of the time. This shader uses standard metallic PBR pipeline and inputs are compatible with most texture authoring softwares.<br>
-<strong>Inputs:</strong><br>
-Albedo and Normal: These are pretty standard, outputs of texture authoring softwares can directly be used.
-Specular: This texture uses its 4 channel for different purposes. Red channel contains Metallic information, Green channel contains Glossiness (inverse of Roughness), Blue channel contains Ambient Occlusion, and Alpha channel contains Translucency (for vegetation shaders only) <br>
+这是您大多数时候应该使用的。该着色器使用标准的金属PBR流水线，并且输入与大多数纹理创作软件兼容。
+
+**输入：**
+- Albedo and Normal: 通用标准，可以直接使用纹理编辑软件的输出
+- Specular: 此纹理将其4通道用于不同目的。红色通道包含金属信息，绿色通道包含光泽度（粗糙度的倒数），蓝色通道包含环境光遮挡，而Alpha通道包含半透明（仅适用于植被着色器）。
 
 ##### grass #####
-This shader is a derivative of pbr_metallic, and should only be used on grass meshes. Contains special effects like wind animation, sway animation, smooth LOD transition, color multiplication from terrain, etc. 
+此着色器是pbr_metallic的派生类，仅应在草网格上使用。包含特殊效果，例如风动画，摇摆动画，平滑的LOD过渡，来自地形的颜色乘法等。
 
 ##### flora_leaf #####
-This shader is a derivative of pbr_metallic, and should only be used on leaf parts of trees / bushes. Contains special effects like wind animation, sway animation, color multiplication from terrain, smooth LOD transition, translucency (Alpha channel of Specular texture), etc. 
+此着色器是pbr_metallic的派生类，仅应在树木/灌木丛的叶子部分使用。包含特殊效果，例如风动画，摇摆动画，从地形进行的颜色乘法，平滑的LOD过渡，半透明（镜面纹理的Alpha通道）等。
 
 ##### flora_bark #####
-This shader is a derivative of pbr_metallic, and should only be used on bark parts of trees / bushes. Contains special effects like wind animation, smooth LOD transition, etc.
+此着色器是pbr_metallic的派生类，仅应在树木/灌木丛的树皮部分使用。包含特殊效果，例如风动画，平滑的LOD过渡等。
 
-### Textures ###
+### 贴图Textures ###
 <img src="/img/material_editor/textures.png">
-This panel is used to set input textures of shaders. <br>
-Texture names are self explanatory but there are a few special cases.
+此面板用于设置着色器的输入纹理。
+纹理名称是不言自明的，但是有一些特殊情况。
 
 ##### Diffuse2Map #####
-This input is used internally by engine to create special effects / blendings like Shield Banner Paintings, Banner texture in this slot will only appear where Diffuse 1 Texture contains alpha.
- Usage of this texture really depends on the shader used.
+引擎内部使用此输入来创建特殊效果/混合，例如Shield Banner Paintings，此插槽中的Banner纹理仅出现在“Diffuse 1”纹理包含Alpha的位置。
+此纹理的使用确实取决于所使用的着色器。
 
 ##### DetailNormalMap #####
-This input is used to create micro imperfections and additional high frequency detail on top on regular normal mapping. Scale of this texture can be adjusted in <strong>Texture Settings</strong> panel
+此输入用于在常规法线贴图的顶部创建微瑕疵和其他高频细节。可以在**纹理设置**面板中调整此纹理的比例
 
 ##### HeightMap #####
-This input is used in both Parallax Occlusion Shading, and Displacement.
+此输入同时用于视差遮挡着色（Parallax Occlusion Shading）和位移贴图（Displacement）。
 
 ##### Decal(___)Map #####
-These inputs are used internally by engine to create skinned decals on entities (like blood and mud on agents). 
+这些输入由引擎内部使用，以在实体上创建蒙皮贴花（例如代理上的血液和泥浆）。
 
-### Texture Settings ###
+### 纹理设置 ###
 <img src="/img/material_editor/texture_settings.png">
-This setting can be used to adjust textures further for more variation and tweaking.
-Some settings are only used for some special shaders to pass custom parameter. 
+此设置可用于进一步调整纹理，以实现更多变化和微调。
+某些设置仅用于某些特殊的着色器以传递自定义参数。
 
 ##### Areamap Scale #####
-Used internally for parameter passing.
+用于内部参数传递。
 
-##### Specular Coef #####
-Metallic channel (Red channel of Specular texture) is multiplied by this value in shader.
+##### 镜面反射（Specular Coef） #####
+在着色器中，将金属通道（“镜面纹理”的红色通道）乘以该值。
 
-##### Gloss Coef #####
-Gloss channel (Green channel of Specular texture) is multiplied by this value in shader.
+##### 光泽度（Gloss Coef） #####
+光泽通道（镜面纹理的绿色通道）乘以着色器中的该值。
 
-##### Ambient Occlusion Coef #####
-AO channel (Blue channel of Specular texture) is multiplied by this value in shader.
+##### 环境光阻塞系数（Ambient Occlusion Coef） #####
+在着色器中，将AO通道（镜面纹理的蓝色通道）乘以该值。
 
-##### Normal Depth #####
-Normal textures X and Y channels are multiplied by this value. If you set a value close to Zero, surface will appear more flat since X and Y values will be close to zero and only Z direction is contributed to normal mapping.
+##### 法向深度（Normal Depth） #####
+法线纹理X和Y通道乘以这个值。如果您设置一个接近零的值，表面会显得更平坦，因为X和Y的值会接近零，只有Z方向会贡献给法线贴图。
 
-##### Detail Normal Scale #####
-This parameters sets how many times the detail textures should tile. Higher values increases frequency.
+##### 细节正常比例（Detail Normal Scale） #####
+此参数设置细节纹理应平铺多少次。较高的值会增加频率。
 
-##### Parallax Mode #####
-You can select displacement method to use for this material. Options are, Parallax or Displacement. Both require a heightmap texture. Parallax uses Parallax Occlusion Mapping in shader, Displacement uses hardware tesselation.
+##### 视差模式（Parallax Mode） #####
+您可以选择用于该材料的位移方法。选项为视差或位移。两者都需要一个高度图(Heightmap)纹理。视差在着色器中使用视差遮挡映射，位移使用硬件镶嵌。
 
-##### Parallax Amount #####
-Intensity of displacement effect.
+##### 视差量（Parallax Amount） #####
+位移效应的强度。
 
-##### Parallax Offset #####
-Sets the middle value to a desired height. (Value of 0.5 in heightmap).
+##### 视差偏移（Parallax Offset） #####
+将中间值设置为所需的高度。（高度图中值为0.5）。
 
-### Material Shader Flags ###
+### 材质着色器标记（Material Shader Flags） ###
 <img src="/img/material_editor/material_flags.png">
-You can enable and disable some compile time conditionals in shaders to enable/disable some effects. These are compile time flags and the Material shader will be compiled with these flags. <br>
-Some important onces are: <br>
+您可以在着色器中启用和禁用某些编译时条件，以启用/禁用某些效果。这些是编译时标志，并且材质着色器将使用这些标志进行编译。
+比较重要的一些有：
 
 ##### use_detailnormalmap #####
-This flag should be enabled to utilize Detail Normal Map feature.
+应启用此标志以利用明细法线贴图功能。
 
 ##### alpha_test #####
-Diffuse 1 textures alpha values are used as a cut-out texture. Alpha threshold can be specified in <strong>Transparency</strong> panel.
+Diffuse 1纹理的alpha值用作切出纹理。可以在“Transparency”面板中指定Alpha阈值。
 
 ##### use_specular #####
-This flag should be enabled in all cases. It is only here for lagecy reasons.
+在所有情况下均应启用此标志。这只是出于荒谬的原因。
 
 ##### use_procedural_wind_animation #####
-Can be enabled to create a very simple and cheap, sine wave wind effect. Mostly used for tents / flags. (Should not be mistaken with cloth physics feature).
+可以启用以创建非常简单且便宜的正弦波式风效果。主要用于帐篷/旗帜。（不要与布料的物理特性混淆）
 
 ##### self_illumination #####
-Enables self illumination. Illumination texture should be specified in Diffuse 2. Brightness parameters can be adjusted in Vector Arguments panel.
+启用自发光。照明纹理应在Diffuse 2中指定。亮度参数可以在Vector Arguments面板中调整。
 
 ##### use_specular_from_diffuse #####
-Never ever use this. It is only used in pbr pipeline transitioning phase and only here for legacy reasons. Simply grayscales the diffuse texture, and uses it as specular texture.
+永远不要使用这个。它仅用于pbr管道转换阶段，仅出于传统原因仅在此使用。只需对漫反射纹理进行灰度处理，然后将其用作镜面反射纹理。
 
 ##### use_double_colormap_with_mask_texture #####
-Used internally to create team color effect in clothing. A special texture is created to specify which parts of clothing should be affected by team colors. A simple Red / green texture for primary and secondary colors is specified in Diffuse 2 texture. Primary and Secondary colors are set by gameplay code as Factor Colors.
+在内部用于在服装中创建团队色彩效果。将创建特殊的纹理以指定衣服的哪些部分应受团队颜色的影响。在“Diffuse 2”纹理中指定了用于原色和辅助颜色的简单红色/绿色纹理。通过游戏代码将原色和副色设置为“颜色因子”。
 
-### Transparency ###
+### 透明度（Transparency） ###
 <img src="/img/material_editor/transparency.png">
-Alpha blend mode and Alpha Test threshold values can be specified here. <br>
-Multi Pass Alpha feature can also be enabled here. This technique renders the mesh twice with both alpha test and alpha blend to create bulky but smooth looking alpha testes meshes. (Alpha test in middle areas for high coverage but smooth alpha blended gradients on edges, such as Hair).
+可以在此处指定Alpha blend mode和 Alpha Test阈值。
+也可以在此处启用“ Multi Pass Alpha”功能。该技术使用Alpha test和Alpha blend两次渲染网格，以创建笨重但外观平滑的alpha测试网格。（在中部区域进行Alpha test，以获得高覆盖率，但边缘（例如毛发）用Alpha blend渐变平滑）。
 
 ### Others ###
 <img src="/img/material_editor/others.png">
-This panel is usually for technical / internal usage and mostly used to create materials for core engine features.
+该面板通常用于技术/内部使用，主要用于创建使用核心引擎功能的材质。
 
-### Vector Arguments ###
+### 向量参数（Vector Arguments） ###
 <img src="/img/material_editor/vector_args.png">
-This panel contains two Vector Arguments. Both containing 4 real values, with a total of 8. <br>
-These vector arguments are used as parameters for some special shader effects, like setting the brightness of Self Illumination, speed and direction of Texture Sweep, etc. <br>
-What changes with which vector argument is really depends on the effects it is used for.<br>
+该面板包含两个向量参数。两者都含有4个实数值，一共八个。
+这些矢量的参数用于一些特殊的着色效果，如设置自发光，速度和纹理扫描等的方向的亮度
+哪一个向量参数发生了什么变化，其实取决于它的使用效果。
 
-### Factor Colors ###
+### 颜色因子（Factor Colors） ###
 <img src="/img/material_editor/factor_color.png">
-These colors are multiplied with internal Factor Color on meshes that are usually changed using gameplay code. If you really want some texture to be slightly darker, greener etc. you can multiply them using this panel.
+这些颜色与网格上的内部因子颜色相乘，通常使用游戏代码来改变。如果你真的想让一些纹理稍微深一点，绿一点等等，你可以用这个面板把它们相乘。
 
-### Vertex Layout ###
+### 顶点布局（Vertex Layout） ###
 <img src="/img/material_editor/vdecl.png">
-This panel used to specify Vertex Layout that should be used by Vertex Shaders.
+该面板用于指定“顶点着色器”应使用的“顶点布局”。
 
-##### Bump Map #####
-Should be enabled in most cases (Standard PBR requires this).
+##### 凹凸贴图（Bump Map） #####
+在大多数情况下应启用（标准PBR需要这样做）。
 
-##### Skinning and Skinning Precise #####
-If your material is going to be used with a skinned mesh, enable Skinning, if your skinned mesh is quite large that has important small polygons (like eyes) enable Skinning Precise. (This disables some optimizations so only use if it is really necessary).
+##### 蒙皮和精确蒙皮（Skinning and Skinning Precise） #####
+如果你的材质将与蒙皮网格一起使用，请启用蒙皮，如果你的蒙皮网格很大，有重要的小多边形（如眼睛），请启用精确蒙皮。(这将禁用一些优化，所以只有在真正需要的时候才使用)。
+
 ##### Double UV #####
-Enable if your custom shaders require double UV channels.
+如果您的自定义着色器需要双UV通道，请启用。
 
 ##### PostFX #####
-Used internally by engine.
+由引擎内部使用。

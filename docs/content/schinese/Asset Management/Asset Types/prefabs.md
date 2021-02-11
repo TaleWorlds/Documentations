@@ -1,18 +1,16 @@
 +++
-title = "Entities & Prefabs"
+title = "实体及预制件"
 description = ""
 weight = 1
 +++
 
 
-In RGL, entities are containers for all of the meshes, particles, script components, occluders and physics objects. They can also contain other entities as children. They have their own transformation that determines their position, scale and rotation in the world. 
+在RGL中，实体是包含所有网格，粒子，脚本组件，遮挡物和物理对象的容器。它们可以容纳其他实体来作为其子实体。这些子实体有自己的变体存在，决定了它们在整个世界中的位置，比例和旋转角度。
 
-##### Prefabs
+##### 预制件(Prefabs)
 
-Prefabs are template entities which do not sever the connection to the prefab even after it is saved in a scene. Complex entities can be constructed one time and saved as a prefab to be used at any time, in any scene. Later updates to the prefab will affect the already done scenes as well. In Bannerlord, nearly all of the mission objects and scene props are prefabs. 
+预制件(Prefabs)属于模板实体，即便是复杂的实体可以直接一次构造，并在之后保存为预制物件，以便在任何场景中随时使用。后期对预制件的更新也会对已经完成的场景造成影响。在《霸主》中，几乎所有的任务对象和场景道具都是预制件。
 
-##### Connection Rules
+##### 连接规则(Connection Rules)
 
-Once a prefab is placed into a scene, all of the values under prefab(mesh colors, child entity transforms, script values) are connected to the original prefab and will be updated after every change to the original one.  Any change in the scene for those values will sever the connection.  Beware that any “Addition” operation to the prefab in the scene, will break the prefab connection all together. Examples: adding a new mesh, particle system, light, child entity or script component.
-
-
+一旦一个预制件被放置到场景中，预制件下的所有值（网格颜色、子实体变换、脚本数值）都与原预制件相连，并且在每次改变原预制件后都会更新。在场景中，任何对这些值的改变都会切断连接。需要注意的是，在场景中对预制件进行的任何 "增加 "操作，都会将预制件的连接全部断开。例如：添加一个新的网格、粒子系统、光线、子实体或脚本组件

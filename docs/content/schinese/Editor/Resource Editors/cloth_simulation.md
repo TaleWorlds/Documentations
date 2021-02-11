@@ -1,125 +1,125 @@
 +++
-title = "Cloth Simulation"
+title = "布料模拟"
 
 [menu.main]
 identifier = "cloth_simulation"
 parent = "core_components"
 +++
 
-## Preparing Mesh
-Cloth simulation system uses alpha channels of vertices of meshes. Values in the alpha channel represents how much a vertex can move away from its original position. 0.1 of alpha means vertex can be moved 0.1 units from its original position by cloth simulation. If you set zero to alpha value that means that vertex will be fixed to its position and will not be updated by simulation. 
+## 网格准备
+布料模拟系统使用网格顶点的Alpha通道。Alpha通道中的值表示一个顶点可以从其原始位置移开多少。0.1的alpha值意味着可以通过布料模拟将顶点从其原始位置移动0.1个单位。如果将alpha值设置为零，则意味着顶点将固定在其位置，在布料模拟过程中不会更新。
 
-| Shaded | Vertex Alpha |
+| 着色后 | 顶点的Alpha通道 |
 | ------ | ------------ |
 | ![](/img/cloth_simulation/image1.png) | ![](/img/cloth_simulation/image6.png) |
 
 
-Black parts are driven by skinning system while white parts are simulated. It is worth to mention that skinning calculations are done for all vertices whether they are fixed or not. Positions of skinned vertices are used as anchor points for simulated vertices. You can imagine that a simulated vertex can only move inside a sphere with radius R and center C. Here alpha channel of the vertex color is used as radius and skinned position is used as center.
+黑色部分是由蒙皮系统驱动的，而白色部分是模拟的。值得一提的是，所有顶点的蒙皮计算都是固定的，无论它们是否固定。蒙皮顶点的位置用作模拟顶点的锚点。您可以想象一个模拟顶点只能在半径为R且中心为C的球体内移动。此处，顶点颜色的alpha通道用作半径，而蒙皮顶点位置用作球心。
 
-| Shaded | Vertex Alpha |
+| 着色后 | 顶点的Alpha通道 |
 | ------ | ------------ |
 | ![](/img/cloth_simulation/image7.png) | ![](/img/cloth_simulation/image3.png) |
 
-## Simulation Types
-### Direct simulation
-In direct simulation, vertices of rendered mesh are simulated directly by cloth simulation. This technique can be used for meshes with simple topology(like grid) and small amount of vertices. As the number of vertices increases performance hit of simulation will be greater.
+## 模拟类型
+### 直接模拟 Direct simulation
+在直接模拟中，渲染网格的顶点是直接通过布料模拟来模拟的。这种技术可以用于简单拓扑结构(如grid)和少量顶点的网格。随着顶点数量的增加，对仿真的性能影响会更大。
 
-### Mapped simulation
-In some cases, your mesh may not be suitable for cloth simulation. Some examples are armors with double sided polygons, clothes with more than one layer or meshes with high numbers of polygons. For such cases a separate mesh can be used for simulation. If a separate simulation mesh is used vertices of this mesh are simulated by cloth simulation. Vertices of original mesh will be mapped to simulated mesh and move with them.
+### 映射模拟 Mapped simulation
+在某些情况下，您的网格可能不适合进行布料模拟。一些例子是具有双面多边形的盔甲、具有多个层的衣服或具有大量多边形的网格。对于这种情况，可以使用一个单独的网格进行模拟。如果使用一个单独的模拟网格，这个网格的顶点会被布料模拟。原始网格的顶点将被映射到模拟网格，并随之移动。
 
 ![](/img/cloth_simulation/image4.png)
 ![](/img/cloth_simulation/image2.png)
 
-In the above images, meshes on the right side are used for simulation and the left ones are rendered according to simulated results.
-To achieve realistic results, your simulation mesh should tightly map to render mesh and it must never cover it. In other words, render mesh should never penetrate to simulation mesh. If it does, since collision calculations are done for simulation mesh you may see collision artifacts like penetrating leg to armor.
+在上面的图片中，右侧的网格用于模拟，左侧的网格根据模拟结果进行渲染。
+为了达到逼真的效果，你的模拟网格应该紧密地映射到渲染网格上，而且绝对不能覆盖它。换句话说，渲染网格绝对不能穿透到模拟网格。如果穿透了，因为碰撞计算是针对模拟网格进行的，你可能会看到碰撞伪影，比如腿部穿透到盔甲上。
 
-## Cloth Editor
-To enable cloth simulation for a mesh some ingame settings must be adjusted. Cloth editor is used to setup a mesh for simulation. Cloth editor can be opened from toolbar menu in editor. 
+## 布料编辑器 
+要启用网格的布料模拟，必须调整一些游戏设置。布料编辑器是用来设置网格的模拟参数。布料编辑器可以从编辑器的工具栏菜单中打开。
 
 ![](/img/cloth_simulation/image5.png)
 
-### Preview properties
-#### Preview mesh
-To start working with a mesh you should select it from Preview mesh menu and select the sub meshes which will be simulated from Render mesh cloth properties panel. If alpha channels of mesh painted properly it should start to be simulated on the preview window. 
+### 预览属性
+#### 预览网格 Preview mesh
+要开始使用一个网格，你应该从Preview mesh菜单中选择它，然后从Render mesh cloth properties面板中选择要模拟的子网格。如果网格的Alpha通道正确，它会开始在预览窗口中进行模拟。
 
-#### Simulation mesh
-If you want to use a separate simulation mesh, select it from Simulation mesh menu. Alpha channel of this mesh must also be painted because it is the actual mesh being simulated. In this case alpha channel of preview mesh is used to determine if a vertex will be mapped to the simulation mesh or it will be rendered with original skinning data. Alpha values greater than zero means that vertex must be mapped to simulation mesh. Vertices with zero alpha values will use the original skinning data. Since simulation mesh has less polygon count than the original mesh, this can be used to increase skinning quality of original mesh for non-simulated parts.
+#### 模拟网格 Simulation mesh
+如果您想使用单独的模拟网格，请从模拟网格菜单中选择它。这个网格的Alpha通道也必须被绘制，因为它是被模拟的实际网格。在这种情况下，预览网格的 Alpha 通道用来决定一个顶点是否会被映射到模拟网格，还是用原始的皮肤数据来渲染。Alpha值大于零意味着顶点必须被映射到模拟网格。Alpha值为零的顶点将使用原始的蒙皮数据。由于模拟网格的多边形数量比原始网格少，这可以用来提高非模拟部件的原始网格的蒙皮质量。
 
-#### Helper mesh
-You can select a helper mesh to preview your actual simulation mesh with an arbitrary mesh. Selecting a horse mesh for a simulated mane mesh is a good example.
+#### 辅助网格 Helper mesh
+你可以选择一个辅助网格来预览你的实际模拟网格在任意网格上的效果。选择马的网格来模拟鬃毛网格就是一个很好的例子。
 
-#### Preview skeleton
-If you want to work on a skinned mesh and preview collision capsules and animations, you should select corresponding skeleton.
+#### 预览骨骼 Preview skeleton
+如果你想在蒙皮网格上工作并预览碰撞体和动画，你应该选择相应的骨架。
 
-#### Preview body
-You can assign an existing collision body to your Preview mesh with Preview body menu. Modification of collision bodies can be done from Cloth Bodies panel.
+#### 预览实体 Preview body
+您可以通过Preview body 面板将现有的碰撞体分配给您的预览网格。碰撞体的修改可以在Cloth Bodies面板上完成。
 
-#### Preview animation name
-You can test your cloth with an animation. You must write its name in asset folder, not the one in animations*.xml and its start and end frame numbers and duration. You can start and stop animation with Toggle Animation button.
+#### 预览动画名称 Preview animation name
+你可以用一个动画来测试你的布料。你必须把它的名字写在asset文件夹里，而不是写在animations*.xml里，并写上它的开始和结束帧数以及持续时间。你可以通过Toggle Animation按钮来启动和停止动画。
 
-#### Scene update coef
-Slow motion can be simulated by decreasing this value. Default value is 1 which means all simulations are done normally.
+#### 场景更新系数 Scene update coef
+可以通过降低这个值来模拟慢动作。默认值为1，表示所有模拟都正常进行。
 
-#### Render mesh cloth properties
-You can select which submeshes will be simulated by checking checkbox next to each submesh. 
-Different cloth materials can be assigned to each submesh by Cloth material column. Max distance multiplier is used to scale vertex color paintings of mesh which controls how much a vertex can move away from its original position. 0.5 value of vertex alpha with 3.0 max distance multiplier value means that, that vertex can move 1.5 units away from its original position.
+#### 渲染网格布料属性 Render mesh cloth properties
+您可以通过选中每个子网格旁边的复选框来选择要模拟的子网格。
+Cloth material 可以为每个子网格指定不同的布料。最大距离乘数 Max distance multiplier 用于缩放网格的顶点颜色绘制，控制顶点可以从其原始位置移动多少。顶点alpha值为0.5，最大距离乘数为3.0，意味着该顶点可以离开其原始位置移动1.5个单位。
 \\
-If you are using a separate simulation mesh, max distance value and cloth material of simulation mesh overrides these settings. All submeshes will use same cloth material assigned to simulation mesh.
+如果您使用单独的模拟网格，最大距离值max distance value和模拟网格的布料材质cloth material会覆盖这些设置。所有的子网格都会使用分配给模拟网格的相同布料材质。 
 
-#### Simulation mesh cloth properties
-If you use a separate simulation mesh, you can adjust its settings from here just like render mesh properties mentioned above. Cloth material and max distance value selected here will be used for all sub meshes of render mesh.
+#### 模拟网格布料属性 Simulation mesh cloth properties
+如果你使用单独的模拟网格，你可以从这里调整它的设置，就像上面提到的渲染网格属性一样。这里选择的布料材质和最大距离值将用于渲染网格的所有子网格。
 
 {{% notice warning %}}
-It is important to note that you must save your settings by pressing Save mesh settings button.
+重要！必须按“Save mesh settings”按钮以保存设置。
 {{% /notice %}}
 
-### Collision Bodies
-Collision presets can be created and modified from <b>Collision bodies</b> window. You can open <b>Collision bodies</b> window from <b>Edit > Edit collision bodies</b> menu.
+### 碰撞体 Collision Bodies
+可以从“Collision bodies”窗口创建和修改碰撞体默认参数。您可以从“Edit > Edit collision bodies”菜单打开“Collision bodies”窗口。
 ![](/img/cloth_simulation/image8.png)
 
-A capsule consists of two end points. These points can be skinned to a skeleton separately by assigning owner bones and weights. One capsule point can be skinned to at most two bones. Like mesh skinning, weights are used to determine influence of that bone on the selected capsule.
+胶囊由两个端点组成。通过分配所有者的骨骼和权重，可以将这些点分别蒙皮到骨骼上。一个胶囊点最多可以蒙皮到两根骨骼。像网格蒙皮一样，权重用于确定该骨骼对所选胶囊的影响。
 
-### Cloth materials
-All simulation parameters to customize cloth behaviour is supplied with cloth materials. Cloth material presets can be created and modified from <b>Material templates</b> window. 
+### 布料材质 Cloth materials
+所有用于自定义布料行为的仿真参数均随布料一起提供。布料材质预设可以在“Material templates”窗口中创建和修改。
 ![](/img/cloth_simulation/image9.png)
-You can open this window from <b>Edit > Edit merial templates</b> menu.
-Materials shown in this windows are presets so changing these presets does not affect configurations of existing cloth meshes. To change parameters of an existing cloth mesh, you can click <b>Change parameters</b> button in Simulation/Render mesh properties panel and adjust each settings in <b>Mesh specific parameters</b> window.
+您可以从“Edit > Edit merial templates”菜单打开此窗口。
+此窗口中显示的材料是预设的，所以改变这些预设不会影响现有布料网格的配置。要改变现有布料网格的参数，可以点击Simulation/Render mesh properties面板中的**Change parameters**按钮，并在**Mesh specific parameters**窗口中调整各项设置。
 ![](/img/cloth_simulation/image10.png)
 ![](/img/cloth_simulation/image11.png)
-Current parameters are as follows:
+当前参数如下：
 
-#### Bending, Stretching, Shearing, Stiffness
-Determines how much a fabric constraint will resist to the corresponding case.
+#### 弯曲Bending、拉伸Stretching、剪切Shearing、硬度Stiffness
+确定布料应对各种作用的物理特性。
 
-#### Anchor Stiffness 
-This constraint strictly limits the freedom of a vertex. It tries to keep distances constant between simulated and fixed vertices. You can try to increase this value if your mesh stretches too much.
+#### 锚杆刚度 Anchor Stiffness 
+这个约束严格限制了顶点的自由度。它试图保持模拟顶点和固定顶点之间的距离不变。如果你的网格拉伸太大，你可以尝试增加这个值。
 
-#### Damping
-Dampening values for vertices. Determines the fraction of current frame's velocity to transfer to the next frame.
+#### 阻尼 Damping
+顶点的阻尼值。确定当前帧的速度传递到下一帧的分数。
 
-#### Linear Inertia
-Since our cloth simulation is done in local space, global frame changes are transferred to cloth virtually. This value determines how much of acceleration of entity will be transferred to cloth. You can test this by adding a cloth mesh into a scene and shake its entity randomly.
+#### 线性惯性 Linear Inertia
+由于我们的布料模拟是在局部空间进行的，所以全局框架的变化会虚拟地转移到布料上。这个值决定了实体的加速度有多少会转移到布料上。你可以通过在场景中添加一个布料网格，随机摇动其实体来进行测试。
 
-#### Air drag
-For a cloth mesh moving with a constant velocity this value determines how much air force will affect its vertices. 
+#### 空气阻力 Air drag
+对于以恒定速度移动的布料网格，这个值决定了空气阻力对其顶点的影响程度。
 
-#### Wind
-You can control how much wind force the cloth will use. This value is a multiplier for actual wind force of scene. If there is no wind in the scene increasing this value has no effect.
+#### 风 Wind
+你可以控制风力大小对布料的影响，这个值是场景实际风力大小的倍数。如果场景中没有风，增加这个值就没有效果。
 
-#### Gravity
-Constant gravity force affecting each simulated vertex. You can decrease this value to achieve a silky cloth behaviour.
+#### 重力Gravity
+影响每个模拟顶点的恒定重力。你可以降低这个值，以模拟柔滑的丝质布料。
 
-#### Iteration Frequency
-How many times a cloth mesh will be simulated in a second. You can leave this parameter with its default value unless your mesh has big triangles or it moves so fast that collision capsules can not catch simulated vertices. Increasing this value results in more stable collision behaviour but performance hit also increases linearly.
+#### 迭代频率 Iteration Frequency
+一秒钟内会对一个布料网格进行模拟的次数。你可以让这个参数保持默认值，除非你的网格有很大的三角形，或者它的移动速度太快，碰撞胶囊无法捕捉到模拟的顶点。增加这个值可以获得更稳定的碰撞行为，但性能消耗也会线性增加。 
 
-#### Precise Simulation
-We trade accuracy with performance by doing some compressions during simulation. As a result simulated mesh might move to a different state than its rest state slightly. If this accuracy is important for your mesh, you can enable this option to get more correct results.
+#### 精确模拟 Precise Simulation
+我们通过在模拟过程中做一些压缩来平衡精度与性能。因此，模拟网格可能会相比它的理想状态稍有偏差。如果这个精度对你的网格很重要，你可以启用这个选项来获得更正确的结果。
 
-#### Dummy Collision Particles
-If simulated mesh has big triangle sizes with respect to collision capsules, capsules may not collide with cloth mesh properly. To overcome this we place dummy vertices in every triangle of mesh. These vertices are not simulated but only used during collision stage. This option has big performance hit so you should avoid enabling this as much as possible.
+#### 假碰撞粒子 Dummy Collision Particles
+如果模拟网格与碰撞胶囊的三角形尺寸较大，胶囊可能无法正常与布料网格碰撞。为了克服这个问题，我们在网格的每个三角形中放置了虚拟顶点。这些顶点不被模拟，只在碰撞阶段使用。这个选项对性能有很大的影响，所以你应该尽量避免启用这个选项。
 
-## Cloth Content Files
-Our simulation system generates two files with <strong> *.tcc</strong> and <strong> *.tcm</strong> extensions.
-Tcc files contains preprocessed data used by cloth simulation like constraint indices, constraint lengths etc.
-Tcm files contains mapping data of a render mesh to a simulation mesh.
-You must commit both these files to Plastic SCM to ensure that nobody will wait for cooking process to complete during scene loading stage.
+## 布料文件 Cloth Content Files
+我们的仿真系统会生成两个文件，扩展名分别为“*.tcc”和“*.tcm”。
+Tcc文件包含了布料模拟所使用的预处理数据，如约束指数、约束长度等。
+Tcm文件包含了渲染网格到模拟网格的映射数据。
+您必须将这两个文件都提交给Plastic SCM版本控制系统，以确保其他人不必在场景加载阶段等待烹饪阶段（cooking process）完成。
