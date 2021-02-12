@@ -42,16 +42,17 @@ After exporting your animation, to reference it in the game, you need to add new
 A typical animation contains some optional attributes as well. Most common one is blend_in_period, which sets the duration for blending to the existing animation and reaching 100% weight. blend_out_period is the opposite of this blending, but it has an important difference. Blending out actually means that the animation ends earlier than the given duration, and the rest of the animation will only be used for blending out to another animation. But blend duration is only set by blend_in_period. Having a longer blend_out_period than the next animation’s blend_in_period doesn’t extend this blend duration. It just helps the blend to look smoother, since during that blend, if both animations play at the same time, it looks visually more appealing. An animation with 0 blend_out_period simply pauses during the blending to the next animation, and it causes a sudden stop/velocity change in bone rotations.
 
 An animation has several more optional attributes:
-priority: Priority simply allows/disallows animations to be played as an interrupt while another animation is in progress. Higher priority animations are played over lower or equal priorities as interrupts.
-param1, param2, param3: Params are used for cases that the engine requires additional data. They may have quite different meanings.
-sound_code: Plays a sound when the animation is played. 
-step_points: These are step points for sound.
-voice_code: Plays a voice when the animation is played.
-facial_anim_id: Morphs the face to this when the animation is played.
-left_hand_pose, right_hand_pose: These morph the hands to their values when the animation is played.
-combat_parameter_id: This gives an additional set of information to the engine (see combat_parameters.xml)
-blends_with_action: This attribute references another action (warning: action, not animation) to blend the animation with. This is valid only when the engine requires two animations to be blended with (i.e. shield blocking up/down, weapon swings requiring balanced and unbalanced versions etc.).
-continue_to_action: This attribute calls another action (warning: action, not animation) to be played soon after this animation is finished. Animation is considered to be finished always when (duration - blend_out_period) is reached.
+
+* priority: Priority simply allows/disallows animations to be played as an interrupt while another animation is in progress. Higher priority animations are played over lower or equal priorities as interrupts.
+* param1, param2, param3: Params are used for cases that the engine requires additional data. They may have quite different meanings.
+* sound_code: Plays a sound when the animation is played. 
+* step_points: These are step points for sound.
+* voice_code: Plays a voice when the animation is played.
+* facial_anim_id: Morphs the face to this when the animation is played.
+* left_hand_pose, right_hand_pose: These morph the hands to their values when the animation is played.
+* combat_parameter_id: This gives an additional set of information to the engine (see combat_parameters.xml)
+* blends_with_action: This attribute references another action (warning: action, not animation) to blend the animation with. This is valid only when the engine requires two animations to be blended with (i.e. shield blocking up/down, weapon swings requiring balanced and unbalanced versions etc.).
+* continue_to_action: This attribute calls another action (warning: action, not animation) to be played soon after this animation is finished. Animation is considered to be finished always when (duration - blend_out_period) is reached.
 
 Animations usually contain two other nodes: flags and clip_usage_data. clip_usage_data is a common data pointer that may refer to blend_data, displacement_data, bipedal_movement_and_ik_data, and quadrupedal_movement_data. Their usage is mostly for specific cases and their details are out of this explanation’s scope. Flags are used for nearly all animations though and require some explanation. Possible flags that can be used for an animation are:
 
