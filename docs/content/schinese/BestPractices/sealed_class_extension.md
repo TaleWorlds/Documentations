@@ -15,7 +15,7 @@ When it comes to achieving extended behavior for sealed classes without inherita
 
 In essence, when the problem of extending sealed classes is broken-down, there are two main requirements to address, namely adding new behavior and adding new properties.
 
-In order to add new behavior to sealed classes, a C# feature called “extension methods” can be utilized. In a nutshell, it enables you to add new methods to any class without deriving a new type or modifying the original one. For more information on extension methods, you can visit here.
+In order to add new behavior to sealed classes, a C# feature called “extension methods” can be utilized. In a nutshell, it enables you to add new methods to any class without deriving a new type or modifying the original one. For more information on extension methods, you can visit [here](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods).
 
 Adding a new property can be achieved by associating a sealed class instance with a corresponding property value using a dictionary. When combined with extension methods, the sealed class can provide the interface to the new property as if it was added directly to the class.
 
