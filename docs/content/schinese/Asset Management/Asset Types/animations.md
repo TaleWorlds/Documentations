@@ -6,7 +6,7 @@ weight = 1
 
 ### 修改动画系统 
 
-#### 为Bannerlord 导出动画
+#### 为 Bannerlord 导出动画
 
 ##### 默认动画设置
 
