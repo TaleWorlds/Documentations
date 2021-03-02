@@ -1,115 +1,115 @@
 +++
-title = "Navmesh"
-description = "Navigation Mesh Modeling Creation Guides and Examples"
+title = "导航网格"
+description = "导航网格建模创建指南和示例"
 weight = 1
 +++
 
 ------------------
-### What is the Navigation Mesh? ###
-<strong>Navigation Mesh is a compilation of models created by the scene designer for the use of AI to make sure they can move around without colliding with the physic objects in the scene.</strong>
+### 什么是导航网格? ###
+<strong>导航网格是由场景设计师创建的模型汇编，供AI使用，以确保它们可以在不与场景中的物理对象碰撞的情况下移动。</strong>
 
 ------------------
-### What are the important rules for Navigation Mesh? ###
-<strong>a. 1,5 Meter Rule: </strong>Designers needs to arrange the navigation mesh in a 1.5-meter diameter when creating on terrain or other objects that can be walked on or can stand on (Rooftops, castle walls etc.) This diameter needs to be in 1.5 meters on a vertical axis. If this 1.5 rule is not applied, AI won’t be able to find the way when walking.
+### 导航网格的重要规则是什么? ###
+<strong>a. 1.5米规则：</strong>设计者在地形或其他可行走或可站立的物体（屋顶、城堡墙等）上创建导航网时，需要将导航网的直径安排在1.5米内，这个直径需要以1.5米为垂直轴。如果不适用这个1.5米的规则，AI在行走时将无法寻路。
 
-<strong>b. Spawn Point Pivot Points:</strong> Each spawn point in a scene has pivot points. Navmesh polygon faces have to include these spawn point pivot points. Otherwise, spawn points will not work.
+<strong>b. 生成点支点：</strong>场景中的每个生成点都有支点。Navmesh多边形面必须包括这些生成点支点。否则，生成点将无法工作。
 
-<strong>c. Existing Trees:</strong> Each tree in a scene has a physical object which we call ‘capsules’. AI will see these capsules automatically when in a battle. Because of this, AI won’t walk into trees. Navmesh can be applied under trees.
+<strong>c. 现有的树：</strong>场景中的每一棵树都有一个物理对象，我们称之为 "胶囊"（capsules）。AI在战斗中会自动看到这些胶囊。正因为如此，AI不会走进树木。导航网格可以应用在树木下。
 
-<strong>d. Terrain Angle:</strong> There are some areas that won’t be traversable because of their steep angle. These areas can be enabled with: Shaded > Debug - Terrain Angle. On the opened Angel Limit window, designers can input "50" to enable these. You can see two areas which are green and red. Green areas are traversable and red areas aren't.
+<strong>d．地形角度：</strong>有些区域由于角度陡峭而无法穿越。这些区域可以通过Shaded > Debug - Terrain Angle方式启用。。在打开的角度限制窗口中，设计师可以输入 "50 "来启用这些区域。你可以看到两个区域，分别是绿色和红色。绿色区域是可以穿越的，红色区域则不能。
 
-<strong>e. Where to apply Navemesh:</strong> Navigation Mesh should be applied to every surface upon which players can walk. Navigation mesh should not be applied under the physical objects. Since the AI can’t jump, areas which can be accessible with jumping should not contain the navigation mesh.</strong>
+<strong>e. 在哪里应用Navemesh：</strong>导航网格应该应用在每个玩家可以行走的表面。导航网格不应该应用在物理物体的下方。由于AI不能跳跃，所以可以通过跳跃进入的区域不应该包含导航网。
 
-**There is no "Undo" operation in the Navigation Mesh. If you press CTRL + Z, the last scene change will be reverted. Do not try to undo when applying Navigation Mesh**
-
-------------------
-### How many types of Navigation Mesh need to be applied? ###
-There are three types of Navigation Mesh:
-
-1.<strong>Basic navigation mesh areas</strong> (without an ID, ID:0), for example, battle_terrain, hideout or lords hall.
-2.<strong>Village Scenes</strong>. Scenes like villages have multiple navigation mesh ID’s.
-3.<strong>Siege-Town scenes</strong>. In these kind of scenes, there are two main visibility modes for Civilian and Siege. The town scene in civilian mode can be seen as a big village scene. But on Siege mode, there are some places and cases that demand Navigation Mesh faces to have special ID’s.</strong>
+**在导航网格中没有"撤销"操作。如果按CTRL + Z键，之前的场景修改将被还原。应用导航网格时，请不要尝试撤消**。
 
 ------------------
-### Navigation Mesh Modeling Foreknowledge ###
+### 需要应用多少种类型的导航网格？ ###
+导航网格有三种类型：
 
-**When opening the editor you will see a toolbar as shown in the photo below.**
+1.<strong>基本导航网状区域</strong>(没有ID，ID:0)，例如：战斗地形（battle_terrain）、强盗巢穴（hideout）或领主大厅(lords hall)。
+2.<strong>村庄场景</strong>。村庄等场景有多个导航网ID。
+3.<strong>攻城场景</strong>。在这类场景中，主要有平民和攻城两种可视模式。平民模式下的城镇场景可以看作是一个大的村庄场景。但是在围城模式下，有些位置和案例处，需要导航网面有特殊的ID。
+
+------------------
+### 导航网格建模准备工作 ###
+
+**打开编辑器时，你会看到如下图所示的工具栏**。
 
 ![](/img/navmesh/toolbarnav.png)
 
-**The icon in the red square is for the Navigation Mesh. When you click on it, you will see that the “NavigationMeshInspector” is opened in the inspector.**
+**红色方块中的图标是导航网格。点击它，你会看到"NavigationMeshInspector"在检查器中被打开。**
 
 ![](/img/navmesh/navmeshinspector.png)
 
-**After the Navigation Mesh Inspector is opened you will see ‘Editor Mode: Navigation Mesh Select’ in the UI.**
+**打开"导航网检查器"后，您将在用户界面中看到"编Editor Mode: Navigation Mesh Select"**。
 
 ![](/img/navmesh/editormode.png)
 
-**All the dropdown menu functions in the Navigation Mesh Inspector can be used in the Navigation Mesh Select mode. Hitting 1,2 or 3 on the keyboard will select these faces:**
-**1: Vertices 2: Edges 3: Faces.**
+**导航网检查器中的所有下拉菜单功能都可以在导航网选择模式下使用。点击键盘上的1、2或3可以选择这些面：**
+**1: 顶点 2: 边 3: 面**
 
 ------------------
-### Navigation Mesh Modeling ###
+### 导航网格建模 ###
 
-**Until now we spoke about the **Navigation Mesh Select Tool mode. Another editor mode for Navigation Mesh is Navigtation Mesh Add mode.**
+**到现在为止，我们讲的是**导航网格选择工具模式。导航网格的另一种编辑模式是**导航网格添加模式**。
 
 ![](/img/navmesh/editormode2.png)
 
 ![](/img/navmesh/navmeshadd.png)
 
-**To open this mode you can press the ‘Spacebar’ key. You will see a vertex preview in the mouse pointer.**
+**要打开该模式，您可以按 "空格键"。你会看到鼠标指针上有一个顶点预览。**
 
-**After pointing out 4 different points in the map, press CTRL+Space to create the Navigation Mesh polygon.**
+**在地图上指出4个不同的点后，按CTRL+Space键创建导航网格多边形。**
 
  | 
 ---- | ----
 ![](/img/navmesh/fourverts.png) | ![](/img/navmesh/buildface.png)
 
 
-**The shortcut table below can be helpful after the polygon creation phase. Below that, you also have the explanation of the tools available under the Generation Tools tab in the Navigation Mesh Inspector.**
+**在多边形创建阶段后，下面的快捷表可以帮助你。下面还有导航网格检查器中生成工具选项卡下可用工具的说明。**
 
 Navmesh hotkeys | Shortcut | Editor State
 ------- | ------- | --------
-Fill in closest 4 vertices (creates a quad) | Shift + Click | Navigation Mesh Add
-Fill in the last 4 vertices (creates a quad) | Ctrl + Space | Navigation Mesh Add
-Move vertex without selecting | Ctrl + Drag | Navigation Mesh Add
-Delete face with mouse over (leaves vertices) | Alt + Click | Navigation Mesh Add
-Delete face and remove all vertices  | Alt + X + Click | Navigation Mesh Add
-Selection mode - vertex | 1 | Navigation Mesh Select
-Selection mode - edge | 2 | Navigation Mesh Select
-Selection mode - face | 3 | Navigation Mesh Select
-Select all vertices, edges or face (depends on the current selection) | Ctrl + A | Navigation Mesh Select
-Delete selected vertices, edges or face  | Delete | Navigation Mesh Select
+填入最近的4个顶点（创建四边形）。 | Shift + Click | 导航网格添加
+填入最近的4个顶点（创建四边形）。 | Ctrl + Space | 导航网格添加
+移动顶点而不选择 | Ctrl + Drag | 导航网格添加
+用鼠标删除面（留下顶点）。 | Alt + Click | 导航网格添加
+删除面并移除全部顶点  | Alt + X + Click | 导航网格添加
+选择模式 - 顶点 | 1 | 导航网格选择
+选择模式 - 边 | 2 | 导航网格选择
+选择模式 - 面 | 3 | 导航网格选择
+选择所有顶点、边或面（取决于当前的选择）。 | Ctrl + A | 导航网格选择
+删除选定的顶点、边或面  | Delete | 导航网格选择
 
 
-### Generation Tools
+### 生成工具
 
-The most useful and used tools are:
+最有用的常用工具如下：
 
-* Extrude: Extrusion along the selected edge's (or edges') axis.
-* Fill: Fills between the selected navigation mesh vertices (or edges) and forms a face.
-* Grow Selection: Grows the selection by selecting the adjacent elements to the selected elements (works for all vertex, edge and face structures).
-* Connect: Connects the selected two navigation mesh vertices by drawing an edge between them.
-* Weld: Removes vertices forming the edge and makes the edge one single vertex. It connects the old adjacent vertices to the newly generated vertex.
+* 挤出（Extrude）: 沿着选定的边（或边）轴挤出。
+* 填充（Fill）: 在选定的导航网格顶点(或边缘)之间填充并形成一个面。
+* 增长选区（Grow Selection）: 通过选择相邻的元素来增长选区（适用于所有顶点、边缘和面结构）。
+* 连接（Connect）: 通过在选定的两个导航网格顶点之间绘制一条边来连接它们。
+* 焊接（Weld）: 移除形成边缘的顶点，使边缘成为一个单一顶点。它将相邻的旧顶点与新生成的顶点连接起来。
 
 ------------------
-### Navigation Mesh Modeling on Scene Types ###
+### 场景类型的导航网格建模 ###
 
-**We discussed briefly how to create and apply the Navigation Mesh. Let’s consolidate this information by creating a Navigation Mesh for a village scene with the help of some screenshots along the way.**
+**我们简单地讨论了如何创建和应用导航网格。让我们通过一些为村庄场景创建导航网格的截图来巩固这些信息。**
 
-#### <strong> 1.Village Scene </strong> ####
+#### <strong> 1.村庄场景 </strong> ####
 
-**After opening a village scene, let’s navigate to the Visibility tab and change it as seen in the screenshot below to work more comfortably. Visibility Masks > Game Entities (Uchecked), Particle Systems (Unchecked), Layer Flora (Unchecked), Show Paths (Unchecked) Physics Options > Show Entity Physics (Checked).**
+**打开一个村庄场景后，让我们导航到可见性选项卡，如下面的截图所示进行更改，以便更舒适地工作。可见度掩码Visibility Masks > 游戏实体Game Entities (Uchecked), 粒子系统Particle Systems (Unchecked), 图层植物Layer Flora (Unchecked), 显示路径Show Paths (Unchecked) Physics Options > 显示物理实体Show Entity Physics (Checked)。**
 
  | 
 ---- | ----
 ![](/img/navmesh/1.png) | ![](/img/navmesh/2.png)
 
-**Click on the Navigation Mesh Icon on the toolbar and open the Navigation Mesh Inspector tab on the right side. After that, press 3 on your keyboard to open the Face mode. Change the ID part from 0 to 2.**
+**点击工具栏上的导航网格图标，打开右侧的导航网格检查器标签。之后，按键盘上的3键，打开面模式。将ID部分从0改为2.**。
 
 ![](/img/navmesh/3.png)
 
-**Let’s create our first face. As seen in the screenshot below, place the vertices on top of the road and click CTRL+Space. You will see a Navigation Mesh Polygon created. We can place 2 more vertices near the existing polygon and press Shift+Left Mouse Button to create additional Polygons.**
+**让我们创建第一个面。如下面的截图所示，将顶点放在道路上面，然后点击CTRL+Space。你会看到一个导航网格多边形创建了。我们可以在现有多边形附近再放置2个顶点，然后按Shift+鼠标左键来创建额外的多边形。**
 
 
  || 
@@ -125,25 +125,25 @@ The most useful and used tools are:
 
 ------------------
 
-**By holding CTRL while navigating the mouse to the vertices we can see the yellow previews. Holding these vertices with Left Mouse Button will allow us to move the vertex freely.**
+**By holding CTRL while navigating the mouse to the vertices we can see the yellow previews. Holding these vertices with Left Mouse Button will allow us to move the vertex freely。**
 
 ![](/img/navmesh/vertmove.gif)
 
-**In the  Navigation Mesh Select mode, select what mode you want to use (1 (Vertex) 2 (Edge) 3 (Face)) and use Alt+Delete to remove. This will leave the vertices in the scene (If Edge 2 ((Edge)) and 3 ((Face)) are selected). If you want the vertices to be inactive you can press Alt+X+Delete keys.** 
-**The other remove method is in the Navigation Mesh Add mode. If we hover over the vertex, edge or faces with ALT button pressed we can see a red preview. We can remove them by clicking the Left Mouse Button.**
+**在"导航网格选择"模式中，选择您要使用的模式（1（顶点）2（边）3（面）），然后使用Alt+Delete删除。这将使顶点留在场景中（如果选择了2（边）和3（面）。如果你想让顶点不活动，你可以按Alt+X+Delete键。**
+**另一种删除方法是在导航网格添加模式下。如果我们将鼠标悬停在顶点、边缘或面孔上，并按下ALT键，我们可以看到一个红色的预览。我们可以通过点击鼠标左键来删除它们。**
 
-Navigation Mesh Select Mode-NavDelete | Navigation Mesh Add Mode-NavDelete
+导航网选择模式-导航删除 | 导航网添加模式-导航删除
 ---- | ----
 ![](/img/navmesh/nmselectsilme.gif) | ![](/img/navmesh/nmaddsilme.gif)
 
 ------------------
-##### EASY AND FASTER NAVMESH CREATION TIP #####
+##### 更简单、更快速的导航网格制作技巧。 #####
 
 ![](/img/navmesh/navbuildtipstricks.gif) 
 
 ------------------
 
-**Navigation Mesh needs to contain the spawn point pivot points. Let’s apply the navigation mesh as they are connected with all the roads and navigation mesh face on spawn points.**
+**导航网需要包含生成点枢轴点。此处可应用导航网，因为它们与生成点上的所有道路和导航网面相连。**
 
  | 
 ---- | ----
@@ -153,7 +153,7 @@ Navigation Mesh Select Mode-NavDelete | Navigation Mesh Add Mode-NavDelete
 
 ------------------
 
-**Let’s press the Spacebar after creating a navigation mesh face to check that the ID is set to 2 and change the Editor mode to Navigation Mesh Select mode and press the "3" key on the keyboard. This process will ensure that we chose the navigation mesh face. After this, let’s select the face and make sure that the ID is 2 on the Navigation Mesh Inspector. We already saw it was 2 when we started but we are now sure it is 2. We can deselect what we chose by clicking on an empty space on Viewport. Now, we can press the Spacebar to change the Editor mode to the Navigation Mesh add and continue.**
+**我们在创建导航网面后按空格键检查ID是否设置为2，并将编辑器模式改为导航网面选择模式，按键盘上的 "3 "键。这个过程可以确保我们选择了导航网格面。在这之后，我们选择面，在导航网格检查器上确保ID是2。我们在开始的时候已经看到是2，但是现在我们确定是2，我们可以通过点击Viewport上的空位来取消选择我们选择的内容。现在，我们可以按空格键将编辑器模式改为导航网格添加，然后继续。**
 
 ![](/img/navmesh/7.png)
 
@@ -161,61 +161,61 @@ Navigation Mesh Select Mode-NavDelete | Navigation Mesh Add Mode-NavDelete
 
 
 
-**Please make sure your navigation mesh areas don't contain any physical objects.**
+**请确保您的导航网区域不包含任何物理对象**。
 
  | 
 ---- | ----
 ![](/img/navmesh/11.png) | ![](/img/navmesh/12.png)
 
-**The animal spawn points can be seen in the screenshot below. To make sure the scene has animal spawn points you can click on the entity in the scene and check the text located on the bottom left of the screen.**
+**动物生成点可以在下面的截图中看到。为了确保场景中有动物生成点，你可以点击场景中的实体，检查位于屏幕左下角的文字。**
 
 ![](/img/navmesh/9.png)
 
-**To prevent animals from escaping let's apply navigation mesh like an island and use the mesh ID 2. After that, let’s change the ID of the surrounding mesh faces to 3. That way, the animals won't be connected with the rode and won't be able to escape.**
+**为了防止动物逃跑，我们把导航网像岛屿一样应用，并使用网面ID 2，然后把周围的网格面ID改为3。然后，我们将周围的网格面的ID改为3，这样，动物就不会与道路相连，也不会逃跑。**
 
  | 
 ---- | ----
 ![](/img/navmesh/10.png) | ![](/img/navmesh/10b.png)
 
-**There are special fields in the scenes that we call ‘common areas’. You can see these areas in the scene with a sphere. Let’s fill in this sphere with the navigation mesh faces that has the ID 2, while making sure there are no physical objects inside of them.**
+**场景中有一些特殊的区域，我们称之为 "公共区域"。你可以在场景中用一个球体看到这些区域。让我们在这个球体中填入ID为2的导航网格面，同时确保其内部没有物理实体。**
 
  | 
 ---- | ----
 ![](/img/navmesh/13.png) | ![](/img/navmesh/14.png)
 
-**After making sure all the roads and spawn points are applied and connected to each other we have finished the phase one.**
+**在确保所有道路和生成点都已应用并相互连接后，我们已经完成了第一阶段的工作。**
 
 ![](/img/navmesh/15.png)
 
-**If there are any unwalkable terrain fields, you can click on the “Shaded” option in the dropdown menu located in the top bar. Choose the Terrain Angle in the “Debug” field and change the Angle Limit to 50. Now, we can see the red areas and apply navigation mesh according to this information.**
+**如果有无法行走的地形区域，可以点击位于顶部栏的下拉菜单中的"Shaded"选项。在"Debug"栏中选择"Terrain Angle"，并将角度限制改为50。现在，我们可以看到红色区域，并根据这些信息应用导航网格**。
 
 ![](/img/navmesh/terrain_angle.gif)
 
-**Let’s change the ID to 1 in the Navigation Mesh Inspector while making sure there are no selected navigation mesh faces. Let’s continue to apply navigation mesh while making sure there are no physical objects inside of them.**
+**让我们在导航网格检查器中把ID改为1，同时确保没有选择导航网格面。让我们继续应用导航网格，同时确保网格内没有物理物体。**
 
 ![](/img/navmesh/physicsmesh.png)
 
-**Let’s complete the navigation mesh of the scene after we make sure every surface on the scene is inside of the borders (you can toggle the Border view with Visibility > Visibility Masks).**
+**让我们在确保场景上的每个表面都在边界内后，完成场景的导航网格（你可以用Visibility > Visibility Masks切换边界视图）**。
 
 ![](/img/navmesh/16.png)
 
-**The navigation mesh of this village scene is complete.**
+**这个村庄场景的导航网已经完成。**
 
 ![](/img/navmesh/sahnebittigeneldurum.png)
 
 
-**Now, let’s take a look at the scripting of the Navigation Mesh IDs. Navigate to the Prefabs tab and search for “navigation_mesh_deactivator” in the filter field. Let’s put that into the scene. Select the Navigation_Mesh_Deactivator entity in the scene tab. Let’s open the dropdown menus in the Entity Inspector > Scripts > NavigationMeshDeactivator. Set the DisableFaceWithId to 1 and DisableFaceWithIdForAnimals to 3.**
+**现在，让我们看看导航网ID的脚本。导航到Prefabs选项卡，在过滤器栏中搜索 "navigation_mesh_deactivator"。让我们把它放到场景中去。在场景选项卡中选择Navigation_Mesh_Deactivator实体。让我们打开Entity Inspector > Scripts > NavigationMeshDeactivator的下拉菜单。将DisableFaceWithId设置为1，DisableFaceWithIdForAnimals设置为3。**
 
  | 
 ---- | ----
 ![](/img/navmesh/19.png) | ![](/img/navmesh/20.png)
 
-Save the scene. **The navigation mesh process for our village scene is completed.**
+保存场景。**我们村子场景的导航网格过程就完成了**。
 
 ------------------
-### The Logic of Navigation Mesh IDs ###
-**The navigation mesh faces with the ID of 2, are the navigation mesh faces that the AI sees while we take a walk in a scene. These faces needs to be connected to each other. The faces which include the animal spawn points need to have the ID of 2, as well. The reason why these faces are not connected is because we don’t want the animals to walk on the roads as the human NPCs. To make sure that the animal spawn points are active their navigation mesh face ID has to be 2. To disconnect their connection with the road, we apply navigation mesh that surrounds the animal spawn point faces with the ID of 2 and give the new navigation mesh faces the ID of 3. After this we also include this to the navigation_mesh_deactivator script. The faces with the ID of 1 are the faces that are not active in the walk mode, but they have to be applied. When a village is raided all the navigation meshes are active, without looking out for the IDs. Those are activated when we take a walk in the scene.**
+### 导航网格面ID的逻辑 ###
+**ID为2的导航网面，是我们在场景中散步时，AI看到的导航网面。这些面需要相互连接。包括动物生成点的面也需要有ID为2的面。之所以不把这些面孔连接起来，是因为我们不希望动物像人类NPC一样走在路上。要确保动物生成点是激活的，它们的导航网面ID必须是2。为了断开它们与道路的连接，我们应用导航网包围ID为2的动物生成点面孔，并赋予新的导航网面孔ID为3，在这之后，我们还将其包含到navigation_mesh_deactivator脚本中。ID为1的面是在行走模式下不激活的面，但它们必须被应用。当一个村庄被突袭时，所有的导航网格都是激活的，不根据ID有所区别。当我们在场景中行走时，这些都会被激活**。
 
-Navigation Meshes with the ID of 2 are active | All the navigation meshes are active
+ID为2的导航网格处于活动状态 | 所有的导航网格都处于活动状态
 ---- | ----
 ![](/img/navmesh/17.png) | ![](/img/navmesh/18.png)
