@@ -1,63 +1,63 @@
 +++
-title = "What Makes a Siege Scene"
+title = "攻城战场景是如何构成的"
 description = ""
 weight = 1
 +++
 
-#### Introduction
-This list of siege-specific features will aid you when creating towns and castles that are appropriate for sieges.
+#### 简介
+在创建被围攻的城镇和城堡场景时，这个围攻功能组件列表将帮助你。
 
 ___
 
-#### Siegable Walls
+#### 可攻击墙
 
-*Siegeable walls are wall positions that support the breached walls function in siege scenes. We will have to specify solid and broken stages and their important positions as well as AI navigation mesh changes as if there is a breach.*
+*可攻击墙是指在攻城场景中支持被破坏功能的墙体位置。我们必须指定实体阶段和破损阶段和它们的重要位置，以及如果有破损时AI导航网格的变化。
 
-* Add a tag to the parent entity, that will later be used on siege ladders and siege towers (ex:wall_segment_left, wall_segment_right). This tag will identify which siege machines are related to which lanes, and will be used for “target wall segment” variable on siege machines.
-* Add the tag “broken_child” to the broken wall, and add the tag “solid_child” to the solid wall.
-* Add two entities as child entities to the solid wall. First one for where defender troops will wait as attackers approach the castle, and second for where they should stand for defending position. These entities should have the tags “wait_pos” and “middle_pos'' respectively. 
+* 给父实体添加一个会用在攻城梯和攻城塔上（例如:wall_segment_left，wall_segment_right）的标签。这个标签将识别哪些攻城机与哪些路线有关，并将用于攻城机上的 "target wall segment"变量。
+* 将标签"broken_child"添加到被破坏的墙，将标签"solid_child"添加到实体墙。
+* 给实体墙添加两个实体作为子实体。第一个是当攻击者接近城堡时，防御者部队将在哪里等待，第二个是他们应该站在哪里进行防御。这两个实体应该分别有 "wait_pos"和 "middle_pos"的标签。
 
 <img src="/img/siege_scenes/Show_middle_pos_and_wait_pos.png" width="1200px" />
 
-* For the broken wall, add three child entities. They should have the tags “wait_pos”, “middle_pos” and “attacker_wait_pos”. First two are the same as solid wall and attacker wait pos is where Attacker troops will wait (preferably behind covers) while other siege engines get into position.
-* **WallSegment script**
-    * Enter the side of the siegeable wall (it should be either left or right, middle is reserved for the gatehouse regardless of its position).
-    * Enter the navigation mesh ids you will use for that siegeable wall.
-    * Remake and id the navigation mesh accordingly.
-    * Make sure that new navigation mesh faces have correct levels.
+* 对于被破坏的墙，添加三个子实体。它们应该有 "wait_pos"、"middle_pos"和 "attacker_wait_pos "三个标签。前两个和实体墙一样，“attacker_wait_pos”是攻击者部队等待其他攻城引擎就位的地方（最好是在掩体后面）。
+* **wallSegment 脚本**
+    * 输入可攻城墙的一侧（应该是left或right，中间是留给门房的，不管它的位置在哪里）。
+    * 输入你将用于该可围攻墙的导航网ID。
+    * 重新制作导航网，并为其标识"ID"。
+    * 确保新的导航网面有正确的等级。
 
 <img src="/img/siege_scenes/wallsegment.png"/>
 
-| Solid Wall Navmesh | Broken Wall Navmesh |
+| 实体墙导航网格 | 破损墙导航网格 |
 | ------ | ----------- |
 | <img src="/img/siege_scenes/siegable_walls_1.png"/> | <img src="/img/siege_scenes/siegable_walls_2.png"/> |
 
-* If you are not going to use under debris navmesh ids you can enter “-1” to corresponding ID’s on the wall segment script.
-* In this example when the wall is not broken, 328 will connect to 342, 331 will connect to 391, 341 will be active, and 351 will be active.
-* When the wall is broken and there is a breach, 328 will connect to 371 and 381 will connect to 391, and 361 will be active.
-* This way if we have a lot of debris around the siegeable wall, we will have much fewer agents getting stuck for lack of navigation mesh.
-* In this image, empty spaces between navmeshes were exaggerated for sake of clarity.
+* 如果您不打算在碎片导航ids下使用，您可以在墙壁段脚本上输入相应的ID的"-1"。
+* 在此示例中，当墙壁未损坏时，328将连接到342，331将连接到391，341将处于活动状态，351将处于活动状态。
+* 当墙体被打破并有一个突破口时，328将连接到371，381将连接到391，361将处于活动状态。
+* 这样一来，如果我们在可围攻的墙体周围有很多碎片，那么因为缺乏导航网而被卡住的agent就会少很多。
+* 在此图中，为了清晰起见，导航网之间的空隙被夸大了。
 
 ___
 
-#### Castle Gate
+#### 城堡门
 
-*The castle gate is the location and prefabs that interact with the battering ram. We will have to use 2 of them, 1 outer gate which will be broken down by the battering ram and an inner one which will be broken down by normal troop attacks.*
+*城堡大门是与撞城锤互动的位置和预制件。我们必须提供两个必备元素，1个外门会被撞锤击破，1个内门会被普通部队攻击击破。*
 
-* Place the outer and inner gates.
-* Outer gate should have an “outer_gate” tag, and the inner gate should have an “inner_gate” tag.
-* **CastleGate script**
-    * Enter the navigation mesh id you will use for the gate.
-    * Make the side variable “middle”.
-    * Change the HP of the gate according to its position and level (For outer gates HP’s should be: 12000 on level 1, 15000 on level 2 and 18000 on level 3. Inner gates HP’s should be 1000 for all levels.)
-    * Remake and id the navigation mesh accordingly.
-    * Make sure that new navigation mesh faces have correct levels.
-* Adjust the position of “middle_position” of the outer gate. It should be really close to the inner side of the inner gate.
-* You can turn off the navmeshes, for open state of the gate using [navigationmeshidtodisableonopen] navmesh id.
+* 放置外门和内门。
+* 外门要有"external_gate"标签，内门要有"inner_gate"标签。
+* **CastleGate 脚本**
+    * 输入您将用于大门的导航网ID。
+    * 将侧面变量设为 "middle"。
+    * 根据其位置和级别更改闸门的HP（对于外门，HP应是：1级为12000，2级为15000，3级为18000。所有级别的内门HP都应该是1000。
+    * 重新制作导航网并标识相应的ID。
+    * 确保新的导航网面有正确的等级。
+* 调整外门的"middle_position"的位置。它应该非常接近内门的内侧。
+* 您可以使用[navigationmeshidtodisableonopen]导航网ID关闭打开状态的导航网。
 
 <img src="/img/siege_scenes/navigationmeshidtodisableonopen.png" width="1200px" />
 
-* **Related prefabs**
+* **相关预制件**
     * Aserai_castle_gate_inner_l1
     * Aserai_castle_gate_outer_l1
     * Battania_castle_gate_inner_l3
@@ -74,33 +74,33 @@ ___
 
 ___
 
-#### Deployment Points
+#### 部署点
 
-*All siege machines are placed under deployment points. These points later in the mission become the selectable positions, in which players can place their siege equipment, like ballistas, battering ram or the siege towers.*
+*所有攻城器械都被放置在部署点下。这些点在以后的任务中会成为可选择的位置，玩家可以在这些位置上放置攻城设备，如弩机、撞锤或攻城塔。*
 
-* There needs to be 4 of those for the defender siege machines. 4 for the attacker siege machines. 2 for each siege tower. And one for the battering ram.
-* The siege machines can be connected to these deployment points, by either placing them in their radius, or by tags.
+* 防御者需要有4个器械。攻击者需要4个器械。攻城塔需要2台。还有一台用于撞城锤。
+* 器械可以连接到这些部署点上，可以将它们放在它们的半径内，也可以通过标签来连接。
 
 <img src="/img/siege_scenes/Deploymentpoint.png" width="1200px" />
 
-* Best practices
-    * Make sure the radiuses of the Deployment Points don't overlap.
-    * You'll need to have different Deployment Points for each layer, for example:
-        * Since the walls change with each layer, the defender siege machines naturally have to be in different positions on top of them.
-    	* Since the gate house position changes, the battering ram needs to take a different path. The same goes for siege towers.
+* 最佳实践
+    * 确保部署点的半径不重叠。
+    * 比如说，你需要为每一层设置不同的部署点。
+        * 由于城墙会随着层数的变化而变化 守城机器自然要在城墙上有不同的位置。
+    	* 由于城门位置会发生变化，所以破城槌需要走不同的路径。攻城塔也是如此。
 
 ___
 
 #### Secondary Siege Machines
 
-*Secondary siege machines are ranged siege machines that support the assault or try to fend off attackers. They include ballistas and mangonels for both sides and trebuchets for the attacker.*
+*辅助攻城机是远程攻城机，可以支持攻击或抵御攻击者。其中包括双方的弩机（ballista）和投石机（Mangonel），以及攻击者的重型投石机。*
  
-* Mangonel and ballista entities should be included for each defender position, and mangonel ballista and trebuchet prefab should be included for each attacker position.
-* There should be 4 “Deployment Point” positions for defenders and 4 for attackers.
-* Both siege machines and deployment points have a “side” variable, make sure those variables are correct.
-* No siege machine should be under control of more than one deployment point.
+* 每个防守者阵地应包括投石机和弩机实体，每个攻击者阵地应包括投石机弩机和重型投石机预制件。
+* 防守者和攻击者应该各有4个"部署点"阵地。
+* 攻城机和部署点都有一个 "side"变量，确保这些变量是正确的。
+* 任何攻城机都不应该被一个以上的部署点所控制。
 <br><br>
-* **Related prefabs**
+* **相关的预制件**
     * Ballista_a_spawner
     * Ballista_b_spawner
     * Mangonel_a_spawner
@@ -109,60 +109,61 @@ ___
 
 ___
 
-#### Siege Tower
+#### 攻城塔
 
-*Siege towers are the prefabs that support the situation when siegers build a siege tower in the campaign map. They replace one of the wall lanes. If a siege tower is deployed they will override the siege ladder on that “side”. If there is a breach on a lane, the siege tower can not be deployed to that lane.*
+*攻城塔是攻城者在战役地图中建造攻城塔时对应的预制件。它们取代了一条城墙通道。如果攻城塔被部署，它们将覆盖该"side"的攻城梯。如果某条城墙被砸破，攻城塔就不能部署到那条城墙通道上。
+*
 
-* Place the suitable siege tower to the scene.
-* Adjust the angle of the deployable exit ramp of the either by selecting the ramp and rotating it or using the “RampRotationDegree” parameter within the “SiegeTowerSpawner” script 
-* If your exit ramp has a large slope angle either upwards or downwards, make sure that the navigation mesh prefab fits the ramp, otherwise make one.
-* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path for the siege tower</a>, using the path tool.
-* **SiegeTowerSpawner script**
-    * Enter the path name.
-    * Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The siege tower will search for that tag and then search for its child entities to direct AI troops accordingly.
-    * Enter the side tag.
-    * Once the tower is connected to its path, place the deployment point at the beginning of the path in connection to the siege tower.
-* You can mark the merlons on the way of the siege tower with the tag `tower_merlon`. These merlons will be removed once a siege tower is deployed to the scene. Make sure that they have a “DestructableComponent” script and “CanBeDestroyedInitially” tag is selected.
-* Place a “_barrier_ai_04x04m” prefab on the wall where the siege tower will approach. Give the barrier a unique tag like “tower_barrier_lvl3”. Now insert this tag within the “BarrierTagToRemove” parameter under the SiegeTowerSpawner script. The tagged barrier will be removed once the ramp of the siege tower is open.
+* 将合适的攻城塔放置到现场。
+* 调整可部署的出口坡道的角度，可以选择坡道并旋转它，或者使用"SiegeTowerSpawner "脚本中的"RampRotationDegree"参数。
+* 如果你的出口坡道向上或向下有很大的坡度角，请确保导航网预制件适合坡道，否则请制作一个。
+* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">使用路径工具，为攻城塔构建路径</a>。
+* **SiegeTowerSpawner 脚本**
+    * 输入路径名称。
+    * 输入目标墙段。这就是我们添加到墙体上的标签，它有攻击和等待的位置。攻城塔会搜索该标签，然后搜索它的子实体来引导AI部队进行相应的进攻。
+    * 输入side标签。
+    * 一旦塔连接到它的路径，将部署点放在连接攻城塔的路径开始处。
+*  你可以在攻城塔的道路上用标签`tower_merlon`标记城齿。一旦攻城塔被部署到场景中，这些城齿就会被移除。确保它们有一个 "DestructableComponent "脚本，并且 "CanBeDestroyedInitially "标签被选中。
+* 将"_barrier_ai_04x04m "预制构件放置在攻城塔将接近的墙上。给障碍物一个独特的标签，如 "tower_barrier_lvl3"，现在把这个标签插入 "Barrier_ai_04x04m "中。现在，在SiegeTowerSpawner脚本下的 "BarrierTagToRemove "参数中插入这个标签。一旦攻城塔的斜坡打开，被标记的障碍物就会被移除。
 <br><br>
-* **Related prefabs**
+* **相关的预制件**
     * Siege_tower_5m_spawner
     * Siege_tower_9m_spawner
     * siege_tower_12m_spawner
 
 ___
 
-#### Battering Ram
+#### 破城槌
 
-*Battering ram is the prefab that supports the situation when siegers build a battering ram in the campaign. The battering ram will be connected to the side tag and will damage the outer gate once it reaches the gates and troops swing the ram.*
+*破城槌是攻城者在战役中建造打夯时，对应的预制件。撞击夯将连接到side标记，一旦到达城门，部队挥动破城槌就会破坏外门。*
 
-* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path using the path tool</a>. The crash indicator on the ghost entity of the battering ram prefab should make contact with the gate to match animations and visuals.
+* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">使用路径工具</a>建立路径。破城槌预制件的幽灵实体上的碰撞指示器应该与大门接触，以配合动画和视觉效果。
 
 <img src="/img/siege_scenes/crashindicator.png" width="1200px" />
 
-* **BatteringRamSpawner script**
-    * Enter Side Tag 
+* **BatteringRamSpawner 脚本**
+    * 输入side标签 
     * GateTag: outer_gate
-    * Enter the path name to the script.
-    * Once the battering ram is connected to its path, place the deployment point at the beginning of the path in connection to the battering ram.
+    * 输入脚本的路径名称
+    * 将破城槌连接到路径后，将部署点放在路径的开头与破城槌连接
 <br><br>
-* **Related prefabs**
+* **相关的预制件**
     * Batteringram_a_spawner
 
 ___
 
-#### Ditch Fillers
+#### 沟渠填充物
 
-*If the scene has ditches and a moat around the castle, we have a ditch filler system which allows the siege towers and battering rams to work properly. Ditch fillers will spawn if the player deploys the connected siege engines. We will have to arrange and ID various navigation mesh faces for AI to use pathfinding properly around the ditch filler.*
+*如果场景中城堡周围有沟渠和护城河，我们有一个沟渠填充物系统，可以让攻城塔和撞城车正常工作。如果玩家部署了连接的攻城引擎，沟渠填充物会产生。我们必须安排和识别各种导航网面，让AI在填沟器周围正确使用寻路。*
 
-* After placing the proper entity to fill the moat, <a href="http://docs.modding.bannerlord.com/editor/scene-editor/creating_entity/#entity-hierarchies">collect all of them under a single parent entity</a>.
-* Add the tag “ditch_filler” and the appropriate side tag (left, right, or middle) to the connected siege engine.
-* Once a siege tower or a battering ram is deployed, the ditch filler will be deployed with it too.
-* We manipulate the navigation mesh in a similar manner to the wall breaches.
-* The navmesh ids are on the siege tower and battering ram scripts.
-* Enter the navigation mesh ids you will use for that ditch filler.
-* Remake and id the navigation mesh accordingly.
-* Make sure new navigation mesh faces have correct levels.
+* 放置适当的实体来填充护城河后，<a href="http://docs.modding.bannerlord.com/editor/scene-editor/creating_entity/#entity-hierarchies">将它们全部收集到一个父实体下</a>。
+*  将标签 "ditch_filler "和适当的side标签（left, right, or middle）添加到连接的攻城引擎中。
+* 一旦攻城塔或撞城锤被部署，沟渠填充物也会随之部署。
+* 我们操纵导航网的方式与破损墙体类似。
+* 导航网的ID在攻城塔和撞城锤的脚本上。
+* 输入你将用于沟渠填充物的导航网ID。
+* 重新制作导航网，并为其命名ID。
+* 确保新的导航网面具有正确的水平。
 
 | SiegeTowerSpawner Script | Ditch Filler |
 | ------ | ----------- |
