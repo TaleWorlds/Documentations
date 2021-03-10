@@ -152,7 +152,7 @@ ___
 
 ___
 
-#### 沟渠填充物
+#### 沟渠填充物(Ditch Filler)
 
 *如果场景中城堡周围有沟渠和护城河，我们有一个沟渠填充物系统，可以让攻城塔和撞城车正常工作。如果玩家部署了连接的攻城引擎，沟渠填充物会产生。我们必须安排和识别各种导航网面，让AI在填沟器周围正确使用寻路。*
 
@@ -165,34 +165,34 @@ ___
 * 重新制作导航网，并为其命名ID。
 * 确保新的导航网面具有正确的水平。
 
-| SiegeTowerSpawner Script | Ditch Filler |
+| SiegeTowerSpawner脚本 | 沟渠填充物 |
 | ------ | ----------- |
 | <img src="/img/siege_scenes/Ditchfiller.png" /> | <img src="/img/siege_scenes/Ditchfiller_numbers.png"/> |
 
-* In this example, when there is no ditch filler, 423, 426, and 424 will be deactivated. 422 and 433 will stay connected 427 will be active, 432 and 425 will be connected.
-* When there is a ditch filler, 422 will disconnect from 433 and connect to 423, 426 will be active, 425 will be disconnected from 432 and connect to 424, and 427 will be deactivated.
+* 在本例中，当没有沟渠填充物时，423、426和424将被停用，422和433将保持连接，427将激活，432和425将连接。422和433将保持连接 427将被激活，432和425将被连接。
+* 当有沟渠填充物时，422将从433断开并连接到423，426将被激活，425将从432断开并连接到424，427将被停用。
 
 ___
 
-#### Siege Ladders
+#### 攻城梯
 
-*Siege ladders are deployed by default to both siegeable walls unless there is a siege tower or a breach.*
+*攻城梯默认部署在两面可攻城墙上，除非有攻城塔或突破口。*
 
-* Choose the correct size of the ladder spawner, never resize the ladder spawners height.
-* **SiegeLadderSpawner script**
-    * Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The ladder will search for that tag and then search for its child entities to direct AI troops accordingly.
-    * Enter the id of the navigation mesh you will use.
-    * Enter the SideTag.
-    * "merlon_solid_left" or "merlon_solid_right" tag have to add both ladder merlons according to walls right or left position. These tags are added to make sure tagged merlons do not break and cause physics problems with AI troops movements.
-* Remake and id the navmesh accordingly.
-* Nav mesh face on the siege ladder should be one directional towards the wall.
+* 选择正确的梯子生成器尺寸，千万不要调整梯子生成器的高度。
+* **SiegeLadderSpawner脚本**
+    * 输入目标墙段。这是我们添加到墙上的标签，它有攻击和待命的位置。梯子将搜索该标签，然后搜索其子实体，据此引导AI部队。
+    * 输入你将使用的导航网的id。
+    * 输入SideTag。
+    * "merlon_solid_left"或"merlon_solid_right"标签必须根据墙壁的左或右位置加入两个梯子相交的墙齿。这些标签的添加是为了确保被标记的墙齿不会被破坏，也不会导致AI部队移动的物理问题。
+* 重新制作导航网，并将导航网进行相应的编码。
+* 攻城梯上的导航网面应该是面朝向墙的。
 
 <img src="/img/siege_scenes/directionalladdernavmesh.png" width="1200px" />
 
-* Adjust the standing and fork holder positions using the “UpperStateRotationDegree” and “DownStateRotationDegree” to match the terrain and the walls.
-* Place a “_barrier_ai_04x04m” prefab on the wall where the ladder will land. Give the barrier a unique tag like “left_ladder_barrier_a”. Now insert this tag to the ladder's “BarrierTagToRemove” parameter. The tagged barrier will be removed once the siege ladder is lifted up to the walls.
+* 使用 "UpperStateRotationDegree "和 "DownStateRotationDegree "调整竖起和放下的位置，以配合地形和墙壁。
+* 将"_barrier_ai_04x04m "预制件放置在梯子落脚的墙上。给障碍物一个独特的标签，如 "left_ladder_barrier_a"。现在将这个标签插入到梯子的 "BarrierTagToRemove "参数中。一旦攻城梯被提升到城墙上，被标记的障碍物就会被移除。
 <br><br>
-* **Related prefabs**
+* **相关的预制件**
     * Siege_ladder_6m_spawner
     * Siege_ladder_7m_spawner
     * Siege_ladder_8m_spawner
@@ -201,24 +201,24 @@ ___
 
 ___
 
-#### Archer Positions
+#### 弓箭手阵地（Archer Positions)
 
-*Archer positions are AI direction locations with which scene designers can define locations where archers can shoot from. There are 2 types of archer positions.*
+*弓箭手阵地是AI方向的位置，场景设计者可以用它来定义弓箭手的射击阵地。弓箭手阵地有2种类型*
 
-* **Big archer positions**
-    * Positions used by archer formations.
-    * With prefab names “defender_archer_position” and “attacker_archer_position”.
-    * They have the tags “archer_position” and “archer_position_attacker”.
+* **大型弓箭手阵地**
+    * 弓箭手阵型使用的位置
+    * 带有预制名称"defender_archer_position"和"attacker_archer_position"。
+    *  它们有"archer_position"和"archer_position_attacker"的标签。
 <br><br>
-* **Small archer positions**
-    * Positions used by archer agents.
-    * With prefab names “strategic_archer_point” and “strategic_attacker_archer_position”.
-    * They have the script “strategicarea”. The script has variables for:
-        * Attacker or defender side.
-        * Range (an archer position should be in their range for them to be used). There must be a big archer position inside this range for the small archer position to be active. The default range is 40m for defender and 60m for attacker.
-        * Depth and width: Both represent the size of the area usable by troops. 1x1 is suitable for one troop in a 1m x 1m area. 4x2 is suitable for 8 troops in a 4m x 2m area.
+* **小型弓箭手阵地**
+    *  弓箭手agent使用的位置。
+    *  有"strategic_archer_point"和"strategic_attacker_archer_position"的预制名称。
+    * 它们有"strategicarea"脚本。脚本中的变量有：
+        * 攻击方或防御方
+        * 范围(弓箭手的阵地应该在agent的范围半径内才能使用)。在这个范围内必须有一个大型弓箭手阵地，小型弓箭手阵地才会被激活。默认范围是防御者40米，攻击者60米。
+        * 深度和宽度：都代表部队可用区域的大小。1x1适合在1m x 1m的区域内容纳一个部队。4x2适合8个部队在4m x 2m的区域内使用。
 <br><br>	
-* **Related prefabs**
+* **相关的预制件**
     * Defender_archer_position
     * Attacker_archer_position
     * Strategic_archer_point
@@ -226,110 +226,110 @@ ___
 
 ___
 
-#### Deployment Boundaries
+#### 部署边界（Deployment Boundaries）
 
-*We place boundary entities to the scene to specify where attackers and defenders can deploy their troops. They work pretty much like soft borders.*
+*我们在场景中放置边界实体，以指定攻击者和防御者可以部署部队的位置。它们的工作原理很像软边界。*
 
-* All boundary entities should have these 3 tags:
+* 所有的边界实体都应该有这三个标签：
     * walk_area_vertex
     * defender or attacker
     * deployment_castle_boundary_[insert number]
-* deployment_castle_boundary_[insert number] tag with the same number in [insert number] are connected to each other to create a convex area. For example 5 entities with deployment_castle_boundary_3 tag will create a pentagon, defining a border area.
-* You can use prefabs “attacker_boundry“, “defender_boundry“  and edit them to your needs.
-* If you add an “out” tag to one of those boundary sets it acts like a negative space, subtracting from the deployment zone instead of adding to it. With this method you can create concave deployment zones.
+* [insert number]中具有相同数字的deployment_castle_boundary_[insert number]标签相互连接以创建一个凸形区域。例如，带有deployment_castle_boundary_3标签的5个实体将创建一个五边形，定义一个边界区域。
+* 你可以使用 prefabs "attacker_boundry", "defender_boundry"，并根据你的需要进行编辑。
+* 如果你在这些边界集合中添加一个"out"标签，它就像一个负空间，从部署区中减去而不是增加。通过这种方法，您可以创建凹形部署区。
 <br><br>
-* **Related prefabs**
+* **相关的预制件**
     * Attacker_boundry
     * Defender_boundry
 
 ___
 
-#### Camera
+#### 摄像机(Camera)
 
-*The camera position and angle specify the viewpoint that will be used during the deployment phase.*
+*摄像机的位置和角度指定了在部署阶段将使用的视角。*
 
-* Create an empty entity.
-* Camera for the attacker should have the tag “strategycameraattacker”.
-* Camera for the defender should have the tag “strategycameradefender”.
-* Make sure that the camera positions are inside the deployment boundaries.
-
-___
-
-#### Spawn Points
-
-*Spawn points are the locations where NPC troops and the player will spawn in the scene at the start of the battle.*
-
-* Use the standard “sp_battle_set” prefab for troop spawning and reinforcements. The prefab includes 16 entities, for each type of troops, attacker and defender, starting or reinforcement. Normal spawn designates the spawn location at the start of the battle, while reinforcements define where the reinforcements will spawn.
-* Make sure to set the proper level visibility, since another “sp_battle_set” prefab is used within the civilian level for common area fight missions.
+*  创建一个空实体。
+* 攻击者的摄像机应该有 "strategiccameraattacker "的标签。
+* 防御者的摄像机应该有 "strategiccameradefender "的标签。
+* 确保摄像机的位置在部署边界内。
 
 ___
 
-#### Flee Lines
+#### 生成点（Spawn Points)
 
-*There are flee lines both for attackers and defenders. If placed in siege scenes, the AI should prefer to run away using the flee lines rather then to the closest soft border edge.*
+*生成点是指在战斗开始时，NPC部队和玩家将在场景中产生的位置。*
 
-* Defenders should run to the keep.
-* To be active, the Flee lines must be covered by navigation mesh.
+*  使用标准的"sp_battle_set"预制构件进行部队生成和增援。该预制件包括16个实体，用于每一种类型的部队，攻击者和防御者，初始(start)或增援(reinforcements)。普通生成指定了战斗开始时的生成位置，而援军则定义了援军的生成位置。
+* 确保设置适当的关卡可见性，因为在市民级别场景内有另一个"sp_battle_set"预制件用于公共区域战斗任务。
+
+___
+
+#### 逃逸线(Flee Lines)
+
+*攻击者和防御者都有逃跑线。如果放在攻城场景中，人工智能应该更倾向于利用逃亡线逃跑，而不是跑到最近的软边界边缘。*
+
+* 防守者应该跑到守城处。
+* 逃亡线必须被导航网覆盖才会激活。
 <br><br>
-* **Related prefabs**
+* **相关的预制件**
     * Flee_line_attacker
     * Flee_line_defender
 
 ___
 
-#### Tactical Position Script
+#### 战术阵地脚本(Tactical Position Script)
 
-*The script [tacticalposition] enables us to modify the width of various AI positions.*
+*脚本[tacticalposition]可以让我们修改各种AI位置的宽度。*
 
-* Once added to an entity you can change many parameters within it. For siege purposes, the only important one is _width. Value entered here is equal to the width of the formation in meters.
-* You can use this script in [wait_pos], [middle_pos], [attacker_wait_pos], archer positions and siege ladder wait positions.
+* 一旦添加到一个实体中，你可以在其中改变许多参数。对于攻城战来说，唯一重要的参数是_width。这里输入的值等于阵型的宽度，单位是米。
+* 你可以在[wait_pos]、[middle_pos]、[attacker_wait_pos]、弓箭手阵地和攻城梯等待阵地中使用这个脚本。 
 
-| Tactical Position | Deployment |
+| 战术位置 | 部署 |
 | ------ | ----------- |
 | <img src="/img/siege_scenes/tactical_position_1.png"/> | <img src="/img/siege_scenes/tactical_position_2.png"/> |
 ___
 
-#### AI Barrier
+#### AI屏障(AI Barrier)
 
-*The AI barrier should be added to all locations where the AI troops might fall from unacceptable heights.*
+*在所有AI部队可能从不可接受的高度坠落的位置，都应该添加AI屏障。*
 
-* With the path tool, first draw the path line then check the “Enable Barrier Build” checkbox. After the barrier is built, click “Go to entity” and check the scripts of the prefab. The following “barrier_builder” script parameters should be checked:
+*  使用路径工具，先画出路径线，然后勾选"Enable Barrier Build"复选框。障碍物建好后，点击"Go to entity"，选中预制件的脚本。以下 "barrier_builder "脚本参数应该被选中。
     * AI Limiter
     * Agent Only
     * If necessary, Flip can be checked according to the side of the wall.
 
 ___
 
-#### Throwable Rock Pile
+#### 可抛石堆(Throwable Rock Pile)
 
-*We can place usable rock piles to siege scenes.*
+*我们可以将可用的石头堆放到围攻场景中。*
 
-* The prefab [throwable_rock_pile] has three components:
-    * Stone pile: With 8 interactable points for AI to pick up the rocks.
-    * throw_pos: Where the agent will move to throw the rock.
-    * volume_box: Designates the area to which the AI can throw the rock.
-* When an enemy AI moves into the volume_box the prefab will call an agent, that agent will pick up a rock and try to throw it to an enemy in the volume_box that it can target.
-* You can have multiple throw_pos per volume_box. Just duplicate the throw_pos entity.
-* You connect throw_pos entities to a volume_box by adding a tag to the volume_box and entering that tag name to the script of throw_pos.
+* 预制件 [throwable_rock_pile] 有三个组成部分。:
+    * Stone pile: 有8个可交互的点，让人工智能捡起石头
+    * throw_pos: agent将移动到哪里去投掷石块
+    * volume_box: 指定AI可以投掷石头的区域。
+* 当敌方AI移动到volume_box中时，该预制件将调用一个agent，该agent将捡起一块石头，并尝试将其扔向volume_box中可以瞄准的敌人。
+* 每一个volume_box可以有多个throw_pos。只需复制 throw_pos 实体。
+* 你可以通过在volume_box中添加一个标签，并在throw_pos的脚本中输入该标签的名称，将throw_pos实体连接到volume_box中。
 
 <img src="/img/siege_scenes/stone_throw.png" width="1200px" />
 
 ___
 
-#### Using Throwable rock piles and Archer position (and pretty much everything else) under Broken and Solid walls
+#### 在被破坏的墙和完好的墙下使用可抛石堆和弓箭手阵地（以及几乎所有其他的东西）。
 
-* throwable_rock_pile’s and archer positions do work when they are child entities.
-* So you can separately place these entities as well as any other entity you want under solid or broken walls as child entities. This way you can create archer positions covering a breach, or utilize the solid wall when there is no breach.
+* 可抛石堆和弓箭手阵地是子实体的时候，就可以使用。
+* 因此，你可以将这些实体以及任何其他你想要的实体分别放置在实心墙或断壁之下作为子实体。这样，你就可以创建覆盖在突破口上的弓箭手位置，或者在没有突破口的情况下利用实心墙。
 
-| Example of Solid Walls | Example of Broken Walls |
+| 坚壁实例 | 断壁实例 |
 | ------ | ----------- |
 | <img src="/img/siege_scenes/solid.png"/> | <img src="/img/siege_scenes/broken.png"/> |
 
 ___
 
-#### Merlons and other Destructible components
+#### 城齿（merlon）和其他可毁坏部件
 
-*According to the wall HP of the settlement we create wall breaches but we also destroy some the entities containing the destructable_component script. This feature was intended for merlons but it does not specifically check for merlons but rather for the script itself.*
+*根据定居点的墙体HP，我们制造了墙体缺口，但我们也摧毁了一些包含destructable_component脚本的实体。这个功能是为城齿设计的，但它并不专门检查城齿，而是检查脚本本身。*
 
-* A parameter called “CanBeDestroyedInnıtially” is present in the “destructable_component” script. If it is checked, that entity has a chance to be destroyed on mission start, depending on the castle hit points (that are brought down during the siege progression on the campaign map).
-* By default it is on for merlons and off for pretty much everything else. If you make any scene specific destructible entities, make sure to set the aforementioned parameter properly. 
+* 在"destructable_component"脚本中存在一个名为"CanBeDestroyedInnıtially"的参数。如果它被选中，该实体有机会在场景初始化时被摧毁，这取决于城堡的命中点（在攻城战地图上的攻城进程中被击倒）。
+* 默认情况下，城齿的可破坏属性是on的，而其他几乎所有东西对应属性都是off的。如果你制作了任何特定场景的可破坏实体，请确保正确设置上述参数。
