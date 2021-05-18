@@ -1,107 +1,107 @@
 +++
-title = "Animations"
+title = "动画"
 description = ""
 weight = 1
 +++
 
-### Modding the Animation System
+### 修改动画系统 
 
-#### Exporting Animation for Bannerlord 
+#### 为 Bannerlord 导出动画
 
-##### Default Animation Settings
+##### 默认动画设置
 
-* Frame rate: 30 FPS(Optimal) or 60 FPS
-* Humanoid or Creature Skeleton(Rig) Settings
-* Max supported bone count: 64
-* Bones that are not used should contain “_notused” at the end of the string. Also root bone (highest bone in the hierarchy) should contain this only for the animations. 
+* 帧速率： 30 FPS（最佳）或 60 FPS
+* 人形 (Humanoid) 角色或生物骨骼(Rig)设置
+* 支持的骨骼数上限： 64
+* 未使用的骨骼应在名称字符串末尾包含"_notused"。此外，根骨骼（最高等级的骨骼）应该只包含动画。
 ![](/img/animation_system/image2.jpg)
 
-##### FBX export settings (Autodesk Maya)
-These settings are applied to Maya. Similar kind of software might contain the same settings. When we export the new rig for the first time, the exported FBX file should contain the skeleton and the mesh.
+##### FBX 导出设置 (Autodesk Maya)
+这些设置适用于Maya。类似的软件可能包含相同的设置。当我们首次导出新rig时，导出的FBX文件应包含骨骼和网格。
 
-##### First time setup (Skeleton + Mesh)
+##### 首次设置（骨架+网格）
 ![](/img/animation_system/image4.jpg)
 ![](/img/animation_system/image3.jpg)
 
-##### Exporting Animation Only Settings
-We make sure to disable mesh and skin related options before we export the animations. ”Use scene name” is very important to check when exporting for both animations and rigs. Also make sure that the root bone contains “_notused” at the end of the string.
+##### 仅导出动画设置
+在导出动画之前，我们确保禁用网格和皮肤相关选项。"Use scene name"对于动画和rig导出时的检查非常重要。还要确保根骨骼在字符串末端包含"_notused"。
 ![](/img/animation_system/image6.jpg)
 
-We make sure that we don’t send any kind of “Constraints and Skeleton Definitions”. Constraints, Connections and Unit settings should be set as the image below. Our engine also uses the “Z” as the up axis.
+我们确保我们不发送任何类型的"Constraints"和"Skeleton Definitions"。约束(Constraints)、连接(Connections)和单位(Unit)应设置为下图。我们的引擎使用"Z"作为上轴。
 ![](/img/animation_system/image5.jpg)
 
-##### Defining New Animations
-After exporting your animation, to reference it in the game, you need to add new animation clips from the resources browser which references that animation. To do so, you should use the "Animation Clip" button inside the " Create" parent build. Most important properties of these clips are:
+##### 定义新动画
+导出你的动画后，要在游戏中引用它，你需要从资源浏览器中添加新的动画剪辑，它引用该动画。要做到这一点，你应该使用 "Create" 父构建内的 "Animation Clip" 按钮。这些片段最重要的属性是
 
-* id: ID(unique name) of the anim clip to be used in other systems
-* source1: Start keyframe of the animation clip 
-* source2: End keyframe of the animation clip 
-* anim_data_name: The source animation resource that was imported to the engine for this clip
-* duration: Duration of this animation clip in seconds
+* id: 用于其他系统的动画剪辑的ID（唯一名称）
+* source1: 动画剪辑的启动关键帧
+* source2: 动画剪辑的末端关键帧
+* anim_data_name: 这个片段的源动画资源被导入到引擎中
+* duration: 此动画剪辑的持续时间，以秒为单位
 
-A typical animation contains some optional attributes as well. Most common one is blend_in_period, which sets the duration for blending to the existing animation and reaching 100% weight. blend_out_period is the opposite of this blending, but it has an important difference. Blending out actually means that the animation ends earlier than the given duration, and the rest of the animation will only be used for blending out to another animation. But blend duration is only set by blend_in_period. Having a longer blend_out_period than the next animation’s blend_in_period doesn’t extend this blend duration. It just helps the blend to look smoother, since during that blend, if both animations play at the same time, it looks visually more appealing. An animation with 0 blend_out_period simply pauses during the blending to the next animation, and it causes a sudden stop/velocity change in bone rotations.
+一个典型的动画也包含一些可选的属性。最常见的是blend_in_period，它设置了与现有动画混合并达到100%权重的持续时间，blend_out_period与这个混合相反，但它有一个重要的区别。Blending out实际上是指动画结束的时间早于给定的持续时间，剩下的动画将只用于向另一个动画进行混合。但混合持续时间只由 blend_in_period 设置。拥有比下一个动画的blend_in_period更长的blend_out_period并不会延长这个混合持续时间。它只是帮助混合看起来更顺畅，因为在该混合期间，如果两个动画同时播放，在视觉上看起来更有吸引力。blend_out_period为0的动画只是在混合到下一个动画的过程中暂停，它会导致骨骼旋转的突然停止/速度变化。
 
-An animation has several more optional attributes:
+一个动画还有几个可选的属性:
 
-* priority: Priority simply allows/disallows animations to be played as an interrupt while another animation is in progress. Higher priority animations are played over lower or equal priorities as interrupts.
-* param1, param2, param3: Params are used in cases when the engine requires additional data. They may have quite different meanings.
-* sound_code: Plays a sound when the animation is played. 
-* step_points: These are step points for sound.
-* voice_code: Plays a voice when the animation is played.
-* facial_anim_id: Morphs the face to this when the animation is played.
-* left_hand_pose, right_hand_pose: These morph the hands to their values when the animation is played.
-* combat_parameter_id: This gives an additional set of information to the engine (see combat_parameters.xml)
-* blends_with_action: This attribute references another action (warning: action, not animation) to blend the animation with. This is valid only when the engine requires two animations to be blended with (i.e. shield blocking up/down, weapon swings requiring balanced and unbalanced versions etc.).
-* continue_to_action: This attribute calls another action (warning: action, not animation) to be played soon after this animation is finished. Animation is considered to be finished always when the duration (blend_out_period) is reached.
+* priority: 优先级只表示允许/不允许在另一个动画进行时作为中断播放动画。优先级较高的动画将作为中断在优先级较低或同等的动画上播放。
+* param1, param2, param3: 参数用于引擎需要额外数据的情况下。它们的含义可能大相径庭。
+* sound_code: 动画播放时的声音代码。
+* step_points: 声音的步进点。
+* voice_code: 播放动画时播放语音。
+* facial_anim_id: 在播放动画时，将脸部变形为指定表情。
+* left_hand_pose, right_hand_pose: 当播放动画时，这些手会变形为指定姿势。
+* combat_parameter_id: 这给引擎提供了一组额外的信息(详见combat_parameters.xml)
+* blends_with_action: 该属性引用另一个动作（警告：动作，不是动画）来混合动画。只有当引擎要求混合两个动画时，此属性才有效（如盾牌上/下阻挡，武器挥舞需要平衡和非平衡版本等）。
+* continue_to_action: 这个属性在这个动画结束后会调用另一个动作（警告：动作，不是动画）来播放。当达到持续时间(blend_out_period)时，动画被确认为已经结束。
 
-Animations usually contain two other nodes: flags and clip_usage_data. clip_usage_data is a common data pointer that may refer to blend_data, displacement_data, bipedal_movement_and_ik_data, and quadrupedal_movement_data. Their usage is mostly for specific cases and their details are out of this explanation’s scope. Flags are used for nearly all animations though and require some explanation. Possible flags that can be used for an animation are:
+动画通常包含另外两个节点：flags和clip_usage_data。clip_usage_data是一个常见的数据指针，可以参考blend_data、displacement_data、bipedal_movement_and_ik_data和quadrupedal_movement_data。它们主要是针对特定情况，其细节不在本解释的范围内。不过几乎所有的动画都会用到flag，需要做一些解释。可能用于动画的标志有。
 
-* disable_agent_agent_collisions: Disables collisions between agents.
-* ignore_all_collisions: Disables all collisions.
-* Ignore_static_body_collisions: Disables collisions with static bodies.
-* use_last_step_point_as_data: 4th step point is considered as data instead of a sound point.
-* make_bodyfall_sound: Creates a fall sound when the body touches the ground.
-* client_prediction: Prevents animations from being sent through the network.
-* keep: Doesn’t end the animation when it is finished and keeps it as paused instead.
-* restart: Forces the animation to start from the beginning if the same animation is already being played by that skeleton.
-* client_owner_prediction: Prevents animations from being sent through the network only for the agents that are controlled by that client.
-* make_walk_sound: Plays hardcoded walk sounds.
-* disable_hand_ik: Prevents hand inverse kinematics to be applied during the animation.
-* blends_according_to_look_slope: Allows animation to be blended with another animation according to the look slope, with this one being downward.
-* synch_with_horse: Plays the animation without using its original duration, it instead matches the progress with the mount’s animation.
-* use_left_hand_during_attack: Allows the combat system to check the left hand as the collider during an attack.
-* lock_camera: Prevents players from controlling the camera during this animation.
-* lock_movement: Prevents agents to move during this animation.
-* synch_with_movement: Plays the animation without using its original duration, it instead matches the progress with the agent’s movement animations.
-* enable_hand_spring_ik: Allows a spring-like inverse kinematics to be applied to hands for applying lower body movement’s forces on them.
-* enable_hand_blend_ik: Allows inverse kinematics to try to keep the hands a bit at the starting location when this animation starts by blending the original position and the animation position.
-* synch_with_ladder_movement: Plays the animation without using its original duration, it instead matches the progress with the agent’s movement on the ladder.
-* do_not_keep_track_of_sound: Prevents engine from holding a reference to a sound when it is played.	 
-* reset_camera_height: Reduces the additional camera height for this animation.
-* disable_auto_increment_progress: Prevents the animation from being played and keeps it paused at the current progress instead. Progress might have to be set manually from the code.
-* enforce_lowerbody: Prevents previous channel and movement animations to be played during this animation.
-* enforce_all: Valid for channel 0 only. Prevents channel 1 and movement animations to be played during this animation.
-* cyclic: Animation loops and never ends.
-* enforce_root_rotation: Abdomen (root) rotation is taken from this animation instead of the previous channel or movement animation for internal calculations.
-* allow_head_movement: Allows agent’s head to move according to look direction.
-* disable_foot_ik: Disables foot inverse kinematics for this animation.
-* affected_by_movement: Allows movement adder animations to be added on top of this animation to give a better shaky feeling.
-* update_bounding_volume: Disables bounding box optimization, should be used when the agent moves outside its regular boundaries with this animation.
-* align_with_ground: Aligns agent's frame with the ground during this animation.
-* ignore_slope: Prevents quadruped agents to align with the ground during this animation.
-* displace_position: Updates world position of the agent during the animation using the displacement data.
-* enable_left_hand_ik: Forces the left hand to stay on this animation’s target frame even during blending with other animations using inverse kinematics.
-* ignore_scale_on_root_position: Allows abdomen (root) position to stay at the same position with the original scale, allowing the agents to interact with objects better.
-* randomization_weight: Randomizes the animation inside its alternative group with this value. Higher value allows the animation to be selected more frequently.
+* disable_agent_agent_collisions: 禁用agent之间的碰撞。
+* ignore_all_collisions: 禁用所有碰撞。
+* Ignore_static_body_collisions: 禁用与静态物体的碰撞。
+* use_last_step_point_as_data: 第四步点被认为是数据而不是声音点。
+* make_bodyfall_sound: 当身体接触地面时，发出坠落的声音。
+* client_prediction: 防止动画通过网络发送。
+* keep: 动画完成后不会结束动画，而是将其保持为暂停状态。
+* restart: 如果同一动画已经被该骨架播放，则强制从头开始播放。
+* client_owner_prediction: 防止动画只通过网络向该客户端控制的agent发送。
+* make_walk_sound: 播放硬编码的步行声。
+* disable_hand_ik: 防止在动画中应用手部反运动学
+* blends_according_to_look_slope: 允许根据外观坡度将动画与另一个动画混合，这个动画是向下的。
+* synch_with_horse: 允许在播放动画时不使用其原始的持续时间。播放动画时不使用原来的持续时间，而是与坐骑的动画进度匹配。
+* use_left_hand_during_attack: 允许战斗系统在攻击时将左手作为准星进行检查。
+* lock_camera: 防止玩家在此动画中控制摄影机。
+* lock_movement:  防止agent在此动画中移动。
+* synch_with_movement: 播放动画时，不使用原来的持续时间，而是与agent的移动动画进度相匹配。
+* enable_hand_spring_ik: 允许将类似弹簧的反向运动学应用于手部，以便将下半身运动的力施加在手部。
+* enable_hand_blend_ik: 允许反运动学通过混合原始位置和动画位置，在这个动画开始时，尽量让手的起始位置保持同一点。
+* synch_with_ladder_movement: 播放动画时不使用其原始的持续时间，而是与agent在梯子上的移动进度相匹配。
+* do_not_keep_track_of_sound: 防止引擎在播放声音时保持对声音的引用。
+* reset_camera_height: 降低该动画的额外相机高度。
+* disable_auto_increment_progress: 防止动画播放，并将其暂停在当前进度上。进度可能需要从代码中手动设置。
+* enforce_lowerbody: 防止之前的频道和移动动画在此动画期间播放。
+* enforce_all: 仅适用于通道0。阻止在此动画期间播放通道 1 和移动动画。
+* cyclic: 动画循环，永远不会结束。
+* enforce_root_rotation: 腹部(root)的旋转是从这个动画中提取的，而不是以前的通道或运动动画进行内部计算。
+* allow_head_movement: 允许agent的头部根据看的方向移动。
+* disable_foot_ik: 禁用此动画的脚部反向运动学。
+* affected_by_movement: 允许在此动画上添加运动加成动画，以获得更好的摇晃感。
+* update_bounding_volume: 禁用边界盒优化，当agent在其常规边界外移动时应该使用此动画。
+* align_with_ground:在这个动画中，将agent的框架与地面对齐。
+* ignore_slope: 防止四足agent在动画中与地面对齐。
+* displace_position: 在动画中使用位移数据更新agent的世界位置。
+* enable_left_hand_ik: 强制左手停留在此动画的目标帧上，即使在与其他动画混合时使用反向运动学。
+* ignore_scale_on_root_position:忽略根部位置的缩放。允许腹部（root）的位置与原始比例保持在同一位置上，让agent与物体更好地互动。
+* randomization_weight: 用这个值将动画随机化在其备选组内。较高的数值可以让动画被更频繁的选择。
 
-##### Modifying/Adding New Actions
-Agent animations are mapped to action sets as actions. In order to set a new animation to an existing action, first you need to define a new animation clip through the resource browser. Animation clips define the animation start and end seconds, FPS and various properties. Then you need to map it under action_sets.xml for the specific action set. If a new action is needed to be created, first you need to add it as a new line under action_types.xml, and then do the same steps above.
+##### 修改/添加新操作 
+agent动画作为动作被映射到动作集。为了给现有的动作设置一个新的动画，首先需要通过资源浏览器定义一个新的动画片段。动画剪辑定义了动画的开始和结束秒数、FPS和各种属性。然后你需要将其映射到特定动作集的action_sets.xml下。如果需要创建一个新的动作，首先需要在action_types.xml下将其添加为新的行，然后再进行上面同样的步骤。
 
-Non-agent animations are not mapped as actions. For those, you just need to add the animation clips through the resource browser and then start using it in the code.
+非agent动画不被映射为动作。对于这些，你只需要通过资源浏览器添加动画片段，然后在代码中开始使用它。
 
-Each action has several attributes. These attributes are hardcoded so that the engine can understand certain properties of the action. The attributes are:
+每个动作都有几个属性。这些属性是硬编码的，以便引擎能够理解动作的某些属性。这些属性是
 
-type (default: actt_other):
+类型（默认：actt_other）：
 
 * actt_other,
 * actt_defend_fist,
@@ -153,7 +153,7 @@ type (default: actt_other):
 * actt_strike_knock_back,
 * actt_mount_strike
 
-usage_direction (optional):
+usage_direction (可选):
 
 * ud_attack_up,
 * ud_attack_down,
@@ -167,7 +167,7 @@ usage_direction (optional):
 * ud_attack_any
 
 
-action_stage (optional):
+action_stage (可选):
 
 * as_attack_ready,
 * as_attack_quick_ready,
@@ -178,10 +178,10 @@ action_stage (optional):
 * as_defend_parry
 
 
-Using the modified actions is pretty straightforward, you just need to change the action to animation mapping under action_sets.xml and that will probably be enough. But if you want to create a new action, or create a new behavior for an existing action, possible ways of integrating it within the game would be:
+使用修改后的动作非常直接，你只需要在action_sets.xml下修改动作到动画的映射就可以了。但是如果你想创建一个新的动作，或者为现有的动作创建一个新的行为，可能的整合它到游戏中的方法有：
 
-* Calling the action from the code: Agent class has the necessary functions to do that. For performance reasons, make sure to cache the index of the action using the ActionIndexCache class.
-* Using it in movement_sets.xml: This file contains two sets: movement_sets and full_movement_sets. A movement_set contains all the animations required for a character to move in all directions in a single stance and state. A full_movement_set contains a group of movemen_sets in order to satisfy all stances and all states: walking, running, crouch walking and crouch running with left and right stances. Please keep in mind that crouch does not have a left stance, and as such some weapon usages enforce only right stance to be used in all cases (i.e. ranged weapons in Native). full_movement_sets contain their conditions as attributes: left_stance and movement_mode.
-* Using it in item_usage_sets.xml: new combat actions should be given from here as long as they don't require a combat system change. Idle, guard, weapon usage, kick usage actions can be set from here for every item with certain conditions. In addition to that the actions defined under movement_sets.xml are also referenced from here. There are too many conditions and attributes for the usage_sets to explain them here, but the existing examples should help you understand how everything works. One important and not so straightforward detail is that, all of the usages defined here are traversed from top to bottom, and the first usage that satisfies the condition is used. So it is important to keep the usages that have more limits at the top of the list, and fallback usages at the bottom.
-* Using it in monster_usage_sets.xml: Just like item_usage_sets.xml, this file contains possible actions that agents can do without depending on an item type. Those can be strikes, jumps, falls and mountings. For quadruped agents there are a few more possibilities: upper_body_movements, movements and movement_adders. This file requires a closer explanation, but its structure is similar to item_usage_sets.xml and the examples shown there should be self explanatory. Again for all cases, usages are traversed from the top and first usage that satisfies the conditions is used. Since the conditions vary a lot for different conditions of actions, sometimes a condition can be used outside of its meaning (i.e. meaning of is_heavy becomes a speed condition for quadruped falls and strikes). And some directions may not be applied for certain conditions (some actions check 4 directions, some check front_left and front_right instead of front, and some check only cross directions: front_left, front_right, back_left and back_right), so it is advised that you experiment a bit if you try to go beyond what the Native code gives you. For the full possible body_parts, please check bone_body_types.xml, which mainly holds some attributes for body parts related to combat collision checks.
+*  从代码中调用动作。Agent类有必要的函数。为了保证性能，请确保使用ActionIndexCache类来缓存动作的索引。
+* Using it in movement_sets.xml: 这个文件包含两个集合： movement_sets 和 full_movement_sets。一个 movement_set 包含了一个角色在单一姿态和状态下向所有方向移动所需的所有动画。一个 full_movement_set 包含一组动作集，以满足所有姿态和所有状态：行走、奔跑、蹲下行走和蹲下奔跑的左右姿态。请注意，蹲下没有左姿态，因此有些武器的使用在任何情况下都只能使用右姿态（例如Native中的范围武器）。
+* Using it in item_usage_sets.xml: 只要不需要改变战斗系统，新的战斗动作应该从这里给出。自然状态、防守姿态、武器使用、踢击使用动作可以从这里为每个物品设置一定条件。除此之外，movement_sets.xml下定义的动作也是从这里引用的。usage_sets的条件和属性太多，这里无法解释，但现有的例子应该能帮助你理解一切的工作原理。一个重要而又不那么简单的细节是，这里定义的所有用法都是从上到下遍历的，第一个满足条件的用法被使用。所以，重要的是要把限制较多的用法放在列表的顶部，而把后备用法放在底部。
+* Using it in monster_usage_sets.xml: 就像 item_usage_sets.xml一样，这个文件包含了一些可能的动作，agent可以根据物品类型不做任何动作。这些动作可以是打击、跳跃、摔倒和骑乘。对于四足动物agent来说，还有一些可能的动作：上半身动作、动作和动作添加器。这个文件需要更仔细的解释，但它的结构类似于 item_usage_sets.xml，其中的例子应该是不言自明的。同样，对于所有的情况，用法都是从头开始遍历，首先使用满足条件的用法。由于不同的动作条件，条件变化很大，有时一个条件的使用可能会超出它的含义（例如is_heavy的含义变成了四足跌倒和击打的速度条件）。而且有些方向可能不适用某些条件（有些动作会检查4个方向，有些会检查front_left和front_right而不是front，有些只检查交叉方向：front_left，front_right，back_left和back_right），所以如果你想超出Native代码给你的范围，建议你做一下实验。关于全部可能的body_parts，请查看bone_body_types.xml，里面主要保存了一些与战斗碰撞检查相关的身体部位的属性。
 
