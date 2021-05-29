@@ -26,9 +26,9 @@ weight = 1
 ### 需要应用多少种类型的导航网格？ ###
 导航网格有三种类型：
 
-1.<strong>基本导航网状区域</strong>(没有ID，ID:0)，例如：战斗地形（battle_terrain）、强盗巢穴（hideout）或领主大厅(lords hall)。
+1.<strong>基本导航网状区域</strong>(没有ID，ID:0)，例如：战斗地形（battle_terrain）、藏身处（hideout）或领主大厅(lords hall)。
 2.<strong>村庄场景</strong>。村庄等场景有多个导航网ID。
-3.<strong>攻城场景</strong>。在这类场景中，主要有平民和攻城两种可视模式。平民模式下的城镇场景可以看作是一个大的村庄场景。但是在围城模式下，有些位置和案例处，需要导航网面有特殊的ID。
+3.<strong>攻城场景</strong>。在这类场景中，主要有平民和攻城两种可视模式。平民模式下的城镇场景可以看作是一个大的村庄场景。但是在围城模式下，有些位置和实例处，需要导航网面有特殊的ID。
 
 ------------------
 ### 导航网格建模准备工作 ###
@@ -41,7 +41,7 @@ weight = 1
 
 ![](/img/navmesh/navmeshinspector.png)
 
-**打开"导航网检查器"后，您将在用户界面中看到"编Editor Mode: Navigation Mesh Select"**。
+**打开"导航网检查器"后，您将在用户界面中看到"Editor Mode: Navigation Mesh Select"**。
 
 ![](/img/navmesh/editormode.png)
 
@@ -125,7 +125,7 @@ Navmesh hotkeys | Shortcut | Editor State
 
 ------------------
 
-**By holding CTRL while navigating the mouse to the vertices we can see the yellow previews. Holding these vertices with Left Mouse Button will allow us to move the vertex freely。**
+**通过在将鼠标导航到顶点的同时按住 CTRL，我们可以看到黄色预览。用鼠标左键按住这些顶点将使我们可以自由移动顶点。**
 
 ![](/img/navmesh/vertmove.gif)
 
