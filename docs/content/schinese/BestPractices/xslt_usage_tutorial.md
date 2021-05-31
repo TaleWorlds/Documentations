@@ -6,9 +6,9 @@ identifier = "xslt_usage_tutorial"
 parent = "bestpractices"
 +++
 
-我们使用XSLT文件删除或修改从其他模块加载的XML文件中的元素。您不必使用 XSLT 系统添加新元素到 XML 文件。
+我们使用XSLT文件删除或修改从其他模组加载的XML文件中的元素。您不必使用 XSLT 系统添加新元素到 XML 文件。
 
-您只需创建一个与 XML 文件同名的 XSLT 文件，并将其放置在与您的 XML 文件相同的路径中。这个添加的 XSLT 文件将对位于模块之前加载的模块中相同类型的 XML 文件进行更改。系统会在应用模块自己的 XML 文件之前应用模块的 XSLT 文件。所以 XSLT 文件不会影响同一个模块自己的 XML 文件。
+您只需创建一个与 XML 文件同名的 XSLT 文件，并将其放置在与您的 XML 文件相同的路径中。这个添加的 XSLT 文件将对位于模组之前加载的模组中相同类型的 XML 文件进行更改。系统会在应用模组自己的 XML 文件之前应用模组的 XSLT 文件。所以 XSLT 文件不会影响同一个模组自己的 XML 文件。
 
 您还需要根据文件的类型制作一个条目 submodule.txt 或 project.mbproj 。
 
