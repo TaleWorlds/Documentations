@@ -1,8 +1,6 @@
 +++
 title = "Generating and Loading UI Sprite Sheets"
-
-[menu.main]
-identifier = "sprite_sheets"
+weight = 2
 +++
 
 #### Introduction
