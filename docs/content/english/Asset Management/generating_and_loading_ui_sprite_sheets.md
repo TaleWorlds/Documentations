@@ -3,7 +3,6 @@ title = "Generating and Loading UI Sprite Sheets"
 
 [menu.main]
 identifier = "sprite_sheets"
-parent = "bestpractices"
 +++
 
 #### Introduction
@@ -32,7 +31,7 @@ Sprites are two-dimensional images that are mostly used in the user interface of
 #### Generating Sprite Sheets
 In order to generate sprite sheets, run the TaleWorlds.TwoDimension.SpriteSheetGenerator.exe executable file located at INSTALLATION_PATH\Mount & Blade II Bannerlord\bin\Win64_Shipping_wEditor. If you have followed the steps above, after running SpriteSheetGenerator.exe, you should see the following window:
 
-<img src="/img/sprite_sheets/2.PNG" width="900px"/>
+<img src="/img/sprite_sheets/2.PNG" width="1200px"/>
 
 SpriteSheetGenerator.exe will create two folders named Assets and AssetSources under Modules\YOUR_MODULE_NAME. It will also create a SpriteData.xml file (with a prefix of your module name) under Modules\YOUR_MODULE_NAME\GUI.
 
@@ -45,19 +44,19 @@ In order to use the sprites in your sprite sheets, you should also import them f
 * On the main menu, press Alt + ` to open the console.
 * Type resource.show_resource_browser, then hit enter.
 
-<img src="/img/sprite_sheets/3.PNG" width="900px"/>
+<img src="/img/sprite_sheets/3.PNG" width="1200px"/>
 
 This should open the resource browser:
 
-<img src="/img/sprite_sheets/4.PNG" width="900px"/>
+<img src="/img/sprite_sheets/4.PNG" width="1200px"/>
 
 Collapse the folder named Native on the left of the resource browser to see your module easily. Then, select your module.
 
-<img src="/img/sprite_sheets/5.PNG" width="900px"/>
+<img src="/img/sprite_sheets/5.PNG" width="1200px"/>
 
 Open the GauntletUI folder in your module. Then, press the “Scan new asset files” button which is pointed with a red arrow below (arrow on the right).
 
-<img src="/img/sprite_sheets/6.png" width="900px"/>
+<img src="/img/sprite_sheets/6.png" width="1200px"/>
 
 This should open a new window:
 
@@ -65,7 +64,7 @@ This should open a new window:
 
 Make sure your category is selected (in the example, it is ui_mycategory) then press the Import button. Then, you should see something similar to this:
 
-<img src="/img/sprite_sheets/8.PNG" width="900px"/>
+<img src="/img/sprite_sheets/8.PNG" width="1200px"/>
 
 Close the resource browser and the game.
 You should now see a new file named ui_{YOUR_CATEGORY_NAME}_1_tex.tpac under Modules\YOUR_MODULE_NAME\Assets\GauntletUI.
@@ -163,4 +162,4 @@ Otherwise, they won’t be recognized and the game will crash while launching.
 * Create a new campaign or load a compatible save file to open the campaign map. Both of them will start a game. Notice that the code we have written adds the screen once the game starts (check the OnGameStart method).
 * After you start the game by creating a new campaign, you should see this screen:
 
-<img src="/img/sprite_sheets/9.PNG" width="900px"/>
+<img src="/img/sprite_sheets/9.PNG" width="1200px"/>
