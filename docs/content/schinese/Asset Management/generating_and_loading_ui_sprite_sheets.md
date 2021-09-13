@@ -82,7 +82,20 @@ To give an example, we will create a new UI XML file. To do that, go back to the
 	</Prefab>
 
 #### Loading & Unloading Sprite Categories
-In order to use the sprites that you have added, you need to load them. In the example below, we override the OnGameStart and OnGameEnd methods of MBSubModuleBase class to add and remove the MyScreen global layer respectively. Notice that the constructor of MyScreen loads the sprite category and the UI XML that we have created in previous sections. We also unload the sprite category inside the OnFinalize method. 
+In order to use the sprites that you have added, you need to load them. You have two options in this regard:¸
+
+1. Loading & Unloading Manually
+	* The developer has more control. They can choose when the sprite categories are loaded and unloaded. Thus, they can manage memory usage and performance.
+	* Requires writing code. Thus, more complex than The AlwaysLoad Option.
+
+2. Using The AlwaysLoad Option
+	* Sprite categories are loaded on startup automatically.
+	* Categories are kept in the memory until the game is closed. Thus, no need to manually load them every time they are used.
+	* Decreased UI loading time at the cost of increased memory usage.
+	* Easy to use.
+
+##### 1. Loading & Unloading Manually
+Here we show how to load & unload sprite categories manually. In the example below, we override the OnGameStart and OnGameEnd methods of MBSubModuleBase class to add and remove the MyScreen global layer respectively. Notice that the constructor of MyScreen loads the sprite category and the UI XML that we have created in previous sections. We also unload the sprite category inside the OnFinalize method. 
 
 If you are going to copy the below code, do not forget to change the namespace and name of the Main function. They should match with the fields in your SubModule.xml. In other words, you should change SpritesheetDocumentation (namespace) to YOUR_MODULE_NAME and Main (name of the Main function) to YOUR_MAIN_FUNCTION_NAME in this field of the SubModule.xml:
 
@@ -154,7 +167,51 @@ Otherwise, they won’t be recognized and the game will crash while launching.
 		}
 	}
 
+##### 2. Using The AlwaysLoad Option
+Instead of manually loading sprite categories like in the Loading & Unloading Manually section, you can choose which sprite categories should be loaded automatically on startup by enabling the AlwaysLoad option for those categories. Unless they are manually unloaded by the developer, categories that have the AlwaysLoad option enabled will be kept in the memory until the game is closed so that you don’t have to load them manually every time they are used. Enabling the AlwaysLoad option decreases the load time of UI (since these categories are loaded only once on startup) but increases memory usage (since these categories will be kept in the memory even when they are not used). This option is very useful for the categories that are frequently loaded & unloaded (f.e. A category that is used in a screen that is opened and closed frequently).
+
+Note: This feature has been released with e1.6.2. If you are on an earlier version and still want to use the AlwaysLoad option, please switch both the game and the modding kit to e1.6.2 or a newer version.
+
+To enable the AlwaysLoad option for a category, follow the steps below:
+
+Create a new XML file named Config.xml under the folder Modules\YOUR_MODULE_NAME\GUI\SpriteParts. Copy and paste the following into Config.xml:
+
+	<Config>
+		<SpriteCategory Name="ui_{YOUR_CATEGORY_NAME}">
+			<AlwaysLoad/>
+		</SpriteCategory>
+	</Config>
+
+Replace ui_{YOUR_CATEGORY_NAME} with your category. Then, generate sprite sheets by following the steps in the Generating Sprite Sheets section above. To check if everything is okay, open the file named {YOUR_MODULE_NAME}SpriteData.xml which is located at Modules\YOUR_MODULE_NAME\GUI. There you should see that the AlwaysLoad option is enabled for the categories that you have selected in the Config.xml:
+
+	<SpriteData>
+		<SpriteCategories>
+			<SpriteCategory>
+				<Name>ui_{YOUR_CATEGORY_NAME}</Name>
+				<AlwaysLoad />
+				<SpriteSheetCount>1</SpriteSheetCount>
+				<SpriteSheetSize ID="1" Width="512" Height="512" />
+			</SpriteCategory>
+		</SpriteCategories>
+		...
+	</SpriteData>
+
+You don’t need to change/add any code to load the new sprite sheet category.
+
 #### Conclusion
+Make sure you have created a screen and loaded the UI XML file that you have created in Using Sprites In UI XML Files section in order to see the result below.
+
+Note: If you have added your sprite category with the AlwaysLoad option and didn’t use the code shared in the Loading & Unloading Manually section, you can write your own code to create a screen and load the UI XML. If you don’t know how to do it, you can copy the code from the Loading & Unloading Manually section (please also read the details in that section) and delete the following lines since you have used the AlwaysLoad option and don’t need to load the category manually:
+
+	var spriteData = UIResourceManager.SpriteData;
+	var resourceContext = UIResourceManager.ResourceContext;
+	var resourceDepot = UIResourceManager.UIResourceDepot;
+	
+	_category = spriteData.SpriteCategories["ui_mycategory"]; // select which category to load, put your category name here
+	_category.Load(resourceContext, resourceDepot); // load the selected category
+
+You can also delete the _category field and remove its references.
+
 * Make sure you have built your project into Modules\YOUR_MODULE_NAME\bin\Win64_Shipping_Client.
 * Launch the game (not the Modding Kit) from Steam and make sure your module is selected in the Mods section of the Launcher, then hit “Play”.
 * Create a new campaign or load a compatible save file to open the campaign map. Both of them will start a game. Notice that the code we have written adds the screen once the game starts (check the OnGameStart method).
