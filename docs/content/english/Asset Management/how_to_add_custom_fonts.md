@@ -23,11 +23,11 @@ This documentation will go through the following steps:
 #### Setting Up The Files and Paths
 
 * Go to Mount &amp; Blade II Bannerlord\GUI\GauntletUI\Fonts\.
-* Make sure two files below exist in the directory. We will use them to generate our font data.
+* Make sure the two files below exist in the directory. We will use them to generate our font data.
 	* **GenerateFont.bat**
 	* **GenerateFontSettings.txt**
 * Move your **.ttf** font file to the directory.
-* For our example we will use a font file named **OpenSansRegular.ttf**.
+* For our example, we will use a font file named **OpenSansRegular.ttf**.
 * Open the file: &quot;**GenerateFontSettings.txt**&quot;.
 * &quot;**GenerateFontSettings.txt**&quot; default values are:
 
@@ -42,9 +42,10 @@ This documentation will go through the following steps:
 		-smoothingConstant 0.5-mode 1
 
 * Here, we need to change the placeholder variables **{FONT\_PATH.ttf}** and **{OUTPUTPATH.png}** with actual paths.
-* The paths here are relative to the directory of **GenerateFont.bat.**
+* The paths here are relative to the directory: **…\bin\Win64_Shipping_wEditor** directory unless you specify a full path.
+* Please note that if you want to use paths that contain spaces, you need to put them inside quotes.
 * Setting -fontpath:
-	* In our example the variable should be: **-fontpath OpenSansRegular.ttf**.
+	* In our example, the variable should be: **-fontpath OpenSansRegular.ttf**.
 * Setting -outputpath:
 	* This variable determines where the **.png** file should be placed. We should use a **.png** file path to a non-existent file which will be created in the process of generating atlas.
 	* In our example we set the -outputpath variable as: **-outputpath OpenSansRegular.png**.
@@ -65,12 +66,13 @@ _If the generated .png file does not contain all the characters for your font, c
 #### Generating Fonts
 
 * Now that the files are added and the correct paths for generator set up, start the **GenerateFont.bat**.
-* If everything is properly set-up, the program will not throw any errors and will generate 3 files in the directory which you defined as your **-outputpath**.
+* If everything is properly set up, the program will not throw any errors and will generate 3 files in the directory which you defined as your **-outputpath**.
 	* In our example, the 3 files are:
 		* **OpenSansRegular.fnt**
 		* **OpenSansRegular.bfnt**
 		* **OpenSansRegular.png**
 * If you see any errors in the batch script, make sure that the **-fontpath** and **-outputpath** variables are set correctly.
+* In our example, the 3 generated files are located in the **…\bin\Win64_Shipping_wEditor\** directory since we put a relative path.
 
 #### Placing Files in the Module Folder
 
@@ -91,7 +93,7 @@ _If the generated .png file does not contain all the characters for your font, c
 
 ##### Configuration
 
-* In order to be able to use our font in game, we need to specify in our **Config.xml** file that our font needs to be loaded automatically.
+* In order to be able to use our font in-game, we need to specify in our **Config.xml** file that our font needs to be loaded automatically.
 * The contents of the Config.xml should include this Config:
 
 		<Config>
@@ -108,11 +110,11 @@ _If the generated .png file does not contain all the characters for your font, c
 #### Generating Sprite Sheets
 
 * Now the spritesheets of the font need to be generated, using the **.png** file created in the last process.
-* We will briefly cover how to add your new font to the spritesheets. For detailed explanation see: [GENERATING AND LOADING UI SPRITE SHEETS](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/).
+* We will briefly cover how to add your new font to the spritesheets. For a detailed explanation see: [GENERATING AND LOADING UI SPRITE SHEETS](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/).
 	* Run the spritesheet generator by simply launching the **Mount &amp; Blade II Bannerlord\bin\Win64\_Shipping\_wEditor\TaleWorlds.TwoDimension.SpriteSheetGenerator.exe**.
 	* If everything was set up correctly, the output of spritesheet generator should look like this:
 <img src="/img/how_to_add_custom_fonts/spritesheet_generator.png"/>
-	* You should import the font via the resource browser in game. Which was explained in the [document](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/) above.
+	* You should import the font via the resource browser in-game. Which was explained in the [document](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/) above.
 
 #### Using the Newly Added Fonts
 
