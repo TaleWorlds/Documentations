@@ -3,24 +3,24 @@ title = "Frequently Asked Questions"
 weight = 1
 +++
 
-##### How to install the tools?
+##### Как установить инструменты?
 
-You can download the “Mount & Blade Bannerlord Modding Tools” from the Tools section of steam. Note that the tools use some of the files downloaded within the game itself. Thus, the tools and game should be at the same version and installed on the same harddrive.
+Вы можете скачать «Mount & Blade Bannerlord Modding Tools» в разделе «Инструменты» Steam. Обратите внимание, что инструменты используют некоторые файлы, загруженные в самой игре. Таким образом, инструменты и игра должны быть одной версии и установлены на одном жестком диске.
 
-##### How to launch the tools?
-You can use the SinglePlayer option from the Launcher and once you are in the Initial Menu, you can either press the Editor button or press the Ctrl + E key combination to start up the editor. 
+##### Как запустить инструменты?
+Вы можете использовать опцию ```SinglePlayer``` из ```Launcher```, и как только вы окажетесь в начальном меню, вы можете либо нажать кнопку ```Editor```, либо комбинацию клавиш ```Ctrl + E```, чтобы запустить редактор.
 
-##### How to create your own module?
-We have a built-in functionality in the editor which creates a new module and populates it with example xml files registered to the module for ease of adding new content. After opening the editor, you can use the “Create New Module” option in the “File” menu from the top toolbar. Note that you need to restart the game in order to register the module from the Launcher. 
+##### Как создать ваш собственный модуль?
+У нас есть встроенная функция в редакторе, которая создает новый модуль и заполняет его примерами XML-файлов, зарегистрированных в модуле, для упрощения добавления нового контента. После открытия редактора вы можете использовать опцию «Create New Module» в меню «File» на верхней панели инструментов. Обратите внимание, что вам необходимо перезапустить игру, чтобы зарегистрировать модуль из Launcher.
 
-##### How to edit Native resources?
-You cannot edit native resources, you can override them on your own module. For details look at http://docs.modding.bannerlord.com/asset-management/asset-types/overriding_assets/
+##### Как редактировать оригинальные ресурсы?
+Вы не можете редактировать оригинальные ресурсы, вы можете переопределить их в своем собственном модуле. Подробности смотрите на http://docs.modding.bannerlord.com/asset-management/asset-types/overriding_assets/
 
-##### I can’t add new meshes, textures etc.
-You cannot add resources to native modules, you should add them to your own module. First, you need to create a new module: http://docs.modding.bannerlord.com/asset-management/quickguide_create_a_mod/
-For the details of adding new assets: http://docs.modding.bannerlord.com/asset-management/asset-types/overriding_assets/
+##### Я не могу добавить новые меши, текстуры и т.д.
+Вы не можете добавлять ресурсы в оригинальные модули, вы должны добавить их в свой собственный модуль. В начале вам необходимо создать новый модуль: http://docs.modding.bannerlord.com/asset-management/quickguide_create_a_mod/
+Подробнее о добавлении новых ассетов: http://docs.modding.bannerlord.com/asset-management/asset-types/overriding_assets/
 
-##### Example scenes to look at?
+##### Примеры сцен на которые стоит обратить внимание
 
 empire_village_003
 khuzait_castle_002
@@ -32,11 +32,11 @@ empire_dungeon_a
 arena_empire_a
 Main_map
 		
-##### Where to find example assets?
-You can inspect native resources from Resource Browser but there aren't source files for these and you cannot export them. We will be providing some example source files soon.
+##### Где найти примеры ассетов?
+Вы можете просмотреть исходные ресурсы из браузера ресурсов, но для них нет исходных файлов, и вы не можете их экспортировать. Вскоре мы предоставим несколько примеров исходных файлов. 
 
-##### I have mods with DLL’s and my modding tools does not launch.
-If you have any mods with DLL’s enabled, be sure to copy them to the Modules\MOD_NAME\bin\Win64_Shipping_wEditor folder as well.
+##### У меня есть моды с DLL, и мои инструменты для создания модов не запускаются.
+Если у вас есть какие-либо моды с включенными DLL, обязательно скопируйте их также в папку ```Modules\MOD_NAME\bin\Win64_Shipping_wEditor```.
 
-##### My modding tool does not launch.
-Be sure that Visual Studio 2013 Redist x64 is installed in your machine. Also, check whether the version numbers for the base game and modding tools match. If all of the above checks does not work, you can create a new topic in the “Bug & Crashes” section of the modding forums(https://forums.taleworlds.com/index.php?forums/bug-crash-reports.784/). 
+##### Мои инструменты моддинга не запускаются
+Убедитесь, что на вашем компьютере установлен Visual Studio 2013 Redist x64. Также проверьте, совпадают ли номера версий базовой игры и инструментов моддинга. Если все вышеперечисленные проверки не работают, вы можете создать новую тему в разделе «Bug & Crashes» на форумах по моддингу (https://forums.taleworlds.com/index.php?forums/bug-crash-reports.784/). 
