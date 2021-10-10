@@ -1,5 +1,5 @@
 +++
-title = "Sealed Class Extension"
+title = "Расширение запечатанных классов"
 
 [menu.main]
 identifier = "sealed_class_extension"
@@ -7,17 +7,17 @@ parent = "bestpractices"
 +++
 
 
-It has been brought to our attention that a workaround to extend sealed classes is requested by some of our modders. In this article we will be exploring why there are sealed classes in the game codes and how to achieve extended behavior for them.
+Мы обратили внимание на то, что некоторые из наших разработчиков модификаций запрашивают обходной путь для расширения запечатанных классов. В этой статье мы рассмотрим, почему в игровых кодах есть запечатанные классы и как добиться для них расширенного поведения.
 
-One of the main reasons we have made fundamental classes sealed is to allow the codebase to support a broad range of mods that can operate simultaneously as best as possible. In order to achieve this, and as software engineering principles dictate, we encourage mods to be built as self contained, modular extensions to the code such as Campaign Behaviors, Game Models and custom classes or components, that can be added or removed without any complications. Inheriting from core campaign classes increases the likelihood of conflicts with other mods and future official updates by changing class hierarchies and may lead to custom tailored alterations to fundamental game logic. Although it is possible to write careful code that avoids these issues, we decided to adhere to these standards in our codebase and reduce the possibility of conflict from either internal or external sources altogether.
+Одна из основных причин, по которой мы сделали фундаментальные классы запечатанными, — это позволить кодовой базе поддерживать широкий спектр модов которые могут работать одновременно с максимальной эффективностью. Для этого и в соответствии с принципами программной инженерии мы рекомендуем создавать моды как автономные, модульные расширения кода, такие как Campaign Behaviors, Game Models и пользовательские классы или компоненты, которые можно добавлять или удалять без каких-либо осложнений. Наследование от основных классов кампании увеличивает вероятность конфликтов с другими модами и будущими официальными обновлениями из-за изменения иерархии классов и может привести к индивидуальным изменениям фундаментальной логики игры. Хотя можно написать аккуратный код, который избегает этих проблем, мы решили придерживаться этих стандартов в нашей кодовой базе и полностью снизить вероятность конфликта из внутренних или внешних источников.
 
-When it comes to achieving extended behavior for sealed classes without inheritance, although various workarounds might be explored, one possible solution is discussed below. 
+Когда дело доходит до достижения расширенного поведения для запечатанных классов без наследования, хотя можно изучить различные обходные пути, одно из возможных решений обсуждается ниже.
 
-In essence, when the problem of extending sealed classes is broken-down, there are two main requirements to address, namely adding new behavior and adding new properties.
+По сути, когда проблема расширения запечатанных классов решена, необходимо решить два основных требования, а именно: добавление нового поведения и добавление новых свойств.
 
-In order to add new behavior to sealed classes, a C# feature called “extension methods” can be utilized. In a nutshell, it enables you to add new methods to any class without deriving a new type or modifying the original one. For more information on extension methods, you can visit [here](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods).
+Чтобы добавить новое поведение к запечатанным классам, можно использовать функцию C#, называемую «extension methods». Вкратце, это позволяет добавлять новые методы к любому классу, не создавая новый тип или не изменяя исходный. За подробной информации обратитесь к [руководству](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods).
 
-Adding a new property can be achieved by associating a sealed class instance with a corresponding property value using a dictionary. When combined with extension methods, the sealed class can provide the interface to the new property as if it was added directly to the class.
+Добавление нового свойства может быть достигнуто путем связывания экземпляра запечатанного класса с соответствующим значением свойства с помощью словаря. В сочетании с методами расширения запечатанный класс может предоставить интерфейс для нового свойства, как если бы оно было добавлено непосредственно в класс.
 
 ```C#
     public class HeroManaExtensionCampaignBehavior : CampaignBehaviorBase
@@ -30,7 +30,7 @@ Adding a new property can be achieved by associating a sealed class instance wit
             {
                 return result;
             }            
-			
+        
             return 0; //default value
         }
 
@@ -64,4 +64,4 @@ Adding a new property can be achieved by associating a sealed class instance wit
 
 ```
 
-While this solution is a viable workaround to extend sealed classes, it is important to remember that each project has different requirements and consequently you should explore what approach works best for your code.
+Хотя это решение представляет собой жизнеспособный обходной путь для расширения запечатанных классов, важно помнить, что каждый проект имеет разные требования, и, следовательно, вам следует изучить, какой подход лучше всего подходит для вашего кода. 
