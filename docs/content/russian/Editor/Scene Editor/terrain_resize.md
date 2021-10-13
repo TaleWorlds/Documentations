@@ -1,22 +1,22 @@
 +++
-title = "Resizing Terrain"
+title = "Изменение размера ландшафта"
 
 [menu.main]
 identifier = "terrain_resize"
 parent = "core_components"
 +++
 
-## Resizing Terrain
-If required, terrain node count can be resized at <b>Resize Terrain</b> panel in <b>Terrain Inspector</b>.
+## Изменение размера ландшафта
+При необходимости количество узлов ландшафта можно изменить на панели <b>Resize Terrain</b> в <b>Terrain Inspector</b>.
 
 ![](/img/terrain_resize/resize_panel.PNG)
 
-* There are 4 direction that you can add new nodes, or remove existing nodes. +X, +Y, -X, -Y (South, East, North, West, respectively) (Coloring is consistent with Gizmo). \\
-* Adding or removing nodes will automatically relocate existing entities and floras to their new locations. New nodes will have their height data unspecified, and may look unconnected to the rest of the terrain. Artist can (and should) easily fix this using in-editor height brushes, or can export the height map and modify using an external height map generation tool and then import back to the editor.\\
-* Using positive values to a side will append that much new nodes to that side. If you write +2 to each side, terrain will expand by 2 nodes on each side. If you write 3 only to +X, and 0 (zero) to rest, terrain will expand by 3 nodes only on +X direction.\\
-* If you write a negative value to a side, it will remove that much nodes from that side. \\
-* If you write 0 (zero) to a side, there will be no modifications on that side. (default value)
+* Есть 4 направления, в которых вы можете добавлять новые узлы или удалять существующие узлы. +X, +Y, -X, -Y (Юг, Восток, Север, Запад соответственно) (Раскраска соответствует Gizmo). \\
+* Добавление или удаление узлов автоматически перемещает существующие объекты и флоры на их новые места. Для новых узлов данные о высоте не указаны, и они могут выглядеть несвязанными с остальной частью ландшафта. Художник может (и должен) легко исправить это, используя кисти высоты в редакторе, или может экспортировать карту высот и изменить с помощью внешнего инструмента создания карты высот, а затем импортировать обратно в редактор. \\
+* Использование положительных значений на стороне добавит столько новых узлов к этой стороне. Если вы напишете +2 с каждой стороны, ландшафт будет расширяться на 2 узла с каждой стороны. Если вы напишете 3 только для +X и 0 (ноль) для отдыха, ландшафт будет расширяться на 3 узла только в направлении +X. \\
+* Если вы напишете отрицательное значение на стороне, это удалит столько узлов с этой стороны. \\
+* Если вы напишете 0 (ноль) на боковой стороне, никаких изменений на этой стороне не будет. (значение по умолчанию)
 
-| Adding | Deleting |
+| Добавление | Удаление |
 | ------------ | ------------ |
 | ![](/img/terrain_resize/append.PNG) | ![](/img/terrain_resize/delete.PNG) |
