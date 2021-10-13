@@ -1,20 +1,19 @@
 +++
-title = "Filter Queries"
+title = "Фильтр запросов"
 +++
 
 
 ------------------
 
-You can use sql syntax to search for assets with specific properties like textures whose resolutions are greater than 1024.
-To do this you need to enable query mode from extras menu :
+Вы можете использовать синтаксис SQL для поиска ресурсов с определенными свойствами, такими как текстуры с разрешением более 1024.
+Для этого вам нужно включить режим запроса из меню дополнительных функций:
 ![](/img/asset_browser/extras_icon.png)
 
-From the Texture Inspector (Right Panel), you can enable/disable MipMap blending by toggling <strong>Use Mipmap Blending</strong> checkbox.
-When you enable MipMap Blending, you will see all mip levels of the selected texture next to each other in Preview Window.
+В Инспекторе текстур (правая панель) вы можете включить/выключить смешивание MipMap, установив флажок <strong>Use Mipmap Blending</strong>. Когда вы включите MipMap Blending, вы увидите все уровни mip выбранной текстуры рядом друг с другом в окне предварительного просмотра.
 ![](/img/mipmap_editor/tex_editor_post_mip.PNG)
 
-Clicking on <strong>MipMap Blend Amounts</strong> will open a new window where you can adjust blend amounts for every mip level.
+При нажатии на <strong>MipMap Blend Amounts</strong> откроется новое окно, в котором вы можете настроить количество смешивания для каждого уровня MIP.
 ![](/img/mipmap_editor/mipmap_blend_window.PNG)
 
-Then you can select <strong>MipMap Blend Color (1)</strong> and click <strong>Recompile (2)</strong> button to apply blending. The result will be immediately visible in Preview Window and also in Game.
+Затем вы можете выбрать <strong>MipMap Blend Color</strong> и нажать кнопку <strong>Recompile (2)</strong>, чтобы применить смешивание. Результат будет сразу виден в окне предварительного просмотра, а также в игре.
 ![](/img/mipmap_editor/tex_editor_compiled.PNG)
