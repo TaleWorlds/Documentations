@@ -1,5 +1,5 @@
 +++
-title = "Обратные вызовы компонентов сценария "
+title = "Обратные вызовы компонентов сценария"
 
 [menu.main]
 identifier = "script_components"

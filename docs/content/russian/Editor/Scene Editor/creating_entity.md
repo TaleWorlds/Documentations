@@ -1,59 +1,59 @@
 +++
-title = "Creating Entity"
+title = "Создание сущности"
 description = ""
 weight = 1
 +++
 
-Game Entities are basic building blocks of Scenes. Every mesh, light, decal, script behaviour are components of entities. \
+Игровые сущности - это базовые строительные блоки сцен. Каждая сетка, источник света, декаль, поведение сценария являются компонентами сущностей.  \
 
-### Creating an empty entity ###
+### Создание пустой сущности  ###
 ![](/img/create_new_entity/add_empty_entity_toolbar.png)
-In the editor, you can begin by creating a new, empty entity by using the <strong>Add Empty Entity</strong> button from tool bar, then you can attach different components for different needs. \
-All entities can be composed of multiple components.
+В редакторе вы можете начать с создания новой пустой сущности с помощью кнопки <strong>Add Empty Entity</strong> на панели инструментов, а затем присоединить различные компоненты для различных нужд.  \
+Все объекты могут состоять из нескольких компонентов.
 
-### Adding Component ###
+### Добавление компонента ###
 ![](/img/create_new_entity/add_component.png)
-Component can be added from the toolbar after selecting an entity.
-There are 5 different components you can add.
-Mesh, Decal, Light, Particle, and Script.
-##### A - Mesh:#####
-Meshes are pretty straighforward and represent every visible geometry within the scene.
-After clicking add mesh button, select any mesh you want from mesh selection dialog.
+Компонент можно добавить с панели инструментов после выбора объекта.
+Вы можете добавить 5 различных компонентов.
+Сетка, декаль, свет, частица и сценарий.
+
+##### A - Сетка:#####
+Сетки довольно просты и представляют каждую видимую геометрию в сцене. После нажатия кнопки добавления сетки выберите любую нужную сетку в диалоговом окне выбора сетки.
 ![](/img/create_new_entity/add_mesh.png)
 
-##### B - Decal:#####
+##### B - Декаль:#####
 ---
 
-##### C - Light:#####
-Lights can be used to illuminate the scene. Usually attached to other entities that supposed to emit light. (Like, torches, camp fires etc.) \
-Every light is fully customizable, you can enable/disable dynamic/static shadow, change light radius / shadow casting radius, intensity, and color from properties panel of light. \
-You can also specify custom effects like flickering for more natural lights.
-After clicking add light button, you can change properties of the light under Components panel in Entity Inspector. \
-Engine uses a technique called Tiled Deferred Rendering, so using lots of lights are pretty cheap as long as they are not overlapping too much. \
-These parameters can be tweaked to further optimize scenes. \
-In the scene visualizer, Yellow sphere represent light radius, and blue sphere represents shadow casting radius.
+##### C - Свет:#####
+Свет можно использовать для освещения сцены. Обычно прикрепляется к другим объектам, которые должны излучать свет. (Например, факелы, костры и т.д.) \
+Каждый источник света полностью настраивается, вы можете включить/отключить динамическую/статическую тень, изменить радиус света/радиус отбрасывания тени, интенсивность и цвет на панели свойств источника света. \
+Вы также можете указать собственные эффекты, например мерцание, для более естественного освещения.
+После нажатия кнопки «Добавить источник света» вы можете изменить свойства источника света на панели «Components» в Entity Inspector.  \
+Движок использует технику, называемую Tiled Deferred Rendering, поэтому использование большого количества источников света довольно дешево, если они не слишком сильно перекрываются. \
+Эти параметры можно настроить для дальнейшей оптимизации сцен. \
+В визуализаторе сцены желтая сфера представляет радиус света, а синяя сфера представляет радиус отбрасывания тени.
 ![](/img/create_new_entity/add_light.png)
 
-##### (D) Particle System:#####
-Particles simulates and renders many small images or Meshes, to produce a visual effect. \
-Particles are useful when you want to create dynamic objects or volumetric effects like fire, smoke, or splash effects since they are quite hard, or even in most cases, not possible to create with regular meshes. \
-After clicking add particle button, and selecting an exsiting particle from the Particle selection dialog, you can edit this particular instance from Component panel by clicking Edit Instance,
+##### (D) Система частиц:#####
+Частицы моделирует и визуализирует множество небольших изображений или сеток для создания визуального эффекта. \
+Частицы полезны, когда вы хотите создать динамические объекты или объемные эффекты, такие как эффекты огня, дыма или брызг, поскольку они довольно сложны или даже в большинстве случаев не могут быть созданы с помощью обычных сеток. \
+После нажатия кнопки «Добавить частицу» и выбора существующей частицы в диалоговом окне «Выбор частицы» вы можете отредактировать этот конкретный экземпляр на панели «Component», нажав «Edit Instance».
 ![](/img/create_new_entity/add_particle.png)
 
-##### (E) Script:#####
-Scripts are the basic building blocks of game related behaviours that can be attached to entities. \
-Scripts can be written in C# and has full access to attached entity, its Scene, and therefore all other entities in that Scene. \
-After clicking add script button, you can select the script you want from the dropdown menu, then you can change the script parameters from Scrips panel under Entity Inspector. \
+##### (E) Скрипт:#####
+Скрипты - это основные строительные блоки игрового поведения, которые можно прикрепить к объектам. \
+Сценарии могут быть написаны на C# и имеют полный доступ к присоединенной сущности, ее сцене и, следовательно, ко всем другим сущностям в этой сцены. \
+После нажатия кнопки добавления сценария вы можете выбрать нужный сценарий из раскрывающегося меню, а затем изменить параметры сценария на панели «Scrips» в Entity Inspector. \
 ![](/img/create_new_entity/add_script.png)
 
-### Entity Hierarchies ###
-Entities can have a parent child hierarcy to organize related entities together. \
-Child entities automatically get their world position relative to their parents, moving a parent entity will move all of their children.
-More imformation about manipulating an entity can be found <strong><a href='{{< relref "entity_inspector.md" >}}'>Here</a></strong> \
-You can use the Entity Outliner to create hierarcies by simply dragging an entity over another entity. \
+### Иерархия сущностей ###
+Сущности могут иметь родительско-дочернюю иерархию для совместной организации связанных сущностей.  \
+Дочерние сущности автоматически получают свое положение в мире относительно своих родителей, перемещение родительского объекта приведет к перемещению всех их дочерних объектов.
+Более подробную информацию о манипулировании сущностью можно найти <strong><a href='{{< relref "entity_inspector.md" >}}'>тут</a></strong> \
+Вы можете использовать Entity Outliner для создания иерархий, просто перетаскивая объект поверх другого объекта. \
 ![](/img/create_new_entity/empty_entity_outliner.png)
 
-You can also detach a child entity from its parent by right clicking and selecting Detach from parent.
+Вы также можете отсоединить дочерний объект от его родительского, щелкнув правой кнопкой мыши и выбрав «Detach from parent».
 
  | | 
 ---- | ---- | ----
