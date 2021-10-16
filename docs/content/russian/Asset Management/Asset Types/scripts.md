@@ -4,16 +4,16 @@ description = ""
 weight = 1
 +++
 
-Script components are executable scripts that are attached to entities and can be used to implement various gameplay functionalities. In Bannerlord, many gameplay logic are written via script components. For example chairs, dropped weapon, siege machines. There are many different callbacks that can be inherited and filled in these script components. 
+Компоненты сценария - это исполняемые сценарии, которые прикрепляются к объектам и могут использоваться для реализации различных функций игрового процесса. В Bannerlord большая часть игровой логики написана через компоненты скрипта. Например стулья, брошенное оружие, осадные машины. Есть много разных обратных вызовов, которые могут быть унаследованы и заполнены этими компонентами скрипта.
 
-##### Callbacks
+##### Обратные вызовы
 
-* Constructor: In constructor one needs to assign default values to its public variables(variables which can be changed by the scene maker). In constructor script component is not assigned to an entity or scene. Also, you should not write any logic that has any side effect because , even though it is created, the script component may be deleted once the scene is opened because of the upgrade level system. 
-* OnPreInit: This is called after the script component is assigned to its owner entity in the scene. Once you are in this callback , you can be sure that the user defined variables from that script instance are set. However, the other script components of the other entities may not be assigned yet. Thus, in pre init there should not be any logic code that relies on other script components. Example, in pre-init ManagedObject registers himself to the managed object array in the current mission instance.
-* OnInit: This is called once the mission is loaded and all of the script components of the entities are initialized. You can use any type of logic code inside this callback. Run time instantiated scripts also get this callback called.
-* OnEditorInit: Editor version of on init. It is called when the scene is loaded from the editor. Beware that there is no mission or game state in editor.
-* OnTick: This is called for every script component every frame on mission from the same thread.
-* OnEditorTick: Editor version of the OnTick function. 
-* IsOnlyVisual: If you have a script component which is only visual and does not have any logic code that should be running in the dedicated server , you should return true in this function. This ensures that this type of scripts does not run on dedicated server.
-* OnEditorVariableChanged: This is called in editor whenever a public variable in that script component is changed by the user. This callback can be used for any visual-logic state change if the artist needs instant feedback on the editor scene.
-* OnRemoved: Called when the entity or the script component is being removed. If you have any allocated objects which are stored in somewhere else (for example static containers), you can use this callback to ensure that they are not leaked.
+* **Constructor**: В конструкторе необходимо присвоить значения по умолчанию его общедоступным переменным (переменные, которые могут быть изменены создателем сцены). В конструкторе компонент скрипта не назначается ни объекту, ни сцене. Кроме того, вы не должны писать никакой логики, которая имеет побочный эффект, потому что, даже если он создан, компонент сценария может быть удален после открытия сцены из-за системы обновления уровней.
+* **OnPreInit**: Вызывается после того, как компонент сценария назначается его сущности-владельцу в сцене. Как только вы перейдете в этот обратный вызов, вы можете быть уверены, что пользовательские переменные из этого экземпляра скрипта установлены. Однако другие компоненты сценария других сущностей еще не могут быть назначены. Таким образом, в предварительной инициализации не должно быть никакого логического кода, который полагается на другие компоненты скрипта. Например, в предварительной инициализации ManagedObject регистрируется в массиве управляемых объектов в текущем экземпляре миссии.
+* **OnInit**: Вызывается после загрузки миссии и инициализации всех скриптовых компонентов сущностей. Вы можете использовать любой тип логического кода внутри этого обратного вызова. Скрипты, созданные во время выполнения, также получают этот обратный вызов.
+* **OnEditorInit**: Версия инициализации для редактора. Вызывается при загрузке сцены из редактора. Помните, что в редакторе нет миссии или состояния игры.
+* **OnTick**: Вызывается для каждого компонента сценария в каждом кадре миссии из одного и того же потока.
+* **OnEditorTick**: Версия функции OnTick для редактора. 
+* **IsOnlyVisual**: Если у вас есть компонент сценария, который является только визуальным и не имеет логического кода, который должен выполняться на выделенном сервере, вы должны вернуть true в этой функции. Это гарантирует, что этот тип сценариев не будет работать на выделенном сервере.
+* **OnEditorVariableChanged**: Вызывается в редакторе всякий раз, когда пользователь изменяет общедоступную переменную в этом компоненте скрипта. Этот обратный вызов может использоваться для любого изменения состояния визуальной логики, если художнику нужна мгновенная обратная связь на сцене редактора.
+* **OnRemoved**: Вызывается при удалении объекта или компонента скрипта. Если у вас есть какие-либо выделенные объекты, которые хранятся где-то еще (например, статические контейнеры), вы можете использовать этот обратный вызов, чтобы убедиться, что они не просочились.
