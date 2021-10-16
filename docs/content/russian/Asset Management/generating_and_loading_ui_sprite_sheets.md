@@ -52,7 +52,7 @@ SpriteSheetGenerator.exe создаст две папки с именами Asse
 
 <img src="/img/sprite_sheets/5.PNG" width="1200px"/>
 
-Open the GauntletUI folder in your module. Then, press the “Scan new asset files” button which is pointed with a red arrow below (arrow on the right).
+Откройте папку GauntletUI в вашем модуле. Затем нажмите кнопку «Сканировать новые файлы ресурсов», на которую указывает красная стрелка внизу (стрелка справа).
 
 <img src="/img/sprite_sheets/6.png" width="1200px"/>
 
@@ -60,7 +60,7 @@ Open the GauntletUI folder in your module. Then, press the “Scan new asset fil
 
 <img src="/img/sprite_sheets/7.PNG"/>
 
-Make sure your category is selected (in the example, it is ui_mycategory) then press the Import button. Then, you should see something similar to this:
+Убедитесь, что ваша категория выбрана (в примере это ui_mycategory), затем нажмите кнопку «Импорт». Затем вы должны увидеть что-то похожее на это:
 
 <img src="/img/sprite_sheets/8.PNG" width="1200px"/>
 
@@ -86,17 +86,17 @@ Make sure your category is selected (in the example, it is ui_mycategory) then p
 #### Загрузка и выгрузка категории спрайтов
 Чтобы использовать добавленные вами спрайты, вам необходимо их загрузить. У вас есть два варианта:
 
-1. Loading & Unloading Manually
-	* The developer has more control. They can choose when the sprite categories are loaded and unloaded. Thus, they can manage memory usage and performance.
-	* Requires writing code. Thus, more complex than The AlwaysLoad Option.
+1. Загрузка и выгрузка вручную
+* Разработчик имеет больше возможностей для контроля. Они могут выбирать, когда категории спрайтов загружаются и выгружаются. Таким образом, они могут управлять использованием памяти и производительностью.
+* Требуется написание кода. Этот вариант более сложный, чем вариант AlwaysLoad.
 
-2. Using The AlwaysLoad Option
-	* Sprite categories are loaded on startup automatically.
-	* Categories are kept in the memory until the game is closed. Thus, no need to manually load them every time they are used.
-	* Decreased UI loading time at the cost of increased memory usage.
-	* Easy to use.
+2. Использование опции AlwaysLoad
+* Категории спрайтов загружаются при запуске автоматически.
+* Категории хранятся в памяти до закрытия игры. Таким образом, нет необходимости загружать их вручную каждый раз, когда они используются.
+* Уменьшено время загрузки пользовательского интерфейса за счет увеличения использования памяти.
+* Легко использовать.
 
-##### 1. Loading & Unloading Manually
+##### 1. Загрузка и выгрузка вручную
 Здесь мы покажем, как загружать и выгружать категории спрайтов вручную. В приведенном ниже примере мы переопределяем методы OnGameStart и OnGameEnd класса MBSubModuleBase для добавления и удаления глобального слоя MyScreen соответственно. Обратите внимание, что конструктор MyScreen загружает категорию спрайтов и пользовательский интерфейс XML, которые мы создали в предыдущих разделах. Мы также выгружаем категорию спрайтов внутри метода OnFinalize.
 
 Если вы собираетесь скопировать приведенный ниже код, не забудьте изменить пространство имен и имя функции Main. Они должны совпадать с полями в вашем SubModule.xml. Другими словами, вы должны изменить SpritesheetDocumentation (пространство имен) на YOUR_MODULE_NAME и Main (имя функции Main) на YOUR_MAIN_FUNCTION_NAME в этом поле SubModule.xml:
@@ -190,24 +190,26 @@ To enable the AlwaysLoad option for a category, follow the steps below:
 
 Replace ui_{YOUR_CATEGORY_NAME} with your category. Then, generate sprite sheets by following the steps in the Generating Sprite Sheets section above. To check if everything is okay, open the file named {YOUR_MODULE_NAME}SpriteData.xml which is located at Modules\YOUR_MODULE_NAME\GUI. There you should see that the AlwaysLoad option is enabled for the categories that you have selected in the Config.xml:
 
-	<SpriteData>
-		<SpriteCategories>
-			<SpriteCategory>
-				<Name>ui_{YOUR_CATEGORY_NAME}</Name>
-				<AlwaysLoad />
-				<SpriteSheetCount>1</SpriteSheetCount>
-				<SpriteSheetSize ID="1" Width="512" Height="512" />
-			</SpriteCategory>
-		</SpriteCategories>
-		...
-	</SpriteData>
+```xml
+<SpriteData>
+	<SpriteCategories>
+		<SpriteCategory>
+			<Name>ui_{YOUR_CATEGORY_NAME}</Name>
+			<AlwaysLoad />
+			<SpriteSheetCount>1</SpriteSheetCount>
+			<SpriteSheetSize ID="1" Width="512" Height="512" />
+		</SpriteCategory>
+	</SpriteCategories>
+	...
+</SpriteData>
+```
 
-You don’t need to change/add any code to load the new sprite sheet category.
+Вам не нужно изменять/добавлять какой-либо код для загрузки новой категории таблицы спрайтов.
 
 #### Заключение
-Make sure you have created a screen and loaded the UI XML file that you have created in Using Sprites In UI XML Files section in order to see the result below.
+Убедитесь, что вы создали экран и загрузили UI XML-файл, который вы создали в разделе «Использование спрайтов в UI XML-файлах», чтобы увидеть результат ниже.
 
-Note: If you have added your sprite category with the AlwaysLoad option and didn’t use the code shared in the Loading & Unloading Manually section, you can write your own code to create a screen and load the UI XML. If you don’t know how to do it, you can copy the code from the Loading & Unloading Manually section (please also read the details in that section) and delete the following lines since you have used the AlwaysLoad option and don’t need to load the category manually:
+Примечание. Если вы добавили категорию спрайтов с опцией AlwaysLoad и не использовали код, опубликованный в разделе "Загрузка и выгрузка вручную", вы можете написать свой собственный код для создания экрана и загрузки UI XML. Если вы не знаете как это сделать, тогда вы можете скопировать код из раздела "Загрузка и выгрузка вручную" (также прочтите подробности в этом разделе) и удалить следующие строки, поскольку вы использовали параметр AlwaysLoad и они вам не нужны для загрузки категорий вручную:
 
 	var spriteData = UIResourceManager.SpriteData;
 	var resourceContext = UIResourceManager.ResourceContext;
