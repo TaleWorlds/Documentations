@@ -64,7 +64,7 @@ weight = 3
 -smoothingConstant 0.5-mode 1
 ```
 
-_If the generated .png file does not contain all the characters for your font, consider increasing the_ **-atlassize**.
+_Если сгенерированный файл .png не содержит всех символов для вашего шрифта, рассмотрите возможность увеличения_ **-atlassize**.
 
 #### Генерация шрифтов
 
@@ -75,7 +75,7 @@ _If the generated .png file does not contain all the characters for your font, c
 		* **OpenSansRegular.bfnt**
 		* **OpenSansRegular.png**
 * If you see any errors in the batch script, make sure that the **-fontpath** and **-outputpath** variables are set correctly.
-* In our example, the 3 generated files are located in the **…\bin\Win64_Shipping_wEditor\** directory since we put a relative path.
+* В нашем примере 3 сгенерированных файла расположены в каталоге **...\bin\Win64_Shipping_wEditor**, поскольку мы указываем относительный путь.
 
 #### Размещение файлов в папке модуля
 
