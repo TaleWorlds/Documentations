@@ -1,18 +1,18 @@
 +++
-title = "Entities & Prefabs"
+title = "Сущности и префабы"
 description = ""
 weight = 1
 +++
 
 
-In RGL, entities are containers for all of the meshes, particles, script components, occluders and physics objects. They can also contain other entities as children. They have their own transformation that determines their position, scale and rotation in the world. 
+В RGL сущности - это контейнеры для всех сеток, частиц, компонентов скрипта, окклюдеров и физических объектов. Они также могут содержать другие сущности в качестве дочерних. У них есть собственная трансформация, определяющая их положение, масштаб и вращение в мире.
 
-##### Prefabs
+##### Префабы
 
-Prefabs are template entities which do not sever the connection to the prefab even after it is saved in a scene. Complex entities can be constructed one time and saved as a prefab to be used at any time, in any scene. Later updates to the prefab will affect the already done scenes as well. In Bannerlord, nearly all of the mission objects and scene props are prefabs. 
+Префабы - это объекты шаблона, которые не разрывают соединение с префабом даже после того, как он сохранен в сцене. Сложные объекты могут быть построены один раз и сохранены как сборные для использования в любое время и в любой сцене. Более поздние обновления префаба также повлияют на уже сделанные сцены. В Bannerlord почти все объекты миссий и реквизиты сцены являются сборными.
 
-##### Connection Rules
+##### Правила соединений
 
-Once a prefab is placed into a scene, all of the values under prefab(mesh colors, child entity transforms, script values) are connected to the original prefab and will be updated after every change to the original one.  Any change in the scene for those values will sever the connection.  Beware that any “Addition” operation to the prefab in the scene, will break the prefab connection all together. Examples: adding a new mesh, particle system, light, child entity or script component.
+После того как префаб помещен в сцену, все значения в префабе (цвета сетки, преобразования дочерних объектов, значения скрипта) связаны с исходным префабом и будут обновляться после каждого изменения исходного. Любое изменение в сцене для этих значений разорвет связь. Помните, что любая операция «Добавление» к префабу в сцене разорвет соединение префаба полностью. Примеры: добавление новой сетки, системы частиц, источника света, дочернего объекта или компонента скрипта. 
 
 
