@@ -21,7 +21,7 @@ weight = 2
 * Создайте новую папку с именем GUI в Modules\YOUR_MODULE_NAME\
 * Создайте новую папку с именем SpriteParts во вновь созданной папке GUI.
 * Создайте новую папку с именем ui_{YOUR_CATEGORY_NAME} в созданной папке SpriteParts. В этой документации он будет называться **ui_mycategory**.
-* Note: Content inside of ui_{YOUR_CATEGORY_NAME} will be put in a single category called YOUR_CATEGORY_NAME. All the sprites in a category are loaded and unloaded together. It is suggested to divide your sprites into categories (instead of having only one category) in order to avoid unnecessary sprites being loaded. For example, you may create a new screen in the game that requires certain sprites to be loaded. Those sprites could be packed into a category and once that screen is opened, you can then load the relevant sprites only, and then when the screen is closed you can then unload them (see Loading & Unloading Sprite Categories section).
+* Примечание. Контент внутри ui_{YOUR_CATEGORY_NAME} будет помещен в одну категорию под названием YOUR_CATEGORY_NAME. Все спрайты в категории загружаются и выгружаются вместе. Предлагается разделить ваши спрайты на категории (вместо того, чтобы иметь только одну категорию), чтобы избежать загрузки ненужных спрайтов. Например, вы можете создать новый экран в игре, который требует загрузки определенных спрайтов. Эти спрайты можно упаковать в категорию, и как только этот экран будет открыт, вы сможете загрузить только соответствующие спрайты, а затем, когда экран будет закрыт, вы сможете выгрузить их (см. Раздел «Загрузка и выгрузка категорий спрайтов»).
 * Поместите свои спрайты в папку ui_{YOUR_CATEGORY_NAME}. Например, этот спрайт добавлен и назван **mysprite.png**:
 
 <img src="/img/sprite_sheets/1.png"/>
@@ -36,11 +36,11 @@ SpriteSheetGenerator.exe создаст две папки с именами Asse
 #### Импорт созданной таблицы спрайтов
 Чтобы использовать спрайты в ваших таблицах спрайтов, вы также должны импортировать их из браузера ресурсов. Выполните следующие действия, чтобы импортировать лист спрайтов:
 
-* Make sure you have built your project into Modules\YOUR_MODULE_NAME\bin\Win64_Shipping_wEditor (in addition to Win64_Shipping_Client). If your project is not built properly, you will get a crash while launching.
-* Run Mount & Blade II: Bannerlord - Modding Kit from Steam.
-* Make sure your mode is selected in the Mods section of the Launcher, then hit “Play”.
-* On the main menu, press Alt + ` to open the console.
-* Type resource.show_resource_browser, then hit enter.
+* Убедитесь, что вы встроили свой проект в Modules\YOUR_MODULE_NAME\bin\Win64_Shipping_wEditor (в дополнение к Win64_Shipping_Client). Если ваш проект не собран должным образом, вы получите сбой при запуске.
+* Запустите Mount & Blade II: Bannerlord - Modding Kit из Steam.
+* Убедитесь, что ваш режим выбран в разделе «Моды» на панели запуска, затем нажмите «Играть».
+* В главном меню нажмите Alt + `, чтобы открыть консоль.
+* Введите resource.show_resource_browser и нажмите Enter.
 
 <img src="/img/sprite_sheets/3.PNG" width="1200px"/>
 
@@ -176,7 +176,7 @@ SpriteSheetGenerator.exe создаст две папки с именами Asse
 
 Примечание. Эта функция была выпущена с версией e1.6.2. Если вы используете более раннюю версию и все еще хотите использовать опцию AlwaysLoad, переключите игру и набор инструментов для моддинга на версию e1.6.2 или более новую.
 
-To enable the AlwaysLoad option for a category, follow the steps below:
+Чтобы включить параметр AlwaysLoad для категории, выполните следующие действия:
 
 Создайте новый XML-файл с именем Config.xml в папке Modules\YOUR_MODULE_NAME\GUI\SpriteParts. Скопируйте и вставьте в Config.xml следующее:
 
@@ -188,7 +188,7 @@ To enable the AlwaysLoad option for a category, follow the steps below:
 </Config>
 ```
 
-Replace ui_{YOUR_CATEGORY_NAME} with your category. Then, generate sprite sheets by following the steps in the Generating Sprite Sheets section above. To check if everything is okay, open the file named {YOUR_MODULE_NAME}SpriteData.xml which is located at Modules\YOUR_MODULE_NAME\GUI. There you should see that the AlwaysLoad option is enabled for the categories that you have selected in the Config.xml:
+Замените ui_{YOUR_CATEGORY_NAME} своей категорией. Затем сгенерируйте таблицы спрайтов, выполнив действия, описанные в разделе «Создание таблиц спрайтов» выше. Чтобы проверить, все ли в порядке, откройте файл с именем {YOUR_MODULE_NAME} SpriteData.xml, который находится в Modules\YOUR_MODULE_NAME\GUI. Там вы должны увидеть, что опция AlwaysLoad включена для категорий, которые вы выбрали в Config.xml:
 
 ```xml
 <SpriteData>
