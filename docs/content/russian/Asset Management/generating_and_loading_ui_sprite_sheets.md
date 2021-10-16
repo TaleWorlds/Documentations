@@ -65,21 +65,23 @@ Make sure your category is selected (in the example, it is ui_mycategory) then p
 <img src="/img/sprite_sheets/8.PNG" width="1200px"/>
 
 Закройте браузер ресурсов и игру.
-You should now see a new file named ui_{YOUR_CATEGORY_NAME}_1_tex.tpac under Modules\YOUR_MODULE_NAME\Assets\GauntletUI.
+Теперь вы должны увидеть новый файл с именем ui_{YOUR_CATEGORY_NAME}_1_tex.tpac в Modules\YOUR_MODULE_NAME\Assets\GauntletUI.
 
 #### Использование спрайтов в UI XML файлах
-You may now use the sprites in the sprite sheets that you have created (you also need to load the corresponding category which is explained below, in the Loading & Unloading Sprite Categories section). Sprites are used in UI XML files. You may refer to your sprites with their names. You can find the names of your sprites in the SpriteData.xml file (with a prefix of your module name) which is located at Modules\YOUR_MODULE_NAME\GUI.
-To give an example, we will create a new UI XML file. To do that, go back to the folder named GUI under Modules\YOUR_MODULE_NAME\ and create a new folder named Prefabs. Create a new file named MyXml.xml under the Prefabs folder. You may now refer to your sprites in this file as Sprite="mysprite". For example, the content of the MyXml.xml file could be: 
+Теперь вы можете использовать спрайты в таблицах спрайтов, которые вы создали (вам также необходимо загрузить соответствующую категорию, которая объясняется ниже в разделе «Загрузка и выгрузка категорий спрайтов»). Спрайты используются в XML-файлах пользовательского интерфейса. Вы можете ссылаться на свои спрайты по их именам. Вы можете найти имена своих спрайтов в файле SpriteData.xml (с префиксом имени вашего модуля), который находится в Modules\YOUR_MODULE_NAME\GUI.
+В качестве примера мы создадим новый UI XML-файл. Для этого вернитесь в папку с именем GUI в разделе Modules\YOUR_MODULE_NAME и создайте новую папку с именем Prefabs. Создайте новый файл с именем MyXml.xml в папке Prefabs. Теперь вы можете ссылаться на свои спрайты в этом файле как Sprite="mysprite". Например, содержимое файла MyXml.xml может быть:
 
-	<Prefab>
-		<Window>
-			<Widget DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
-				<Children>
-					<ImageWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="128" SuggestedHeight="128" HorizontalAlignment="Center" VerticalAlignment="Center" Sprite="mysprite"/>
-				</Children>
-			</Widget>
-		</Window>
-	</Prefab>
+```xml
+<Prefab>
+	<Window>
+		<Widget DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+			<Children>
+				<ImageWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="128" SuggestedHeight="128" HorizontalAlignment="Center" VerticalAlignment="Center" Sprite="mysprite"/>
+			</Children>
+		</Widget>
+	</Window>
+</Prefab>
+```
 
 #### Загрузка и выгрузка категории спрайтов
 Чтобы использовать добавленные вами спрайты, вам необходимо их загрузить. У вас есть два варианта:
@@ -95,13 +97,15 @@ To give an example, we will create a new UI XML file. To do that, go back to the
 	* Easy to use.
 
 ##### 1. Loading & Unloading Manually
-Here we show how to load & unload sprite categories manually. In the example below, we override the OnGameStart and OnGameEnd methods of MBSubModuleBase class to add and remove the MyScreen global layer respectively. Notice that the constructor of MyScreen loads the sprite category and the UI XML that we have created in previous sections. We also unload the sprite category inside the OnFinalize method. 
+Здесь мы покажем, как загружать и выгружать категории спрайтов вручную. В приведенном ниже примере мы переопределяем методы OnGameStart и OnGameEnd класса MBSubModuleBase для добавления и удаления глобального слоя MyScreen соответственно. Обратите внимание, что конструктор MyScreen загружает категорию спрайтов и пользовательский интерфейс XML, которые мы создали в предыдущих разделах. Мы также выгружаем категорию спрайтов внутри метода OnFinalize.
 
-If you are going to copy the below code, do not forget to change the namespace and name of the Main function. They should match with the fields in your SubModule.xml. In other words, you should change SpritesheetDocumentation (namespace) to YOUR_MODULE_NAME and Main (name of the Main function) to YOUR_MAIN_FUNCTION_NAME in this field of the SubModule.xml:
+Если вы собираетесь скопировать приведенный ниже код, не забудьте изменить пространство имен и имя функции Main. Они должны совпадать с полями в вашем SubModule.xml. Другими словами, вы должны изменить SpritesheetDocumentation (пространство имен) на YOUR_MODULE_NAME и Main (имя функции Main) на YOUR_MAIN_FUNCTION_NAME в этом поле SubModule.xml:
 
-	<SubModuleClassType value="YOUR_MODULE_NAME.YOUR_MAIN_FUNCTION_NAME"/>
+```xml
+<SubModuleClassType value="YOUR_MODULE_NAME.YOUR_MAIN_FUNCTION_NAME"/>
+```
 
-Otherwise, they won’t be recognized and the game will crash while launching.
+В противном случае они не будут распознаны, и игра вылетит при запуске.
 
 	using TaleWorlds.Core;
 	using TaleWorlds.MountAndBlade;
@@ -167,20 +171,22 @@ Otherwise, they won’t be recognized and the game will crash while launching.
 		}
 	}
 
-##### 2. Using The AlwaysLoad Option
-Instead of manually loading sprite categories like in the Loading & Unloading Manually section, you can choose which sprite categories should be loaded automatically on startup by enabling the AlwaysLoad option for those categories. Unless they are manually unloaded by the developer, categories that have the AlwaysLoad option enabled will be kept in the memory until the game is closed so that you don’t have to load them manually every time they are used. Enabling the AlwaysLoad option decreases the load time of UI (since these categories are loaded only once on startup) but increases memory usage (since these categories will be kept in the memory even when they are not used). This option is very useful for the categories that are frequently loaded & unloaded (f.e. A category that is used in a screen that is opened and closed frequently).
+##### 2. Использование опции AlwaysLoad
+Вместо того чтобы вручную загружать категории спрайтов, как в разделе «Загрузка и выгрузка вручную», вы можете выбрать, какие категории спрайтов должны загружаться автоматически при запуске включив параметр AlwaysLoad для этих категорий. Если разработчик не выгружает их вручную, категории, для которых включена опция AlwaysLoad, будут храниться в памяти до закрытия игры, чтобы вам не приходилось загружать их вручную каждый раз, когда они используются. Включение параметра AlwaysLoad уменьшает время загрузки пользовательского интерфейса (поскольку эти категории загружаются только один раз при запуске), но увеличивает использование памяти (поскольку эти категории будут храниться в памяти, даже если они не используются). Эта опция очень полезна для категорий, которые часто загружаются и выгружаются (например, категория которая используется на экране, который часто открывается и закрывается).
 
-Note: This feature has been released with e1.6.2. If you are on an earlier version and still want to use the AlwaysLoad option, please switch both the game and the modding kit to e1.6.2 or a newer version.
+Примечание. Эта функция была выпущена с версией e1.6.2. Если вы используете более раннюю версию и все еще хотите использовать опцию AlwaysLoad, переключите игру и набор инструментов для моддинга на версию e1.6.2 или более новую.
 
 To enable the AlwaysLoad option for a category, follow the steps below:
 
-Create a new XML file named Config.xml under the folder Modules\YOUR_MODULE_NAME\GUI\SpriteParts. Copy and paste the following into Config.xml:
+Создайте новый XML-файл с именем Config.xml в папке Modules\YOUR_MODULE_NAME\GUI\SpriteParts. Скопируйте и вставьте в Config.xml следующее:
 
-	<Config>
-		<SpriteCategory Name="ui_{YOUR_CATEGORY_NAME}">
-			<AlwaysLoad/>
-		</SpriteCategory>
-	</Config>
+```xml
+<Config>
+	<SpriteCategory Name="ui_{YOUR_CATEGORY_NAME}">
+		<AlwaysLoad/>
+	</SpriteCategory>
+</Config>
+```
 
 Replace ui_{YOUR_CATEGORY_NAME} with your category. Then, generate sprite sheets by following the steps in the Generating Sprite Sheets section above. To check if everything is okay, open the file named {YOUR_MODULE_NAME}SpriteData.xml which is located at Modules\YOUR_MODULE_NAME\GUI. There you should see that the AlwaysLoad option is enabled for the categories that you have selected in the Config.xml:
 
