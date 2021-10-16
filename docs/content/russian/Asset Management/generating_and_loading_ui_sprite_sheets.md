@@ -13,25 +13,25 @@ weight = 2
 * Загрузка и выгрузка категорий спрайтов.
 
 #### Предпосылки
-* A submodule created under INSTALLATION_PATH\Mount & Blade II Bannerlord\Modules\
-* Knowing how to build your project from the Integrated Development Environment (IDE) like Visual Studio.
-* Mount & Blade II: Bannerlord - Modding Kit downloaded from Steam.
+* Подмодуль создан в INSTALLATION_PATH\Mount & Blade II Bannerlord\Modules\
+* Известно как собрать проект в Integrated Development Environment (IDE) например Visual Studio.
+* Mount & Blade II: Bannerlord - Modding Kit загружен в Steam.
 
 #### Добавление спрайтов
-* Create a `new folder named GUI under Modules\YOUR_MODULE_NAME\
-* Create a new folder named SpriteParts under the newly created folder GUI.
-* Create a new folder named ui_{YOUR_CATEGORY_NAME} under the newly created folder SpriteParts. In this documentation, it will be named **ui_mycategory**.
+* Создайте новую папку с именем GUI в Modules\YOUR_MODULE_NAME\
+* Создайте новую папку с именем SpriteParts во вновь созданной папке GUI.
+* Создайте новую папку с именем ui_{YOUR_CATEGORY_NAME} в созданной папке SpriteParts. В этой документации он будет называться **ui_mycategory**.
 * Note: Content inside of ui_{YOUR_CATEGORY_NAME} will be put in a single category called YOUR_CATEGORY_NAME. All the sprites in a category are loaded and unloaded together. It is suggested to divide your sprites into categories (instead of having only one category) in order to avoid unnecessary sprites being loaded. For example, you may create a new screen in the game that requires certain sprites to be loaded. Those sprites could be packed into a category and once that screen is opened, you can then load the relevant sprites only, and then when the screen is closed you can then unload them (see Loading & Unloading Sprite Categories section).
-* Put your sprites into the ui_{YOUR_CATEGORY_NAME} folder. For example, this sprite is added and named **mysprite.png**:
+* Поместите свои спрайты в папку ui_{YOUR_CATEGORY_NAME}. Например, этот спрайт добавлен и назван **mysprite.png**:
 
 <img src="/img/sprite_sheets/1.png"/>
 
 #### Генерация таблиц спрайтов
-In order to generate sprite sheets, run the TaleWorlds.TwoDimension.SpriteSheetGenerator.exe executable file located at INSTALLATION_PATH\Mount & Blade II Bannerlord\bin\Win64_Shipping_wEditor. If you have followed the steps above, after running SpriteSheetGenerator.exe, you should see the following window:
+Чтобы сгенерировать листы спрайтов, запустите TaleWorlds.TwoDimension.SpriteSheetGenerator.exe расположенный в  INSTALLATION_PATH\Mount & Blade II Bannerlord\bin\Win64_Shipping_wEditor. Если вы выполнили указанные выше действия, после запуска SpriteSheetGenerator.exe вы должны увидеть следующее окно:
 
 <img src="/img/sprite_sheets/2.PNG" width="1200px"/>
 
-SpriteSheetGenerator.exe will create two folders named Assets and AssetSources under Modules\YOUR_MODULE_NAME. It will also create a SpriteData.xml file (with a prefix of your module name) under Modules\YOUR_MODULE_NAME\GUI.
+SpriteSheetGenerator.exe создаст две папки с именами Assets и AssetSources в Modules\YOUR_MODULE_NAME. Он также создаст файл SpriteData.xml (с префиксом имени вашего модуля) в разделе Modules\YOUR_MODULE_NAME\GUI.
 
 #### Импорт созданной таблицы спрайтов
 Чтобы использовать спрайты в ваших таблицах спрайтов, вы также должны импортировать их из браузера ресурсов. Выполните следующие действия, чтобы импортировать лист спрайтов:
