@@ -1,7 +1,7 @@
 +++
-title = "Paths"
+title = "Пути"
 description = ""
 weight = 1
 +++
 
-In RGL, 'Paths' are used to define continous points within a scene. They have unique names and can be used by the gameplay logic for different reasons. Paths define how the siege engines move in missions. Also, for field battle missions, initial spawn point candidates are defined via a path. The spawn logic selects two positions for the teams with respect to the size of the battle. Detailed information about path editing can be found at <strong>[Path Editing]({{< ref "path_editing.md" >}})</strong>.
+В RGL «Пути» используются для определения непрерывных точек в сцене. Они имеют уникальные имена и могут использоваться логикой игрового процесса по разным причинам. Пути определяют, как движутся осадные машины в миссиях. Кроме того, для полевых боевых миссий кандидаты на начальные точки возрождения определяются через путь. Логика появления выбирает две позиции для команд в зависимости от размера битвы. Подробную информацию о редактировании пути можно найти в <strong>[Редактирование пути]({{< ref "path_editing.md" >}})</strong>.
