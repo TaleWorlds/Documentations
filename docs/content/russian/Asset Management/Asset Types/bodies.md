@@ -1,35 +1,35 @@
 +++
-title = "Bodies"
+title = "Тела"
 description = ""
 weight = 1
 +++
 
-Bodies define the physics boundaries of objects. They can be assigned to entities in scenes or prefabs. Users can edit the Body Flags to change their behaviour.
+Тела определяют физические границы объектов. Их можно назначить объектам в сценах или префабах. Пользователи могут редактировать флаги тела, чтобы изменить свое поведение.
 
-##### Body Flags
+##### Флаги тела
 
-* Two Sided: Forces the physics engine to use both sides of the polygons for this body.
-* AI Limiter: Used to tag bodies which will only used against AI agents, excluding the player.
-* Destructible Door: Used by the automatic navigation mesh generator to not put nav mesh under destructable doors.
-* Disabled: Disables the physics for this prefab or entity instance.
-* Barrier: Enables smooth exit for agents exiting the interior of the body.
-* Exclude Path Snap: Path points does not snap to these bodies.
-* Don't Collide With Camera: Camera for the player does not collide with these bodies.
-* Dynamic: Physics engine simulates the movement of this entity.
-* Moveable: This flag indicates that this body and its owner entity can move. 
-* Ladder: Should be given to the ladder meshes so that they function properly.
-* Has Steps: Should be given to the bodies of the staircases so that the agent can climb them correctly. (The body of the stairs should be seperated from the other parts of the entity).
+* Two Sided: заставляет физический движок использовать обе стороны многоугольников для этого тела.
+* AI Limiter: используется для пометки тел, которые будут использоваться только против агентов AI, за исключением игрока.
+* Destructible Door: используется автоматическим генератором навигационной сетки, чтобы не помещать навигационную сетку под разрушаемую дверь.
+* Disabled: отключает физику для этого префаба или экземпляра объекта.
+* Barrier: обеспечивает беспрепятственный выход агентов изнутри тела.
+* Exclude Path Snap: точки контура не привязываются к этим телам.
+* Don't Collide With Camera: камера игрока не сталкивается с этими телами.
+* Dynamic: физический движок имитирует движение этого объекта.
+* Moveable: этот флаг указывает, что это тело и его сущность-владелец могут двигаться.
+* Ladder: должна быть предоставлена сеткам лестницы, чтобы они функционировали должным образом.
+* Has Steps: следует давать телам лестниц, чтобы агент мог по ним правильно подняться. (Тело лестницы должно быть отделено от других частей объекта).
 
-Agent physics require smooth and low poly physics objects for performance. Missile ones require more precision so that the stuck missiles are simulated better. The below flags can be used to have two different bodies per object which is the best of both worlds. If none of the flags are given, both missiles and agents react to the bodies.
-	
-* Agent Only: Only the agents react into these bodies.
-* Missile Only: Only the missiles react into these bodies.
+ Агент физики требует для работы гладких и низкополигональных физических объектов. Ракетные требуют большей точности, чтобы лучше моделировать застрявшие ракеты. Приведенные ниже флаги можно использовать, чтобы иметь два разных тела для каждого объекта, что является лучшим из обоих миров. Если ни один из флагов не выставлен, на тела реагируют и ракеты, и агенты.
+
+* Только агент: только агенты реагируют на эти тела.
+* Только метательные снаряды: на эти тела реагируют только метательные снаряды.
 
 
-##### Occluders
+##### Окклюдеры
 
-Occluders are bodies which are placed at mesh surfaces to tell the rendering system to not render the contents on the other side of that surface. They do not contribute to the physics simulation. Big towns and villages benefit largely from carefully placed occluders. User can place occluders directly to the scene or attach them to entities & prefabs. 
+Окклюдеры - это тела, которые размещаются на поверхностях сетки, чтобы система рендеринга не отображала содержимое с другой стороны этой поверхности. Они не участвуют в физическом моделировании. Большие города и деревни в основном выигрывают от аккуратно размещенных окклюдеров. Пользователь может размещать окклюдеры прямо на сцене или прикреплять их к объектам и префабам.
 
 {{% notice info %}}
-The imported occluder bodies names should start with "occ_" phrase.
+Имена импортированных тел окклюдера должны начинаться с фразы «occ_».
 {{% /notice %}}
