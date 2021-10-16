@@ -1,24 +1,24 @@
 +++
-title = "Generating and Loading UI Sprite Sheets"
+title = "Создание и загрузка таблиц спрайтов пользовательского интерфейса"
 weight = 2
 +++
 
-#### Introduction
-Sprites are two-dimensional images that are mostly used in the user interface of a game. Sprite sheets are the collection of such images. In other words, sprites are packed together to form a sprite sheet. This documentation will go through the following steps:
+#### Вступление
+Спрайты - это двухмерные изображения, которые в основном используются в пользовательском интерфейсе игры. Таблицы спрайтов - это коллекция таких изображений. Другими словами, спрайты упаковываются вместе, чтобы сформировать лист спрайтов. В этой документации будут выполняться следующие шаги:
 
-* Adding new sprites.
-* Generating sprite sheets from the sprites that you have added.
-* Importing the sprite sheets to your module.
-* Using sprites in UI XML files.
-* Loading and unloading the sprite categories.
+* Добавление новых спрайтов.
+* Создание листов спрайтов из добавленных вами спрайтов.
+* Импорт листов спрайтов в ваш модуль.
+* Использование спрайтов в файлах UI XML.
+* Загрузка и выгрузка категорий спрайтов.
 
-#### Prerequisites
+#### Предпосылки
 * A submodule created under INSTALLATION_PATH\Mount & Blade II Bannerlord\Modules\
 * Knowing how to build your project from the Integrated Development Environment (IDE) like Visual Studio.
 * Mount & Blade II: Bannerlord - Modding Kit downloaded from Steam.
 
-#### Adding Sprites
-* Create a new folder named GUI under Modules\YOUR_MODULE_NAME\
+#### Добавление спрайтов
+* Create a `new folder named GUI under Modules\YOUR_MODULE_NAME\
 * Create a new folder named SpriteParts under the newly created folder GUI.
 * Create a new folder named ui_{YOUR_CATEGORY_NAME} under the newly created folder SpriteParts. In this documentation, it will be named **ui_mycategory**.
 * Note: Content inside of ui_{YOUR_CATEGORY_NAME} will be put in a single category called YOUR_CATEGORY_NAME. All the sprites in a category are loaded and unloaded together. It is suggested to divide your sprites into categories (instead of having only one category) in order to avoid unnecessary sprites being loaded. For example, you may create a new screen in the game that requires certain sprites to be loaded. Those sprites could be packed into a category and once that screen is opened, you can then load the relevant sprites only, and then when the screen is closed you can then unload them (see Loading & Unloading Sprite Categories section).
@@ -26,15 +26,15 @@ Sprites are two-dimensional images that are mostly used in the user interface of
 
 <img src="/img/sprite_sheets/1.png"/>
 
-#### Generating Sprite Sheets
+#### Генерация таблиц спрайтов
 In order to generate sprite sheets, run the TaleWorlds.TwoDimension.SpriteSheetGenerator.exe executable file located at INSTALLATION_PATH\Mount & Blade II Bannerlord\bin\Win64_Shipping_wEditor. If you have followed the steps above, after running SpriteSheetGenerator.exe, you should see the following window:
 
 <img src="/img/sprite_sheets/2.PNG" width="1200px"/>
 
 SpriteSheetGenerator.exe will create two folders named Assets and AssetSources under Modules\YOUR_MODULE_NAME. It will also create a SpriteData.xml file (with a prefix of your module name) under Modules\YOUR_MODULE_NAME\GUI.
 
-#### Importing Created Sprite Sheets
-In order to use the sprites in your sprite sheets, you should also import them from the resource browser. Follow these steps to import a sprite sheet:
+#### Импорт созданной таблицы спрайтов
+Чтобы использовать спрайты в ваших таблицах спрайтов, вы также должны импортировать их из браузера ресурсов. Выполните следующие действия, чтобы импортировать лист спрайтов:
 
 * Make sure you have built your project into Modules\YOUR_MODULE_NAME\bin\Win64_Shipping_wEditor (in addition to Win64_Shipping_Client). If your project is not built properly, you will get a crash while launching.
 * Run Mount & Blade II: Bannerlord - Modding Kit from Steam.
@@ -44,11 +44,11 @@ In order to use the sprites in your sprite sheets, you should also import them f
 
 <img src="/img/sprite_sheets/3.PNG" width="1200px"/>
 
-This should open the resource browser:
+При этом должен открыться браузер ресурсов:
 
 <img src="/img/sprite_sheets/4.PNG" width="1200px"/>
 
-Collapse the folder named Native on the left of the resource browser to see your module easily. Then, select your module.
+Сверните папку Native в левой части браузера ресурсов, чтобы легко увидеть ваш модуль. Затем выберите свой модуль.
 
 <img src="/img/sprite_sheets/5.PNG" width="1200px"/>
 
@@ -56,7 +56,7 @@ Open the GauntletUI folder in your module. Then, press the “Scan new asset fil
 
 <img src="/img/sprite_sheets/6.png" width="1200px"/>
 
-This should open a new window:
+Откроется новое окно:
 
 <img src="/img/sprite_sheets/7.PNG"/>
 
@@ -64,10 +64,10 @@ Make sure your category is selected (in the example, it is ui_mycategory) then p
 
 <img src="/img/sprite_sheets/8.PNG" width="1200px"/>
 
-Close the resource browser and the game.
+Закройте браузер ресурсов и игру.
 You should now see a new file named ui_{YOUR_CATEGORY_NAME}_1_tex.tpac under Modules\YOUR_MODULE_NAME\Assets\GauntletUI.
 
-#### Using Sprites In UI XML Files
+#### Использование спрайтов в UI XML файлах
 You may now use the sprites in the sprite sheets that you have created (you also need to load the corresponding category which is explained below, in the Loading & Unloading Sprite Categories section). Sprites are used in UI XML files. You may refer to your sprites with their names. You can find the names of your sprites in the SpriteData.xml file (with a prefix of your module name) which is located at Modules\YOUR_MODULE_NAME\GUI.
 To give an example, we will create a new UI XML file. To do that, go back to the folder named GUI under Modules\YOUR_MODULE_NAME\ and create a new folder named Prefabs. Create a new file named MyXml.xml under the Prefabs folder. You may now refer to your sprites in this file as Sprite="mysprite". For example, the content of the MyXml.xml file could be: 
 
@@ -81,8 +81,8 @@ To give an example, we will create a new UI XML file. To do that, go back to the
 		</Window>
 	</Prefab>
 
-#### Loading & Unloading Sprite Categories
-In order to use the sprites that you have added, you need to load them. You have two options in this regard:¸
+#### Загрузка и выгрузка категории спрайтов
+Чтобы использовать добавленные вами спрайты, вам необходимо их загрузить. У вас есть два варианта:
 
 1. Loading & Unloading Manually
 	* The developer has more control. They can choose when the sprite categories are loaded and unloaded. Thus, they can manage memory usage and performance.
@@ -198,7 +198,7 @@ Replace ui_{YOUR_CATEGORY_NAME} with your category. Then, generate sprite sheets
 
 You don’t need to change/add any code to load the new sprite sheet category.
 
-#### Conclusion
+#### Заключение
 Make sure you have created a screen and loaded the UI XML file that you have created in Using Sprites In UI XML Files section in order to see the result below.
 
 Note: If you have added your sprite category with the AlwaysLoad option and didn’t use the code shared in the Loading & Unloading Manually section, you can write your own code to create a screen and load the UI XML. If you don’t know how to do it, you can copy the code from the Loading & Unloading Manually section (please also read the details in that section) and delete the following lines since you have used the AlwaysLoad option and don’t need to load the category manually:
@@ -210,11 +210,11 @@ Note: If you have added your sprite category with the AlwaysLoad option and didn
 	_category = spriteData.SpriteCategories["ui_mycategory"]; // select which category to load, put your category name here
 	_category.Load(resourceContext, resourceDepot); // load the selected category
 
-You can also delete the _category field and remove its references.
+Вы также можете удалить поле _category и удалить его ссылки.
 
-* Make sure you have built your project into Modules\YOUR_MODULE_NAME\bin\Win64_Shipping_Client.
-* Launch the game (not the Modding Kit) from Steam and make sure your module is selected in the Mods section of the Launcher, then hit “Play”.
-* Create a new campaign or load a compatible save file to open the campaign map. Both of them will start a game. Notice that the code we have written adds the screen once the game starts (check the OnGameStart method).
-* After you start the game by creating a new campaign, you should see this screen:
+* Убедитесь, что вы встроили свой проект в Modules\YOUR_MODULE_NAME\bin\Win64_Shipping_Client.
+* Запустите игру (не Modding Kit) из Steam и убедитесь, что ваш модуль выбран в разделе «Моды» в лаунчере, затем нажмите «Play».
+* Создайте новую кампанию или загрузите совместимый файл сохранения, чтобы открыть карту кампании. Оба они начнут игру. Обратите внимание, что в написанном нами коде экран добавляется после запуска игры (проверьте метод OnGameStart).
+* После того как вы запустите игру, создав новую кампанию, вы должны увидеть этот экран:
 
 <img src="/img/sprite_sheets/9.PNG" width="1200px"/>
