@@ -68,9 +68,9 @@ _Если сгенерированный файл .png не содержит в�
 
 #### Генерация шрифтов
 
-* Now that the files are added and the correct paths for generator set up, start the **GenerateFont.bat**.
-* If everything is properly set up, the program will not throw any errors and will generate 3 files in the directory which you defined as your **-outputpath**.
-	* In our example, the 3 files are:
+* Теперь, когда файлы добавлены и установлены правильные пути для генератора, запустите **GenerateFont.bat**.
+* Если все настроено правильно, программа не выдаст никаких ошибок и сгенерирует 3 файла в каталоге, который вы определили в **-outputpath**.
+	* В нашем примере это 3 файла:
 		* **OpenSansRegular.fnt**
 		* **OpenSansRegular.bfnt**
 		* **OpenSansRegular.png**
