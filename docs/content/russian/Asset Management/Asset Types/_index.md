@@ -1,7 +1,7 @@
 +++
-title = "Asset Types"
+title = "Типы ассетов"
 description = ""
-weight = 1
+weight = 2
 +++
 
 {{%children style="h5" description="true"%}}

@@ -1,7 +1,7 @@
 +++
-title = "Bannerlord Missions"
+title = "Миссии Bannerlord"
 description = ""
-weight = 1
+weight = 2
 +++
 
 {{%children style="h5" description="true"%}}

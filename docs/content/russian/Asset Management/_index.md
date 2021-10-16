@@ -1,5 +1,5 @@
 +++
-title = "Asset Management"
+title = "Управление ассетами"
 description = ""
 weight = 1
 +++
