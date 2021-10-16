@@ -1,14 +1,11 @@
 +++
-title = "Meshes"
+title = "Сетки"
 description = ""
 weight = 1
 +++
 
-Meshes contain the polygon positions and attributes to be used at the rendering pass. Every mesh has one material that defines their rendering behaviour. They are grouped inside MetaMesh's by their LOD level. Also, at the same LOD level, there can be multiple meshes with different materials. More information about importing meshes to the engine can be found at <strong>[Material Editor]({{< ref "asset_naming_conventions.md" >}})</strong>.
+Сетки содержат позиции полигонов и атрибуты, которые будут использоваться на этапе рендеринга. Каждая сетка имеет один материал, который определяет их поведение при рендеринге. Они сгруппированы внутри MetaMesh по их уровню LOD. Кроме того, на одном уровне LOD может быть несколько сеток с разными материалами. Дополнительную информацию об импорте сеток в движок можно найти в <strong>[Редакторе материалов]({{< ref "asset_naming_conventions.md" >}})</strong>.
 
+##### LOD система
 
-##### LOD System
-
-Modern engines use LOD(level of detail) systems to ensure that the amount of GPU share used by the closer parts of the screen is more than the far ones. This is done by reducing the mesh qualiy with respect to the distance to the camera. This system ensures that the polygon per pixel ratio is similar across the screen as much as possible. The default LOD distances are as follows: 15, 22.5, 30, 50, 70, 130, 210 meters. These distances are for the best graphics quality and they can be reduced via the Environment Quality and Character Quality options.
-
- 
+Современные движки используют системы LOD (уровня детализации), чтобы гарантировать, что объем доли графического процессора, используемой более близкими частями экрана, больше, чем дальние. Это достигается за счет уменьшения качества сетки по отношению к расстоянию до камеры. Эта система гарантирует, что соотношение многоугольников к пикселям на экране будет максимально одинаковым. Расстояния LOD по умолчанию следующие: 15, 22.5, 30, 50, 70, 130, 210 метров. Эти расстояния предназначены для наилучшего качества графики и могут быть уменьшены с помощью параметров «Качество среды» и «Качество персонажа».
