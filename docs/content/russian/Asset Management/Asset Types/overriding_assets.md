@@ -4,9 +4,9 @@ description = ""
 weight = 1
 +++
 
-In RGL you can easily override existing assets or create new ones within the editor for your custom mode. Override mechanism works by replacing existing assets with the one you supplied in your module's assets directory. It tries to match your custom assets with the ones previously registered by other modules by their names. This happens with respect to loading order of the modules.
+В RGL _(игровой движок)_ вы можете легко переопределить существующие ассеты или создать новые в редакторе для вашего пользовательского режима. Механизм переопределения работает путем замены существующих ресурсов на те, которые вы указали в каталоге ресурсов вашего модуля. Он пытается сопоставить ваши пользовательские ассеты с теми, которые ранее были зарегистрированы другими модулями по их именам. Это происходит в зависимости от порядка загрузки модулей.
 
-If **Module A** and **Module B** are loaded in addition to the **Native** module respectively, list of final assets and their sources will be as follow :
+Если **Module A** и **Module B** загружены в дополнение к модулю **Native** соответственно, список конечных ресурсов и их источников будет следующим:
 
 <table style="vertical-align: bottom">
 <thead>
@@ -27,43 +27,44 @@ If **Module A** and **Module B** are loaded in addition to the **Native** module
 </tbody>
 </table>
 
-Currently moddable asset types are:
+В настоящее время модифицируемые типы ассетов:
 
-- [Material](#overriding-materials)
-- [Mesh](#overriding-meshes)
-- [Texture](#overriding-textures)
-- [Physics Shape](#overriding-physics-shapes)
+- [Материалы](#overriding-materials)
+- [Сетки](#overriding-meshes)
+- [Текстуры](#overriding-textures)
+- [Физические объекты](#overriding-physics-shapes)
 
-### Folder Hierarchy
+### Иерархия папок
 
-Asset system treats some folders in module directory specially according to their names. Here is the list of these folders and their uesages : 
+Система ассетов обрабатывает некоторые папки в каталоге модуля специально в соответствии с их именами. Вот список этих папок и их использование:
 
-- **Assets** : Includes editable *.tpac files which stores meta data of each asset.
+- **Assets** : Включает редактируемые файлы *.tpac в котором хранятся метаданные каждого ассета.
 - **AssetSources** : Includes source files of imported assets(.psd, .fbx).
 - **AssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for client builds. 
 - **EmAssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for editor builds. 
 - **DsAssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for server builds.
 - **RuntimeDataCache** : Includes auto-generated data required by engine for each asset. Can be deleted but it might take time to generate from scratch during startup.
 
-### Modding Permissions
+### Разрешения на редактирование
 
-Asset system looks for different folders according to the version of game's running executable. According to presence of these folders it decides whether a module can be modified or it can be used only in read-only mode. If you want to distribute your module you can pack your assets and share packed folders without distributing thousands of files and their sources. You have three options to pack your assets : 
+Система ассетов ищет разные папки в зависимости от версии исполняемого файла игры. В зависимости от наличия этих папок он решает, можно ли изменить модуль или его можно использовать только в режиме только для чтения. Если вы хотите распространить свой модуль, вы можете упаковать свои ассеты и поделиться упакованными папками, не распространяя тысячи файлов и их источников. У вас есть три варианта упаковки ваших активов:
 
 - **Client** : Others can activate your module to play. You must distribute **AssetPackages** folder.
 - **Editor** : Others can use your module in editor but can not modify it. Used if you want others to derive modules from your module. You must distribute **EmAssetPackages** folder.
 - **Server** : Used for server builds. All data which is not related to server is stripped out. You must distribute **DsAssetPackages** folder.
 
-You can also share your module just like you are using it to allow others to modify it. In this case you must distribute **Assets**, **AssetSources** and optionally **RuntimeDataCache** folders.
+Вы также можете поделиться своим модулем так же, как вы его используете, чтобы другие могли его изменять. В этом случае вы должны распределить папки **Assets**, **AssetSources** и, возможно, **RuntimeDataCache**.
 
-### Overriding Materials
-Overriding materials can be done by creating a new material with the same name of the material you want to override.
-Navigate to assets directory of your module and right click on an empty place in the browser pane. Create a new material and rename it to the same name with the material you want to override.
+### Переопределение материалов
+Переопределение материалов может быть выполнено путем создания нового материала с тем же именем, что и материал, который вы хотите переопределить.
+Перейдите в каталог ресурсов вашего модуля и щелкните правой кнопкой мыши в пустое место на панели браузера. Создайте новый материал и переименуйте его в то же имя, что и у материала, который вы хотите переопределить.
 
 {{% panel footer="Material of an existing mesh overriden by ModuleA" %}}![](/img/modding/assets/material_override.png){{% /panel %}}
-At this point all material references in the system will be redirected to your custom material.
+На этом этапе все ссылки на материалы в системе будут перенаправлены на ваш пользовательский материал.
 <br><br>
-### Overriding Meshes
-Models can be imported from several file formats(e.g. Trf, Fbx). Resources imported from a single file are grouped by their names according to <>asset naming convetions<>. Imagine an fbx file as follow :
+
+### Переопределение сеток
+Модели можно импортировать из файлов нескольких форматов (например, Trf, Fbx). Ресурсы, импортированные из одного файла, группируются по именам в соответствии с <>правилами именования ресурсов<>. Представьте себе файл fbx следующим образом:
 
 - Model.fbx
     - wall(Mesh)
@@ -71,18 +72,20 @@ Models can be imported from several file formats(e.g. Trf, Fbx). Resources impor
     - wall.lod3(Mesh)
     - bo_wall(Physics Shape)
 
-According to asset naming conventions, first three resources will be grouped into a single mesh which has three submeshes belong to different LODs. At the end two asset will be imported from Model.fbx : wall(Mesh) and bo_wall(Physics shape). 
+Согласно соглашениям об именах ресурсов, первые три ресурса будут сгруппированы в одну сетку, в которой три подсетки принадлежат разным LOD. В конце будут импортированы два ресурса из Model.fbx : wall(Mesh) и bo_wall(Physics shape).
 
-By following these rules you can export a new geometry file(e.g. fbx) which contains a group of meshes with their names begin with **wall**. In this case a new **wall** mesh will be created from these submeshes and existing mesh will be replaced completely with the one you supplied. Name of the geometry file is not taken into account. It is worth to mention that mesh overrides occur on mesh level. It is not possible to override single submesh via module override.
+Следуя этим правилам, вы можете экспортировать новый файл геометрии (например, fbx), который содержит группу сеток, имена которых начинаются с **wall**. В этом случае новая сетка **wall** будет создана из этих подсеток, а существующая сетка будет полностью заменена той, которую вы указали. Имя файла геометрии не учитывается. Стоит отметить, что переопределение сетки происходит на уровне сетки. Невозможно переопределить одиночную подсетку с помощью переопределения модуля.
 
 {{% panel footer="Existing cube mesh with name **testbox** overriden by ModuleA with a teapot" %}}![](/img/modding/assets/metamesh_override.png){{% /panel %}}
 <br><br>
-### Overriding Textures
-Overriding textures is very similar to materials. You need to import a new texture with the same name of the texture you want to override. You can also rename any texture already imported to something that matches with the name of the texture to override.
+
+### Переопределение текстур
+Переопределение текстур очень похоже на материалы. Вам необходимо импортировать новую текстуру с тем же именем текстуры, которую вы хотите переопределить. Вы также можете переименовать любую уже импортированную текстуру во что-то, что соответствует имени текстуры, которую нужно переопределить.
 
 {{% panel footer="Existing albedo texture with name **roman_ground_d** overriden by ModuleA with a white texture" %}}![](/img/modding/assets/texture_override.png){{% /panel %}}
 <br><br>
-### Overriding Physics Shapes
-Overriding physics shapes requires you to import a physics shape with the same name of asset you want to replace. Check <>Asset naming conventions<> to see hot to import physics shapes
 
-{{% panel footer="Existing torus shape overriden by ModuleA with a custom aquila shape" %}}![](/img/modding/assets/physics_shape_override.png){{% /panel %}}
+### Переопределение физических фигур
+Для переопределения физических фигур необходимо импортировать физическую форму с тем же именем ресурса, который вы хотите заменить. Установите флажок <>Asset naming conventions<>, чтобы увидеть возможность импорта физических фигур.
+
+{{% panel footer="Существующая форма тора, переопределенная ModuleA с пользовательской формой аквилы" %}}![](/img/modding/assets/physics_shape_override.png){{% /panel %}}
