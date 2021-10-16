@@ -1,5 +1,5 @@
 +++
-title = "Material Editor"
+title = "Редактор материалов"
 description = ""
 weight = 1
 +++

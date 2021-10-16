@@ -1,5 +1,5 @@
 +++
-title = "Создание и загрузка таблиц спрайтов пользовательского интерфейса"
+title = "Создание и загрузка UI таблиц спрайтов"
 weight = 3
 +++
 
@@ -107,69 +107,71 @@ SpriteSheetGenerator.exe создаст две папки с именами Asse
 
 В противном случае они не будут распознаны, и игра вылетит при запуске.
 
-	using TaleWorlds.Core;
-	using TaleWorlds.MountAndBlade;
-	using TaleWorlds.Engine.Screens;
-	using TaleWorlds.Engine.GauntletUI;
-	using TaleWorlds.GauntletUI.Data;
-	using TaleWorlds.TwoDimension;
+```C#
+using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade;
+using TaleWorlds.Engine.Screens;
+using TaleWorlds.Engine.GauntletUI;
+using TaleWorlds.GauntletUI.Data;
+using TaleWorlds.TwoDimension;
 
-	namespace SpritesheetDocumentation
-	{
-		public class Main : MBSubModuleBase
-		{
-			private MyScreen _myScreen;
-			
-			protected override void OnSubModuleLoad()
-			{
+namespace SpritesheetDocumentation
+{
+    public class Main : MBSubModuleBase
+    {
+        private MyScreen _myScreen;
+        
+        protected override void OnSubModuleLoad()
+        {
 
-			}
-			
-			protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
-			{
-				base.OnGameStart(game, gameStarterObject);
-				_myScreen = new MyScreen();
-				ScreenManager.AddGlobalLayer(_myScreen, true); // add MyScreen on game start
-			}
-			
-			public override void OnGameEnd(Game game)
-			{
-				base.OnGameEnd(game);
-				_myScreen.OnFinalize();
-				ScreenManager.RemoveGlobalLayer(_myScreen); // remove MyScreen on game end
-			}
-		}
+        }
+        
+        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
+        {
+            base.OnGameStart(game, gameStarterObject);
+            _myScreen = new MyScreen();
+            ScreenManager.AddGlobalLayer(_myScreen, true); // add MyScreen on game start
+        }
+        
+        public override void OnGameEnd(Game game)
+        {
+            base.OnGameEnd(game);
+            _myScreen.OnFinalize();
+            ScreenManager.RemoveGlobalLayer(_myScreen); // remove MyScreen on game end
+        }
+    }
 
-		public class MyScreen : GlobalLayer
-		{
-			private GauntletLayer _gauntletLayer;
-			private IGauntletMovie _gauntletMovie;
-			private SpriteCategory _category;
+    public class MyScreen : GlobalLayer
+    {
+        private GauntletLayer _gauntletLayer;
+        private IGauntletMovie _gauntletMovie;
+        private SpriteCategory _category;
 
-			public MyScreen()
-			{
-				var spriteData = UIResourceManager.SpriteData;
-				var resourceContext = UIResourceManager.ResourceContext;
-				var resourceDepot = UIResourceManager.UIResourceDepot;
-				
-				_category = spriteData.SpriteCategories["ui_mycategory"]; // select which category to load, put your category name here
-				_category.Load(resourceContext, resourceDepot); // load the selected category
-				
-				_gauntletLayer = new GauntletLayer(2);
-				Layer = (ScreenLayer)_gauntletLayer;
-				
-				_gauntletMovie = _gauntletLayer.LoadMovie("MyXml", null); // load the ui xml in Prefabs folder
-			}
+        public MyScreen()
+        {
+            var spriteData = UIResourceManager.SpriteData;
+            var resourceContext = UIResourceManager.ResourceContext;
+            var resourceDepot = UIResourceManager.UIResourceDepot;
+            
+            _category = spriteData.SpriteCategories["ui_mycategory"]; // select which category to load, put your category name here
+            _category.Load(resourceContext, resourceDepot); // load the selected category
+            
+            _gauntletLayer = new GauntletLayer(2);
+            Layer = (ScreenLayer)_gauntletLayer;
+            
+            _gauntletMovie = _gauntletLayer.LoadMovie("MyXml", null); // load the ui xml in Prefabs folder
+        }
 
-			public void OnFinalize()
-			{
-				// unload ui xml, sprite category, layer, etc.
-				_gauntletMovie = null;
-				_category.Unload();
-				_gauntletLayer = null;
-			}
-		}
-	}
+        public void OnFinalize()
+        {
+            // unload ui xml, sprite category, layer, etc.
+            _gauntletMovie = null;
+            _category.Unload();
+            _gauntletLayer = null;
+        }
+    }
+}
+```
 
 ##### 2. Использование опции AlwaysLoad
 Вместо того чтобы вручную загружать категории спрайтов, как в разделе «Загрузка и выгрузка вручную», вы можете выбрать, какие категории спрайтов должны загружаться автоматически при запуске включив параметр AlwaysLoad для этих категорий. Если разработчик не выгружает их вручную, категории, для которых включена опция AlwaysLoad, будут храниться в памяти до закрытия игры, чтобы вам не приходилось загружать их вручную каждый раз, когда они используются. Включение параметра AlwaysLoad уменьшает время загрузки пользовательского интерфейса (поскольку эти категории загружаются только один раз при запуске), но увеличивает использование памяти (поскольку эти категории будут храниться в памяти, даже если они не используются). Эта опция очень полезна для категорий, которые часто загружаются и выгружаются (например, категория которая используется на экране, который часто открывается и закрывается).
@@ -211,12 +213,14 @@ SpriteSheetGenerator.exe создаст две папки с именами Asse
 
 Примечание. Если вы добавили категорию спрайтов с опцией AlwaysLoad и не использовали код, опубликованный в разделе "Загрузка и выгрузка вручную", вы можете написать свой собственный код для создания экрана и загрузки UI XML. Если вы не знаете как это сделать, тогда вы можете скопировать код из раздела "Загрузка и выгрузка вручную" (также прочтите подробности в этом разделе) и удалить следующие строки, поскольку вы использовали параметр AlwaysLoad и они вам не нужны для загрузки категорий вручную:
 
-	var spriteData = UIResourceManager.SpriteData;
-	var resourceContext = UIResourceManager.ResourceContext;
-	var resourceDepot = UIResourceManager.UIResourceDepot;
-	
-	_category = spriteData.SpriteCategories["ui_mycategory"]; // select which category to load, put your category name here
-	_category.Load(resourceContext, resourceDepot); // load the selected category
+```C#
+var spriteData = UIResourceManager.SpriteData;
+var resourceContext = UIResourceManager.ResourceContext;
+var resourceDepot = UIResourceManager.UIResourceDepot;
+
+_category = spriteData.SpriteCategories["ui_mycategory"]; // select which category to load, put your category name here
+_category.Load(resourceContext, resourceDepot); // load the selected category
+```
 
 Вы также можете удалить поле _category и удалить его ссылки.
 

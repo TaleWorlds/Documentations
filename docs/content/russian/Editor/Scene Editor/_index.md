@@ -1,7 +1,7 @@
 +++
-title = "Scene Editor"
+title = "Редактор сцен"
 description = ""
-weight = 1
+weight = 2
 +++
 
 {{%children style="h5" description="true"%}}

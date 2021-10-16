@@ -1,5 +1,5 @@
 +++
-title = "Resource Editors"
+title = "Редактор ресурсов"
 description = ""
 weight = 1
 +++

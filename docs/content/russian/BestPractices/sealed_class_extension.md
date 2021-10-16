@@ -20,48 +20,47 @@ parent = "bestpractices"
 Добавление нового свойства может быть достигнуто путем связывания экземпляра запечатанного класса с соответствующим значением свойства с помощью словаря. В сочетании с методами расширения запечатанный класс может предоставить интерфейс для нового свойства, как если бы оно было добавлено непосредственно в класс.
 
 ```C#
-    public class HeroManaExtensionCampaignBehavior : CampaignBehaviorBase
+public class HeroManaExtensionCampaignBehavior : CampaignBehaviorBase
+{
+    private Dictionary<Hero, float> _heroManaValues = new Dictionary<Hero, float>();
+
+    public float GetMana(Hero hero)
     {
-        private Dictionary<Hero, float> _heroManaValues = new Dictionary<Hero, float>();
+        if(_heroManaValues.TryGetValue(hero, out float result))
+        {
+            return result;
+        }            
     
-        public float GetMana(Hero hero)
-        {
-            if(_heroManaValues.TryGetValue(hero, out float result))
-            {
-                return result;
-            }            
-        
-            return 0; //default value
-        }
-
-        public void SetMana(Hero hero, float newValue)
-        {
-            _heroManaValues[hero] = newValue;
-        }
-
-        public override void RegisterEvents(){ }        
-        public override void SyncData(IDataStore dataStore)
-        {
-            dataStore.SyncData("_heroManaValues", ref _heroManaValues);
-        }
+        return 0; //default value
     }
 
-    public static class HeroManaExtensions
-    {         
-        public static float GetMana(this Hero hero)
-        {
-            var behavior = Campaign.Current.GetCampaignBehavior<HeroManaExtensionCampaignBehavior >();
-            return behavior.GetMana(hero);
-        }
-
-        public static void SetMana(this Hero hero, float newMana)
-        {
-            var behavior = Campaign.Current.GetCampaignBehavior<HeroManaExtensionCampaignBehavior >();
-
-            behavior.SetMana(hero, newMana);
-        }
+    public void SetMana(Hero hero, float newValue)
+    {
+        _heroManaValues[hero] = newValue;
     }
 
+    public override void RegisterEvents(){ }        
+    public override void SyncData(IDataStore dataStore)
+    {
+        dataStore.SyncData("_heroManaValues", ref _heroManaValues);
+    }
+}
+
+public static class HeroManaExtensions
+{         
+    public static float GetMana(this Hero hero)
+    {
+        var behavior = Campaign.Current.GetCampaignBehavior<HeroManaExtensionCampaignBehavior >();
+        return behavior.GetMana(hero);
+    }
+
+    public static void SetMana(this Hero hero, float newMana)
+    {
+        var behavior = Campaign.Current.GetCampaignBehavior<HeroManaExtensionCampaignBehavior >();
+
+        behavior.SetMana(hero, newMana);
+    }
+}
 ```
 
 Хотя это решение представляет собой жизнеспособный обходной путь для расширения запечатанных классов, важно помнить, что каждый проект имеет разные требования, и, следовательно, вам следует изучить, какой подход лучше всего подходит для вашего кода. 

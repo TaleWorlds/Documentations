@@ -1,5 +1,5 @@
 +++
-title = "Frequently Asked Questions"
+title = "Часто задаваемые вопросы"
 weight = 3
 +++
 
@@ -22,16 +22,16 @@ weight = 3
 
 ##### Примеры сцен на которые стоит обратить внимание
 
-empire_village_003
-khuzait_castle_002
-sturgia_town_b
-battle_terrain_v
-empire_castle_keep_a_l3_interior
-empire_house_c_tavern_a
-empire_dungeon_a
-arena_empire_a
-Main_map
-		
+- empire_village_003
+- khuzait_castle_002
+- sturgia_town_b
+- battle_terrain_v
+- empire_castle_keep_a_l3_interior
+- empire_house_c_tavern_a
+- empire_dungeon_a
+- arena_empire_a
+- Main_map
+
 ##### Где найти примеры ассетов?
 Вы можете просмотреть исходные ресурсы из браузера ресурсов, но для них нет исходных файлов, и вы не можете их экспортировать. Вскоре мы предоставим несколько примеров исходных файлов. 
 
