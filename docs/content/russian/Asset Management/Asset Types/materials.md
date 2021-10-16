@@ -1,8 +1,8 @@
 +++
-title = "Materials"
+title = "Материалы"
 description = ""
 weight = 1
 +++
 
-Materials define the rendering characteristics of meshes. They contain the shader and texture information, also the rendering flags (defined from by shader and the global ones). 
-A mesh can have a single material. The initial value of a mesh's material will be assigned through it's given material name in the 3rd party mesh editing applications. Materials can be created and edited through the Material Browser which can be accessed through the Resource Browser. The material can also be edited at runtime through scripts and behaviours. More information about material editing and default materials of the engine can be found at the <strong>[Material Editor]({{< ref "material_editor.md" >}})</strong>. 
+Материалы определяют характеристики рендеринга сеток. Они содержат информацию о шейдере и текстуре, а также флаги рендеринга (определяемые шейдером и глобальные).
+Сетка может состоять из одного материала. Начальное значение материала сетки будет назначено через его имя материала в сторонних приложениях для редактирования сетки. Материалы можно создавать и редактировать с помощью обозревателя материалов, к которому можно получить доступ через обозреватель ресурсов. Материал также можно редактировать во время выполнения с помощью сценариев и поведения. Дополнительную информацию о редактировании материалов и материалах по умолчанию для движка можно найти в <strong>[Редактор материалов] ({{<ref "material_editor.md">}})</strong>. 
