@@ -1,11 +1,11 @@
 +++
-title = "Textures"
+title = "Текстуры"
 description = ""
 weight = 1
 +++
 
-Textures can be imported through the Asset Browser. They can be assigned to materials via the Material Editor. The texture slots of the PBR materials can be found at <strong>[Material Editor]({{< ref "material_editor.md" >}})</strong>. 
+Текстуры можно импортировать через "Обозреватель ассетов". Их можно назначить материалам через "Редактор материалов". Слоты текстур материалов PBR можно найти в <strong>[Редакторе материалов]({{< ref "material_editor.md" >}})</strong>.
 
 {{% notice info %}}
-The maximum value for the terrain textures' resolution is 2048 by 2048.
+Максимальное значение разрешения текстур ландшафта - 2048 на 2048.
 {{% /notice %}}
