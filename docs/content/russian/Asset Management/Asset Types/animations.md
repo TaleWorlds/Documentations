@@ -1,5 +1,5 @@
 +++
-title = "Animations"
+title = "Анимации"
 description = ""
 weight = 1
 +++

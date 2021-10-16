@@ -1,5 +1,5 @@
 +++
-title = "Adding & Overriding Assets"
+title = "Добавление и переопределение ассетов"
 description = ""
 weight = 1
 +++

@@ -1,5 +1,5 @@
 +++
-title = "Naming Conventions"
+title = "Соглашения об именах"
 description = ""
 weight = 1
 +++

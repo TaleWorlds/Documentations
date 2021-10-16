@@ -1,5 +1,5 @@
 +++
-title = "Scripts"
+title = "Скрипты"
 description = ""
 weight = 1
 +++
