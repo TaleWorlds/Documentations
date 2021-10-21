@@ -39,19 +39,19 @@ weight = 1
 Система ассетов обрабатывает некоторые папки в каталоге модуля специально в соответствии с их именами. Вот список этих папок и их использование:
 
 - **Assets** : Включает редактируемые файлы *.tpac в котором хранятся метаданные каждого ассета.
-- **AssetSources** : Includes source files of imported assets(.psd, .fbx).
-- **AssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for client builds. 
-- **EmAssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for editor builds. 
-- **DsAssetPackages** : Includes read-only *.tpac files. It is generated when a module is packed for server builds.
-- **RuntimeDataCache** : Includes auto-generated data required by engine for each asset. Can be deleted but it might take time to generate from scratch during startup.
+- **AssetSources** : Включает исходные файлы импортированных ассетов (.psd, .fbx).
+- **AssetPackages** : Включает *.tpac файлы только для чтения. Генерируется, когда модуль упакован для сборки клиента.
+- **EmAssetPackages** : Включает *.tpac файлы только для чтения. Генерируется, когда модуль упакован для сборки редактора.
+- **DsAssetPackages** : Включает *.tpac файлы только для чтения. Генерируется при упаковке модуля для серверных сборок.
+- **RuntimeDataCache** : Включает автоматически сгенерированные данные, необходимые движку для каждого ассета. Может быть удален, но может потребоваться время для создания с нуля во время запуска.
 
 ### Разрешения на редактирование
 
 Система ассетов ищет разные папки в зависимости от версии исполняемого файла игры. В зависимости от наличия этих папок он решает, можно ли изменить модуль или его можно использовать только в режиме только для чтения. Если вы хотите распространить свой модуль, вы можете упаковать свои ассеты и поделиться упакованными папками, не распространяя тысячи файлов и их источников. У вас есть три варианта упаковки ваших активов:
 
-- **Client** : Others can activate your module to play. You must distribute **AssetPackages** folder.
-- **Editor** : Others can use your module in editor but can not modify it. Used if you want others to derive modules from your module. You must distribute **EmAssetPackages** folder.
-- **Server** : Used for server builds. All data which is not related to server is stripped out. You must distribute **DsAssetPackages** folder.
+- **Client** : Другие могут активировать ваш модуль, чтобы играть. Вы должны распространить папку **AssetPackages**.
+- **Editor** : Другие могут использовать ваш модуль в редакторе, но не могут его изменять. Используется, если вы хотите, чтобы другие извлекали модули из вашего модуля. Вы должны распространять папку **EmAssetPackages**.
+- **Server** : Используется для серверных сборок. Все данные, не относящиеся к серверу, удаляются. Вы должны поставлять папку **DsAssetPackages**.
 
 Вы также можете поделиться своим модулем так же, как вы его используете, чтобы другие могли его изменять. В этом случае вы должны распределить папки **Assets**, **AssetSources** и, возможно, **RuntimeDataCache**.
 
@@ -59,7 +59,7 @@ weight = 1
 Переопределение материалов может быть выполнено путем создания нового материала с тем же именем, что и материал, который вы хотите переопределить.
 Перейдите в каталог ресурсов вашего модуля и щелкните правой кнопкой мыши в пустое место на панели браузера. Создайте новый материал и переименуйте его в то же имя, что и у материала, который вы хотите переопределить.
 
-{{% panel footer="Material of an existing mesh overriden by ModuleA" %}}![](/img/modding/assets/material_override.png){{% /panel %}}
+{{% panel footer="Материал существующей сетки замещенный ModuleA" %}}![](/img/modding/assets/material_override.png){{% /panel %}}
 На этом этапе все ссылки на материалы в системе будут перенаправлены на ваш пользовательский материал.
 <br><br>
 
@@ -76,13 +76,13 @@ weight = 1
 
 Следуя этим правилам, вы можете экспортировать новый файл геометрии (например, fbx), который содержит группу сеток, имена которых начинаются с **wall**. В этом случае новая сетка **wall** будет создана из этих подсеток, а существующая сетка будет полностью заменена той, которую вы указали. Имя файла геометрии не учитывается. Стоит отметить, что переопределение сетки происходит на уровне сетки. Невозможно переопределить одиночную подсетку с помощью переопределения модуля.
 
-{{% panel footer="Existing cube mesh with name **testbox** overriden by ModuleA with a teapot" %}}![](/img/modding/assets/metamesh_override.png){{% /panel %}}
+{{% panel footer="Существующая сетка куба с именем **testbox** заменена модулем ModuleA чайником" %}}![](/img/modding/assets/metamesh_override.png){{% /panel %}}
 <br><br>
 
 ### Переопределение текстур
 Переопределение текстур очень похоже на материалы. Вам необходимо импортировать новую текстуру с тем же именем текстуры, которую вы хотите переопределить. Вы также можете переименовать любую уже импортированную текстуру во что-то, что соответствует имени текстуры, которую нужно переопределить.
 
-{{% panel footer="Existing albedo texture with name **roman_ground_d** overriden by ModuleA with a white texture" %}}![](/img/modding/assets/texture_override.png){{% /panel %}}
+{{% panel footer="Существующая текстура альбедо(естественный цвет объекта) с именем **roman_ground_d** переопределена модулем ModuleA с белой текстурой" %}}![](/img/modding/assets/texture_override.png){{% /panel %}}
 <br><br>
 
 ### Переопределение физических фигур
