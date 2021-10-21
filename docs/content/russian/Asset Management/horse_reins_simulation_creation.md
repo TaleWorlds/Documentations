@@ -1,48 +1,48 @@
 +++
-title = "Horse Reins Simulation Creation"
+title = "Моделирование поводьев лошади"
 weight = 3
 +++
 
-### Introduction 
+### Введение
 
-This tutorial explains how to add simulation to the reins of a horse armor set. 
+В этом руководстве объясняется, как добавить симуляцию к поводьям комплекта конской брони.
 
-We previously used only one mesh for horse armor, however the reins would hang in the air and not move according to gravity. We then decided to add simulation to the reins which meant applying some changes to the system. Instead of a single mesh, horse armors now contain 3 meshes. We will divide them into 2 groups.
+Ранее мы использовали только одну сетку для конской брони, однако поводья висели в воздухе и не двигались под действием силы тяжести. Затем мы решили добавить симуляцию к поводьям, что означало внесение некоторых изменений в систему. Вместо одной сетки, конские доспехи теперь содержат 3-и сетки. Разделим их на 2-е группы.
 
-#### Group 1:
+#### Группа 1:
 
-- **The horse armor/harness**:  The armor set that is related to the body of the horse as demonstrated in Image 2b (which has its own simulation but we’ll ignore that for now) Example: horse_harness_x
-- **The original rein piece**: The part that is separated from the initial single mesh that we have mentioned above and it is seen in Image 2c. We kept this unsimulated piece for occasions where the simulated piece is not needed; that is when the camera is distant from the horse and the armor set begins to switch to LOD 1 and to the rest of the LODs. Example: horse_harness_x_rein
+- **Конские доспехи / сбруя**: Комплект доспехов, связанный с телом лошади, как показано на изображении 2b (который имеет собственную симуляцию, но мы пока не будем это учитывать). Пример: horse_harness_x
+- **Оригинальные поводья**: Часть, которая отделена от первоначальной единой сетки, о которой мы упоминали выше, и она видна на изображении 2c. Мы сохранили этот немоделированный кусок для случаев, когда имитируемый кусок не нужен; это когда камера находится далеко от лошади и комплект брони начинает переключаться на LOD 1 и на остальные LODы. Пример: horse_harness_x_rein
 
-#### Group 2:
+#### Группа 2:
 
-- **The simulated rein piece**: When the camera is close to the horse, the rider holds the reins and the reins move according to physics. Example: horse_harness_x_rein_rope
+- **Имитация поводья**: Когда камера приближается к лошади, всадник держит поводья, и поводья двигаются согласно физике. Пример: horse_harness_x_rein_rope
 
-This tutorial mainly explains how to create the third mesh which is “the simulated rein piece”. But before diving into the steps, we would like to clarify a few things.
+В этом уроке в основном объясняется, как создать третью сетку, которая является «имитируемой частью поводья». Но прежде чем углубиться в пошаговые инструкции, мы хотели бы прояснить несколько моментов.
 
 |  |  |
 | ------ | ----------- |
 | <img src="/img/horse_reins_simulation_creation/image_1a.png" width="350px"/> | <img src="/img/horse_reins_simulation_creation/image_1b.png" width="350px"/> |
 | **Image 1a**; *Normally each component has a different name but we will refer to the parts of our mesh either as headpiece or rein as shown in Image 1b.* | **Image 1b**; *For simplicity and due to functionality we will only use “head piece” and “reins”.* |
 
-We named the horse harness as  “horse_harness_x” to serve as an example below (marked light grey) while explaining the grouping (those names are only chosen as examples, please mind that there are meshes with names  “horse_harness_x, horse_harness_x_rein, horse_harness_x_rein_rope” in the game already).
+Мы назвали конскую сбрую как "horse_harness_x", в качестве примера ниже (отмечены светло-серым), при объяснении группировки (эти имена выбраны только в качестве примеров. Имейте в виду, что в папке есть меши с именами "horse_harness_x", "horse_harness_x_rein", "horse_harness_x_rein_rope" которые уже в игре.
 
  |  | 
 ------- | ------- | --------
 <img src="/img/horse_reins_simulation_creation/image_2a.png"/> | <img src="/img/horse_reins_simulation_creation/image_2b.png"/> | <img src="/img/horse_reins_simulation_creation/image_2c.png"/>
 **Image 2a**; *This is the initial stage where you model the horse harness/armor and rein according to horse anatomy. The rein should be modelled so that it is positioned within the rider’s reach (we have modelled the armor sets in 3ds Max).* | **Image 2b**; *horse_harness_x.* | **Image 2c**; *horse_harness_x_rein (headpiece is part of this mesh which will later be duplicated to become horse_harness_x_rein_rope).*
 
-In the following chapter, we will talk about how to create the third component; “the simulated rein piece” of the armor set.
+В следующей главе мы поговорим о том, как создать третий компонент; «Имитация поводья» комплекта брони.
 
-### Rein Simulated Piece: Horse_harness_x_rein_rope
+### Имитация поводья: Horse_harness_x_rein_rope
 
-The simulated piece needs another skeleton for skinning which is part of our Modding Kit, accessible under Mount & Blade II Bannerlord\modding_resources (see image 3).
+Для смоделированной части требуется еще один скелет, который является частью нашего набора для моддинга, доступного в Mount & Blade II Bannerlord\modding_resources (смотри рисунок 3).
 
 <img src="/img/horse_reins_simulation_creation/image_3.png" width="900px"/>
 
 **Image 3**; *horse_harness_rein_skeleton which contains 22 bones is on the left. On the right we have a demonstration of how the horse_harness_x_rein_rope is supposed to fit on the skeleton.*
 
-#### Steps to create the simulation mesh:
+#### Шаги по созданию моделирующей сетки:
 1. Duplicate the mesh “horse_harness_x_rein”.
 2. Rename it to “horse_harness_x_rein_rope”.
 3. Tweak the new mesh (“horse_harness_x_rein_rope”) so that it sits perfectly on the “horse_harness_rein_skeleton” (when you are done the mesh should look like it does on Image 5a and 5b).
@@ -54,8 +54,8 @@ The simulated piece needs another skeleton for skinning which is part of our Mod
 <img src="/img/horse_reins_simulation_creation/image_4.png"/> | <img src="/img/horse_reins_simulation_creation/image_5a.png"/> | <img src="/img/horse_reins_simulation_creation/image_5b.png"/> | <img src="/img/horse_reins_simulation_creation/image_6.png"/>
 **Image 4**; *bones of horse_harness_rein_skeleton.* | **Image 5a**; *side view of horse_harness_x_rein_rope compared to horse_harness_x_rein.* | **Image 5b**; *top view of horse_harness_x_rein_rope (selected mesh) compared to horse_harness_x_rein.* | **Image 6**; *alphas of the selected vertices (red/lighter) are set to “100” since they belong to the simulated region of the rein. The part where the rider holds and the head piece (see Image 1b) are not simulated, hence they are set to “0”.*
 
-### Exporting the meshes to the game
+### Экспорт мешей в игру
 
-Export the meshes in fbx format to the designated folder:
+Экспортируйте меши в формате fbx в указанную папку:
 
 [Game Folder]\Modules\[Mod Folder]\AssetSources
