@@ -1,7 +1,7 @@
 +++
 title = "What Makes a Village Scene"
 description = ""
-weight = 1
+weight = 3
 +++
 
 #### Introduction
