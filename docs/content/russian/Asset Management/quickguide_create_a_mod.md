@@ -1,30 +1,30 @@
 +++
-title = "Creating a Module - Quick Guide"
+title = "Создание модуля - Краткое руководство"
 weight = 3
 +++
 
-Modules can contain assets ranging from meshes to physics bodies, scenes, gameplay entities like factions, lords, troops, items, sounds, scripts and behaviours that can run any gameplay logic. In this guide, the process of creating one will be explained. 
+Модули могут содержать ресурсы, начиная от мешей и заканчивая физическими телами, сценами, объектами игрового процесса, такими как фракции, лорды, войска, предметы, звуки, сценарии и поведения, которые могут запускать любую логику игрового процесса. В этом руководстве будет объяснен процесс его создания.
 
-##### Creating A New Module
+##### Создание нового модуля
 
-Modules reside inside the "Modules" folder in the root directory. It must contain an XML file named SubModule.xml. This file contains basic information like "Name", "ID" and "Version" nodes. Also, one can define dependent modules inside the "DepenendedModules" node. If you want to make a Single Player mod, it should also contain a "SingleplayerModule" node. After this, the module will be visible at the Launcher. 
+Модули находятся в папке "Modules" в корневом каталоге. Он должен содержать XML-файл с именем SubModule.xml. Этот файл содержит основную информацию, такую узлы как "Name", "ID" и "Version". Также можно определить зависимые модули внутри узла "DepenendedModules". Если вы хотите создать однопользовательский мод, он также должен содержать узел "SingleplayerModule". После этого модуль будет виден в лаунчере.
 
-SubModules can define DLL's to be loaded at runtime. These DLL's should contain a Class which inherits from "MBSubModuleBase" and the name should match with the "SubModuleClassType" node inside the xml. That class will be constructed and certain callbacks willl be called so that od can registers its behaviours to the game.
+SubModules могут определять библиотеки DLL, загружаемые во время выполнения. Эти DLL должны содержать класс, который наследуется от "MBSubModuleBase", а имя должно совпадать с узлом "SubModuleClassType" внутри xml. Этот класс будет создан и будут вызываться определенные обратные вызовы, чтобы он мог регистрировать свое поведение в игре.
 
-##### Module Hierarchy
+##### Иерархия модуля
 
-Modules can have several folders which contains different types of content:
+В модулях может быть несколько папок, содержащих различные типы контента:
 
 {{% notice info %}}
-* bin: The compiled DLL's should be put inside the "bin\Win64_Shipping_Client" folder so that the game can find and load the DLL.
-* Atmospheres: This folder contains the different atmosğhere templates that can be used through the game. New atmosğhere can be saved to any module  from the Editor.
-* AssetSources: This folder contains the sources for the assets. Editor imports assets to this folder. This folder may be filtered out before publishing the mod. For more information about adding new content to the module, see <strong>[Adding & Overriding Assets]({{< ref "overriding_assets.md" >}})</strong>.
-* Assets: This folder contains the asset data derived from the content sources. It is only used at the mod development phase. This folder may be filtered out before publishing the mod.
-* AssetPackages: After the content work is done for the module, content creator should start the Publish operation to ready the content for release. Th,s fodler contains the "Published" assets. 
-* GUI: This folder contains any new GUI element, prefab or brush that can be used through the game.
-* ModuleData: This folder contains many of the important xml files for gameplay logic. "project.mbproj" file governs the xml's that will be loaded inside the folder. These xml's range from animations and sets to factions, trops, items etc. 
-* NavMeshPrefabs: Navigation mesh face groups can be saved in editor as templates to easily insert into multiple scenes. This folder contains those.
-* Prefabs: This folder contains the prefabs XML's. For more information, see <strong>[Entities & Prefabs]({{< ref "prefabs.md" >}})</strong>.
-* SceneObj: This fodler holds the Scene Data which is stripped from any Edit Data. Scenes witout terrain only resides in this folder. 
-* SceneEditData: Contains the terrain edit data for every scene. This folder may be filtered out before publishing the mod.
+* bin: Скомпилированная DLL должна быть помещена в папку "bin\Win64_Shipping_Client", чтобы игра могла найти и загрузить DLL.
+* Atmospheres: Эта папка содержит различные шаблоны атмосферы, которые можно использовать в игре. Новая атмосфера может быть сохранена в любом модуле из Редактора.
+* AssetSources: Эта папка содержит источники для ассетов. Редактор импортирует ресурсы в эту папку. Эта папка может быть отфильтрована перед публикацией мода. Для получения дополнительной информации о добавлении нового содержимого в модуль см. <strong>[Добавление и изменение ассетов]({{< ref "overriding_assets.md" >}})</strong>.
+* Assets: Эта папка содержит данные об ассетах, полученные из источников контента. Он используется только на этапе разработки мода. Эта папка может быть отфильтрована перед публикацией мода.
+* AssetPackages: После завершения работы с содержимым модуля создатель содержимого должен запустить операцию публикации, чтобы подготовить содержимое к выпуску. Этот файл содержит "Опубликованные" ассеты.
+* GUI: Эта папка содержит любой новый элемент графического интерфейса, префаб или кисть, которые можно использовать в игре.
+* ModuleData: Эта папка содержит множество важных XML-файлов для логики игрового процесса. Файл "project.mbproj" управляет XML-файлами, которые будут загружены в папку. Эти xml-файлы варьируются от анимаций и установки фракций, войск, предметов и т.д.
+* NavMeshPrefabs: Группы навигационной сетки можно сохранить в редакторе в качестве шаблонов, чтобы легко вставлять их в несколько сцен. Эта папка содержит таковые.
+* Prefabs: Эта папка содержит префабы XML. Для получения дополнительной информации см. <strong>[Сущности и Префабы]({{< ref "prefabs.md" >}})</strong>.
+* SceneObj: Эта папка содержит данные сцены, которые удалены из любых данных редактирования. Серии без ландшафта хранятся только в этой папке.
+* SceneEditData: Содержит данные редактирования ландшафта для каждой сцены. Эта папка может быть отфильтрована перед публикацией мода.
 {{% /notice %}}
