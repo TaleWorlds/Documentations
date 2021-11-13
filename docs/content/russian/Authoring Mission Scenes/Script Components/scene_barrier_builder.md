@@ -1,30 +1,29 @@
 +++
-title = "Scene Barrier Builder"
+title = "Построитель барьеров сцены"
 
 [menu.main]
 identifier = "scene_barrier_builder"
 parent = "bannerlord_scenes"
 +++
 
-## Introduction
+## Введение
 
-Barrier Builder is a tool that helps artist to generate barriers over walls to prevent agents to fall down.
+Построитель барьеров - это инструмент, который помогает художнику создавать барьеры над стенами, чтобы агенты не падали.
 
-## Usage
+## Использование
 
-- Create a path, you can use the button on toolbar
-![](/img/barrier_builder/add_path.png)
+- Создайте путь, вы можете использовать кнопку на панели инструментов
+  ![](/img/barrier_builder/add_path.png)
 
-- Give a name to path
-![](/img/barrier_builder/name_path.png)
+- Дайте имя пути
+  ![](/img/barrier_builder/name_path.png)
 
-- Build your path as you wish
-![](/img/barrier_builder/create_path.png)
+- Постройте свой путь, как хотите
+  ![](/img/barrier_builder/create_path.png)
 
-
-- Press "Enable Barrier Build" chekbox on path inspector, it will create your barrier entity for you.
+- Установите флажок "Enable Barrier Build" в инспекторе путей, он создаст для вас объект барьера.
 ![](/img/barrier_builder/create_barrier.png)
 
-- You can go to that entity with "Go to Entity" Button and chnage its options like height, the entity named as "path_barrier_PATHNAME"
+- Вы можете перейти к этому объекту с помощью кнопки "Go to Entity" и изменить его параметры, такие как высота, объект с именем "path_barrier_PATHNAME".
 
 ![](/img/barrier_builder/change_barrier.png)
