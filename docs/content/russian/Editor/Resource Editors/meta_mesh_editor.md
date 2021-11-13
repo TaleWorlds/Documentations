@@ -1,25 +1,24 @@
 +++
-title = "Meta Mesh Editor" 
+title = "Редактор мета-мешей" 
 +++
 
-#### Import Settings
-* Divide Into Grid: Divides the meta mesh into grids, and adds all the generated section meshes to the submeshes.
-* Remove Redundant Vertices: The name implies what it does.
-* Recompute Normals: While importing the meta mesh, computes normal vectors for all sub-meshes instead of importing them as well.
-* Normal Computation: Decides whether the normal vector computation will depend on the face area (weighted) or not (default).
-* Recompute Tangents: While importing the meta mesh, computes the tangent vectors for all sub-meshes instead of importing them as well.
-* Whiten: Linear interpolation amount between the vertex color and white per each color channel.
+#### Настройки импорта
+* Divide Into Grid: делит мета-сетку на сетки и добавляет все сгенерированные сетки секций в подсетки.
+* Remove Redundant Vertices: название подразумевает, что он делает.
+* Recompute Normals: при импорте метасетки вычисляет векторы нормалей для всех подсетей вместо их импорта.
+* Normal Computation: определяет, будет ли вычисление вектора нормали зависеть от площади лица (взвешенная) или нет (по умолчанию).
+* Recompute Tangents: при импорте метасетки вычисляет касательные векторы для всех подсетей вместо их импорта.
+* Whiten: величина линейной интерполяции между цветом вершины и белым для каждого цветового канала.
 
-#### Lod Meshes
-* All the active sub-meshes of the meta mesh can be seen here. The material properties, mesh parameters and tags can be changed via the interface.
+#### Загрузка мешей
+* Здесь можно увидеть все активные подсетки метамеша. Свойства материала, параметры сетки и теги можно изменить через интерфейс.
 
 ![](/img/meta_mesh_editor/lods.PNG)
 
-#### Unused Meshes
-
-* This shows the activity situation of the sub-meshes. If the ignore checkbox is checked, this means that the corresponding sub-mesh is inactive. After changing status of the lod meshes, please press "Apply Ignores" button for your changes to take place and be saved.
+#### Неиспользуемые меши
+* Показывает состояние активности подсетей. Если флажок "Inore" установлен, это означает, что соответствующая подсетка неактивна. После изменения статуса сеток lod нажмите кнопку "Apply Ignores", чтобы изменения вступили в силу и были сохранены.
 
 ![](/img/meta_mesh_editor/ignored_meshes.png)
 
-#### Save
-* Saves all the changes done to the meta mesh.
+#### Сохранение
+* Сохраняет все изменения, внесенные в метамеш.
