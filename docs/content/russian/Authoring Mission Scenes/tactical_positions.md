@@ -1,20 +1,20 @@
 +++
-title = "Mission Tactical Positions"
+title = "Тактические позиции миссии"
 description = ""
 weight = 1
 +++
 
-### TACTICAL POSITIONS AND TACTICAL REGIONS
+### Тактические позиции и тактические регионы
 
-These are scripted entities that let the AI know of the terrain's features. They do not work like siege, the AI will not always use the tactical positions or regions you may place. They may use them under conditions that favor the use of these. 
+Это скриптовые сущности, которые сообщают ИИ об особенностях местности. Они не работают как осада, ИИ не всегда будет использовать тактические позиции или регионы, которые вы можете разместить. Они могут использовать их в условиях, благоприятствующих их использованию.
 
-Depending on player movement and spawn path randomization, there are a very high number of scenarios that can occur during battles. Because of this, it is better to have as many meaningful positions and regions marked as possible but not having these or not marking some of the meaningful positions will not result in obvious errors like in siege but will result in less interesting battles because AI won't be aware of their surroundings. Types and how to use different tactical positions and regions:
+В зависимости от движения игрока и рандомизации пути появления существует очень большое количество сценариев, которые могут возникнуть во время сражений. Из-за этого лучше иметь как можно больше значимых позиций и регионов, отмеченных, насколько это возможно, но их отсутствие или отсутствие отметки некоторых значимых позиций не приведет к очевидным ошибкам, как при осаде, но приведет к менее интересным битвам, потому что ИИ не узнает об их окружении. Типы и способы использования разных тактических позиций и регионов:
 
-#### Tactical Positions
-##### High Ground, Slope facing direction
+#### Тактические позиции
+##### Возвышенность, направление движения по склону
 
-These are for advantageous high ground positions facing one direction. The AI may hold these positions if the enemy is approaching from the direction the tactical position is facing.
-Direction is the most important part. The position to defend will face the forward direction(green arrow in editor) of the position. Paramaters are as follows:
+Они предназначены для удобных позиций на возвышенности, обращенных в одном направлении. ИИ может удерживать эти позиции, если противник приближается со стороны тактической позиции.
+Направление - самая важная часть. Позиция для защиты будет смотреть вперед (зеленая стрелка в редакторе) позиции. Параметры следующие:
 
 {{% notice info %}}
 * _width: the AI will try to form itself to the full extent of the width and if it's too narrow and AI has too many troops or if it's too wide and AI doesn't have enough troops AI may think it's a poorly suitable position.
@@ -28,9 +28,9 @@ Direction is the most important part. The position to defend will face the forwa
 
 ![](/img/tactical_positions/1.png)
 
-##### Top of Hill, Defendable against all directions
+##### Вершина холма, защищаемая со всех сторон
 
-This is for high ground positions at the top of hills, easy to defend against all directions. AI may hold these positions regardless of the enemy approach direction. AI will position themselves on top of the hill according to enemy position. Direction is not important. 
+Это для высоких позиций на вершине холмов, которые легко защищать со всех сторон. ИИ может удерживать эти позиции независимо от направления приближения врага. ИИ будет позиционировать себя на вершине холма в соответствии с позицией врага. Направление не важно.
 
 {{% notice info %}}
 * _width is important, should be roughly equal to the radius of the top of the hill.
@@ -44,9 +44,9 @@ This is for high ground positions at the top of hills, easy to defend against al
 
 ![](/img/tactical_positions/2.png)
 
-##### Choke Points
+##### Точка давки
 
-These are for positions with impassable barriers on either side. AI with inferior numbers may try to hold these positions in order to mitigate their number disadvantage.
+Это позиции с непроходимыми преградами с обеих сторон. ИИ с меньшими числами может попытаться удержать эти позиции, чтобы уменьшить их недостаток числа.
 
 {{% notice info %}}
 * Direction is the most important part. The position to defend will face the forward direction(green arrow in editor) of the position. ***
@@ -61,9 +61,9 @@ These are for positions with impassable barriers on either side. AI with inferio
 
 ![](/img/tactical_positions/3.png)
 
-##### Cliff Positions
+##### Позиция на утёсе
 
-These tactical positions are meaningless by themselves. They should be put in entity hierarchy under choke point tactical positions. If placed under a choke point and the AI employs that choke point, only then cliff positions will be used. 
+Эти тактические позиции сами по себе бессмысленны. Они должны быть помещены в иерархию сущностей под тактическими позициями узких мест. Если он размещен под узким проходом и ИИ использует его, будут использоваться только положения обрыва.
 
 {{% notice info %}}
 * Cliff positions should be positions that the enemy cannot reach when the parent choke point is held by other defenders.
@@ -80,28 +80,28 @@ These tactical positions are meaningless by themselves. They should be put in en
 
 ![](/img/tactical_positions/4.png)
 
-#### TACTICAL REGIONS
+#### Тактический регион
 
-These are for marking regions in scenes. Only a radius is given and the region is circular in shape. Obviously scenes will have regions with completely custom/random shaped forests, difficult terrains and openings. Therefore multiple tactical regions with various circular areas should be defined, as many as needed can be added. The radius and the circular area of each region can be a rough estimate, doesn't need to be precise.
+Они предназначены для маркировки областей в сценах. Дан только радиус, и область имеет круглую форму. Очевидно, что сцены будут иметь регионы с лесами полностью нестандартной/произвольной формы, сложными ландшафтами и открытыми местами. Поэтому следует определить несколько тактических областей с различными круговыми областями, при необходимости их можно добавить. Радиус и круговая площадь каждой области могут быть приблизительными, но не обязательно точными.
 
-##### Forest Areas
+##### Лесистая местность
 
-AI may use positions inside forest areas if the enemy has a superior number of ranged and cavalry units because archers and cavalry are less effective in forests. Any other region that is disadvantageous for both missile units and cavalry can be given a forest region, it doesn’t necessarily need to be a forest and have trees etc., it can be a marketplace with lots of obstacles and cover or something like that.
+ИИ может использовать позиции внутри лесных областей, если у врага превосходящее количество стрелков и кавалерии, потому что лучники и кавалерия менее эффективны в лесах. Любой другой регион, который невыгоден как для стрелковых подразделений, так и для кавалерии, может быть отдан лесному региону, он необязательно должен быть лесом, иметь деревья и т.д. Это может быть рынок с множеством препятствий и укрытий или что-то в этом роде.
 
 ![](/img/tactical_positions/5.png)
 
-##### Difficult Terrain
+##### Сложная местность
 
-This includes rocky terrain as well as swamps, or may be even marketplaces or some location with many obstacles on the ground, any area that does not hinder ranged fire(like forests) but impede and slow down cavalry should be considered and marked difficult terrain. AI may use positions inside difficult terrain areas if the enemy has a superior number of cavalry units.
+Это включает в себя каменистую местность, а также болота, или могут быть даже рыночные площади или какое-либо место с множеством препятствий на земле, любая область, которая не препятствует дальнему огню (например, леса), но препятствует и замедляет кавалерию, должна быть рассмотрена и отмечена труднопроходимой местностью. ИИ может использовать позиции внутри труднопроходимой местности, если у врага больше кавалерийских единиц.
 
 ![](/img/tactical_positions/6.png)
 
-##### Open Areas
+##### Открытая местность
 
-Positions that allow fast cavalry movement and clear missile fire. This region type is for marking suitable battlegrounds. The AI may choose to make their defense in Opening areas if they have superior or equal number of ranged and cavalry units.
+Позиции, позволяющие быстро передвигаться кавалерии и вести чисто стрелковую стрельбу. Этот тип региона предназначен для обозначения подходящих полей боя. ИИ может выбрать защиту в открытых зонах, если у них есть большее или равное количество отрядов дальнего боя и кавалерии.
 
 ![](/img/tactical_positions/7.png)
 
-#### TACTICAL REGIONS AND POSITIONS COMBINATIONS
+#### Совмещение тактических регионов и позиций
 
-Tactical Positions described in section A can also be placed under Tactical Region entities. Their _tacticalRegionMembership should be correctly selected. In this situation, AI will realize the choke point is also in a forest region and under right conditions, can prefer that choke position or high ground accordingly.
+Тактические позиции, описанные в разделе A, также могут быть помещены в объекты Тактического региона. Их _tacticalRegionMembership должен быть правильно выбран. В этой ситуации ИИ поймет, что точка прохода также находится в лесном районе, и при правильных условиях может предпочесть это положение давки или возвышенность соответственно. 
