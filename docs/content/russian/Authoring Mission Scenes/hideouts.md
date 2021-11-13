@@ -1,98 +1,98 @@
 +++
-title = "What Makes a Hideout Scene"
+title = "Из чего складывается сцена укрытия"
 description = ""
 weight = 1
 +++
 
-#### Introduction
-This list of checkpoints should aid you in creation of hideout scenes and provide you with an insight into what we pay attention to when creating them. Unlike many other of our scenes, hideouts are only used for fighting missions and usually have a very strict one way layout.
+#### Введение
+Этот список контрольных точек должен помочь вам в создании сцен укрытия и дать вам представление о том, на что мы обращаем внимание при их создании. В отличие от многих других наших сцен, укрытия используются только для боевых задач и обычно имеют очень строгую одностороннюю планировку.
 
-#### Navigation Mesh
-* [Works similarly to how it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#navigation-mesh)
-* No need to have special ID’s on paths or around animal enclosures.
-* Take special care to define the costs of navmeshes off the path correctly, to avoid having AI run sharply around rocks, or run through rough terrain like swamps, forests and such.
+#### Сетка навигации
+* [Работает аналогично деревенским сценам.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#navigation-mesh)
+* Нет необходимости иметь специальные идентификаторы на дорожках или возле вольеров для животных.
+* Позаботьтесь о том, чтобы правильно определить затраты навигационных сеток за пределами пути, чтобы ИИ не бегал резко по скалам или бежал по пересеченной местности, такой как болота, леса и т.д.
 
-#### Spawn Points
-##### General
-* Don't use any animal spawns.
+#### Точки появления
+##### Основное
+* Не используйте появление животных
 
-##### Player Party
-* Troop Prefab: **sp_hideout_group_attacker**.
-* Player Prefab: **sp_player**.
-* You will need a battle entry point for the players party. Make sure you have enough space around it to spawn in the other attacking troops.
+##### Компания игрока
+* Префаб войск: **sp_hideout_group_attacker**.
+* Префаб игрока: **sp_player**.
+* Вам понадобится точка входа в битву для группы игроков. Убедитесь, что вокруг него достаточно места для появления других атакующих войск.
 
 ![](/img/hideout_scenes/hideout_scenes_1.png)
 
-##### Bandit Areas
-* Hideout scenes are in essence a set of multiple Bandit Areas.
-* Having these positions in a linear layout is generally the best idea, to avoid backtracking of players or them totally overlooking a position in general.
-* Players need to clear every position for the battle to be over.
-* Each Hideout Scene should contain between 6 and 8 common_area positions.
-	* Prefab: **common_area_x**.
-	* The defending bandit party will be split amongst these positions.
-	* Not every position is always defended (if the defender count is low).
-	* Make sure to have a sensible spacing in between.
-		* Having the positions close to each other might trigger defending agents of both positions to attack the player as they approach.
-		* If they are too far apart, the mission loses its pace.
-		* Keep in mind that the troops in most campaigns are probably going to have higher athletics than the player, hence run faster.
-	* You can increase the spawning radius of units by scaling the common area prefab.
-	* Make sure that there is some indication of where the defending units could be so that the player has a chance of finding them (especially at night).
+##### Район бандитов
+* Сцены укрытия - это, по сути, набор из нескольких зон бандитов.
+* Размещение этих позиций в линейном расположении, как правило, является лучшей идеей, чтобы игроки не возвращались назад или полностью игнорировали позицию в целом.
+* Игрокам необходимо очистить все позиции, чтобы битва закончилась.
+* Каждая сцена убежища должна содержать от 6 до 8 позиций common_area.
+	* Префаб: **common_area_x**.
+	* Группа обороняющихся бандитов будет разделена между этими позициями.
+	* Не каждая позиция всегда защищается (если количество защитников невелико).
+	* Убедитесь, что между ними есть разумный интервал.
+		* Расположение близко друг к другу может заставить агентов защиты с обеих позиций атаковать игрока, когда они приближаются.
+		* Если они находятся слишком далеко друг от друга, миссия теряет темп.
+		* Имейте в виду, что войска в большинстве кампаний, вероятно, будут иметь более высокую атлетику, чем игрок, поэтому бегут быстрее.
+	* Вы можете увеличить радиус появления юнитов, масштабируя prefab общей области.
+	* Убедитесь, что есть указание на то, где могут находиться защищающиеся отряды, чтобы у игрока был шанс их найти (особенно ночью).
 
 ![](/img/hideout_scenes/hideout_scenes_2.png)
 
-* Have around 10 to 15 spawnpoints per common area.
-	* Use **sp_npc_x** spawnpoints. Do not have them do chores like farming/smithing though.
-	* Use civilian animation points as spawn points for bandits, some suggestions: “**sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait**”.
-	* All spawn points in the radius will spawn bandits.
+* Иметь от 10 до 15 точек появления на общую площадь.
+	* Используйте точки появления **sp_npc_x**. Но не заставляйте их заниматься такими делами, как сельское хозяйство или кузнечное дело.
+	* Используйте точки гражданской анимации в качестве точек возрождения бандитов. Несколько примеров:  “**sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait**”.
+	* Все точки появления в радиусе будут порождать бандитов.
 
 ![](/img/hideout_scenes/hideout_scenes_3.png)
 
-* You can also use patrol spawnpoints: “**sp_guard_patrol_simple, sp_guard_patrol**”.
-	* These have a chance to spawn bandits.
-	* Can be used outside of the common area.
+* Вы также можете использовать патрульные точки появления: “**sp_guard_patrol_simple, sp_guard_patrol**”.
+	* У них есть шанс создать бандитов.
+	* Может использоваться за пределами общей зоны.
 
-##### Boss Fight
+##### Битва с главарём
 
 ![](/img/hideout_scenes/hideout_scenes_4.png)
 
-* Prefab: **hideout_boss_fight**.
-* At the end of each Hideout mission there is a boss fight.
-* The position of it should be inside the last Bandit Area (common_area). Make sure that it’s likely for the player to end up around there in the normal fighting mission, so that they are not teleported around the map into a totally different area.
-* How the boss fight works:
-	* Both parties spawn at their outer radius positions.
-	* They then move towards each other right up to the inner radius positions.
-	* You can adjust the distance between the outer and the inner radius with the "WalkDistance" property on the prefab.
-* Inside the prefab you can toggle a preview of the positions.
-* Make sure that the path is clear for both parties between those positions.
-* Also make sure that the camera position isn't too close to other objects.
-	* You can’t adjust the camera in the editor, you will need to test the scene for this.
-	* Keep big prefabs out of the area shown by the preview and you will be fine.
+* Префаб: **hideout_boss_fight**.
+* В конце каждой миссии в Убежище происходит битва с боссом.
+* Положение его должно быть внутри последней Бандитской зоны (common_area). Убедитесь, что игрок, скорее всего, окажется там в обычной боевой миссии, чтобы он не телепортировался по карте в совершенно другую область.
+* Как работает битва с боссом:
+	* Обе стороны появляются в своих позициях внешнего радиуса.
+	* Затем они движутся навстречу друг другу вплоть до положений внутреннего радиуса.
+	* Вы можете отрегулировать расстояние между внешним и внутренним радиусами с помощью свойства «WalkDistance» префаба.
+* Внутри префаба вы можете переключать предварительный просмотр позиций.
+* Убедитесь, что путь между этими позициями свободен для обеих сторон.
+* Также убедитесь, что камера находится не слишком близко к другим объектам.
+	* Вы не можете настроить камеру в редакторе, вам нужно будет протестировать сцену для этого.
+	* Держите большие префабы за пределами области, показанной при предварительном просмотре, и все будет в порядке.
 
-#### Soft Border
-* [Works in the same manner as it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#soft-border)
+#### Мягкие границы
+* [Работает так же, как и с деревенскими сценами.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#soft-border)
 
-#### Sounds
-* [Works in the same manner as it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#sounds)
-* Make sure to not use any sounds with civilian life elements in them (like chatter, or town sounds).
+#### Звук
+* [Работает так же, как и с деревенскими сценами.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#sounds)
+* Убедитесь, что вы не используете звуки с элементами гражданской жизни (например, болтовня или городские звуки).
 
-#### Lights
-* [Works in the same manner as it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#lights)
-* Take extra care that your scene works properly at night.
-* Place enough torches along the paths and light up the bandit areas.
+#### Свет
+* [Работает так же, как и с деревенскими сценами.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#lights)
+* Позаботьтесь о том, чтобы ваша сцена правильно работала ночью.
+* Разместите достаточное количество факелов вдоль дорожек и осветите бандитские районы.
 
 ![](/img/hideout_scenes/hideout_scenes_5.png)
 
-#### Atmosphere
-* [Works in the same manner as it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#atmosphere)
+#### Атмосфера
+* [Работает так же, как и с деревенскими сценами.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#atmosphere)
 
-#### Gameplay Design Hints
-You should keep in mind the following hints to ensure proper gameplay of your hideout scene.
+#### Подсказка по игровому дизайну
+Вы должны помнить следующие советы, чтобы обеспечить правильный игровой процесс вашего убежища.
 
-* **Use a linear layout**. Giving the players many options for choosing paths and to experience your scene in itself is not a bad thing. Keep in mind though that the mission is designed to be linear. Bandits might or might not spawn in bandit areas or patrol paths. If your scene branches off too much the player might find themselves not knowing where the next bandit area might be or might be forced to backtrack the scene to find the remaining bandits.
-* Only if all bandits are killed the mission is successful. **Your first priority should be to make sure the player finds them**. Spend extra detail & time on the navmesh on the paths and where the fights will be.
-* **Make sure to keep the scene tight** so that the player doesn't accidently flank around bandit areas. Best practice is to border your scene with impassable props like cliffs, rather than with the artificial soft borders.
-* **Make sure the scene works well at night**. It might be a little counterintuitive that bandits would blast hundreds of fires to light up their hideout but players will thank you for guiding them with those.
-* **Take extra care to make the Bandit Boss fighting location great**. It's one of the few positions you can be sure that the player will always fight in. Also make sure that the Bandit Boss fight location is close to your last expected fighting position.
-* **Focus your environmental storytelling around the paths and inside the bandit areas**. Since this mission has no civilian part, players will not have much time to explore the scene off the paths.
+* **Используйте линейный макет**. Предоставление игрокам множества вариантов выбора путей и изучения вашей сцены само по себе - неплохая вещь. Однако имейте в виду, что миссия задумана как линейная. Бандиты могут появляться или не появляться в бандитских зонах или на путях патрулирования. Если ваша сцена слишком сильно разветвляется, игрок может оказаться, что не знает, где может быть следующая область бандитов, или может быть вынужден вернуться в сцену, чтобы найти оставшихся бандитов.
+* Только если все бандиты будут убиты, миссия будет успешной. **Ваша первоочередная задача - убедиться, что игрок их найдет**. Потратьте больше времени и деталей на навигационную сетку на дорожках и на местах, где будут происходить бои.
+* **Убедитесь, что сцена плотная**, чтобы игрок случайно не обошел бандитские зоны. Лучше всего ограничивать сцену непроходимыми опорами, такими как скалы, а не искусственными мягкими границами.
+* **Убедитесь, что сцена хорошо работает ночью**. Может показаться немного нелогичным, что бандиты поджигали сотни костров, чтобы осветить свое убежище, но игроки будут благодарить вас за то, что вы помогли им с ними.
+* **Будьте особенно внимательны, чтобы место боя с бандитским боссом было великолепным**. Это одна из немногих позиций, на которых вы можете быть уверены, что игрок всегда будет сражаться. Также убедитесь, что место боя с бандитским боссом близко к вашей последней ожидаемой боевой позиции.
+* **Сосредоточьтесь на повествовании об окружающей среде вокруг дорожек и внутри бандитских территорий**. Поскольку в этой миссии нет гражданской части, у игроков не будет много времени, чтобы исследовать сцену вдали от тропинок.
 
 ![](/img/hideout_scenes/hideout_scenes_6.png)
