@@ -1,40 +1,40 @@
 +++
-title = "Adding Sounds to Your Module"
+title = "Добавление звуков в ваш модуль"
 weight = 1
 +++
 
-Bannerlord audio system is built on proprietary FMOD Sound system.
-To keep audio engine performant while making it accessible to anyone, we needed to create an interlayer.
+Аудиосистема Bannerlord построена на собственной звуковой системе FMOD.
+Чтобы сохранить производительность звукового движка и сделать его доступным для всех, нам потребовалось создать прослойку.
 
-## Key Elements
+## Ключевые элементы
 
-* `...\Modules\*YOUR_MOD*\ModuleData\module_sounds.xml` file, where you add custom definitions for your own sounds
-* `...\Modules\*YOUR_MOD*\ModuleSounds folder where you` put audio files (`.ogg`, `.wav`)
+* `...\Modules\*YOUR_MOD*\ModuleData\module_sounds.xml` файл, в который вы добавляете пользовательские определения для ваших собственных звуков.
+* `...\Modules\*YOUR_MOD*\ModuleSounds` папка, в которую вы помещаете аудиофайлы (`.ogg`, `.wav`)
 
-You can see examples in 'Native' module.
+Вы можете посмотреть пример в модуле 'Native'.
 
-## Basic Guide
+## Основное руководство
 
-1. Copy example files and folder to your own module
-2. Add new sounds into the ModuleSounds folder
-3. Open the module_sounds.xml of your module
-4. You will see sound categories, code example for playing sounds and example module_sound entries in the original module_sounds.xml file
-5. Add new entry to your mod's module_sounds.xml
-6. Play the new sound entry from the code
+1. Скопируйте файлы примеров и папку в свой собственный модуль
+2. Добавьте новые звуки в папку ModuleSounds
+3. Откройте module_sounds.xml в вашем модуле
+4. Вы увидите категории звуков, пример кода для воспроизведения звуков и примеры записей module_sound в исходном файле module_sounds.xml.
+5. Добавьте новую запись в файл вашего мода module_sounds.xml
+6. Воспроизведите новый звук из кода
 
-## Moving Further
+## Двигаемся дальше
 
-### Using module_sounds.xml
+### Использование module_sounds.xml
 
 ```xml
     <module_sound name="example/combat/hit" is_2d="true" sound_category="mission_combat" path="example_sound_modders.ogg" />
 ```
 
-* **'name'**: Any unique name you want. This is the identifier for your sound.
-    - Use while playing sound from the code.
-    - Use to play animation sound. Add to animation's 'sound_code' attribute.
-* **'is_2d'**: If the sound's spatial properties won't be used. 3d sounds have properties as position, velocity etc.
-* **'sound_category'**: All sounds must be assigned to a category to route it correctly through our pipes. Available categories are,
+* **'name'**: Любое уникальное имя по вашему желанию. Это идентификатор вашего звука.
+    - Используйте при воспроизведении звука из кода.
+    - Используйте для воспроизведения звука анимации. Добавьте к анимации атрибут 'sound_code'.
+* **'is_2d'**: Если пространственные свойства звука не будут использоваться. 3D-звуки имеют такие свойства, как положение, скорость и т.д.
+* **'sound_category'**: Все звуки должны быть отнесены к категории, чтобы они правильно проходили через наши трубы. Доступные категории:
     - mission_ambient_bed (2D ambient loops like base wind)
     - mission_ambient_3d_big (Sounds that should be heard from long distance, like a burning castle)
     - mission_ambient_3d_medium (Sounds that should be heard from medium distance, like bonfires)
@@ -55,28 +55,28 @@ You can see examples in 'Native' module.
     - alert (Psuedo-3d sounds for alerting the player from mid distance)
     - campaign_node (Positional sound nodes for World Map, farms, seas, waterfalls)
     - campaign_bed (2D ambient sounds for World Map, desert gusts, pasture winds etc.)
-* **'path'**: The sound file to be played. Path is relative to your module's ModuleSounds folder. You can create child folders.
+* **'path'**: Звуковой файл для воспроизведения. Путь указывается относительно папки ModuleSounds вашего модуля. Вы можете создавать дочерние папки.
 
 
-### Playing Sound from Code Example
+### Воспроизведение звука в примере кода
 
 ```C#
-    int soundIndex = SoundEvent.GetEventIdFromString("example/voice/charge"); //to avoid string operations in runtime soundIndex can be cached.
+    int soundIndex = SoundEvent.GetEventIdFromString("example/voice/charge"); //чтобы избежать строковых операций во время выполнения, soundIndex можно кэшировать.
     if (playOneshot)
     {
-        MakeSound(soundIndex, MainAgent.Position, false, true, -1, -1); //plays one shot sound at position with given parameters.
+        MakeSound(soundIndex, MainAgent.Position, false, true, -1, -1); //воспроизводит звук одного выстрела в позиции с заданными параметрами.
     }
     else
     {
-        SoundEvent eventRef = SoundEvent.CreateEvent(soundIndex, Scene); //get a reference to sound and update parameters later.
+        SoundEvent eventRef = SoundEvent.CreateEvent(soundIndex, Scene); //получить ссылку на звук и обновить параметры позже.
         eventRef.SetPosition(MainAgent.Position);
         eventRef.Play();
     }
 ```
 
-You have two ways to play sound:
+У вас есть два способа воспроизвести звук:
 
-* One Shot
-    Better performance less control. Fire and forget. Good for combat-related sounds.
-* Creating and holding a reference
-    Worse performance. Control every parameter of sound whenever you want. i.e. Pause, Update position.
+* Один выстрел
+    Лучшая производительность меньше контроля. Стреляй и забудь. Подходит для звуков, связанных с боем.
+* Создание и хранение ссылки
+  Хуже производительность. Контролируйте каждый параметр звука, когда захотите. т.е. пауза, обновление позиции. 
