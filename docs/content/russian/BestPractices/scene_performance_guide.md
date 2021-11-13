@@ -1,46 +1,45 @@
 +++
-title = "Scene Performance Guide"
+title = "Руководство по производительности сцены"
 
 [menu.main]
 identifier = "scene_performance"
 parent = "bestpractices"
 +++
 
-
-##### Performance Requirements of Mount & Blade II: Bannerlord
-- Singleplayer Scenes: Very High Config / 60 FPS / Gtx 1060.
-- Multiplayer Scenes: Very High Config / 60 FPS / Gtx 970.
+##### Требования к производительности  Mount & Blade II: Bannerlord
+- Однопользовательская сцена: Ультра настройки / 60 FPS / Gtx 1060.
+- Многопользовательская сцена: Ультра настройки / 60 FPS / Gtx 970.
 
 {{% notice warning %}}
-Do not test the final performance of your scene in the Scene Editor. Editor has low performance due to being editable at runtime. Also, you should check the final performance with the agents in the mission.
+Не проверяйте окончательную производительность вашей сцены в редакторе сцен. Редактор имеет низкую производительность из-за того, что его можно редактировать во время выполнения. Также вам следует уточнить итоговые показатели у агентов миссии.
 {{% /notice %}}
 
 
-#### Possible Performance Bottlenecks
+#### Возможные узкие места в производительности
 
-##### Missing occluders
-Occluders are physical objects that define occlusion boundaries for meshes. If an object’s bounding box is fully occluded by an occluder, those objects are not rendered. Occluders drastically reduce the performance problems of wide and large scenes. At runtime, all of the occluders are rendered to a different screen and the depth values of every pixel in this screen is checked with every mesh' bounding box. In your scene, all of the building blocks and big meshes should have occluders. If the “Enable Occlusion Culling” and “Show Occluders” options are enabled from the “Visibility” tab, the occluders of every mesh are rendered with debug meshes. If any of the big meshes in your scene has missing occluders, you should contact the ART team.
+##### Отсутствующие окклюдеры
+Окклюдеры - это физические объекты, которые определяют границы окклюзии для сеток. Если ограничивающая рамка объекта полностью закрыта окклюдером, эти объекты не отображаются. Окклюдеры значительно уменьшают проблемы с производительностью широких и больших сцен. Во время выполнения все окклюдеры отображаются на другом экране, и значения глубины каждого пикселя на этом экране проверяются с помощью ограничивающего прямоугольника каждой сетки. В вашей сцене все строительные блоки и большие меши должны иметь окклюдеры. Если параметры “Enable Occlusion Culling” и “Show Occluders” включены на вкладке “Visibility”, окклюдеры каждой сетки визуализируются с помощью отладочных сеток. Если в какой-либо из больших сеток вашей сцены отсутствуют окклюдеры, вам следует связаться с командой ART.
 
-##### Too much pointlight overdraw & unnecessary shadow maps
-Our engine uses a grid based point light rendering system. This system divides the screen into fixed size grids. Then, the visible point lights are registered to every grid in which it’s bounding box intersects. Then, every shaded pixel in the screen uses all of the point lights inside its tile to shade itself. Every pointlight in your scene should have the minimum possible radius. Also, to not increase the overdraw, you should not use too many point lights. You can use the “Debug Tiled Lights” debug renderer to fix issues like too much point light in tight spots or lights with high radius. If there are any grid tiles with yellowish or red color, than those tiles probably have low performance. Those areas of the scene should be re-adjusted by either decreasing the point light radiuses or decreasing the point light count.
+##### Слишком много перерисовки точечного света и ненужные карты теней
+Наш движок использует систему точечного освещения на основе сетки. Эта система делит экран на сетки фиксированного размера. Затем видимые точечные источники света регистрируются в каждой сетке, с которой пересекается ограничивающая рамка. Затем каждый затененный пиксель на экране использует все точечные источники света внутри своей плитки, чтобы затенять себя. Каждый точечный свет в вашей сцене должен иметь минимально возможный радиус. Кроме того, чтобы не увеличивать перерисовку, не следует использовать слишком много точечных источников света. Вы можете использовать средство отладки "Debug Tiled Lights", чтобы исправить такие проблемы, как слишком много точечного света в узких местах или источники света с большим радиусом. Если есть какие-либо плитки сетки желтоватого или красного цвета, то они, вероятно, имеют низкую производительность. Эти области сцены следует отрегулировать, уменьшив либо радиусы точечного света, либо уменьшив количество точечного света.
 
-##### Outer Areas Flora Usage
-The grass like flora that we use in our scenes has a limited viewing range. Also, we can cull out (decide to not render) these floras in high ranges. However, this flora will have a major memory impact in the scenes, also there will be a mild CPU culling cost as well. Thus, for the outer areas where the grass would not be rendered, you should not use terrain layers with high grass density. 
+##### Использование флоры во внешних областях
+Трава, похожая на флору, которую мы используем в наших сценах, имеет ограниченный диапазон обзора. Кроме того, мы можем отбраковывать (не выполнять рендеринг) этой флоры в больших диапазонах. Тем не менее, эта флора будет иметь большое влияние на память в сценах, а также будет иметь умеренную стоимость отбраковки CPU. Таким образом, для внешних областей, где трава не будет отображаться, вам не следует использовать слои ландшафта с высокой плотностью травы.
 
-##### Too many meshes without LOD’s
-For modern GPUs, performance wise, polygon density per pixel is much more important than the total polygon count. In this case, the worst situation are meshes without LOD. This can be checked by switching into wireframe mode. Every triangle in the scene should contain a healthy amount of pixels inside, not the other way around. You should contact the ART team if you find a mesh without LOD’s.
+##### Слишком много мешей без LOD
+Для современных графических процессоров с точки зрения производительности гораздо важнее плотность полигонов на пиксель, чем общее количество полигонов. В этом случае худшая ситуация - сетки без LOD. Это можно проверить, переключившись в каркасный режим. Каждый треугольник в сцене должен содержать приличное количество пикселей внутри, а не наоборот. Вам следует связаться с командой ART, если вы найдете сетку без LOD.
 
-##### Terrain LOD Multiplier and Vertex Density
-Always check your terrain vertex density. In many cases, the terrain resolution can be reduced without any noticeable change. Also, try not to use terrain LOD multiplier for terrain nodes. Having more nodes and only using terrain LOD multiplier in nodes with detailed curvature will increase your scene's performance. Terrain LOD multiplier should be set accordingly, preferably **not over 3**.
+##### Множитель LOD ландшафта и плотность вершин
+Всегда проверяйте плотность вершин вашего ландшафта. Во многих случаях разрешение местности можно уменьшить без каких-либо заметных изменений. Также старайтесь не использовать множитель LOD ландшафта для узлов ландшафта. Наличие большего количества узлов и использование только множителя LOD ландшафта в узлах с детальной кривизной повысит производительность вашей сцены. Множитель LOD ландшафта должен быть установлен соответственно, желательно **не более 3**.
 
-##### Vertex / Meter Ratio
-Vertex / Meter ratio should be **at most 1.8**.
+##### Вершина / Коэффициент измерения
+Вершина / Коэффициент измерения должны быть **не больше чем 1.8**.
 
-##### Nodes & & Dimensions
-There should be **at least 10 nodes** in each dimension for better LOD management by the engine. Each dimension should be **no more than 1.6 km wide** (total width of the scene). Beyond that, outer meshes can be used to give the feeling of a large landscape.
+##### Узлы и размеры
+В каждом измерении должно быть **не менее 10 узлов** для лучшего управления LOD движком. Каждое измерение должно быть **шириной не более 1,6 км** (общая ширина сцены). Кроме того, можно использовать внешние сетки, чтобы создать ощущение большого пейзажа.
 
-##### Outer Terrain Nodes
-Outer terrain nodes that the player can't access, with respect to their complexity, should have a lower vertex density than the center ones.
+##### Узлы внешней местности
+Узлы внешней местности, к которым игрок не может получить доступ, в зависимости от их сложности, должны иметь меньшую плотность вершин, чем центральные.
 
-##### Terrain Flora Density
-Terrain flora density should in general **not exceed 60** apart from certain cases (low polycount flora, for example, flora_reed_X or flora_dry_plant_f). That value is recommended when no colony setting is used(radius=0, threshold=0). Colony system works by removing flora which reduces visible density.
+##### Плотность флоры местности
+Плотность флоры местности, как правило, **не должна превышать 60**, за исключением некоторых случаев (флора с малым числом экземпляров, например, flora_reed_X или flora_dry_plant_f). Это значение рекомендуется, когда не используется настройка колонии (radius=0, threshold=0). Система колоний работает, удаляя флору, что снижает видимую плотность. 
