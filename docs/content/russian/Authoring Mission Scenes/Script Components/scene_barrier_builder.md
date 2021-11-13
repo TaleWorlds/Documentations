@@ -13,13 +13,13 @@ parent = "bannerlord_scenes"
 ## Использование
 
 - Создайте путь, вы можете использовать кнопку на панели инструментов
-  ![](/img/barrier_builder/add_path.png)
+![](/img/barrier_builder/add_path.png)
 
 - Дайте имя пути
-  ![](/img/barrier_builder/name_path.png)
+![](/img/barrier_builder/name_path.png)
 
 - Постройте свой путь, как хотите
-  ![](/img/barrier_builder/create_path.png)
+![](/img/barrier_builder/create_path.png)
 
 - Установите флажок "Enable Barrier Build" в инспекторе путей, он создаст для вас объект барьера.
 ![](/img/barrier_builder/create_barrier.png)
