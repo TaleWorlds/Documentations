@@ -1,7 +1,7 @@
 +++
 title = "Mission Tactical Positions"
 description = ""
-weight = 1
+weight = 4
 +++
 
 ### TACTICAL POSITIONS AND TACTICAL REGIONS
