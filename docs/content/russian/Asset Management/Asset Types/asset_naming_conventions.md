@@ -4,14 +4,14 @@ description = ""
 weight = 1
 +++
 
-To distinguish and organize assets and simplfy asset authoring process there are some predefined rules to consider.
+Чтобы различать и систематизировать ресурсы, а также упростить процесс создания ресурсов, необходимо учитывать некоторые предопределенные правила.
 
-##### Meshes
+##### Меши
 
-All meshes imported from a single geometry file(e.g. fbx) are grouped by their names. To add a LOD mesh simply append **".lod\<n\>"** to the name of your mesh. Here **n** is the number of lod.  
-Consider an fbx file as below :
+Все сетки, импортированные из одного файла геометрии (например, fbx), сгруппированы по их именам. Чтобы добавить сетку LOD, просто добавьте **".lod\<n\>"** к имени вашей сетки. Здесь **n** - количество LOD.
+Рассмотрим файл fbx, как показано ниже:
 
-asset.fbx : 
+asset.fbx :
 
 - wall_damaged
 - wall_damaged_v2
@@ -19,35 +19,35 @@ asset.fbx :
 - wall_damaged.lod1
 - wall_damaged.lod2
 
-Two meshes will be imported from asset.fbx file : wall_damaged, wall_damaged_v2. These meshes will have one and two lods respectively. If your modelling software does not support dots in names(e.g. Maya) you can also use "\_" insted of "." to specifiy lods(e.g. wall_damaged_v2_lod1).  
-A mesh can not have more than one material so during import phase meshes wil be divided into submeshes according to material usages of polygons. Consecutive numbers will be appended to the names of these auto generated meshes. Consider a mesh **wall_damaged** using three different materials. Name of the imported mesh will be **wall_damaged** and it will have three submeshes with names **wall_damaged.1**, **wall_damaged.2**, **wall_damaged.3**.
+Две сетки будут импортированы из файла asset.fbx: wall_damaged, wall_damaged_v2. У этих мешей будет один и два объекта соответственно. Если ваше программное обеспечение для моделирования не поддерживает точки в именах (например, Maya), вы также можете использовать "\_" вместо "." указать lods (e.g. wall_damaged_v2_lod1).
+В сетке не может быть более одного материала, поэтому на этапе импорта сетки будут разделены на подсетки в соответствии с использованием материалов для полигонов. К именам автоматически сгенерированных сеток будут добавлены порядковые номера. Рассмотрим сетку **wall_damaged** из трех разных материалов. Имя импортированной сетки будет **wall_damaged**, и она будет иметь три подсетки с именами **wall_damaged.1**, **wall_damaged.2**, **wall_damaged.3**.
 
 {{% notice info %}}
-During mesh import, materials defined in geometry files are not created. You should create materials manually with the same name they are referenced from geometry files.
+Во время импорта сетки материалы, определенные в файлах геометрии, не создаются. Вы должны создавать материалы вручную с тем же именем, на которое они ссылаются из файлов геометрии.
 {{% /notice %}}
 
-##### Physics shapes
+##### Физические формы
 
-You can export physics shapes just like regular meshes. The only difference between a mesh and a physics shape is that name of physics shapes begin with "bo_" prefix. You can also export analytical capsules and spheres as well.
+Вы можете экспортировать физические формы, как обычные сетки. Единственная разница между сеткой и физической формой состоит в том, что имена физических фигур начинаются с префикса "bo_". Вы также можете экспортировать аналитические капсулы и сферы.
 
-**Capsules**
+**Капсулы**
 
-If name of a node begins with **"bo_capsule"** it will be imported as an analytical capsule shape. Sizes of this capsule is determined by following rules : 
+Если имя узла начинается с **"bo_capsule"**, он будет импортирован как аналитическая форма капсулы. Размеры этой капсулы определяются следующими правилами: 
 
-- Local XY axes assumed as the radial plane of capsule
-- Local Z axis assumed as the direction of capsule(height)
-- Scale of object in XY directions should be equal
+- Локальные оси XY приняты за радиальную плоскость капсулы
+- Локальная ось Z принимается за направление капсулы (высота)
+- Масштаб объекта по оси XY должен быть равен
 
-Only orientation and extents of capsule nodes are used. Any content attached to them(like mesh) is ignored.
+Используются только ориентация и протяженность узлов капсулы. Любой прикрепленный к ним контент (например, сетка) игнорируется.
 
-**Spheres**
+**Сферы**
 
-If name of a node begins with **"bo_sphere"** it will be imported as an analytical sphere shape. Sizes of this sphere is determined by the extents of the node. Center of the node will also be the center of the sphere shape.
-Only orientation and extents of sphere nodes are used. Any content attached to them(like mesh) is ignored.
+Если имя узла начинается с **"bo_sphere"**, он будет импортирован как аналитическая сфера. Размеры этой сферы определяются размерами узла. Центр узла также будет центром формы сферы.
+Используются только ориентация и размеры узлов сферы. Любой прикрепленный к ним контент (например, сетка) игнорируется.
 
-**Composite Shapes**
+**Составные фигуры**
 
-You can combine different shape types to create more complex shapes. To export a composite shape you must create a node whose name begins with **"bo_composite"**. You can append child nodes with different shape types to this node.
+Вы можете комбинировать разные типы фигур для создания более сложных фигур. Чтобы экспортировать составную форму, вы должны создать узел, имя которого начинается с **"bo_composite"**. К этому узлу можно добавлять дочерние узлы с разными типами форм.
 
 - bo_composite_building1
  - bo_capsule1
@@ -55,35 +55,35 @@ You can combine different shape types to create more complex shapes. To export a
  - bo_sphere
  - bo_building_walls
 
- This shape will be imported as a single asset with name **bo_composite_building1**.
+Эта форма будет импортирована как один ассет с именем **bo_composite_building1**.
 
-##### Textures
+##### Текстуры
 
-You can provide basic hints for your texture by following by following these rules:
+Вы можете предоставить основные подсказки для своей текстуры, следуя этим правилам:
 
 - Albedo textures ends with _d
 - Normal textures ends with _n
 - Specular textures ends with _s
 - Heightmap textures ends with _h
 
-Despite these rules are not obligatory, it will help engine to decide best compilation rules during first import and help some features of editor to work(e.g. auto completing normal texture slot of material). If your textures do not follow them you can change import settings later though.
+Несмотря на то, что эти правила не являются обязательными, они помогут движку определить лучшие правила компиляции во время первого импорта и помогут некоторым функциям редактора работать (например, автозаполнение обычного слота текстуры материала). Если ваши текстуры не соответствуют им, вы можете изменить настройки импорта позже.
 
-##### Skeletons
+##### Скелеты
 
-Most of in-house assets are organized so that skeletons, meshes and animations using these skeletons are stored in separate files. So we follow some naming rules to correctly establish cross-references between these files. If you are also planning to import skeletons, meshes and animations from different files :
+Большинство внутренних ресурсов организовано таким образом, что скелеты, сетки и анимации, использующие эти скелеты, хранятся в отдельных файлах. Поэтому мы следуем некоторым правилам именования, чтобы правильно устанавливать перекрестные ссылки между этими файлами. Если вы также планируете импортировать скелеты, сетки и анимацию из разных файлов:
 
-- Bone hierarchy of skeletons must match
-- Every bone node should have its name ending with a hardcoded bone number(e.g. _0, _1) to make sure skeletons originating from different files have their bone numbers match regardless of export process of your modelling software or exporting tool. There are these rules that each bone name must follow :
- - Appended bone indices must start from zero
- - Appended bone indices must not be greater than or equal to number of bones
- - Two bones can not have same bone index
+- Иерархия костей скелетов должна совпадать
+- Каждый костный узел должен иметь свое имя, оканчивающееся жестко запрограммированным номером кости (например, _0, _1), чтобы номера костей скелетов, происходящих из разных файлов, совпадали, независимо от процесса экспорта вашего программного обеспечения для моделирования или инструмента экспорта. Вот эти правила, которым должно следовать каждое имя кости:
+ - Добавленные индексы костей должны начинаться с нуля
+ - Индексы прикрепленных костей не должны быть больше или равны количеству костей
+ - Две кости не могут иметь одинаковый костный индекс
 
 {{% notice info %}}
-If you want to export only skeleton related assets(e.g. skinned mesh or animation) but not the skeleton itself -which is the case if you have a file you imported your skeleton from and you regularly import new meshes for that skeleton from different files- you should append **_notused** to the name of skeleton to make engine automatically ignore it and import only other assets.
+Если вы хотите экспортировать только ассеты, связанные со скелетом (например, сетку со скелетом или анимацию), но не сам скелет, что имеет место, если у вас есть файл, из которого вы импортировали скелет, и вы регулярно импортируете новые сетки для этого скелета из разных файлов - вам следует добавить **_notused** к имени скелета, чтобы движок автоматически игнорировал его и импортировал только другие ассеты.
 {{% /notice %}}
 
-Skeletons take their names from the root node of bone hierarchy in your geometry file. This is to let you name your skeletons something other than the name of root bone. If your root bone does not have a parent node, you can create a dummy node and make your root bone child of it. By renaming dummy node you will be able to rename your skeleton without affecting bone names.
+Скелеты получают свои имена от корневого узла иерархии костей в вашем файле геометрии. Это сделано для того, чтобы вы могли называть свои скелеты чем-нибудь, кроме имени корневой кости. Если ваша корневая кость не имеет родительского узла, вы можете создать фиктивный узел и сделать свою корневую кость его дочерним элементом. Переименовав фиктивный узел, вы сможете переименовать свой скелет, не затрагивая имена костей.
 
 {{% notice info %}}
-Some softwares automatically export animations with a predefined names(e.g. 3DS Max -> take_001). This will cause multiple skeleton animations to be imported with same name if you have more than one skeleton defined in your geometry file since engine interprets animation data defined for each skeleton as different assets. Because of this you will receive a **duplicate asset** warning. To avoid this it is best to export one skeleton per geometry file. You can also disable **animation import** from import settings of that file.
+Некоторые программы автоматически экспортируют анимацию с заранее заданными именами (например, 3DS Max -> take_001). Это приведет к тому, что несколько скелетных анимаций будут импортированы с одним и тем же именем, если у вас есть более одного скелета, определенного в вашем файле геометрии, поскольку движок интерпретирует данные анимации, определенные для каждого скелета, как разные ассеты. Из-за этого вы получите предупреждение о **duplicate asset**. Чтобы избежать этого, лучше всего экспортировать один скелет на файл геометрии. Вы также можете отключить **animation import** в настройках импорта этого файла.
 {{% /notice %}}
