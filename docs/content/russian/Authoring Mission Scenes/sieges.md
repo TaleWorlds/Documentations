@@ -1,23 +1,23 @@
 +++
-title = "What Makes a Siege Scene"
+title = "Как создать сцену осады"
 description = ""
 weight = 1
 +++
 
-#### Introduction
-This list of siege-specific features will aid you when creating towns and castles that are appropriate for sieges.
+#### Введение
+Этот перечень особенностей осады поможет вам при создании городов и замков, подходящих для осады.
 
 ___
 
-#### Siegable Walls
+#### Осаждаемые сцены
 
-*Siegeable walls are wall positions that support the breached walls function in siege scenes. We will have to specify solid and broken stages and their important positions as well as AI navigation mesh changes as if there is a breach.*
+*Осадные стены - это позиции стен, которые поддерживают функцию пробитых стен в сценах осады. Нам нужно будет указать твердые и сломанные этапы и их важные позиции, а также изменения сетки навигации AI, как если бы произошел разрыв.*
 
 * Add a tag to the parent entity, that will later be used on siege ladders and siege towers (ex:wall_segment_left, wall_segment_right). This tag will identify which siege machines are related to which lanes, and will be used for “target wall segment” variable on siege machines.
 * Add the tag “broken_child” to the broken wall, and add the tag “solid_child” to the solid wall.
 * Add two entities as child entities to the solid wall. First one for where defender troops will wait as attackers approach the castle, and second for where they should stand for defending position. These entities should have the tags “wait_pos” and “middle_pos'' respectively. 
 
-<img src="/img/siege_scenes/Show_middle_pos_and_wait_pos.png" width="1200px" />
+![](/img/siege_scenes/Show_middle_pos_and_wait_pos.png)
 
 * For the broken wall, add three child entities. They should have the tags “wait_pos”, “middle_pos” and “attacker_wait_pos”. First two are the same as solid wall and attacker wait pos is where Attacker troops will wait (preferably behind covers) while other siege engines get into position.
 * **WallSegment script**
@@ -26,11 +26,11 @@ ___
     * Remake and id the navigation mesh accordingly.
     * Make sure that new navigation mesh faces have correct levels.
 
-<img src="/img/siege_scenes/wallsegment.png"/>
+![](/img/siege_scenes/wallsegment.png)
 
 | Solid Wall Navmesh | Broken Wall Navmesh |
 | ------ | ----------- |
-| <img src="/img/siege_scenes/siegable_walls_1.png"/> | <img src="/img/siege_scenes/siegable_walls_2.png"/> |
+| ![](/img/siege_scenes/siegable_walls_1.png) | ![](/img/siege_scenes/siegable_walls_2.png) |
 
 * If you are not going to use under debris navmesh ids you can enter “-1” to corresponding ID’s on the wall segment script.
 * In this example when the wall is not broken, 328 will connect to 342, 331 will connect to 391, 341 will be active, and 351 will be active.
@@ -40,7 +40,7 @@ ___
 
 ___
 
-#### Castle Gate
+#### Ворота замка
 
 *The castle gate is the location and prefabs that interact with the battering ram. We will have to use 2 of them, 1 outer gate which will be broken down by the battering ram and an inner one which will be broken down by normal troop attacks.*
 
@@ -55,7 +55,7 @@ ___
 * Adjust the position of “middle_position” of the outer gate. It should be really close to the inner side of the inner gate.
 * You can turn off the navmeshes, for open state of the gate using [navigationmeshidtodisableonopen] navmesh id.
 
-<img src="/img/siege_scenes/navigationmeshidtodisableonopen.png" width="1200px" />
+![](/img/siege_scenes/navigationmeshidtodisableonopen.png)
 
 * **Related prefabs**
     * Aserai_castle_gate_inner_l1
@@ -81,13 +81,13 @@ ___
 * There needs to be 4 of those for the defender siege machines. 4 for the attacker siege machines. 2 for each siege tower. And one for the battering ram.
 * The siege machines can be connected to these deployment points, by either placing them in their radius, or by tags.
 
-<img src="/img/siege_scenes/Deploymentpoint.png" width="1200px" />
+![](/img/siege_scenes/Deploymentpoint.png)
 
 * Best practices
     * Make sure the radiuses of the Deployment Points don't overlap.
     * You'll need to have different Deployment Points for each layer, for example:
         * Since the walls change with each layer, the defender siege machines naturally have to be in different positions on top of them.
-    	* Since the gate house position changes, the battering ram needs to take a different path. The same goes for siege towers.
+        * Since the gate house position changes, the battering ram needs to take a different path. The same goes for siege towers.
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 * <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path using the path tool</a>. The crash indicator on the ghost entity of the battering ram prefab should make contact with the gate to match animations and visuals.
 
-<img src="/img/siege_scenes/crashindicator.png" width="1200px" />
+![](/img/siege_scenes/crashindicator.png)
 
 * **BatteringRamSpawner script**
     * Enter Side Tag 
@@ -166,7 +166,7 @@ ___
 
 | SiegeTowerSpawner Script | Ditch Filler |
 | ------ | ----------- |
-| <img src="/img/siege_scenes/Ditchfiller.png" /> | <img src="/img/siege_scenes/Ditchfiller_numbers.png"/> |
+| ![](/img/siege_scenes/Ditchfiller.png) | ![](/img/siege_scenes/Ditchfiller_numbers.png) |
 
 * In this example, when there is no ditch filler, 423, 426, and 424 will be deactivated. 422 and 433 will stay connected 427 will be active, 432 and 425 will be connected.
 * When there is a ditch filler, 422 will disconnect from 433 and connect to 423, 426 will be active, 425 will be disconnected from 432 and connect to 424, and 427 will be deactivated.
@@ -186,7 +186,7 @@ ___
 * Remake and id the navmesh accordingly.
 * Nav mesh face on the siege ladder should be one directional towards the wall.
 
-<img src="/img/siege_scenes/directionalladdernavmesh.png" width="1200px" />
+![](/img/siege_scenes/directionalladdernavmesh.png)
 
 * Adjust the standing and fork holder positions using the “UpperStateRotationDegree” and “DownStateRotationDegree” to match the terrain and the walls.
 * Place a “_barrier_ai_04x04m” prefab on the wall where the ladder will land. Give the barrier a unique tag like “left_ladder_barrier_a”. Now insert this tag to the ladder's “BarrierTagToRemove” parameter. The tagged barrier will be removed once the siege ladder is lifted up to the walls.
@@ -216,7 +216,7 @@ ___
         * Attacker or defender side.
         * Range (an archer position should be in their range for them to be used). There must be a big archer position inside this range for the small archer position to be active. The default range is 40m for defender and 60m for attacker.
         * Depth and width: Both represent the size of the area usable by troops. 1x1 is suitable for one troop in a 1m x 1m area. 4x2 is suitable for 8 troops in a 4m x 2m area.
-<br><br>	
+<br><br>
 * **Related prefabs**
     * Defender_archer_position
     * Attacker_archer_position
@@ -285,7 +285,7 @@ ___
 
 | Tactical Position | Deployment |
 | ------ | ----------- |
-| <img src="/img/siege_scenes/tactical_position_1.png"/> | <img src="/img/siege_scenes/tactical_position_2.png"/> |
+| ![](/img/siege_scenes/tactical_position_1.png) | ![](/img/siege_scenes/tactical_position_2.png) |
 ___
 
 #### AI Barrier
@@ -311,7 +311,7 @@ ___
 * You can have multiple throw_pos per volume_box. Just duplicate the throw_pos entity.
 * You connect throw_pos entities to a volume_box by adding a tag to the volume_box and entering that tag name to the script of throw_pos.
 
-<img src="/img/siege_scenes/stone_throw.png" width="1200px" />
+![](/img/siege_scenes/stone_throw.png)
 
 ___
 
@@ -322,7 +322,7 @@ ___
 
 | Example of Solid Walls | Example of Broken Walls |
 | ------ | ----------- |
-| <img src="/img/siege_scenes/solid.png"/> | <img src="/img/siege_scenes/broken.png"/> |
+| ![](/img/siege_scenes/solid.png) | ![](/img/siege_scenes/broken.png) |
 
 ___
 
