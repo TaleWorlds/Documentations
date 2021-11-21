@@ -4,145 +4,146 @@ description = ""
 weight = 1
 +++
 
-### Overview ###
-<img src="/img/material_editor/overview.png" width="1280">
-Our proprietary game engine uses standard metallic PBR pipeline for material authoring. <br>
-New materials can easily be created after navigating to a folder, right click on empty space, and select <strong>Create > Material</strong>. <br>
+### Обзор ###
+![](/img/material_editor/overview.png)
+Наш собственный игровой движок использует стандартный металлический конвейер PBR для создания материалов.<br>
+Новые материалы можно легко создать, перейдя в папку, щелкнув правой кнопкой мыши в пустом месте и выбрав <strong>Create > Material</strong>. <br>
 <br>
-Material editor can be opened by double clicking an existing material in the resource browser. <br>
-<img src="/img/material_editor/create_new.png">
+Редактор материалов можно открыть двойным щелчком по существующему материалу в обозревателе ресурсов. <br>
+![](/img/material_editor/create_new.png)
 
-### Inspector ###
+### Инспектор ###
 #### Shader ####
-<img src="/img/material_editor/shader.png">
-You can select apporopriate shader from this Shader Selection widget.  <br>
-There are a few mainly used shaders; most important ones are pbr_metallic and pbr_shading.
+![](/img/material_editor/shader.png)
+Вы можете выбрать соответствующий шейдер из этого виджета «Выбор шейдера». <br>
+Есть несколько в основном используемых шейдеров; самые важные из них pbr_metallic и pbr_shading.
 
 ##### pbr_shading #####
-This shader is heavily used and exists just because our engine did not use PBR shading pipeline in the early years of development, most content was not created for PBR pipeline, so this shader is created to support our already existing content and only used during the transition phase. <br>
-New content should not use this shader, instead you should use pbr_metallic.
+Этот шейдер широко используется и существует только потому, что наш движок не использовал конвейер шейдинга PBR в первые годы разработки, большая часть контента не была создана для конвейера PBR, поэтому этот шейдер создан для поддержки нашего уже существующего контента и используется только во время фазы перехода.  <br>
+Новый контент не должен использовать этот шейдер, вместо этого вы должны использовать pbr_metallic.
 
 ##### pbr_metallic #####
-This is what you should use most of the time. This shader uses standard metallic PBR pipeline and inputs are compatible with most texture authoring softwares.<br>
+Это то, что вам следует использовать чаще всего. В этом шейдере используется стандартный металлический конвейер PBR, а входные данные совместимы с большинством программ для создания текстур. <br>
 <strong>Inputs:</strong><br>
 Albedo and Normal: These are pretty standard, outputs of texture authoring softwares can directly be used.
 Specular: This texture uses its 4 channel for different purposes. Red channel contains Metallic information, Green channel contains Glossiness (inverse of Roughness), Blue channel contains Ambient Occlusion, and Alpha channel contains Translucency (for vegetation shaders only) <br>
 
 ##### grass #####
-This shader is a derivative of pbr_metallic, and should only be used on grass meshes. Contains special effects like wind animation, sway animation, smooth LOD transition, color multiplication from terrain, etc. 
+Этот шейдер является производным от pbr_metallic и должен использоваться только на мешах травы. Содержит специальные эффекты, такие как анимация ветра, анимация качания, плавный переход LOD, умножение цвета на местности и т.д.
 
 ##### flora_leaf #####
-This shader is a derivative of pbr_metallic, and should only be used on leaf parts of trees / bushes. Contains special effects like wind animation, sway animation, color multiplication from terrain, smooth LOD transition, translucency (Alpha channel of Specular texture), etc. 
+Этот шейдер является производным от pbr_metallic и должен использоваться только на листовых частях деревьев / кустов. Содержит специальные эффекты, такие как анимация ветра, анимация качания, умножение цвета на местности, плавный переход LOD, полупрозрачность (альфа-канал зеркальной текстуры) и т.д.
 
 ##### flora_bark #####
-This shader is a derivative of pbr_metallic, and should only be used on bark parts of trees / bushes. Contains special effects like wind animation, smooth LOD transition, etc.
+Этот шейдер является производным от pbr_metallic и должен использоваться только на частях коры деревьев / кустов. Содержит специальные эффекты, такие как анимация ветра, плавный переход LOD и т.Д.
 
 ### Textures ###
-<img src="/img/material_editor/textures.png">
-This panel is used to set input textures of shaders. <br>
-Texture names are self explanatory but there are a few special cases.
+![](/img/material_editor/textures.png)
+Эта панель используется для установки входных текстур шейдеров. <br>
+Названия текстур говорят сами за себя, но есть несколько особых случаев.
 
 ##### Diffuse2Map #####
-This input is used internally by engine to create special effects / blendings like Shield Banner Paintings, Banner texture in this slot will only appear where Diffuse 1 Texture contains alpha.
- Usage of this texture really depends on the shader used.
+Этот вход используется внутри движка для создания специальных эффектов / смешиваний, таких как Shield Banner Paintings. Текстура баннера в этом слоте будет отображаться только там, где Diffuse 1 Texture содержит альфа.
+Использование этой текстуры действительно зависит от используемого шейдера.
 
 ##### DetailNormalMap #####
-This input is used to create micro imperfections and additional high frequency detail on top on regular normal mapping. Scale of this texture can be adjusted in <strong>Texture Settings</strong> panel
+Этот вход используется для создания микродефектов и дополнительных высокочастотных деталей поверх обычных карт нормалей. Масштаб этой текстуры можно настроить на панели <strong>Texture Settings</strong>.
 
 ##### HeightMap #####
-This input is used in both Parallax Occlusion Shading, and Displacement.
+Этот вход используется как в Parallax Occlusion Shading, так и в Displacement.
 
 ##### Decal(___)Map #####
-These inputs are used internally by engine to create skinned decals on entities (like blood and mud on agents). 
+Эти входные данные используются внутренним движком для создания декалей со скином на объектах (например, на крови и грязи на агентах).
 
 ### Texture Settings ###
-<img src="/img/material_editor/texture_settings.png">
-This setting can be used to adjust textures further for more variation and tweaking.
-Some settings are only used for some special shaders to pass custom parameter. 
+![](/img/material_editor/texture_settings.png)
+Этот параметр можно использовать для дальнейшей настройки текстур для большего разнообразия и настройки.
+Некоторые настройки используются только для некоторых специальных шейдеров для передачи пользовательского параметра.
 
 ##### Areamap Scale #####
-Used internally for parameter passing.
+Используется внутри для передачи параметров.
 
 ##### Specular Coef #####
-Metallic channel (Red channel of Specular texture) is multiplied by this value in shader.
+Металлический канал (красный канал текстуры зеркального отражения) умножается на это значение в шейдере.
 
 ##### Gloss Coef #####
-Gloss channel (Green channel of Specular texture) is multiplied by this value in shader.
+Канал блеска (зеленый канал зеркальной текстуры) умножается на это значение в шейдере.
 
 ##### Ambient Occlusion Coef #####
-AO channel (Blue channel of Specular texture) is multiplied by this value in shader.
+Канал AO (синий канал зеркальной текстуры) умножается на это значение в шейдере.
 
 ##### Normal Depth #####
-Normal textures X and Y channels are multiplied by this value. If you set a value close to Zero, surface will appear more flat since X and Y values will be close to zero and only Z direction is contributed to normal mapping.
+Нормальные текстуры каналов X и Y умножаются на это значение. Если вы установите значение, близкое к нулю, поверхность будет казаться более плоской, так как значения X и Y будут близки к нулю, и только направление Z влияет на отображение нормалей.
 
 ##### Detail Normal Scale #####
-This parameters sets how many times the detail textures should tile. Higher values increases frequency.
+Этот параметр устанавливает, сколько раз текстуры деталей должны быть мозаичными. Более высокие значения увеличивают частоту.
 
 ##### Parallax Mode #####
-You can select displacement method to use for this material. Options are, Parallax or Displacement. Both require a heightmap texture. Parallax uses Parallax Occlusion Mapping in shader, Displacement uses hardware tesselation.
+Вы можете выбрать метод смещения для этого материала. Возможные варианты: Parallax или Displacement. Оба требуют текстуры карты высот. Parallax использует Parallax Occlusion Mapping в шейдере, Displacement использует аппаратную тесселяцию.
 
 ##### Parallax Amount #####
-Intensity of displacement effect.
+Интенсивность вытесняющего эффекта.
 
 ##### Parallax Offset #####
-Sets the middle value to a desired height. (Value of 0.5 in heightmap).
+Устанавливает среднее значение на желаемую высоту. (Значение 0.5 в карте высот).
 
 ### Material Shader Flags ###
-<img src="/img/material_editor/material_flags.png">
-You can enable and disable some compile time conditionals in shaders to enable/disable some effects. These are compile time flags and the Material shader will be compiled with these flags. <br>
-Some important onces are: <br>
+![](/img/material_editor/material_flags.png)
+Вы можете включать и отключать некоторые условные обозначения времени компиляции в шейдерах, чтобы включать / отключать некоторые эффекты. Это флаги времени компиляции, и шейдер материала будет скомпилирован с этими флагами. <br>
+Некоторые важные моменты: <br>
 
 ##### use_detailnormalmap #####
-This flag should be enabled to utilize Detail Normal Map feature.
+Этот флаг должен быть включен, чтобы использовать функцию Detail Normal Map.
 
 ##### alpha_test #####
-Diffuse 1 textures alpha values are used as a cut-out texture. Alpha threshold can be specified in <strong>Transparency</strong> panel.
+Альфа-значения текстуры Diffuse 1 используются как текстура вырезания. Альфа-порог можно указать на панели <strong>Transparency</strong>.
 
 ##### use_specular #####
-This flag should be enabled in all cases. It is only here for lagecy reasons.
+Этот флаг должен быть включен во всех случаях. Это здесь по историческим причинам.
 
 ##### use_procedural_wind_animation #####
-Can be enabled to create a very simple and cheap, sine wave wind effect. Mostly used for tents / flags. (Should not be mistaken with cloth physics feature).
+Можно задействовать для создания очень простого и дешевого эффекта синусоидального ветра. В основном используется для палаток / флагов. (Не следует путать с функцией физики ткани).
 
 ##### self_illumination #####
-Enables self illumination. Illumination texture should be specified in Diffuse 2. Brightness parameters can be adjusted in Vector Arguments panel.
+Включает самоподсветку. Текстуру освещения необходимо указать в Diffuse 2. Параметры яркости можно настроить в панели Vector Arguments.
 
 ##### use_specular_from_diffuse #####
-Never ever use this. It is only used in pbr pipeline transitioning phase and only here for legacy reasons. Simply grayscales the diffuse texture, and uses it as specular texture.
+Никогда не используйте это. Он используется только на этапе перехода конвейера pbr и только здесь по устаревшим причинам. Просто изменяет оттенки серого на диффузную текстуру и использует ее в качестве зеркальной текстуры.
 
 ##### use_double_colormap_with_mask_texture #####
-Used internally to create team color effect in clothing. A special texture is created to specify which parts of clothing should be affected by team colors. A simple Red / green texture for primary and secondary colors is specified in Diffuse 2 texture. Primary and Secondary colors are set by gameplay code as Factor Colors.
+Используется для создания командных цветовых эффектов в одежде. Создается специальная текстура, определяющая, какие части одежды должны быть затронуты цветами команды. Простая красно-зеленая текстура для основных и дополнительных цветов указана в текстуре Diffuse 2. Основные и второстепенные цвета устанавливаются игровым кодом как Factor Colors.
 
 ### Transparency ###
-<img src="/img/material_editor/transparency.png">
-Alpha blend mode and Alpha Test threshold values can be specified here. <br>
-Multi Pass Alpha feature can also be enabled here. This technique renders the mesh twice with both alpha test and alpha blend to create bulky but smooth looking alpha testes meshes. (Alpha test in middle areas for high coverage but smooth alpha blended gradients on edges, such as Hair).
+![](/img/material_editor/transparency.png)
+Здесь можно указать режим альфа-наложения и пороговые значения альфа-теста. <br>
+Здесь также можно включить функцию Multi Pass Alpha. Этот метод визуализирует сетку дважды и с альфа-тестом, и с альфа-смешением для создания объемных, но гладких сеток с альфа-тестами. (Альфа-тест в средних областях для высокого покрытия, но сглаживает градиенты с альфа-смешением по краям, например, Волосы).
 
 ### Others ###
-<img src="/img/material_editor/others.png">
-This panel is usually for technical / internal usage and mostly used to create materials for core engine features.
+![](/img/material_editor/others.png)
+Эта панель обычно предназначена для технического / внутреннего использования и в основном используется для создания материалов для основных функций движка.
 
 ### Vector Arguments ###
-<img src="/img/material_editor/vector_args.png">
-This panel contains two Vector Arguments. Both containing 4 real values, with a total of 8. <br>
-These vector arguments are used as parameters for some special shader effects, like setting the brightness of Self Illumination, speed and direction of Texture Sweep, etc. <br>
-What changes with which vector argument is really depends on the effects it is used for.<br>
+![](/img/material_editor/vector_args.png)
+Эта панель содержит два векторных аргумента. Оба содержат 4 реальных значения, всего 8.<br>
+Эти векторные аргументы используются в качестве параметров для некоторых специальных шейдерных эффектов, таких как установка яркости самоподсветки, скорости и направления текстур развертки и т.д. <br>
+Какие изменения с каким векторным аргументом действительно зависят от эффектов, для которых он используется. <br>
 
 ### Factor Colors ###
-<img src="/img/material_editor/factor_color.png">
-These colors are multiplied with internal Factor Color on meshes that are usually changed using gameplay code. If you really want some texture to be slightly darker, greener etc. you can multiply them using this panel.
+![](/img/material_editor/factor_color.png)
+Эти цвета умножаются на внутренний Factor Color на сетках, которые обычно меняются с помощью игрового кода. Если вы действительно хотите, чтобы какая-то текстура была немного темнее, зеленее и т.д., Вы можете умножить их с помощью этой панели.
 
 ### Vertex Layout ###
-<img src="/img/material_editor/vdecl.png">
-This panel used to specify Vertex Layout that should be used by Vertex Shaders.
+![](/img/material_editor/vdecl.png)
+Эта панель используется для указания макета вершин, который должен использоваться шейдерами вершин.
 
 ##### Bump Map #####
-Should be enabled in most cases (Standard PBR requires this).
+В большинстве случаев должен быть включен (этого требует стандартный PBR).
 
 ##### Skinning and Skinning Precise #####
-If your material is going to be used with a skinned mesh, enable Skinning, if your skinned mesh is quite large that has important small polygons (like eyes) enable Skinning Precise. (This disables some optimizations so only use if it is really necessary).
+Если ваш материал будет использоваться с сеткой со скелетом, включите Skinning, если ваша сетка со скелетом довольно большая и имеет важные маленькие многоугольники (например, глаза), включите Skinning Precise. (Это отключает некоторые оптимизации, поэтому используйте только в том случае, если это действительно необходимо).
+
 ##### Double UV #####
-Enable if your custom shaders require double UV channels.
+Включите, если для ваших пользовательских шейдеров требуются двойные UV-каналы.
 
 ##### PostFX #####
-Used internally by engine.
+Используется внутри движка.
