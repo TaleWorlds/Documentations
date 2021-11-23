@@ -38,6 +38,9 @@ Then add your language in config.toml using english as example.
         contentDir = "content/english"
         languageName = "English"
     [languages.zh_cn]
-        contentDir = "content/simplified_chinese"
+        contentDir = "content/schinese"
         languageName = "简体中文"
+    [languages.ru]
+        contentDir = "content/russian"
+        languageName = "Русский"
 ```
