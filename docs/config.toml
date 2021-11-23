@@ -17,6 +17,9 @@ enableMissingTranslationPlaceholders = false
     [languages.zh_cn]
         contentDir = "content/schinese"
         languageName = "简体中文"
+    [languages.ru]
+        contentDir = "content/russian"
+        languageName = "Русский"
 
 # Add more languages here
 
