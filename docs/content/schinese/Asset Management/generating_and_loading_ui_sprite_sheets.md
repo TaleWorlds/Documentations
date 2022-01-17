@@ -23,6 +23,7 @@ Sprites are two-dimensional images that are mostly used in the user interface of
 * Create a new folder named ui_{YOUR_CATEGORY_NAME} under the newly created folder SpriteParts. In this documentation, it will be named **ui_mycategory**.
 * Note: Content inside of ui_{YOUR_CATEGORY_NAME} will be put in a single category called YOUR_CATEGORY_NAME. All the sprites in a category are loaded and unloaded together. It is suggested to divide your sprites into categories (instead of having only one category) in order to avoid unnecessary sprites being loaded. For example, you may create a new screen in the game that requires certain sprites to be loaded. Those sprites could be packed into a category and once that screen is opened, you can then load the relevant sprites only, and then when the screen is closed you can then unload them (see Loading & Unloading Sprite Categories section).
 * Put your sprites into the ui_{YOUR_CATEGORY_NAME} folder. For example, this sprite is added and named **mysprite.png**:
+* For launcher, new sprites should be added to a category under MODULE_NAME\LauncherGUI\SpriteParts.
 
 <img src="/img/sprite_sheets/1.png"/>
 
@@ -33,8 +34,12 @@ In order to generate sprite sheets, run the TaleWorlds.TwoDimension.SpriteSheetG
 
 SpriteSheetGenerator.exe will create two folders named Assets and AssetSources under Modules\YOUR_MODULE_NAME. It will also create a SpriteData.xml file (with a prefix of your module name) under Modules\YOUR_MODULE_NAME\GUI.
 
+* If you are generating sprite sheets for the launcher, use **Update Launcher SpriteSheets.bat** script under LauncherGUI folder.
+
 #### Importing Created Sprite Sheets
-In order to use the sprites in your sprite sheets, you should also import them from the resource browser. Follow these steps to import a sprite sheet:
+In order to use the sprites in your sprite sheets, you should also import them from the resource browser. Note that this step should be skipped if you are adding sprites just for the Launcher.
+
+Follow these steps to import a sprite sheet:
 
 * Make sure you have built your project into Modules\YOUR_MODULE_NAME\bin\Win64_Shipping_wEditor (in addition to Win64_Shipping_Client). If your project is not built properly, you will get a crash while launching.
 * Run Mount & Blade II: Bannerlord - Modding Kit from Steam.
