@@ -23,6 +23,7 @@ weight = 3
 * Создайте новую папку с именем ui_{YOUR_CATEGORY_NAME} в созданной папке SpriteParts. В этой документации он будет называться **ui_mycategory**.
 * Примечание. Контент внутри ui_{YOUR_CATEGORY_NAME} будет помещен в одну категорию под названием YOUR_CATEGORY_NAME. Все спрайты в категории загружаются и выгружаются вместе. Предлагается разделить ваши спрайты на категории (вместо того, чтобы иметь только одну категорию), чтобы избежать загрузки ненужных спрайтов. Например, вы можете создать новый экран в игре, который требует загрузки определенных спрайтов. Эти спрайты можно упаковать в категорию, и как только этот экран будет открыт, вы сможете загрузить только соответствующие спрайты, а затем, когда экран будет закрыт, вы сможете выгрузить их (см. Раздел «Загрузка и выгрузка категорий спрайтов»).
 * Поместите свои спрайты в папку ui_{YOUR_CATEGORY_NAME}. Например, этот спрайт добавлен и назван **mysprite.png**:
+* For launcher, new sprites should be added to a category under MODULE_NAME\LauncherGUI\SpriteParts.
 
 <img src="/img/sprite_sheets/1.png"/>
 
@@ -33,8 +34,12 @@ weight = 3
 
 SpriteSheetGenerator.exe создаст две папки с именами Assets и AssetSources в Modules\YOUR_MODULE_NAME. Он также создаст файл SpriteData.xml (с префиксом имени вашего модуля) в разделе Modules\YOUR_MODULE_NAME\GUI.
 
+* If you are generating sprite sheets for the launcher, use **Update Launcher SpriteSheets.bat** script under LauncherGUI folder.
+
 #### Импорт созданной таблицы спрайтов
-Чтобы использовать спрайты в ваших таблицах спрайтов, вы также должны импортировать их из браузера ресурсов. Выполните следующие действия, чтобы импортировать лист спрайтов:
+Чтобы использовать спрайты в ваших таблицах спрайтов, вы также должны импортировать их из браузера ресурсов. Note that this step should be skipped if you are adding sprites just for the Launcher.
+
+Выполните следующие действия, чтобы импортировать лист спрайтов:
 
 * Убедитесь, что вы встроили свой проект в Modules\YOUR_MODULE_NAME\bin\Win64_Shipping_wEditor (в дополнение к Win64_Shipping_Client). Если ваш проект не собран должным образом, вы получите сбой при запуске.
 * Запустите Mount & Blade II: Bannerlord - Modding Kit из Steam.
