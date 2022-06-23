@@ -6,6 +6,8 @@ weight = 1
 
 # Добро пожаловать в документацию по моддиингу Mount&Blade Bannerlord
 
+To access the API documentation: <a href="https://apidoc.bannerlord.com/">https://apidoc.bannerlord.com/</a>.
+
 Чтобы получить доступ к разделу «Часто задаваемые вопросы», см. <strong>[F.A.Q]({{< ref "faq.md" >}})</strong>.
 
 Краткое руководство по созданию и регистрации модулей см. <strong>[Краткое руководство по модулям]({{< ref "quickguide_create_a_mod.md" >}})</strong>.

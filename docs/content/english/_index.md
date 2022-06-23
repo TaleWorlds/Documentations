@@ -5,8 +5,9 @@ weight = 1
 +++
 
 # Welcome to the Mount&Blade Bannerlord Modding Documentation
+To access the API documentation: <a href="https://apidoc.bannerlord.com/">https://apidoc.bannerlord.com/</a>.
 
-To acces the "Frequently Asked Questions" section, see <strong>[F.A.Q]({{< ref "faq.md" >}})</strong>.
+To access the "Frequently Asked Questions" section, see <strong>[F.A.Q]({{< ref "faq.md" >}})</strong>.
 
 For a quick guide on creating and registering modules, see <strong>[Modules-Quickguide]({{< ref "quickguide_create_a_mod.md" >}})</strong>.
 
