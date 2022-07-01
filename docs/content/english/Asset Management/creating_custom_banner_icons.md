@@ -39,7 +39,7 @@ This documentation will go through the following steps:
 * If you've done the previous steps correctly, a popup should display a new file detected. Click import.
 <img src="/img/creating_custom_banner_icons/banner_icons_resource_browser_2.png" style="height:500px;"/>
 
-* Go into **BannerIcons** subfolder and click on the texture you've created and set the Import Settings as shown below. It can also be recommended to press "**Do not Compress**" if your banner has a high amount of detail
+* Go into **BannerIcons** subfolder and click on the texture you've created and set the Import Settings as shown below. It can also be recommended to tick the "**Do not Compress**" option if your banner has a high amount of detail.
 <img src="/img/creating_custom_banner_icons/banner_icons_resource_browser_3.png" style="height:500px;"/>
 
 * While in the same folder, right click and select **Create** and then **Material**. Name this material with the same name that your texture has.
