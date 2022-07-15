@@ -19,8 +19,8 @@ This documentation will go through the following steps:
 
 #### Creating a Banner Icon Texture
 
-* To create a set of new banner icons, first create a PSD file with 2048x2048 resolution that is split into 16 equal grid parts.
-* Then put this file into your module's **AssetSources\BannerIcons** directory. 
+* To create a set of new banner icons, first create a PSD file with 2048x2048 resolution that is split into 16 equal grid parts. The file can be bigger than this but it's not reccomended to make it smaller.
+* Then put this file into your module's **AssetSources\BannerIcons** directory. Please not that the file can be either PSD or DDS
 * Also you need to create an empty  folder in **Assets\BannerIcons**.
 * In the sample image below, canvas is split into a 4x4 grid and there is a sample banner icon at the first(0th) slot.
 * Banner icon slots start with slots 0, 1, 2 and 3 at the top row and ends with slots 12, 13, 14, 15 at the bottom row.
