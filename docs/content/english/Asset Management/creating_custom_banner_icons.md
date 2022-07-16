@@ -99,7 +99,7 @@ This documentation will go through the following steps:
 	* **player_can_choose_for_background**: Makes color available at the Background Color section of the Banner Editor Screen.  
 	* **player_can_choose_for_sigil**: Makes color available at the Sigil Color section of the Banner Editor Screen.
 * If none of these parameters are given as **true**, the color is still added to use in banners but can be only used by NPC clans and factions.
-* If adding lots of new colors it may be necessary to update the prefab found in **GUI\Prefabs\BannerEditor** calles **BannerEditor.xml**.
+* If adding lots of new colors it may be necessary to update the prefab called **BannerEditor.xml** found in **GUI\Prefabs\BannerEditor**.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
