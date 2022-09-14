@@ -8,7 +8,7 @@ parent = "bannerlord_scenes"
 
 ## How to design fully featured scenes in Bannerlord
 
-Each scene has own basic necessities to run without crashing and has extras to give better experience to player. Designers can check these necessities with "<a href="http://rglwebserver.taleworlds.com:1313/spawn_point_debug_tool/">Spawn Point Debug Tool</a>" to be sure that their scene will not crash. 
+Each scene has own basic necessities to run without crashing and has extras to give better experience to player. Designers can check these necessities with [Spawn Point Debug Tool]({{< ref "spawn_point_debug_tool.md" >}}) to be sure that their scene will not crash. 
 
 ## 1. Town Center Scene
 

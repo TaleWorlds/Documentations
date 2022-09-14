@@ -4,7 +4,7 @@ description = ""
 weight = 1
 +++
 
-Meshes contain the polygon positions and attributes to be used at the rendering pass. Every mesh has one material that defines their rendering behaviour. They are grouped inside MetaMesh's by their LOD level. Also, at the same LOD level, there can be multiple meshes with different materials. More information about importing meshes to the engine can be found at <strong>[Material Editor]({{< ref "asset_naming_conventions.md" >}})</strong>.
+Meshes contain the polygon positions and attributes to be used at the rendering pass. Every mesh has one material that defines their rendering behaviour. They are grouped inside MetaMesh's by their LOD level. Also, at the same LOD level, there can be multiple meshes with different materials. More information about importing meshes to the engine can be found at <strong>[Naming Conventions]({{< ref "asset_naming_conventions.md" >}})</strong>.
 
 
 ##### LOD System
