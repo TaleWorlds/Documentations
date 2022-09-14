@@ -18,7 +18,7 @@ This documentation will go through the following steps:
 
 * TrueTypeFont file for the font. E.g. (OpenSans-Regular.ttf)
 * Mount &amp; Blade II: Bannerlord - Modding Kit downloaded from steam
-* Knowledge on generating UI Spritesheets (see: [GENERATING AND LOADING UI SPRITE SHEETS](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/))
+* Knowledge on generating UI Spritesheets (see: [Generating and Loading UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}))
 
 #### Setting Up The Files and Paths
 
@@ -110,11 +110,11 @@ _If the generated .png file does not contain all the characters for your font, c
 #### Generating Sprite Sheets
 
 * Now the spritesheets of the font need to be generated, using the **.png** file created in the last process.
-* We will briefly cover how to add your new font to the spritesheets. For a detailed explanation see: [GENERATING AND LOADING UI SPRITE SHEETS](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/).
+* We will briefly cover how to add your new font to the spritesheets. For a detailed explanation see: [Generating and Loading UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}).
 	* Run the spritesheet generator by simply launching the **Mount &amp; Blade II Bannerlord\bin\Win64\_Shipping\_wEditor\TaleWorlds.TwoDimension.SpriteSheetGenerator.exe**.
 	* If everything was set up correctly, the output of spritesheet generator should look like this:
 <img src="/img/how_to_add_custom_fonts/spritesheet_generator.png"/>
-	* You should import the font via the resource browser in-game. Which was explained in the [document](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/) above.
+	* You should import the font via the resource browser in-game. Which was explained in the [document]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}) above.
 
 #### Using the Newly Added Fonts
 
@@ -133,7 +133,7 @@ _If the generated .png file does not contain all the characters for your font, c
 
 * For some languages, you may need your own custom fonts. If that&#39;s the case for you, you can set a default font for your language.
 * To achieve this, create a file named **{YOURMODULE}Languages.xml** and put it in the folder: **{YOURMODULE}\GUI\Fonts** folder.
-* Please note that you should give your **\*Languages.xml** file a unique name, and it should always end with &quot; **Languages**&quot; (e.g. _ **MyModuleLanguages.xml** _). For more information please see: [ADDING &amp; OVERRIDING ASSETS](http://docs.modding.bannerlord.com/asset-management/asset-types/overriding_assets/)
+* Please note that you should give your **\*Languages.xml** file a unique name, and it should always end with &quot; **Languages**&quot; (e.g. _ **MyModuleLanguages.xml** _). For more information please see: [Adding &amp; Overriding Assets]({{< ref "overriding_assets.md" >}})
 * In the new languages file, you can define a new language node, override existing ones, and change the default language of the game.
 * Language nodes are used for mapping built-in fonts to your custom fonts.
 * For example if you want to set default fonts for the **Turkish** language, your node should look like this:
