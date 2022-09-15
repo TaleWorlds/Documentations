@@ -87,7 +87,7 @@ This documentation will go through the following steps:
 * The icon with the empty thumbnail is the icon we've created. Click on that button to select the newly created banner icon.
 <img src="/img/creating_custom_banner_icons/banner_icons_ingame_1.png" style="height:500px;"/>
 
-* Notice that the thumbnail is missing. To add the thumbnail, follow the [Generating and Loading UI Sprite Sheets](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/) guide. Note that the name of your sprite and the ID of the icon needs to be same. So for our example, thumbnail sprite's name is **16001.png**
+* Notice that the thumbnail is missing. To add the thumbnail, follow the [Generating and Loading UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}) guide. Note that the name of your sprite and the ID of the icon needs to be same. So for our example, thumbnail sprite's name is **16001.png**
 * After generating the thumbnail, the banner icons list should look as follows.
 <img src="/img/creating_custom_banner_icons/banner_icons_ingame_2.png" style="height:500px;"/>
 

@@ -117,7 +117,7 @@ ___
 * 将合适的攻城塔放置到现场。
 * 调整可部署的出口坡道的角度，可以选择坡道并旋转它，或者使用"SiegeTowerSpawner "脚本中的"RampRotationDegree"参数。
 * 如果你的出口坡道向上或向下有很大的坡度角，请确保导航网预制件适合坡道，否则请制作一个。
-* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">使用路径工具，为攻城塔构建路径</a>。
+* [使用路径工具，为攻城塔构建路径]({{< ref "path_editing.md" >}})。
 * **SiegeTowerSpawner 脚本**
     * 输入路径名称。
     * 输入目标墙段。这就是我们添加到墙体上的标签，它有攻击和等待的位置。攻城塔会搜索该标签，然后搜索它的子实体来引导AI部队进行相应的进攻。
@@ -137,7 +137,7 @@ ___
 
 *攻城槌是攻城者在战役中建造打夯时，对应的预制件。撞击夯将连接到side标记，一旦到达城门，部队挥动攻城槌就会破坏外门。*
 
-* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">使用路径工具</a>建立路径。攻城槌预制件的幽灵实体上的碰撞指示器应该与大门接触，以配合动画和视觉效果。
+* [使用路径工具]({{< ref "path_editing.md" >}})建立路径。攻城槌预制件的幽灵实体上的碰撞指示器应该与大门接触，以配合动画和视觉效果。
 
 <img src="/img/siege_scenes/crashindicator.png" width="1200px" />
 
@@ -156,7 +156,7 @@ ___
 
 *如果场景中城堡周围有沟渠和护城河，我们有一个沟渠填充物系统，可以让攻城塔和撞城车正常工作。如果玩家部署了连接的攻城引擎，沟渠填充物会产生。我们必须安排和识别各种导航网面，让AI在填沟器周围正确使用寻路。*
 
-* 放置适当的实体来填充护城河后，<a href="http://docs.modding.bannerlord.com/editor/scene-editor/creating_entity/#entity-hierarchies">将它们全部收集到一个父实体下</a>。
+* 放置适当的实体来填充护城河后，[将它们全部收集到一个父实体下]({{< ref "creating_entity.md#entity-hierarchies" >}})。
 *  将标签 "ditch_filler "和适当的side标签（left, right, or middle）添加到连接的攻城引擎中。
 * 一旦攻城塔或撞城锤被部署，沟渠填充物也会随之部署。
 * 我们操纵导航网的方式与破损墙体类似。

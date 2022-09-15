@@ -8,7 +8,7 @@ weight = 1
 This list of checkpoints should aid you in creation of hideout scenes and provide you with an insight into what we pay attention to when creating them. Unlike many other of our scenes, hideouts are only used for fighting missions and usually have a very strict one way layout.
 
 #### Navigation Mesh
-* [Works similarly to how it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#navigation-mesh)
+* [Works similarly to how it does with village scenes.]({{< ref "villages.md/#navigation-mesh" >}})
 * No need to have special ID’s on paths or around animal enclosures.
 * Take special care to define the costs of navmeshes off the path correctly, to avoid having AI run sharply around rocks, or run through rough terrain like swamps, forests and such.
 
@@ -69,21 +69,21 @@ This list of checkpoints should aid you in creation of hideout scenes and provid
 	* Keep big prefabs out of the area shown by the preview and you will be fine.
 
 #### Soft Border
-* [Works in the same manner as it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#soft-border)
+* [Works in the same manner as it does with village scenes.]({{< ref "villages.md/#soft-border" >}})
 
 #### Sounds
-* [Works in the same manner as it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#sounds)
+* [Works in the same manner as it does with village scenes.]({{< ref "villages.md/#sounds" >}})
 * Make sure to not use any sounds with civilian life elements in them (like chatter, or town sounds).
 
 #### Lights
-* [Works in the same manner as it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#lights)
+* [Works in the same manner as it does with village scenes.]({{< ref "villages.md/#lights" >}})
 * Take extra care that your scene works properly at night.
 * Place enough torches along the paths and light up the bandit areas.
 
 ![](/img/hideout_scenes/hideout_scenes_5.png)
 
 #### Atmosphere
-* [Works in the same manner as it does with village scenes.](http://docs.modding.bannerlord.com/authoring-mission-scenes/villages/#atmosphere)
+* [Works in the same manner as it does with village scenes.]({{< ref "villages.md/#atmosphere" >}})
 
 #### Gameplay Design Hints
 You should keep in mind the following hints to ensure proper gameplay of your hideout scene.

@@ -17,7 +17,7 @@ weight = 3
 
 * TrueTypeFont file for the font. E.g. (OpenSans-Regular.ttf)
 * Mount &amp; Blade II: Bannerlord - Modding Kit downloaded from steam
-* Knowledge on generating UI Spritesheets (see: [GENERATING AND LOADING UI SPRITE SHEETS](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/))
+* Knowledge on generating UI Spritesheets (see: [Generating and Loading UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}))
 
 #### Настройка файлов и путей
 
@@ -115,11 +115,11 @@ _Если сгенерированный файл .png не содержит в�
 #### Генерация таблиц спрайтов
 
 * Теперь необходимо сгенерировать таблицы спрайтов шрифта, используя файл **.png**, созданный в последнем процессе.
-* Мы кратко расскажем, как добавить новый шрифт в таблицы спрайтов. Подробное объяснение см. [GENERATING AND LOADING UI SPRITE SHEETS](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/).
+* Мы кратко расскажем, как добавить новый шрифт в таблицы спрайтов. Подробное объяснение см. [Generating and Loading UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}).
     * Запустите генератор таблицы спрайтов, просто запустив **Mount &amp; Blade II Bannerlord\bin\Win64\_Shipping\_wEditor\TaleWorlds.TwoDimension.SpriteSheetGenerator.exe**.
     * Если все было настроено правильно, вывод генератора таблицы спрайтов должен выглядеть так:
       <img src="/img/how_to_add_custom_fonts/spritesheet_generator.png"/>
-    * Вы должны импортировать шрифт через браузер ресурсов в игре. Что было объяснено в [документе](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/) выше.
+    * Вы должны импортировать шрифт через браузер ресурсов в игре. Что было объяснено в [документе]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}) выше.
 
 #### Использование недавно добавленных шрифтов
 
@@ -140,7 +140,7 @@ _Если сгенерированный файл .png не содержит в�
 
 * Для некоторых языков вам могут потребоваться собственные пользовательские шрифты. В этом случае вы можете установить шрифт по умолчанию для своего языка.
 * To achieve this, create a file named **{YOURMODULE}Languages.xml** and put it in the folder: **{YOURMODULE}\GUI\Fonts** folder.
-* Please note that you should give your **\*Languages.xml** file a unique name, and it should always end with &quot; **Languages**&quot; (e.g. _ **MyModuleLanguages.xml** _). For more information please see: [ADDING &amp; OVERRIDING ASSETS](http://docs.modding.bannerlord.com/asset-management/asset-types/overriding_assets/)
+* Please note that you should give your **\*Languages.xml** file a unique name, and it should always end with &quot; **Languages**&quot; (e.g. _ **MyModuleLanguages.xml** _). For more information please see: [Adding &amp; Overriding Assets]({{< ref "overriding_assets.md" >}})
 * В файле новых языков вы можете определить новый языковой узел, переопределить существующие и изменить язык игры по умолчанию.
 * Узлы языка используются для сопоставления встроенных шрифтов с вашими пользовательскими шрифтами.
 * Например, если вы хотите установить шрифты по умолчанию для **Турецкого** языка, ваш узел должен выглядеть так:

@@ -4,7 +4,7 @@ description = ""
 weight = 1
 +++
 
-网格(Meshes)包含了多边形的位置和渲染时使用的属性。每个网格都会有一个材质以定义其的渲染行为。它们在网格内将按照其LOD级别进行分组。同时，在同一个LOD级别中可以同时有多个不同材质的网格。若想了解更多关于将网格导入引擎的信息,请参阅 <strong>[Material Editor]({{< ref "asset_naming_conventions.md" >}})</strong>.
+网格(Meshes)包含了多边形的位置和渲染时使用的属性。每个网格都会有一个材质以定义其的渲染行为。它们在网格内将按照其LOD级别进行分组。同时，在同一个LOD级别中可以同时有多个不同材质的网格。若想了解更多关于将网格导入引擎的信息,请参阅 <strong>[Naming Conventions]({{< ref "asset_naming_conventions.md" >}})</strong>.
 
 
 ##### 细节级别 (LOD)

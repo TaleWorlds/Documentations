@@ -16,4 +16,6 @@ To access the API documentation: <a href="https://apidoc.bannerlord.com/">https:
 
 - <strong>[[资产管理]]({{< ref "Asset Management" >}})</strong> 创建/编辑一个包含资产 (Assets)、脚本、场景以及游戏逻辑数据的模组，这些可以是新建的数据，也可以用于覆盖游戏内已经存在的数据。
 - <strong>[[霸主任务系统]]({{< ref "Authoring Mission Scenes" >}})</strong> 详细介绍游戏脚本组件的工作原理，何时能触发回调，以及骑砍2：霸主中用来建立游戏流程（体验）的特定脚本模板。
+- <strong>[[Best Practices]]({{< ref "BestPractices" >}})</strong> Information about various topics and their best practices.
 - <strong>[[编辑器]]({{< ref "Editor" >}})</strong> 关于编辑器的信息，引导玩家如何能最有效地使用编辑器编辑场景和内容。
+- <strong>[[Playing Sounds]]({{< ref "Playing Sounds" >}})</strong> Adding sounds to your module using intended XMLs and code.

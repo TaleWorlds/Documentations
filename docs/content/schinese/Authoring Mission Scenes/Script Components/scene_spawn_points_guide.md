@@ -8,7 +8,7 @@ parent = "bannerlord_scenes"
 
 ## 如何在Bannerlord中设计功能齐全的场景
 
-每个场景都需要有一定的必备元素以避免游戏崩溃，并提供额外的功能，为玩家带来更好的体验。设计人员可以使用 !["Spawn Point Debug Tool"](http://rglwebserver.taleworlds.com:1313/spawn_point_debug_tool/) 检查这些必要性，以确保其场景不会崩溃。
+每个场景都需要有一定的必备元素以避免游戏崩溃，并提供额外的功能，为玩家带来更好的体验。设计人员可以使用 [Spawn Point Debug Tool]({{< ref "spawn_point_debug_tool.md" >}}) 检查这些必要性，以确保其场景不会崩溃。
 
 ## 1. 城市中心场景
 
