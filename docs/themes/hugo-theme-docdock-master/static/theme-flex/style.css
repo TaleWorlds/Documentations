@@ -365,7 +365,9 @@ article section.page {
       margin: 0 !important;
       vertical-align: bottom; }
   article section.page code {
-    font-family: "RobotoMono", monospace; }
+    font-family: "RobotoMono", monospace;
+	background: #eee; 
+	border-radius: 3px; }
   article section.page p > code,
   article section.page li code,
   article section.page table code {
