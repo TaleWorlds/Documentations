@@ -19,3 +19,4 @@ To access the API documentation: <a href="https://apidoc.bannerlord.com/">https:
 - <strong>[[Best Practices]]({{< ref "BestPractices" >}})</strong> Information about various topics and their best practices.
 - <strong>[[编辑器]]({{< ref "Editor" >}})</strong> 关于编辑器的信息，引导玩家如何能最有效地使用编辑器编辑场景和内容。
 - <strong>[[Playing Sounds]]({{< ref "Playing Sounds" >}})</strong> Adding sounds to your module using intended XMLs and code.
+- <strong>[[Multiplayer]]({{< ref "Multiplayer" >}})</strong> All about hosting a server, creating a custom game mode and making multiplayer scenes.
