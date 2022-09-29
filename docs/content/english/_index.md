@@ -18,3 +18,4 @@ For further information:
 - <strong>[[Best Practices]]({{< ref "BestPractices" >}})</strong> Information about various topics and their best practices.
 - <strong>[[Editor]]({{< ref "Editor" >}})</strong> Information about how to use the scene and content editors with maximum efficency.
 - <strong>[[Playing Sounds]]({{< ref "Playing Sounds" >}})</strong> Adding sounds to your module using intended XMLs and code.
+- <strong>[[Multiplayer]]({{< ref "Multiplayer" >}})</strong> All about hosting a server, creating a custom game mode and making multiplayer scenes.
