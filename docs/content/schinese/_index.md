@@ -6,7 +6,7 @@ weight = 1
 
 # 欢迎来到《骑马与砍杀2：霸主》 Mod 开发文档
 
-To access the API documentation: <a href="https://apidoc.bannerlord.com/">https://apidoc.bannerlord.com/</a>.
+查看 API 文档：<a href="https://apidoc.bannerlord.com/">https://apidoc.bannerlord.com/。</a>
 
 获取更多“常见问题解答”，请访问 <strong>[常见问题解答]({{< ref "faq.md" >}})</strong>。
 
@@ -19,4 +19,5 @@ To access the API documentation: <a href="https://apidoc.bannerlord.com/">https:
 - <strong>[[Best Practices]]({{< ref "BestPractices" >}})</strong> Information about various topics and their best practices.
 - <strong>[[编辑器]]({{< ref "Editor" >}})</strong> 关于编辑器的信息，引导玩家如何能最有效地使用编辑器编辑场景和内容。
 - <strong>[[Playing Sounds]]({{< ref "Playing Sounds" >}})</strong> Adding sounds to your module using intended XMLs and code.
-- <strong>[[Multiplayer]]({{< ref "Multiplayer" >}})</strong> All about hosting a server, creating a custom game mode and making multiplayer scenes.
+- <strong>[[多人游戏]]({{< ref "Multiplayer" >}})</strong> 所有关于搭建服务器、创建自定义游戏模式和制作多人游戏场景的内容都在这里。
+
