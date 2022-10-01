@@ -1,190 +1,191 @@
 +++
-title = "What Makes a Multiplayer Scene"
-description = ""
+title = "多人游戏场景的构造"
+description = "本技术介绍将使你能够为特定的游戏模式创建自定义多人场景，它详细说明了你的多人游戏场景需要满足哪些要求才不会崩溃。这不是设计指南或最佳实践文档。"
 weight = 15
+
 +++
 
-### Introduction
-This technical introduction should enable you to create a custom multiplayer scene, for a specific gamemode. It goes into details on what requirements your MP scene needs to meet so that it doesn't crash. This is not a design guideline or best practice document.
+### 介绍
+本技术介绍将使你能够为特定的游戏模式创建自定义多人场景，它详细说明了你的多人游戏场景需要满足哪些要求才不会崩溃。这不是设计指南或最佳实践文档。
 
-### Gamemode Specifics
-Each Gamemode in Bannerlord will require a few different setups of relevant prefabs.
+### 游戏模式（Gamemode）细节
+《霸主》中的每个游戏模式都需要一些不同的相关预制件（prefabs）的设置。
 
 {{% notice tip %}}
-It is possible to make scenes compatible with multiple game modes by including all needed prefabs. Scenes cannot be compatible with modes that use a different spawning system, for example a TDM scene can't be compatible with a Captain scene, but a Captain scene can also be used for Skirmish if it has a proper respawn setup.
+通过包含所有需要的预制件，可以使场景与多种游戏模式兼容。场景不能与使用不同重生（生成）系统的模式兼容，例如团队死斗场景不能与领军战场景兼容，但如果有合适的重生设置的话，领军战场景也可以用于遭遇战。
 {{% /notice %}}
 
-#### Game Objects
-Gameobjects found as prefabs that are needed for the gamemode to work in your scene. You can find these in the “Prefabs” window.
+#### 游戏对象
+作为游戏模式在你的场景中运行所需要的预制件的游戏对象（Gameobjects），你可以在“预制件（Prefabs）”窗口中找到这些。
 
-##### General
+##### 通用
 ###### mp_camera_start_pos
-Initial camera position, that is set for joining players. It basically defines the backdrop for choosing the faction upon joining a custom server. It will also be the first thing people see of your scene. Make sure you rotate it slightly (it is initially rotated downwards). Only place one!
+初始相机位置，这是为正在加入的玩家设置的。它基本上定义了加入服务器时选择阵营的背景，它也是人们看到的你的场景的第一个画面。确保你稍微旋转了它（它默认是向下旋转的）。这玩意儿只用放置一个！
 
 ###### border_soft
-Define the soft border around your scene. If players cross they have a few seconds to return back. This border is needed to set the scene boundaries. Make sure the border does not cross into your playbale area. You define the border (best practice is to do a hexagon shape) by placing the border probes around your map. The probes will always try to connect to the 2 closest probes to them.
+定义场景周围的软边界（soft border）。如果玩家越过，他们将有几十秒时间返回。该边界用于设置场景的边界，确保边界不会穿进你的可游玩区域。你可以通过在地图周围放置边界探测点（border probes）来定义边界（最佳实践是做一个六边形的形状）。探测点总是会与离其最近的 2 个探测点相连。
 
 {{% notice tip %}}
-You can check your resulting border by enabling “Borders” in the Visibility window, sometimes it is good to reload the scene before doing that.
+你可以通过在可见性（Visibility）窗口中启用“边界（Borders）”来查看形成的边界，有时最好在这一步之前重新加载场景。
 {{% /notice %}}
 
 ###### flee_line
-The lines that AI (in our gamemodes only AI horses) uses to leave the battlefield. They will try to find these using the navmesh. So these positions need to be placed where AI can reach them via the navmesh. Once they reach it they will fade out after a short period. You can place multiple instances of these.
+这些逃离线（flee lines）是 AI（在我们的游戏模式中只有 AI 马匹）用于逃离战场的，他们会尝试使用导航网格（navmesh）来找到这些。所以这些位置需要放置在 AI 可以通过导航网格触及到的地方。当他们到达这些逃离线，他们会在短时间内消失，你可以放置多个这样的实例。
 
 {{% notice tip %}}
-For siege, make sure there are flee lines inside the castle as well, so horses that got inside can get out without trying to pass the gate. Navmesh and AI can not dıstinguish between stairs and ramps, and horses can not traverse stairs. You might need to adjust or remove navigation meshes on stairs to avoid riderless horses blocking them.
+围城战时，你要确保城堡里也有这样的逃离线，这样城内的马就可以不经过城门跑出去。导航网格和 AI 不能分清楼梯和坡道，你可能需要调整或删除楼梯上的导航网格，以避免无人骑的马挡住他们。
 {{% /notice %}}
 
 ###### envmap_prop
-Should already be there when you create a new scene, if it’s not place it and set it to “IsGlobal” in the “Inspector” window. Also make sure it's in a valid position. You can of course have multiple probes, but use the local_envmap_probe for further probes.
+当你创建一个新场景时应该已经存在了，如果没有，就放置它并在“检查器（Inspector）”窗口中将其设置为“IsGlobal”，还要确保它在一个有效位置。当然可以有多个探测点，但使用 local_envmap_probe 作进一步探测。
 
-##### Flag Domination (Skirmish, Battle, Captain)
+##### 旗帜管理（遭遇战、战场、领军战）
 
 ###### Flags
-Each of these gamemodes use 3 flags. Don't be put off by their naming but all game modes use the same prefabs!
+这些游戏模式都使用 3 个旗帜。不要被它们的命名搞懵，但是所有的游戏模式都使用相同的预制件！
 
-Their prefabs: flag_pole_big_sergeant_A, flag_pole_big_sergeant_B, flag_pole_big_sergeant_C
+它们的预制件：flag_pole_big_sergeant_A, flag_pole_big_sergeant_B, flag_pole_big_sergeant_C
 
-Flag Domination modes need three individual flags, so don't duplicate the A flag 2 times.
+旗帜管理（Flag Domination）需要三个独立的旗帜，所以不要复制旗帜 A 两次。
 
-##### Siege
+##### 围城战
 ###### Flags
-Uses the same flags as Flag Domination, but more of them (obviously). Place all flags from A to F and the main flag which is G.
+使用了跟旗帜管理一样的旗帜，而且显然更多。放置从 A 到 F 的所有旗帜，并且主旗帜是 G。
 
-Their prefabs: flag_pole_big_sergeant_A, flag_pole_big_sergeant_B, flag_pole_big_sergeant_C, flag_pole_big_sergeant_D, flag_pole_big_sergeant_E, flag_pole_big_sergeant_F, flag_pole_big_sergeant_main
+它们的预制件：flag_pole_big_sergeant_A, flag_pole_big_sergeant_B, flag_pole_big_sergeant_C, flag_pole_big_sergeant_D, flag_pole_big_sergeant_E, flag_pole_big_sergeant_F, flag_pole_big_sergeant_main
 
-###### Siege Engines
-Technically they work in the same way as for singleplayer sieges. Still there are some significant differences. First of all most of them use different prefabs for multiplayer, make sure you are using those!
+###### **Siege Engines**
+从技术上来讲，它们与单人游戏中的围攻的运作方式相同，但仍有一些明显的差别。首先，它们大多为多人游戏使用了不同的预制件，确保你使用的也是这些！
 
-There is also no minimum (or maximum) amount of siege engines needed in your scene, and no need for deployment points, since the siege engines are set by your scene and not by the sandbox campaign. Also you don't need to do extensive navmesh work for your siege tower, rams and ladders. So you can ignore all the nav mesh inputs in the Inspector.
+你的场景中所需的围城战器械没有最小（或最大）数量的要求，也没有部署点的要求，因为围城器械是由你的场景决定的，而不是沙盒战役游戏。此外，你不需要为攻城塔、攻城槌和攻城梯做大量的导航工作。所以你可以忽略检查器（Inspector）中的所有导航网格输入。
 
-Rams and siege towers will still need a path to move along though. Simply create a path, remember its name and set it in the script in the inspector as “PathEntityName”.
+攻城槌和攻城塔仍然需要一条路径前进。简单创建一条路径，记住它的名称，并且在检查器的脚本中将其设置为“PathEntityName”。
 
-Multiplayer specific prefabs: siege_tower_5m_spawnerMP, siege_tower_9m_spawnerMP, siege_tower_12m_spawnerMP, batteringram_a_spawnerMP, mangonel_a_spawnerMP, mangonel_a_spawnerFireMP, mangonel_b_spawnerMP, mangonel_b_spawnerFireMP, mangonel_a_spawnerMP, mangonel_a_spawnerFireMP, ballista_a_spawnerMP, ballista_a_spawnerFireMP, ballista_b_spawnerMP, ballista_b_spawnerFireMP
+多人游戏特定预制件：siege_tower_5m_spawnerMP, siege_tower_9m_spawnerMP, siege_tower_12m_spawnerMP, batteringram_a_spawnerMP, mangonel_a_spawnerMP, mangonel_a_spawnerFireMP, mangonel_b_spawnerMP, mangonel_b_spawnerFireMP, mangonel_a_spawnerMP, mangonel_a_spawnerFireMP, ballista_a_spawnerMP, ballista_a_spawnerFireMP, ballista_b_spawnerMP, ballista_b_spawnerFireMP
 
 {{% notice tip %}}
-Prefabs for gates and ladders are the same as for singleplayer.
+大门和攻城梯的预制件与单人游戏的相同。
 {{% /notice %}}
 
 ###### arrow_barrel
-You can place this prefab anywhere in your scene. Players can use it to refill their ammunition.
+你可以将该预制件（箭筒）放置在你场景内的任何位置，玩家可以使用它来补充弹药。
 
 ###### rock_pile
-Placing this prefab allows players to pick up rocks, they work the same way as the ones coming with siege engines by default. In the StonePile script you can set how many rocks this prefab comes with. There is also a firepot version of this prefab: “pot_pile”
+放置该预制件允许玩家捡起石头，它们的工作方式与默认的围城器械相同。在 StonePile 脚本中，你可以设置这个预制件中石头的数量。这个预制件还有一个火罐版本：“pot_pile”
 
-The prefab comes with children “icon_man” that define the positions you can pick up the rocks from. You can delete those children if you don't want your pile to be accessible from any direction.
+该预制件带有子对象“icon_man”，它定义了你可以从何处捡起石头。如果你不希望从任何方向访问你的石堆，你可以删除那些子对象。
 
-Rock_pile and pot_pile prefabs can also be used with mangonels and trebuchets. If you want to give players the option to choose ammunation, you can simply place piles next to siege engines.
+Rock_pile 和 pot_pile 预制件可以伴随投石车和抛石机一起使用。如果你想要给玩家选择弹药的权力，你可以直接把石堆放在围城器械旁边。
 
-##### Duel
-For duel mode you will need to create landmarks by hand. There are two kinds of landmarks, three that define the troop types and 16 smaller ones that define the arenas and which type they belong to.
+##### 决斗
+对于决斗模式你会需要手动创建地标（landmarks）。有两类地标，3 种定义了部队类型，16 种较小的定义了竞技场和它们所属的类型。
 
 ###### Big landmarks
-You can use any prefab for this, it will need to have these two tags: “duel_zone_landmark” and “flag_x”. The x stands for the troop type so replace it with either: “infantry”, ”cavalry” or ”archery”.
+你可以随意使用该预制件，它需要有这两个标记（tags）：“duel_zone_landmark”和“flag_x”。这个 x 代表兵种类型，所以应该用“infantry”，“cavalry”或“archery”来替换它。
 
-You also need to define the zone's troop type (again) with a script. For that, add the “DuelZoneLandmark” to your prefab and set it to whatever troop type you intend to spawn here.
+你还需要（再次）使用脚本定义该区域的兵种类型。为此，添加“DuelZoneLandmark”到你的预制件，并将其设置为你打算在这里生成的任何兵种类型。
 
 ###### Arena landmarks
-These landmarks define the arenas that are grouped by the big landmarks. Again you can use any prefab as a base for this. It will need two tags set, the first one “flag_x” is used to reference it to the big landmark. So if you want this arena to be used for Cavalry fights, you should use the tag “flag_cavalry”.
+这些地标定义了由大地标（big landmarks）分组的竞技场。同样，你可以使用任何预制件作为其基础。它需要设置两个标记（tags），第一个“flag_x”用于将其引用到大地标。所以如果你想让这个竞技场用于骑兵战斗，你应该使用标记“flag_cavalry”。
 
-Your landmark will also need a tag that references the actual arena area (described below), basically serving as an ID. For that, use the tag “area_flag_x”, x being the ID of your arena. So if you have 16 arenas, each of them should have their own tag, ranging from “area_flag_1” to “area_flag_16”.
+你的地标还需要一个引用实际竞技场区域的标记（下面会解释），基本上是一个 ID。为此，使用标记“area_flag_x”，x 是你竞技场的 ID。所以如果你有 16 个竞技场，它们都应该有它们自己的标记，范围从“area_flag_1”到“area_flag_16”。
 
 ###### volume_box
-This box defines the area where combatants duel in your arena. All dropped weapons and bodies will be cleared inside this box after each duel. Make sure that it is slightly bigger than the physical arena you have built in the scene editor. You can use the volume_box prefab and scale it to your liking. The box will need a tag referencing the ID of your arena: “area_box_x”, x being the ID of your arena.
+这个盒子定义了战斗人员在竞技场中决斗的区域，每场决斗结束后所有掉落在这个盒子里的尸体和武器都会被清除。确保它比你在场景编辑器中创建的物理竞技场稍大。你可以使用 volume_box 预制件并缩放到你喜欢的大小。这个盒子需要一个引用你竞技场 ID 的标记：“area_box_x”，x 应该是你竞技场的 ID。
 
-So if the tag for your arena was “area_flag_5”, you should tag your volmue_box with “area_box_5”.
+所以如果你竞技场的标记是“area_flag_5”，你应该给你的 volmue_box 打上标记“area_box_5”。
 
-The spawn points for both combatants need to be placed within this volume. Check below.
+两个决斗参与者的重生点都要放在这个盒子里，下面细说。
 
-#### Spawn Points
-Points where players start the round, or respawn during that round. Flag Domination modes (Captain, Skirmish, Battle) use nearly the same spawning system and scenes are compatible between each other with a little bit of work. Compatible in a technical sense that is.
+#### 重生点
+在回合开始时或回合中途玩家重生的点位。旗帜管理（Flag Domination）模式（领军战、遭遇战、战场）使用了几乎相同的重生系统，场景之间只需要做一点工作就可以相互兼容。从技术上来说，是兼容的。
 
-Most spawn points require the right side tag to be set. The prefabs come with default tags that are either “attacker” or “defender”. You will obviously need to duplicate those and adjust all tags on the prefabs and its children for the opposite team. Sometimes if a tag is not yet present in your scene you need to manually add it to the list, it won’t show up in the drop down menu otherwise!
+大多数重生点需要设置右侧标记（tag）。这些预制件带有默认标记，要么是“attacker”，要么是“defender”。显然，你需要为对立的两队复制并调整这些预制件及其子对象上的标记。有时候如果标记还没有出现在你的场景中，就需要你手动将其添加到列表中，否则它不会显示在下拉菜单中！
 
-##### General
+##### 通用
 ###### spawn_visual
-Position in which the class and perk selection happens. The prefab has 6 child objects, one for the player and 5 for their teammates. For most game modes (every gamemode except skirmish and captain), only the child with the tag “sp_visual_0” is used, since we don't have a set amount of team mates.
+进行兵种和特长选择时的位置。该预制件有 6 个子对象，一个给玩家，5 个给其队友。对于大多数游戏模式（除了遭遇战和领军战外的所有游戏模式），只使用有标记“sp_visual_0”的子对象，因为我们没有设置队友的数量。
 
-During the class/perk selection a camera will be placed in front of the “sp_visual_0” child object.
+在兵种/特长选择期间，一个镜头会被放在“sp_visual_0”子对象前面。
 
 {{% notice tip %}}
-You can ignore the “attacker” tag on the child objects. Unlike many other spawn positions, this one does not need to be duplicated for the defender team.
+你可以忽略子对象上的“attacker”标记。与很多其他的重生位置不同，这个位置不需要复制给防守方队伍。
 {{% /notice %}}
 
-##### Flag Domination (Skirmish, Battle, Captain)
+##### 旗帜管理（遭遇战、战场、领军战）
 ###### skirmish_start_spawn
-Prefab that defines the initial spawn. Don't be put off by the name of the prefab, it can be used for all 3 Flag Domination game modes.
+该预制件定义了初始重生点。不要被预制件的名字迷惑到，它可以用于所有 3 个游戏模式的旗帜管理。
 
-Comes with 9 child spawns, but you can duplicate those to have more possible spawn positions (e.g. if you don't want people to spawn on top of each other for a 50 vs 50 battle mode). All children need to have the “spawnpoint” and “attacker” or “defender” tag. The main zone’s tags “starting” and “spawn_zone” should not be touched.
+带有 9 个子重生点，但你可以复制那些来弄出更多可能的重生位置（例如，如果你不想要人们在 50 vs 50 的战场模式中重生时叠在一起）。所有的子对象需要带有“spawnpoint”，还有“attacker”或“defender”标记。主空间（main zone）的标记“starting”和“spawn_zone”不应该被修改。
 
 {{% notice tip %}}
-Make sure that the points are not below the terrain and ground assets you are using. Also remember that horses that spawn will require more space around them. So don't place your spawns too close to each other and other prefabs.
+确保点位不低于你正在使用的地形和地面资产。也要记住，马的重生需要周围更大的空间，所以不要把你的重生点太靠近其他人和其他预制件。
 {{% /notice %}}
 
 ###### skirmish_respawn
-Prefab that defines the respawn positions for skirmish mode. So players spawn here after they have died. If you don't place these positions, players will spawn at the start spawn when respawning.
+预制件定义了遭遇战的重生位置，所以玩家会在死后重生在这里。如果你不放置这些点位，玩家将会在重生时出生在最开始的重生点。
 
-You can place up to 3 of these per side. Just like with the start spawn it is important you make duplicates for both sides “attacker” and “defender”. The main zone’s tag “spawn_zone” should not be touched.
+每一边你可以放置最多 3 个。就像初始重生点（start spawn）一样，你必须复制两边的“attacker”和“defender”，主空间的标记“spawn_zone”不应被修改。
 
-Spawn point selection system relies on the location of the parent entity while checking for nearby enemies, while players will spawn in the child entities. You can use this to your advantage to adjust spawn location biases.
+重生点选择系统检查周围的敌人时依赖于父实体（parent entity）的位置，玩家将在子实体（child entities）中重生。你可以利用这一点来调整重生位置的偏差。
 
-##### Siege
-The spawns in siege are fundamentally different to other modes. Spawnzones in siege are inactive or active depending on how many flags have been removed in the match. Each spawn zone is connected to this gamemode logic via the tag sp_zone_x (x is a number between 0 and 6)
+##### 围城战
+围城战中的重生与其它模式中有本质上的区别。围城战中的重生空间（Spawnzones）是否活跃取决于对局中被移除的旗帜数量。每个重生空间都通过标记 sp_zone_x（x 是从 0 到 6 的数字）连接到游戏模式（gamemode）逻辑。
 
-The tag in question is set in the main spawn point prefab, which has the single spawn points “mp_spawnpoint” as children. The “x” of the tag defines how many flags need to be captured (and removed) by the attackers, for this spawn area to be active. So at the start of the siege players will spawn in the zone with the tag sp_zone_0, once the first flag is removed they will spawn in the zone with the tag sp_zone_1, so and so on. If only G (the main flag) is left, players will spawn in the zone with the tag sp_zone_6.
+该标记是在主重生点（main spawn point）预制件中设置的，其中有单个重生点“mp_spawnpoint”作为子对象。标记的“x”定义了进攻方需要占领（和移除）多少面旗帜，这样重生区域才会活跃。所以在围城战开始时，玩家会重生在有标记 sp_zone_0 的空间里，一旦第一面旗帜被移除，他们就会重生在标记 sp_zone_1 的空间里，诸如此类。如果只剩下 G 旗（主旗帜），玩家将会重生在标记 sp_zone_6 的空间里。
 
-You can put multiple of these tags on the same spawn zone, so you can have a spawn zone for the first two flags, by simply giving it the sp_zone_0 and sp_zone_1 tags.
+你可以在同一个重生空间上放置多个这些标记，所以你可以为前两面旗帜只创建一个重生空间，只需要给它添加 sp_zone_0 和 sp_zone_1 标记即可。
 
-Make sure to tag the children of the spawn zones with the “spawnpoint” and “attacker” or “defender” tag. Just like in the other modes.
+确保重生空间的子对象有“spawnpoint”，还有“attacker”或“defender”标记，就像其它模式一样。
 
-There is no prefab for this spawnpoint, so you'll need to set most tags by yourself. I suggest you use the “skirmish_start_spawn” prefab. For that you need to delete the “starting” tag from the zone and replace it with the “sp_zone_x” tag / tags.
+这个 spawnpoint 没有预制件，所以大多数情况下你需要自己设置标记。我建议你使用“skirmish_start_spawn”预制件。为此，你需要从空间中删除“starting”标记并把它替换为“sp_zone_x”标记。
 
-Don't forget to place attacker and defender spawns!
+不要忘记放置进攻方（attacker）和防守方（defender）重生点！
 
 {{% notice tip %}}
-You can use special tags on the “mp_spawnpoint” children of the spawn zones to adjust which troops can spawn there. The self explanatory tags for this are: “exclude_mounted” and “exclude_footmen”.
+你可以在重生空间的“mp_spawnpoint”子对象上使用特定的标记来调整什么兵种可以重生在这里。这里不言自明的标记是：“exclude_mounted”和“exclude_footmen”。
 {{% /notice %}}
 
-##### TDM
-TDM doesn't use spawn zones, spawn points are placed around the scene without side tags. Use the “mp_spawnpoint” prefab for that. Make sure they are not a child to another prefab and only have the tag “spawnpoint”.
+##### 团队死斗
+团队死斗不使用重生空间，重生点放置在场景周围，没有区分攻守的标记。使用“mp_spawnpoint”预制件就行。确保它们不是另一个预制件的子对象，并且只有“spawnpoint”标记。
 
-##### Duel
-Duel doesn't use spawn zones, spawn points are placed around the scene (preferably a sort of lobby area) without side tags. Use the “mp_spawnpoint” prefab for that. Make sure they are not a child to another prefab and only have the tag “spawnpoint”.
+##### 决斗
+决斗不使用重生空间，重生点被放置在场景周围（最好是一种大厅区域），没有区分攻守的标记。使用“mp_spawnpoint”预制件就行。确保它们不是另一个预制件的子对象，并且只有“spawnpoint”标记。
 
-Remember to also place two mp_spawnpoints inside each arena. They need to be tagged linking to the arena landmark. So with “spawnpoint_area_x”, x being the ID of the arena they belong to. Also make sure they are placed inside the volume_box of that arena.
+请记住在每个竞技场内放两个 mp_spawnpoints，它们需要被标记连接到竞技场地标（arena landmark）。因此，使用“spawnpoint_area_x”，x 为所属竞技场的 ID。还要确保它们被放置在该竞技场的 volume_box 内。
 
-#### Navigation Mesh
-In general Navmesh is much less important in multiplayer, as most Native gamemodes don’t use AI soldiers. Still the navmesh is used for espacing horses, to find their way to flee lines and also it is used for baking GI.
+#### 导航网格
+一般来说，导航网格在多人游戏中不太重要，因为大多数原版游戏模式不使用 AI 士兵。不过，导航网格还可以用来给马匹定位，让它们找到逃离线（flee lines），并且也可以用来烘焙全局光照。
 
-For how to create a proper navmesh refer to our [existing documentation]({{< ref "nav_mesh" >}}).
+关于如何创建一个正确的网格请参考我们[已有的文档]({{< ref "nav_mesh" >}})。
 
-You can ignore specific IDs for AI scripting.
+你可以忽略 AI 脚本的特定 ID。
 
-##### Captain
-Generally for captain mode the same thing applies as for singleplayer battle terrain navmesh work. You will have to cover a relatively huge scene, with very accurate navmesh. You dont need to worry about IDs. You can use navmesh cost just like in singleplayer, to deter agents from using certain navmesh faces.
+##### 领军战
+一般来说，领军战模式和单人游戏战场地形导航网格工作模式是一样的。你将不得不覆盖一个相对较大的场景，并使用非常精确的导航网格。你无须顾及 ID，你可以像在但游戏中一样消耗导航网格，来阻止 AI 使用某些导航网格的面。
 
 {{% notice info %}}
-Keep in mind: Much more important than in singleplayer, areas that are reachable for players but don't have navmesh on them, bear a huge exploit potential. Try to avoid having spots like that.
+请记住：比单人游戏更重要的是，那些玩家可以到达但没有导航网格的区域，给了玩家巨大的利用空间。尽量避免出现这样的地方。
 {{% /notice %}}
 
-##### Siege
-The castle gates will need proper navmesh to be set in the scripts. Just like in singleplayer (refer to the documentation linked above). If you don't create a proper navmesh for these, horses will be confused and get stuck in your gates. Additionally we ignore the navmesh castle gates for GI generation, this will prevent light leakage into the body of your gatehouse.
+##### 围城战
+城堡的大门需要在脚本中设置适当的导航网格，就像在单人游戏中一样（参考上面之前链接的文档）。如果你不创建一个适当的导航网格，马匹会感到困惑并卡在你的门里。此外，我们忽略了用于全局光照生成的城堡大门，这将阻止光照透进你的门楼主体。
 
-Also make sure that horses have access to flee lines inside and outside of the castle. Keep in mind that horses will always choose the closest “flee_line” to flee too, if that “flee_line” happens to be outside of the castle they will try to find a way out, leading them to get stuck if you haven't set up your ladders and gates correctly.
+还要确保马匹在城堡内外都可以够到逃离线。请记住，马匹总是会选择最近的“flee_line”进行逃离，如果“flee_line”恰好在城外，它们会试图找到一条出路，如果你没有正确设置大门和梯子，它们就会被卡住。
 
-### Other
-###### Atmosphere
-Unlike in singleplayer, multiplayer scenes only ever use one atmosphere. Don't forget to save it when making edits.
+### 其他
+###### 氛围（Atmosphere）
+与单人游戏不同，多人游戏场景只使用一种氛围。在进行编辑时不要忘记保存它。
 
-###### Label
-In the “SceneOptions” window, you can set a Label for your scene. This is helpful if you scan your scene for problems (2nd to last button in the top icon bar). If you set this label to “mp” it will filter out all singleplayer related problems.
+###### 标签（Label）
+在“SceneOptions”窗口中，你可以为你的场景设置一个标签（Label）。如果你扫描你的场景以查找问题（顶部图标栏中倒数第二个按钮），这会很有帮助。如果你把这个标签设为“mp”，它会过滤掉所有与单人游戏相关的问题。
 
-###### Avoid animation point prefab
-Using certain prefabs that are meant for singleplayer can cause your scene to crash. Watch out you are not placing any assets with animation points attached. This is important for chairs and the like, but also for any shop_prop prefabs that might have an animation attached.
+###### 避免动画点（animation point）预制件
+使用某些用于单人游戏的预制件会导致你的场景崩溃。请注意不要放置任何有关动画点的资产，这对椅子和类似的东西很重要，但对任何可能附带有动画的 shop_prop 预制件也很重要。
 
-Usually all these prefabs have a non animation point version of themselves. Otherwise you can always use those assets by simply deleting the animation point child and removing all tags and script from the prefab.
+通常，所有这些预制件都有一个非动画点版本。除此之外，你总是可以使用这些资产，只需要删除其动画点子对象，并从预制件上移除所有的标记和脚本。
 
-###### Avoid destructible objects outside of siege
-Destructible objects are only properly synced with our siege gamemode. Placing breakable objects like barricades, or siege engines in other modes will probably crash your game or cause other problems.
+###### 避免在围城战外使用可破坏对象
+可破坏对象只与我们的围城战游戏模式正确同步。在其它模式下，放置路障或围城器械这样的可破坏物体可能会使你的游戏崩溃，或造成其他问题。
 
-The same goes for merlons on walls or destructible roofs.
+城墙上的城齿和可破坏的屋顶也是如此。

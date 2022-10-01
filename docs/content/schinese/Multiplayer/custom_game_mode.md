@@ -1,24 +1,25 @@
 +++
-title = "Creating a Custom Game Mode"
-description = ""
+title = "创建自定义游戏模式"
+description = "本教程会指导你如何从头开始建立一个包含自定义游戏模式的模组，教程内提供的示例模组将会提供一个试用版本下载链接。"
 weight = 10
+
 +++
 
-#### Prerequisites
-To make a custom MP game mode, you first need to create your module’s folder under the `Modules` folder of your games installation. Inside your module’s folder, you need to create a `bin` folder for your DLL files and a `SubModule.xml` file for your module’s definition and additional data.
+#### 前提条件
+要制作一个多人游戏模式，你首先需要在你游戏安装目录的 `Modules` 目录下创建你的模组文件夹。在你的模组目录下，你需要创建一个 `bin` 文件夹来放置 DLL 文件，还要创建一个 `SubModule.xml` 文件来存放你的模组定义和额外数据。
 
-For programming, you need to have .NET Framework development tools installed. To do that, download Visual Studio 2017 Community Edition and install .NET Framework 4.7.2 support. After that’s done, create a new Class Library project. For the client side, add references to DLLs located in the `Win64_Shipping_Client` folder of your Mount & Blade II: Bannerlord installation. For the server side, add references to DLLs located in the `Win64_Shipping_Server` folder of your Mount & Blade II: Dedicated Server installation.
+对于程序开发，你需要有 .NET Framework 开发工具。配置开发环境的话，下载 Visual Studio 2017 社区版并安装 .NET Framework 4.7.2 支持。完成这些步骤后，新建一个 Class Library 项目。对于客户端而言，添加位于你的 Mount & Blade II: Bannerlord 安装目录的 `Win64_Shipping_Client` 目录下的所有的 DLL 引用。对于服务端而言，添加位于你的 Mount & Blade II: Dedicated Server 安装目录的 `Win64_Shipping_Server` 目录下的所有的 DLL 引用。
 
-Make sure the output directory of your project is:
+请保证你项目的输出路径是：
 
-* `Win64_Shipping_Client` of your module’s `bin` folder for the client code.
-* `Win64_Shipping_Server` of your module’s `bin` folder for the server code.
+* 客户端代码放在你模组 `bin` 目录下的 `Win64_Shipping_Client` 目录下。
+* 服务器代码放在你模组 `bin` 目录下的 `Win64_Shipping_Server` 目录下。
 
-After everything is set up, you can start programming your game mode.
-Please note that the game mode created in this document with its full source code and additional data files are provided to you in a ZIP file.
+一切准备完毕后，你可以开始对你的游戏模式进行编程。
+请注意，本文档中创建的游戏模式及其完整的源代码和额外的数据文件，都会以 ZIP 压缩包的形式提供给你。
 
-#### Module Definition File
-Before starting defining behaviors of your game mode, you first need to fill the `SubModule.xml` file so the mod is defined. This file is where you give your mod a name, an ID, version and define its dependencies and DLL files.
+#### 模组定义（Module Definition）文件
+再开始定义你的游戏模式行为（behaviors）前，你需要先填写模组定义的 `SubModule.xml` 文件。在该文件中，你要给你的模组一个名字、一个 ID、一个版本，并定义它的依赖和 DLL 文件。
 
 	<Module>
 		<Name value="MP Bounty"/>
@@ -37,22 +38,22 @@ Before starting defining behaviors of your game mode, you first need to fill the
 		</SubModules>
 	</Module>
 
-From this sample definition file, we can see the basic needs of a mod. For the `ModuleCategory` node, the value can be either `Multiplayer` or `Server` for MP mods. If the mod is a Multiplayer mod, it means that it is loaded for both client and server. Server mods are only loaded on the server side and can be used for management or analytics needs.
+从这个示例定义文件中，我们可以看到一个模组的基本需求。关于多人游戏模组的 `ModuleCategory` 节点，其值可以是 `Multiplayer` 或 `Server`。如果模组是一个 Multiplayer（多人游戏）模组， 这意味着它在客户端和服务端都会被加载。Server（服务器）模组就只在服务器端被加载，并且可以用于管理和分析需要。
 
-`SubModules` node defines DLL files that this mod creates and uses. Make sure the name of your DLL file and the name of your class that inherits `MBSubModuleBase` matches with the ones in this file.
+`SubModules` 节点定义了这个模组创建和使用的 DLL 文件。确保你的 DLL 文件的名称和继承 `MBSubModuleBase` 类的名称与该文件中的名称一致。
 
-#### SubModule Class
-To define your game mode in code, you need to create a class that inherits the `MBSubModuleBase` class. In this class, override `OnSubModuleLoad` method and add this line:
+#### SubModule 类
+要在代码中定义你的游戏模式，你需要创建一个类并继承自 `MBSubModuleBase` 类。在这个类中，重写 `OnSubModuleLoad` 方法并添加此行：
 
 	Module.CurrentModule.AddMultiplayerGameMode(new MissionMultiplayerBountyMPMode("BountyMP"))
 
-The string given to the constructor is the name of your game mode. For this sample, we’re creating a game mode named `BountyMP`. To load XML files with text information, override `InitializeGameStarter` method, call the base method and add this line:
+传递给构造函数的字符串是你游戏模式的名字。在该示例中，我们创建了一个名为 `BountyMP` 的游戏模式。要加载有文本信息的 XML 文件，重写 `InitializeGameStarter` 方法，调用其 base 方法然后添加此行：
 
 	game.GameTextManager.LoadGameTexts(ModuleHelper.GetModuleFullPath("BountyMP") + "ModuleData/multiplayer_strings.xml")
 
-Again, both the module name and XML file name depend on your mod’s file names.
+同样，模组名和 XML 文件名都取决于你模组中的文件的名字。
 
-In the XML file, you can define the following so your game mode’s name show up on the server list:
+在该 XML 文件中，你可以定义如下内容，这样你的游戏模式的名字就会显示在服务器列表中。
 
 	<?xml version="1.0" encoding="utf-8"?>
 	<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
@@ -62,10 +63,10 @@ In the XML file, you can define the following so your game mode’s name show up
 		</strings>
 	</base>
 
-Make sure IDs match up with the ones you defined in your code and module definition files.
+确保 ID 与你在代码和模组定义文件中所定义的 ID 一致。
 
-#### GameMode Class
-To make the server start the mission with your game mode, you need to create a new class that inherits `MissionBasedMultiplayerGameMode`. In this class, override `StartMultiplayerGame` method like this:
+#### GameMode 类
+要让服务器用你的游戏模式开始一场行动（mission），你需要新建一个类继承自 `MissionBasedMultiplayerGameMode`。在该类中，重写 `StartMultiplayerGame` 方法如下：
 
 	public override void StartMultiplayerGame(string scene) {
 		MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
@@ -119,29 +120,29 @@ To make the server start the mission with your game mode, you need to create a n
 		);
 	}
 
-From this code, you can see that `GameNetwork` has a variable that you can use in all of your code to check if the running game instance is a server or a client. In this method, you can see that it is used to separate client behaviors from server behaviors. This way we make sure that correct `MissionBehaviors` are loaded for the correct type of the game. In other methods, `GameNetwork.IsClient` and `GameNetwork.IsServer` can be used to act differently on different events.
+通过这段代码，你可以看见 `GameNetwork` 有一个变量，可以用在你的代码里，用于检查运行的游戏实例是服务端还是客户端。在该方法中，你可以看到它用来分隔客户端行为和服务器行为。这能确保正确的 `MissionBehaviors` 被加载到正确类型的游戏。其他方法中， `GameNetwork.IsClient` 和 `GameNetwork.IsServer` 可用于对不同事件采取不同处理。
 
-This method also shows how a mission runs at an overview. All mission behaviors are loaded one by one and they all handle different aspects of the game. Depending on your game mode, you might want all of these or only some of these at your mode. Also please note that there are dependencies between some of these behaviors, meaning that if one is not present, others might not work correctly.  In this example, there are two mission behaviors that you are not going to get if you have created a clean project with the steps mentioned in the first section. These two behaviors are the ones the modder creates to add their own game logic. These are `MissionMultiplayerBountyMP` and `MissionMultiplayerBountyMPClient`. The former manages the game mode from the server while the latter manages the game mode from the client side. Make sure that all shared and important data is on your server and synchronized properly.
+该方法也大概展示了一场行动是如何进行的。所有行动行为（mission behaviors）都是一个接一个加载的，它们分别处理游戏的不同方面。根据你的游戏模式，你可能希望在你的模式中使用全部这些行为，又或者是只使用一部分。另外请注意，其中一些行为之间存在依赖关系，这意味着如果一个行为不存在，其他行为可能无法正确工作。在本例中，如果你按照第一部分中提到的步骤创建了一个空项目，那么有两个任务行为是无法实现的。开发者创建这两个行为来添加自己的游戏逻辑，它们是 `MissionMultiplayerBountyMP` 和 `MissionMultiplayerBountyMPClient`。前者从服务端管理游戏模式，后者从客户端管理游戏模式，确保所有重要的共享数据都在你的服务器上并正确同步。
 
-#### Mission Behaviors
-For all native game modes, the server side game mode logic class, `MissionMultiplayerBountyMP` in this example, inherits `MissionMultiplayerGameModeBase`. This class defines basic spawning and synchronization systems. Also for all native game modes, the client side game mode message handling logic class, `MissionMultiplayerBountyMPClient` in this example, inherits `MissionMultiplayerGameModeBaseClient`. There are several overrides available for this class that makes sure the registering and deregistering from message handlers happen at the correct time.
+#### 行动行为（Mission Behaviors）
+对于所有原版游戏模式，服务端的游戏模式逻辑类，示例中的 `MissionMultiplayerBountyMP`，继承自 `MissionMultiplayerGameModeBase`。该类定义了基本的重生和同步系统。对于所有的原版游戏模式，客户端游戏模式消息处理逻辑类，示例中的 `MissionMultiplayerBountyMPClient`，继承自 `MissionMultiplayerGameModeBaseClient`。该类有几种可用的重写，可以确保消息处理程序（message handlers）的注册和注销在正确的时间发生。
 
-#### Mission Representatives
-In native game modes, Mission Representative classes are added to all clients to handle game mode specific data and logic. From this representative class, the client can query various things about the game mode depending on the situation. The server can also use a client’s mission representative to calculate various things, including gold gains, flag information and more. Contents of this class are dependent on the game mode itself, the base class of Mission Representative only has the gold and controlled agent of the client. In the example, it is `BountyMPMissionRepresentative`. Mission Representatives are added in the server game mode Mission Behavior class mentioned in the previous section.
+#### 行动典型（Mission Representatives）
+在原版游戏模式中，所有客户端添加了行动典型（Mission Representative）类来处理游戏模式特定的数据和逻辑。通过这一典型类，客户端可以根据条件查询多种关于游戏的事物。服务端也可以使用客户端的行动典型来计算多种事物，包括获得的金钱、旗帜信息等等。该类的内容依赖于游戏模式自身，行动典型的基类只有客户端的金钱和受控的 AI。在示例中，它是 `BountyMPMissionRepresentative`。行动典型被添加到了服务端游戏模式的先前一节提到的行动行为（Mission Behavior）类中。
 
-#### Hosting a Modded Custom Server
-To host a custom server with mods, you can use the launch command like the following:
+#### 搭建使用模组的自定义服务器
+要搭建一个使用模组的自定义服务器，你可以使用启动命令，如下：
 
 	DedicatedCustomServer.Starter.exe _MODULES_*Native*Multiplayer*YOUR_MODULE_NAME_1*YOUR_MODULE_NAME_2*_MODULES_
 
-In between asterisk characters, you can put the name of any mod you want.
+在星号之间，你可以放入任何你想要的模组的名称。
 
-The file you've provided to `/dedicatedcustomserverconfigfile` parameter can also have the name of your custom game mode in it.
+你提供给 `/dedicatedcustomserverconfigfile` 参数的文件也可以包含你的自定义游戏模式的名称。
 
-#### Sample Mod
-You can find a sample mod that adds a new MP Game Mode [here](https://download.taleworlds.com/BountyMP.zip). Please note that there might be small bugs in the sample mod, since it's not a complete and polished official game mode.
+#### 示例模组
+你可以[在这](https://download.taleworlds.com/BountyMP.zip)找到添加了一个新多人游戏模式的示例模组。请注意，示例模组中可能有一些小 bug，这不是一个完整的打磨过的官方游戏模式。
 
-To compile the client side of the sample, you need to have `Mount & Blade II: Bannerlord` installed.
+要编译示例的客户端，你需要安装 `Mount & Blade II: Bannerlord`。
 
-To compile the server side of the sample, you need to have `Mount & Blade II: Dedicated Server` installed.
+要编译示例的服务端，你需要安装 `Mount & Blade II: Dedicated Server`。
 
