@@ -1,6 +1,7 @@
 baseUrl = "http://localhost:4444/"
 languageCode = "en-us"
 DefaultContentLanguage = "en"
+hasCJKLanguage = true
 title = "Taleworlds Documentation"
 theme = "hugo-theme-docdock-master"
 pygmentsCodeFences = true
