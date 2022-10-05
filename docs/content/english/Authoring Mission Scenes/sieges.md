@@ -20,7 +20,8 @@ ___
 <img src="/img/siege_scenes/Show_middle_pos_and_wait_pos.png" width="1200px" />
 
 * For the broken wall, add three child entities. They should have the tags “wait_pos”, “middle_pos” and “attacker_wait_pos”. First two are the same as solid wall and attacker wait pos is where Attacker troops will wait (preferably behind covers) while other siege engines get into position.
-* **WallSegment script**
+* Add WallSegment scripts with the default values to the broken wall and the solid wall.
+* **WallSegment script** (parent entity)
     * Enter the side of the siegeable wall (it should be either left or right, middle is reserved for the gatehouse regardless of its position).
     * Enter the navigation mesh ids you will use for that siegeable wall.
     * Remake and id the navigation mesh accordingly.
