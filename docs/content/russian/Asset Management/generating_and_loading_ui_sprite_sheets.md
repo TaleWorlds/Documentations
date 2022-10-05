@@ -23,9 +23,9 @@ weight = 3
 * Создайте новую папку с именем ui_{YOUR_CATEGORY_NAME} в созданной папке SpriteParts. В этой документации он будет называться **ui_mycategory**.
 * Примечание. Контент внутри ui_{YOUR_CATEGORY_NAME} будет помещен в одну категорию под названием YOUR_CATEGORY_NAME. Все спрайты в категории загружаются и выгружаются вместе. Предлагается разделить ваши спрайты на категории (вместо того, чтобы иметь только одну категорию), чтобы избежать загрузки ненужных спрайтов. Например, вы можете создать новый экран в игре, который требует загрузки определенных спрайтов. Эти спрайты можно упаковать в категорию, и как только этот экран будет открыт, вы сможете загрузить только соответствующие спрайты, а затем, когда экран будет закрыт, вы сможете выгрузить их (см. Раздел «Загрузка и выгрузка категорий спрайтов»).
 * Поместите свои спрайты в папку ui_{YOUR_CATEGORY_NAME}. Например, этот спрайт добавлен и назван **mysprite.png**:
-* For launcher, new sprites should be added to a category under MODULE_NAME\LauncherGUI\SpriteParts.
+* Для лаунчера новые спрайты должны быть добавлены в категорию MODULE_NAME\LauncherGUI\SpriteParts.
 
-<img src="/img/sprite_sheets/1.png"/>
+![](/img/sprite_sheets/1.png)
 
 #### Генерация таблиц спрайтов
 Чтобы сгенерировать листы спрайтов, запустите TaleWorlds.TwoDimension.SpriteSheetGenerator.exe расположенный в  INSTALLATION_PATH\Mount & Blade II Bannerlord\bin\Win64_Shipping_wEditor. Если вы выполнили указанные выше действия, после запуска SpriteSheetGenerator.exe вы должны увидеть следующее окно:
@@ -34,10 +34,10 @@ weight = 3
 
 SpriteSheetGenerator.exe создаст две папки с именами Assets и AssetSources в Modules\YOUR_MODULE_NAME. Он также создаст файл SpriteData.xml (с префиксом имени вашего модуля) в разделе Modules\YOUR_MODULE_NAME\GUI.
 
-* If you are generating sprite sheets for the launcher, use **Update Launcher SpriteSheets.bat** script under LauncherGUI folder.
+* Если вы создаете листы спрайтов для лаунчера, используйте скрипт **Update Launcher SpriteSheets.bat** в папке LauncherGUI.
 
 #### Импорт созданной таблицы спрайтов
-Чтобы использовать спрайты в ваших таблицах спрайтов, вы также должны импортировать их из браузера ресурсов. Note that this step should be skipped if you are adding sprites just for the Launcher.
+Чтобы использовать спрайты в ваших таблицах спрайтов, вы также должны импортировать их из браузера ресурсов. Обратите внимание, что этот шаг следует пропустить, если вы добавляете спрайты только для лаунчера.
 
 Выполните следующие действия, чтобы импортировать лист спрайтов:
 

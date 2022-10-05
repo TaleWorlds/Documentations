@@ -1,118 +1,116 @@
 +++
-title = "Creating Custom Banner Icons & Colors"
+title = "Создание пользовательских значков и цветов для баннеров"
 weight = 3
 +++
 
 
-#### Introduction
+#### Введение
 
-This documentation will go through the following steps:
+* Настройка пользовательской текстуры, содержащей иконки баннеров.
+* Генерация материала для пользовательских иконок баннеров.
+* Добавление недавно созданных значков баннеров в пользовательский модуль.
+* Добавление пользовательских цветов значков в редактор баннеров.
 
-* Setting up a custom texture containing banner icons. 
-* Generating a material for the custom banner icons. 
-* Adding newly created banner icons to a custom module.
-* Adding custom icon colors to Banner Editor.
+#### Предпосылки
 
-#### Prerequisites
+* Mount & Blade II: Bannerlord - Modding Kit загружен в Steam.
 
-* Mount & Blade II: Bannerlord - Modding Kit downloaded from Steam.
+#### Создание текстуры иконки баннера
 
-#### Creating a Banner Icon Texture
+* Чтобы создать набор новых значков баннеров, сначала создайте PSD-файл с разрешением 2048x2048, разделенный на 16 равных частей.
+* Затем поместите этот файл в каталог **AssetSources\BannerIcons** вашего модуля.
+* На приведенном ниже образце холст разделен на сетку 4x4, а в первом (0-м) слоте находится значок образца баннера.
+* Слоты для иконок баннеров начинаются со слотов 0, 1, 2 и 3 в верхнем ряду и заканчиваются слотами 12, 13, 14, 15 в нижнем ряду.
+![](/img/creating_custom_banner_icons/banner_icon_guide.png)
 
-* To create a set of new banner icons, first create a PSD file with 2048x2048 resolution that is split into 16 equal grid parts.
-* Then put this file into your module's **AssetSources\BannerIcons** directory. 
-* In the sample image below, canvas is split into a 4x4 grid and there is a sample banner icon at the first(0th) slot.
-* Banner icon slots start with slots 0, 1, 2 and 3 at the top row and ends with slots 12, 13, 14, 15 at the bottom row.
-<img src="/img/creating_custom_banner_icons/banner_icon_guide.png" style="width:512px;"/>
+#### Импорт текстуры иконки баннера в игру и создание нового материала
 
-#### Importing Banner Icon Texture In Game and Creating a new Material
+* Теперь, когда текстура добавлена, запустите Mount & Blade II: Bannerlord - Modding Kit из Steam.
+* Убедитесь, что ваш модуль выбран в разделе «Mods» в программе запуска, затем нажмите “Play”.
+* В главном меню нажмите **Alt + `**, чтобы открыть консоль.
+* Введите **resource.show_resource_browser** и нажмите Enter.
+* В браузере ресурсов выберите папку с названием вашего модуля.
+* Находясь в этой папке, нажмите «Scan new asset files».
+![](/img/creating_custom_banner_icons/banner_icons_resource_browser_1.png)
 
-* Now that the texture is added, Launch Mount & Blade II: Bannerlord - Modding Kit from Steam.
-* Make sure your module is selected in the Mods section of the Launcher, then hit “Play”.
-* On the main menu, press **Alt + `** to open the console.
-* Type **resource.show_resource_browser** then hit enter.
-* From the resource browser, select the folder with your module's name.
-* While in this folder, click on "Scan new asset files".
-<img src="/img/creating_custom_banner_icons/banner_icons_resource_browser_1.png" style="height:500px;"/>
+* Если вы правильно выполнили предыдущие шаги, всплывающее окно должно отобразить обнаруженный новый файл. Нажмите "Import".
+![](/img/creating_custom_banner_icons/banner_icons_resource_browser_2.png)
 
-* If you've done the previous steps correctly, a popup should display a new file detected. Click import.
-<img src="/img/creating_custom_banner_icons/banner_icons_resource_browser_2.png" style="height:500px;"/>
+* Перейдите в подпапку **BannerIcons**, нажмите на созданную вами текстуру и установите "Import Settings", как показано ниже.
+![](/img/creating_custom_banner_icons/banner_icons_resource_browser_3.png)
 
-* Go into **BannerIcons** subfolder and click on the texture you've created and set the Import Settings as shown below.
-<img src="/img/creating_custom_banner_icons/banner_icons_resource_browser_3.png" style="height:500px;"/>
+* Находясь в той же папке, щелкните правой кнопкой мыши и выберите **Create**, а затем **Material**. Назовите этот материал тем же именем, что и ваша текстура.
+![](/img/creating_custom_banner_icons/banner_icons_material_1.png)
 
-* While in the same folder, right click and select **Create** and then **Material**. Name this material with the same name that your texture has.
-<img src="/img/creating_custom_banner_icons/banner_icons_material_1.png" style="height:500px;"/>
+* Новый материал должен появиться, как показано ниже.
+![](/img/creating_custom_banner_icons/banner_icons_material_2.png)
 
-* The new material should show up as shown below.
-<img src="/img/creating_custom_banner_icons/banner_icons_material_2.png" style="height:500px;"/>
+* Начальные настройки для нового материала:
+    * Удалите все предопределенные текстуры из списка текстур.
+    * Добавьте текстуру значков ваших баннеров в диффузный слот списка текстур.
+    * Установите шейдер с **pbr_metallic** на **gui_color_and_stroke**.
+![](/img/creating_custom_banner_icons/banner_icons_material_3.png)
 
-* Initial settings for the new material:
-	* Remove all predefined textures from the Textures List.
-	* Add your banner icons texture to the diffuse slot of the Textures List.
-	* Set the shader from **pbr_metallic** to **gui_color_and_stroke**.
-<img src="/img/creating_custom_banner_icons/banner_icons_material_3.png" style="height:500px;"/>
+* Дополнительные настройки на вкладках **Material Shader Flags**, **Transparency**, **Others** и **Vertex Layout**:
+![](/img/creating_custom_banner_icons/banner_icons_material_4.png)
 
-* Additional settings for **Material Shader Flags**, **Transparency**, **Others** and **Vertex Layout** tabs:
-<img src="/img/creating_custom_banner_icons/banner_icons_material_4.png" style="height:600px;"/>
+* Теперь, когда мы закончили работу с текстурой и материалом нашего пользовательского значка баннера, мы можем добавить его в наш модуль.
 
-* Now that we are done with the texture and the material of our custom banner icon, we can add it to our module.
+#### Создание определений пользовательских баннеров
 
-#### Creating Custom Banner Definitions
-
-* To use custom banner icons in game, an XML file containing banner definitions needs to be added to your module.
-* Path of this file is **{MODULE_NAME}\ModuleData\banner_icons.xml**.
-* This file is automatically loaded while your module is loading.
-* An example **banner_icons.xml** is shown below.
+* Чтобы использовать пользовательские значки баннеров в игре, необходимо добавить в модуль XML-файл, содержащий определения баннеров.
+* Путь к этому файлу: **{MODULE_NAME}\ModuleData\banner_icons.xml**.
+* Этот файл автоматически загружается во время загрузки вашего модуля.
+* Пример **banner_icons.xml** показан ниже.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
-  <BannerIconData>
-    <BannerIconGroup id="16" name="{=!}My Custom Banner Icon Group" is_pattern="false">
-      <Icon id="16001" material_name="module_custom_banner_icons_01" texture_index="0" />
-    </BannerIconGroup>
-  </BannerIconData>
+    <BannerIconData>
+        <BannerIconGroup id="16" name="{=!}My Custom Banner Icon Group" is_pattern="false">
+            <Icon id="16001" material_name="module_custom_banner_icons_01" texture_index="0" />
+        </BannerIconGroup>
+    </BannerIconData>
 </base>
 ```
 
-* After the baseline XML definition, a root element named **BannerIconData** is added. All of the custom icons are added under this element.
-* For each icon group, a **BannerIconGroup** element needs to be added. The ID of this group needs to be unique. Check Native Module's banner icon group IDs before adding a custom group.
-* The name parameter is decided by you, the modder, and can be anything. The naming scheme is the same with any other localized text.
-* Children elements of **BannerIconGroup** are **Icon** elements. All icon elements also have to have a unique ID. The same ID rules as Banner Icon Groups apply for Icons as well.
-* Material name of the icon needs to be the material we've created in the previous step.
-* Texture Index is a number from 0 to 15 and it is described in the first step of this guide.
-* If you've added the **banner_icons.xml** file shown above to your module and relaunch the game, you should be able to use the icon you've created.
-* The icon with the empty thumbnail is the icon we've created. Click on that button to select the newly created banner icon.
-<img src="/img/creating_custom_banner_icons/banner_icons_ingame_1.png" style="height:500px;"/>
+* После базового XML-определения добавляется корневой элемент с именем **BannerIconData**. Все пользовательские значки добавляются в этот элемент.
+* Для каждой группы значков необходимо добавить элемент **BannerIconGroup**. Идентификатор этой группы должен быть уникальным. Перед добавлением пользовательской группы проверьте идентификаторы групп значков баннеров в Native Module.
+* Параметр имени определяется вами и может быть любым. Схема именования такая же, как и для любого другого локализованного текста.
+* Дочерними элементами **BannerIconGroup** являются элементы **Icon**. Все элементы значка также должны иметь уникальный идентификатор. Те же правила ID, что и для групп значков баннеров, применяются и к значкам.
+* Имя материала значка должно быть материалом, который мы создали на предыдущем шаге.
+* Индекс текстуры — это число от 0 до 15, и он описан в первом шаге этого руководства.
+* Если вы добавили показанный выше файл **banner_icons.xml** в свой модуль и перезапустили игру, вы сможете использовать созданный значок.
+* Значок с пустым эскизом — это значок, который мы создали. Нажмите на эту кнопку, чтобы выбрать только что созданный значок баннера.
+  ![](/img/creating_custom_banner_icons/banner_icons_ingame_1.png)
+* Обратите внимание, что миниатюра отсутствует. Чтобы добавить миниатюру, следуйте руководству [Создание и загрузка UI таблиц спрайтов](http://docs.modding.bannerlord.com/ru/asset-management/generating_and_loading_ui_sprite_sheets/). Обратите внимание, что имя вашего спрайта и идентификатор значка должны совпадать. Для нашего примера спрайт-миниатюра имеет имя **16001.png**.
+* После создания эскиза список значков баннера должен выглядеть следующим образом.
+![](/img/creating_custom_banner_icons/banner_icons_ingame_2.png)
 
-* Notice that the thumbnail is missing. To add the thumbnail, follow the [Generating and Loading UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}) guide. Note that the name of your sprite and the ID of the icon needs to be same. So for our example, thumbnail sprite's name is **16001.png**
-* After generating the thumbnail, the banner icons list should look as follows.
-<img src="/img/creating_custom_banner_icons/banner_icons_ingame_2.png" style="height:500px;"/>
+#### Добавление пользовательских цветовых параметров
 
-#### Adding Custom Color Options
+* Чтобы добавить набор цветов, создайте элемент **BannerColors** в файле модулей **banner_icons.xml**.
+* Дочерними элементами **BannerColors** являются элементы **Color**. Все цветовые элементы должны иметь уникальный идентификатор. Здесь также применяются те же правила ID, что и для элементов **Icon**.
+* Есть два необязательных параметра для цветов.
+    * **player_can_choose_for_background**: Делает цвет доступным в разделе «Цвет фона» на экране редактора баннеров.
+    * **player_can_choose_for_sigil**: Делает цвет доступным в разделе «Цвет символа» на экране редактора баннеров.
+* Если ни один из этих параметров не указан как **true**, цвет по-прежнему добавляется для использования в знаменах, но может использоваться только кланами и фракциями NPC.
 
-* To add a set of colors, create a **BannerColors** element in your modules **banner_icons.xml** file. 
-* Children elements of **BannerColors** are **Color** elements. All color elements have to have a unique ID. Same ID rules as **Icon** elements apply here as well.
-* There are two optional parameters for colors.
-	* **player_can_choose_for_background**: Makes color available at the Background Color section of the Banner Editor Screen.  
-	* **player_can_choose_for_sigil**: Makes color available at the Sigil Color section of the Banner Editor Screen.
-* If none of these parameters are given as **true**, the color is still added to use in banners but can be only used by NPC clans and factions.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
-  <BannerIconData>
-    <BannerIconGroup id="16" name="{=!}My Custom Banner Icon Group" is_pattern="false">
-      <Icon id="16001" material_name="module_custom_banner_icons_01" texture_index="0" />
-    </BannerIconGroup>
-	<BannerColors> <!-- New colors element-->
-      <Color id="2000" hex="0xFFDBCFB0" player_can_choose_for_sigil="true" />
-      <Color id="2001" hex="0xFF545775" player_can_choose_for_background="true" />
-    </BannerColors>
-  </BannerIconData>
+    <BannerIconData>
+        <BannerIconGroup id="16" name="{=!}My Custom Banner Icon Group" is_pattern="false">
+            <Icon id="16001" material_name="module_custom_banner_icons_01" texture_index="0" />
+        </BannerIconGroup>
+        <BannerColors> <!-- Новые цветовые элементы-->
+            <Color id="2000" hex="0xFFDBCFB0" player_can_choose_for_sigil="true" />
+            <Color id="2001" hex="0xFF545775" player_can_choose_for_background="true" />
+        </BannerColors>
+    </BannerIconData>
 </base>
 ```
 
-* If you added the colors like shown above, you will get the following colors in Banner Editor Screen.
-<img src="/img/creating_custom_banner_icons/banner_colors_ingame_1.png" style="height:500px;"/>
+* Если вы добавили цвета, как показано выше, вы получите следующие цвета на экране редактора баннеров.
+![](/img/creating_custom_banner_icons/banner_colors_ingame_1.png)
