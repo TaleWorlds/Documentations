@@ -18,7 +18,7 @@ weight = 3
 
 * 字体的 TrueTypeFont 文件。（例如 OpenSans-Regular.ttf）
 * 从 Steam 下载的 Mount &amp; Blade II: Bannerlord - Modding Kit
-* 生成用户界面精灵表（UI Spritesheets）的相关知识（参阅：[生成和加载 UI Spritesheets](http://docs.modding.bannerlord.com/zh_cn/asset-management/generating_and_loading_ui_sprite_sheets/)）
+* 生成用户界面精灵表（UI Spritesheets）的相关知识（参阅：[生成和加载 UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}})）
 
 #### 设置文件和路径
 
@@ -110,11 +110,11 @@ _如果生成的 .png 文件无法包含你字体中的所有字符，请考虑�
 #### 生成精灵表
 
 * 现在需要使用在上一步过程中创建的 **.png** 文件来生成字体的精灵表（spritesheets）。
-* 我们将简要介绍如何将新字体添加到精灵表（spritesheets）中，详情请参阅：[生成和加载 UI Spritesheets](http://docs.modding.bannerlord.com/zh_cn/asset-management/generating_and_loading_ui_sprite_sheets/)。
+* 我们将简要介绍如何将新字体添加到精灵表（spritesheets）中，详情请参阅：[Generating and Loading UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}).
 	* 通过直接启动 **Mount &amp; Blade II Bannerlord\bin\Win64\_Shipping\_wEditor\TaleWorlds.TwoDimension.SpriteSheetGenerator.exe** 来运行精灵表生成器。
 	* 如果设置都正确，精灵表生成器的输出将会是以下效果：
 <img src="/img/how_to_add_custom_fonts/spritesheet_generator.png"/>
-	* 你应该通过游戏内的资源浏览器（resource browser）导入字体，说明请查看上述[文档](http://docs.modding.bannerlord.com/zh_cn/asset-management/generating_and_loading_ui_sprite_sheets/)。
+	* 你应该通过游戏内的资源浏览器（resource browser）导入字体，说明请查看上述[文档]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}})。
 
 #### 使用新添加的字体
 
@@ -133,7 +133,7 @@ _如果生成的 .png 文件无法包含你字体中的所有字符，请考虑�
 
 * 对于一些语言，你可能需要你自己的自定义字体。如果这符合你的情况，你可以为你的语言设置一个默认字体。
 * 创建一个文件命名为 **{YOURMODULE}Languages.xml** 然后放入 **{YOURMODULE}\GUI\Fonts** 目录。
-* 请注意你要给 **\*Languages.xml** 一个单独的名字，并且始终以 &quot; **Languages**&quot; 结尾。（例如 _ **MyModuleLanguages.xml** _）更多信息请参阅：[添加和覆盖资产](http://docs.modding.bannerlord.com/zh_cn/asset-management/asset-types/overriding_assets/)
+* 请注意你要给 **\*Languages.xml** 一个单独的名字，并且始终以 &quot; **Languages**&quot; 结尾。（例如 _ **MyModuleLanguages.xml** _）更多信息请参阅：[添加和覆盖资产]({{< ref "overriding_assets.md" >}})
 * 在此新语言文件中，你可以定义一个新的 Language 节点，覆盖掉已存在的节点，并且修改游戏的默认语言。
 * Language 节点用于将内置字体映射到自定义字体。  
 * 例如，如果你想为 **土耳其语** 设置默认字体，你的节点应该如下：

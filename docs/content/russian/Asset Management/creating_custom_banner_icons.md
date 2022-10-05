@@ -96,6 +96,7 @@ weight = 3
     * **player_can_choose_for_sigil**: Делает цвет доступным в разделе «Цвет символа» на экране редактора баннеров.
 * Если ни один из этих параметров не указан как **true**, цвет по-прежнему добавляется для использования в знаменах, но может использоваться только кланами и фракциями NPC.
 
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">

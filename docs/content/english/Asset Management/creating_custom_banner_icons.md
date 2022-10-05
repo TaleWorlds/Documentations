@@ -19,8 +19,9 @@ This documentation will go through the following steps:
 
 #### Creating a Banner Icon Texture
 
-* To create a set of new banner icons, first create a PSD file with 2048x2048 resolution that is split into 16 equal grid parts.
-* Then put this file into your module's **AssetSources\BannerIcons** directory. 
+* To create a set of new banner icons, first create a PSD file with 2048x2048 resolution that is split into 16 equal grid parts. The file can be bigger than this but it's not reccomended to make it smaller.
+* Then put this file into your module's **AssetSources\BannerIcons** directory. Please not that the file can be either PSD or DDS
+* Also you need to create an empty  folder in **Assets\BannerIcons**.
 * In the sample image below, canvas is split into a 4x4 grid and there is a sample banner icon at the first(0th) slot.
 * Banner icon slots start with slots 0, 1, 2 and 3 at the top row and ends with slots 12, 13, 14, 15 at the bottom row.
 <img src="/img/creating_custom_banner_icons/banner_icon_guide.png" style="width:512px;"/>
@@ -38,7 +39,7 @@ This documentation will go through the following steps:
 * If you've done the previous steps correctly, a popup should display a new file detected. Click import.
 <img src="/img/creating_custom_banner_icons/banner_icons_resource_browser_2.png" style="height:500px;"/>
 
-* Go into **BannerIcons** subfolder and click on the texture you've created and set the Import Settings as shown below.
+* Go into **BannerIcons** subfolder and click on the texture you've created and set the Import Settings as shown below. It can also be recommended to tick the "**Do not Compress**" option if your banner has a high amount of detail.
 <img src="/img/creating_custom_banner_icons/banner_icons_resource_browser_3.png" style="height:500px;"/>
 
 * While in the same folder, right click and select **Create** and then **Material**. Name this material with the same name that your texture has.
@@ -86,7 +87,7 @@ This documentation will go through the following steps:
 * The icon with the empty thumbnail is the icon we've created. Click on that button to select the newly created banner icon.
 <img src="/img/creating_custom_banner_icons/banner_icons_ingame_1.png" style="height:500px;"/>
 
-* Notice that the thumbnail is missing. To add the thumbnail, follow the [Generating and Loading UI Sprite Sheets](http://docs.modding.bannerlord.com/asset-management/generating_and_loading_ui_sprite_sheets/) guide. Note that the name of your sprite and the ID of the icon needs to be same. So for our example, thumbnail sprite's name is **16001.png**
+* Notice that the thumbnail is missing. To add the thumbnail, follow the [Generating and Loading UI Sprite Sheets]({{< ref "generating_and_loading_ui_sprite_sheets.md" >}}) guide. Note that the name of your sprite and the ID of the icon needs to be same. So for our example, thumbnail sprite's name is **16001.png**
 * After generating the thumbnail, the banner icons list should look as follows.
 <img src="/img/creating_custom_banner_icons/banner_icons_ingame_2.png" style="height:500px;"/>
 
@@ -98,6 +99,7 @@ This documentation will go through the following steps:
 	* **player_can_choose_for_background**: Makes color available at the Background Color section of the Banner Editor Screen.  
 	* **player_can_choose_for_sigil**: Makes color available at the Sigil Color section of the Banner Editor Screen.
 * If none of these parameters are given as **true**, the color is still added to use in banners but can be only used by NPC clans and factions.
+* If adding lots of new colors it may be necessary to include and update the prefab called **BannerEditor.xml** found in **Native\GUI\Prefabs\BannerEditor**.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>

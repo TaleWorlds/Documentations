@@ -20,7 +20,8 @@ ___
 <img src="/img/siege_scenes/Show_middle_pos_and_wait_pos.png" width="1200px" />
 
 * For the broken wall, add three child entities. They should have the tags “wait_pos”, “middle_pos” and “attacker_wait_pos”. First two are the same as solid wall and attacker wait pos is where Attacker troops will wait (preferably behind covers) while other siege engines get into position.
-* **WallSegment script**
+* Add WallSegment scripts with the default values to the broken wall and the solid wall.
+* **WallSegment script** (parent entity)
     * Enter the side of the siegeable wall (it should be either left or right, middle is reserved for the gatehouse regardless of its position).
     * Enter the navigation mesh ids you will use for that siegeable wall.
     * Remake and id the navigation mesh accordingly.
@@ -116,7 +117,7 @@ ___
 * Place the suitable siege tower to the scene.
 * Adjust the angle of the deployable exit ramp of the either by selecting the ramp and rotating it or using the “RampRotationDegree” parameter within the “SiegeTowerSpawner” script 
 * If your exit ramp has a large slope angle either upwards or downwards, make sure that the navigation mesh prefab fits the ramp, otherwise make one.
-* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path for the siege tower</a>, using the path tool.
+* [Build the path for the siege tower]({{< ref "path_editing.md" >}}), using the path tool.
 * **SiegeTowerSpawner script**
     * Enter the path name.
     * Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The siege tower will search for that tag and then search for its child entities to direct AI troops accordingly.
@@ -136,7 +137,7 @@ ___
 
 *Battering ram is the prefab that supports the situation when siegers build a battering ram in the campaign. The battering ram will be connected to the side tag and will damage the outer gate once it reaches the gates and troops swing the ram.*
 
-* <a href="http://docs.modding.bannerlord.com/editor/scene-editor/path_editing/">Build the path using the path tool</a>. The crash indicator on the ghost entity of the battering ram prefab should make contact with the gate to match animations and visuals.
+* [Build the path using the path tool]({{< ref "path_editing.md" >}}). The crash indicator on the ghost entity of the battering ram prefab should make contact with the gate to match animations and visuals.
 
 <img src="/img/siege_scenes/crashindicator.png" width="1200px" />
 
@@ -155,7 +156,7 @@ ___
 
 *If the scene has ditches and a moat around the castle, we have a ditch filler system which allows the siege towers and battering rams to work properly. Ditch fillers will spawn if the player deploys the connected siege engines. We will have to arrange and ID various navigation mesh faces for AI to use pathfinding properly around the ditch filler.*
 
-* After placing the proper entity to fill the moat, <a href="http://docs.modding.bannerlord.com/editor/scene-editor/creating_entity/#entity-hierarchies">collect all of them under a single parent entity</a>.
+* After placing the proper entity to fill the moat, [collect all of them under a single parent entity]({{< ref "creating_entity.md#entity-hierarchies" >}}).
 * Add the tag “ditch_filler” and the appropriate side tag (left, right, or middle) to the connected siege engine.
 * Once a siege tower or a battering ram is deployed, the ditch filler will be deployed with it too.
 * We manipulate the navigation mesh in a similar manner to the wall breaches.
