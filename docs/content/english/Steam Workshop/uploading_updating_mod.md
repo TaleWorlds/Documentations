@@ -51,6 +51,10 @@ Download [this file](https://download.taleworlds.com/WorkshopCreate.xml) and pla
 * Save the changes made to `WorkshopCreate.xml`
 
 {{% notice warning %}}
+Steam Cloud must be enabled for the game in order to successfully upload your mod. You can verify that by right-clicking on Mount &amp; Blade II: Bannerlord within your Steam Library, going to Properties and then General. Or by enabling Steam Cloud for all games via the Steam client Settings window, via the Cloud tab.
+{{% /notice %}}
+
+{{% notice warning %}}
 You may run into an error during the publishing process. An endless print of the following line: Status: k_EItemUpdateStatusInvalid 0/0 - If that occurs your upload may have completed successfully and you’re free to close the console. If the upload failed, try again.
 {{% /notice %}}
 
