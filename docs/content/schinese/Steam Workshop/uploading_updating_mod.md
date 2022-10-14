@@ -1,28 +1,29 @@
 +++
-title = "Uploading/Updating a Mod"
-description = ""
+title = "上传/更新一个模组"
+description = "在该教程中，你将了解到如何新建或是上传更新一个模组到 Steam 创意工坊，向其他玩家分享你的创意。"
 weight = 5
+
 +++
 
-## Creating a new Steam Workshop Item
+## 新建一个 Steam 创意工坊项目
 
-### Preparing the WorkshopCreate.xml
+### 准备 WorkshopCreate.xml
 
-Download [this file](https://download.taleworlds.com/WorkshopCreate.xml) and place it anywhere you want. You can also create one with the following code:
+下载[该文件](https://download.taleworlds.com/WorkshopCreate.xml)然后把它放到任何你想放的地方。或者你也可以用以下代码创建一个：
 
 	<Tasks>
 		<CreateItem/>
 		<UpdateItem>
 			<ModuleFolder Value="C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\YourModuleName"/>
-			<!-- A direct path of your module -->
+			<!-- 你模组的绝对路径 -->
 			<ItemDescription Value="A Bannerlord Mod"/>
-			<!-- A description that will be displayed on Steam Workshop, can be edited via the Steam UI -->
+			<!-- 将会显示在 Steam 创意工坊的说明，可以通过 Steam UI 来编辑 -->
 			<Tags> 
-				<!-- You can use the following tags: -->
-				<!-- Type: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
-				<!-- Setting: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
-				<!-- Game Mode: Singleplayer, Multiplayer -->
-				<!-- Compatible Version: e1.9.0, v1.0.0,... The currently available versions can be found at the Steam Workshop "Browse by Tag" section -->
+				<!-- 你可以使用如下标签： -->
+				<!-- 类型：Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
+				<!-- 设定：Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
+				<!-- 游戏模式：Singleplayer, Multiplayer -->
+				<!-- 兼容版本：e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
 				<Tag Value="Partial Conversion" />
 				<Tag Value="Dark Ages" />
 				<Tag Value="Singleplayer" />
@@ -30,66 +31,66 @@ Download [this file](https://download.taleworlds.com/WorkshopCreate.xml) and pla
 				<Tag Value="e1.9.0" />
 			</Tags>
 			<Image Value="C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\YourModuleName\Image.png"/>
-			<!-- Determines the featured image displayed on Steam Workshop, a direct path to it must be inserted here (the image should be smaller than 1 MB) -->
+			<!-- 决定显示在 Steam 创意工坊的展示图片，这里插入的必须是一个绝对路径（图片文件大小应小于 1 MB） -->
 			<Visibility Value="Public"/>
-			<!-- Determines visibility on Steam Workshop. Can be: Public, FriendsOnly, Private -->
+			<!-- 决定是否在 Steam 创意工坊上可见，可以是：Public, FriendsOnly, Private -->
 		</UpdateItem>
 	</Tasks>
 
-* Open the file using Notepad, Notepad++ or other tools
-* Edit the `Items` to match your module
-	* `ModuleFolder`: A direct path of your module
-	* `ItemDescription`: A description that will be displayed on Steam Workshop, can be edited via the Steam UI
-	* `Tags`: Allows your mod to be found by filtering categories. Here are the tags you can assign to your item:
-		* `Type`: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour
-		* `Setting`: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other
-		* `Game Mode`: Singleplayer, Multiplayer
-		* `Compatible Version`: e1.9.0, v1.0.0,... (the currently available versions can be found at the Steam Workshop "Browse by Tag" section)
-		* You’re encouraged to only use the above tags as they’re what players will be able to filter mods by. Any other tags won’t show up on the Filter list but will show up on your mod Steam Workshop page
-	* `Image`: Determines the featured image displayed on Steam Workshop, a direct path to it must be inserted here (the image should be smaller than 1 MB)
-	* `Visibility`: Determines visibility on Steam Workshop. Can be: Public, FriendsOnly, Private
-* Save the changes made to `WorkshopCreate.xml`
+* 使用 Notepad, Notepad++ 或是其他工具打开该文件
+* 编辑匹配你模组的 `Items` 
+	* `ModuleFolder`：你模组的绝对路径
+	* `ItemDescription`：将会显示在 Steam 创意工坊的说明，可以通过 Steam UI 来编辑
+	* `Tags`：允许通过特定类别过滤来找到你的模组。以下是你可以为你的项目添加的标签：
+		* `Type`：Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons 和 Armour
+		* `Setting`：Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other
+		* `Game Mode`：Singleplayer, Multiplayer
+		* `Compatible Version`：e1.9.0, v1.0.0,...（当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到）
+		* 我们鼓励你只使用上述标签，因为玩家可以通过这些标签来过滤模组。其他任何标签都不会显示在过滤器列表中，但会显示在你的模组 Steam 创意工坊页面上。
+	* `Image`：决定显示在 Steam 创意工坊的展示图片，这里插入的必须是一个绝对路径（图片文件大小应小于 1 MB）
+	* `Visibility`：决定在 Steam 创意工坊上的可见性。可以是：Public, FriendsOnly, Private
+* 将更改保存到 `WorkshopCreate.xml`
 
 {{% notice warning %}}
-Steam Cloud must be enabled for the game in order to successfully upload your mod. You can verify that by right-clicking on Mount &amp; Blade II: Bannerlord within your Steam Library, going to Properties and then General. Or by enabling Steam Cloud for all games via the Steam client Settings window, via the Cloud tab.
+必须为游戏启用 Steam Cloud 才能成功上传你的模组。你可以右击你 Steam 库里的 Mount &amp; Blade II: Bannerlord，然后点属性再点通用。或者通过 Steam 客户端的设置窗口的云服务标签页为所有游戏启用 Steam Cloud。
 {{% /notice %}}
 
 {{% notice warning %}}
-You may run into an error during the publishing process. An endless print of the following line: Status: k_EItemUpdateStatusInvalid 0/0 - If that occurs your upload may have completed successfully and you’re free to close the console. If the upload failed, try again.
+在发布过程中，你可能会遇到一个错误。不停地打印这一行：Status: k_EItemUpdateStatusInvalid 0/0 - 如果出现这种情况，你的上传可能已经完成，你可以随意关闭控制台。如果上传失败，请重试一次。
 {{% /notice %}}
 
 {{% notice tip %}}
-The size of your uploaded module displayed on the Steam Workshop may differ from the actual size of the module. This is normal.
+显示在 Steam 创意工坊页面的你上传的模组的大小可能会与实际的模组大小有些差别。这是正常的。
 {{% /notice %}}
 
-### Publishing the module
-* Find the following folder `\Steam\steamapps\common\Mount & Blade II Bannerlord\bin\Win64_Shipping_Client` and confirm that the `TaleWorlds.MountAndBlade.SteamWorkshop.exe` is located inside of it
-* Type `cmd` into the bar where the folder location is displayed and press `Enter`
-* Type `TaleWorlds.MountAndBlade.SteamWorkshop.exe c:\path\WorkshopCreate.xml` into the console, with the path directing to your `WorkshopCreate.xml` file and press `Enter`
-* If no errors appear, your mod has been successfully uploaded to Steam Workshop
+### 发布模组
+* 找到如下目录 `\Steam\steamapps\common\Mount & Blade II Bannerlord\bin\Win64_Shipping_Client` 并确认 `TaleWorlds.MountAndBlade.SteamWorkshop.exe` 在里面
+* 在目录地址栏中输入 `cmd` 并按下 `Enter`
+* 输入 `TaleWorlds.MountAndBlade.SteamWorkshop.exe c:\path\WorkshopCreate.xml` 到控制台中，带上你的 `WorkshopCreate.xml` 文件绝对路径并按下 `Enter`
+* 如果没有错误出现，你的模组已经被成功上传到 Steam 创意工坊
 
-## Updating a Steam Workshop Item
+## 更新一个 Steam 创意工坊项目
 
-### Preparing the WorkshopUpdate.xml
+### 准备 WorkshopUpdate.xml
 
-Download [this file](https://download.taleworlds.com/WorkshopUpdate.xml) and place it anywhere you want. You can also create one with the following code:
+下载[该文件](https://download.taleworlds.com/WorkshopUpdate.xml)然后把它放到任何你想放的地方。或者你也可以用以下代码创建一个：
 
 	<Tasks>
 		<GetItem>
 			<ItemId Value="YourWorkshopItemIdHere"/>
-			<!-- Can be found in the URL of your workshop item -->
+			<!-- 可以是你的创意工坊项目的 URL -->
 		</GetItem>
 		<UpdateItem>
 			<ModuleFolder Value="C:\Mount &amp; Blade II Bannerlord\Modules\MyMod"/>
-			<!-- A direct path of your module -->	
+			<!-- 你模组的绝对路径 -->	
 			<ChangeNotes Value="New cool features" />
-			<!-- Insert patch notes -->
+			<!-- 插入更新日志 -->
 			<Tags> 
-				<!-- You can use the following tags: -->
+				<!-- 你可以使用如下标签： -->
 				<!-- Type: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
 				<!-- Setting: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
 				<!-- Game Mode: Singleplayer, Multiplayer -->
-				<!-- Compatible Version: e1.9.0, v1.0.0,... The currently available versions can be found at the Steam Workshop "Browse by Tag" section -->
+				<!-- Compatible Version: e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
 				<Tag Value="Partial Conversion" />
 				<Tag Value="Dark Ages" />
 				<Tag Value="Singleplayer" />
@@ -99,16 +100,16 @@ Download [this file](https://download.taleworlds.com/WorkshopUpdate.xml) and pla
 		</UpdateItem>
 	</Tasks>
 
-* Open the file using Notepad, Notepad++ or other tools
-* Edit the `Items` to match your module
-	* `ItemId`: Insert the ID of your workshop module. You can find it by going to your workshop module page, right-clicking on a blank slot and selecting `Copy Page URL`. If you then paste the URL somewhere, you’ll see the ID.
-	* `ModuleFolder`: A direct path of your module
-	* `ChangeNotes`: Think of this as patch notes, they will be displayed on the “Change Notes” section of your Workshop module
-	* `Tags`: Allows your mod to be found by filtering categories. Updating tags can be done through the `WorkshopUpdate.xml` file
-* Save the changes made to `WorkshopUpdate.xml`
+* 使用 Notepad, Notepad++ 或其他工具打开该文件
+* 编辑匹配你模组的 `Items` 
+	* `ItemId`：插入你创意工坊模组的 ID。你可以去创意工坊模组页面找到它，在空白处右键并选择 `复制网页URL`。如果你把 URL 粘贴到其它地方，你就会看到 ID。
+	* `ModuleFolder`：你模组的绝对路径
+	* `ChangeNotes`：把它当作更新日志，它们会显示在你的创意工坊模组的“改动说明”部分
+	* `Tags`：允许通过特定类别过滤来找到你的模组，更新标签也可以通过 `WorkshopUpdate.xml` 文件实现
+* 保存更改到 `WorkshopUpdate.xml`
 
-### Publishing the update
-* Find the following folder `\Steam\steamapps\common\Mount & Blade II Bannerlord\bin\Win64_Shipping_Client` and confirm that the `TaleWorlds.MountAndBlade.SteamWorkshop.exe` is located inside of it
-* Type `cmd` into the bar where the folder location is displayed and press `Enter`
-* Type `TaleWorlds.MountAndBlade.SteamWorkshop.exe c:\path\WorkshopUpdate.xml` into the console, with the path directing to your `WorkshopUpdate.xml` file and press `Enter`
-* If no errors appear, your mod has been successfully updated
+### 发布更新
+* 找到如下目录 `\Steam\steamapps\common\Mount & Blade II Bannerlord\bin\Win64_Shipping_Client` 并确认 `TaleWorlds.MountAndBlade.SteamWorkshop.exe` 在里面
+* 在目录地址栏中输入 `cmd` 并按下 `Enter`
+* 输入 `TaleWorlds.MountAndBlade.SteamWorkshop.exe c:\path\WorkshopUpdate.xml` 到控制台中，带上你的 `WorkshopUpdate.xml` 文件绝对路径并按下 `Enter`
+* 如果没有错误出现，你的模组已经被成功上传到 Steam 创意工坊
