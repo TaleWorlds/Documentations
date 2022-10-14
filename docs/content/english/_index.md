@@ -19,3 +19,4 @@ For further information:
 - <strong>[[Editor]]({{< ref "Editor" >}})</strong> Information about how to use the scene and content editors with maximum efficency.
 - <strong>[[Playing Sounds]]({{< ref "Playing Sounds" >}})</strong> Adding sounds to your module using intended XMLs and code.
 - <strong>[[Multiplayer]]({{< ref "Multiplayer" >}})</strong> All about hosting a server, creating a custom game mode and making multiplayer scenes.
+- <strong>[[Steam Workshop]]({{< ref "Steam Workshop" >}})</strong> Details on how to upload your mod to the Steam Workshop.

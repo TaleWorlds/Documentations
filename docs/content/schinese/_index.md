@@ -20,4 +20,5 @@ weight = 1
 - <strong>[[编辑器]]({{< ref "Editor" >}})</strong> 关于编辑器的信息，引导玩家如何能最有效地使用编辑器编辑场景和内容。
 - <strong>[[Playing Sounds]]({{< ref "Playing Sounds" >}})</strong> Adding sounds to your module using intended XMLs and code.
 - <strong>[[多人游戏]]({{< ref "Multiplayer" >}})</strong> 所有关于搭建服务器、创建自定义游戏模式和制作多人游戏场景的内容都在这里。
+- <strong>[[Steam Workshop]]({{< ref "Steam Workshop" >}})</strong> Details on how to upload your mod to the Steam Workshop.
 
