@@ -20,3 +20,4 @@ To access the API documentation: <a href="https://apidoc.bannerlord.com/">https:
 - <strong>[[Редактор]]({{< ref "Editor" >}})</strong> Информация о том, как максимально эффективно использовать редакторы сцен и контента.
 - <strong>[[Playing Sounds]]({{< ref "Playing Sounds" >}})</strong> Adding sounds to your module using intended XMLs and code.
 - <strong>[[Multiplayer]]({{< ref "Multiplayer" >}})</strong> All about hosting a server, creating a custom game mode and making multiplayer scenes.
+- <strong>[[Steam Workshop]]({{< ref "Steam Workshop" >}})</strong> Details on how to upload your mod to the Steam Workshop.
