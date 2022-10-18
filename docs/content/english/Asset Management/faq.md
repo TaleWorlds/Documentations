@@ -1,6 +1,6 @@
 +++
 title = "Frequently Asked Questions"
-weight = 1
+weight = 10
 +++
 
 ##### How to install the tools?

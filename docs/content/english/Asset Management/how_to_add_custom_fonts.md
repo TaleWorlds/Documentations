@@ -1,6 +1,6 @@
 +++
 title = "How to Add Custom Fonts"
-weight = 3
+weight = 15
 +++
 
 

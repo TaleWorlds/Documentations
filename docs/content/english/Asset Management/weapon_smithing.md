@@ -1,6 +1,6 @@
 +++
 title = "Weapon Smithing & Crafting Pieces"
-weight = 5
+weight = 15
 +++
 
 #### Introduction
