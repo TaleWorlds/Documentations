@@ -4,6 +4,40 @@ description = ""
 weight = 5
 +++
 
+## Preparing Your Module For Publishing
+
+You need to Publish your module via the modding toolkit in order to allow/enable other players to use your module. You can deploy it for the end user, dedicated servers or other modders, all of which is explained below.
+
+### Exporting the Module via the Modding Tools
+
+* Open the Modding Kit via the Launcher after checking your mod in the Launcher’s module list
+* Open the Editor from the Main Menu UI
+* From the File menu on the top, select Publish Module
+
+<img src="/img/uploading_updating_mod/1.png"/>
+
+In the Publishing pop-up window, the following options are available:
+
+|  |  |
+| ------ | ----------- |
+| <img src="/img/uploading_updating_mod/2.png"/> | <img src="/img/uploading_updating_mod/3.png"/> |
+
+* `Client`: Your module will be packed for client use. Which means that players will need to have these packages in order to play the game. This is the least you need to do if you want your module to be played via Steam Workshop.
+* `Dedicated Server`: Your module can be run on a server too. If you’d like your mod to be available on multiplayer too, you need to check it.
+* `Editor`: Other players can open your module via the Editor and modify it. If you don’t pack for the editor, players will not be able to open your module via the Editor.
+
+{{% notice warning %}}
+Do not forget to select your module in the “Module” dropdown list. Otherwise, you will most likely publish the Native module by accident which will take a significant amount of time.
+{{% /notice %}}
+
+* After selecting these options and your module from the Modules dropdown list, proceed with the Publish button.
+* After clicking the Publish button, a pop-up window for selecting a destination directory will appear. Select the destination directory, which is a writable location on your computer, and the module will be copied there as a ready-to-upload version.
+* Then just upload the mod folder in the destination directory to the Steam Workshop, following the instructions mentioned in “**Creating a new Steam Workshop Item**” and “**Updating a Steam Workshop Item**” sections.
+
+{{% notice warning %}}
+If you, as a modder, are going to test your module after uploading to the Steam Workshop, please temporarily move your Module folder under “Steam\steamapps\common\Mount & Blade II Bannerlord\Modules” to somewhere else. If you don’t move it temporarily, then the game will try to fetch the module from Bannerlord/Modules instead of workshop/content/261550.
+{{% /notice %}}
+
 ## Creating a new Steam Workshop Item
 
 ### Preparing the WorkshopCreate.xml
