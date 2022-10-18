@@ -1,6 +1,6 @@
 +++
 title = "如何添加自定义字体"
-weight = 3
+weight = 15
 +++
 
 

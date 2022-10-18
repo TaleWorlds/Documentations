@@ -1,6 +1,6 @@
 +++
 title = "Generating and Loading UI Sprite Sheets"
-weight = 2
+weight = 15
 +++
 
 #### Introduction

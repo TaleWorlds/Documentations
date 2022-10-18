@@ -1,6 +1,6 @@
 +++
 title = "Creating Custom Banner Icons & Colors"
-weight = 3
+weight = 15
 +++
 
 
