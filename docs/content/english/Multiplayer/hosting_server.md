@@ -79,6 +79,8 @@ Disables the Crash Uploader popup and automatic error reporting.
 `/LogOutputPath [output_path]`
 Sets the log output directory of the server. Path should be in double quotes.
 
+`/port [number]` Optionally specify a port number to run the server from, useful for using ports other than the default.
+
 ##### Log Files
 By default, log files for the custom server can be found in your ProgramData directory on Windows (`%programdata%\Mount and Blade II Bannerlord\logs`).
 
