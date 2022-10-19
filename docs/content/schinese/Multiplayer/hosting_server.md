@@ -76,6 +76,8 @@ weight = 5
 
 `/LogOutputPath [输出目录] ` - 设置服务器日志文件的输出目录，路径应该用双引号括起来。
 
+`/port [number]` Optionally specify a port number to run the server from, useful for using ports other than the default.
+
 ##### 日志文件
 默认情况下，Windows 的自定义服务器的日志文件可以在你的 ProgramData 目录（`%programdata%\Mount and Blade II Bannerlord\logs`）下找到。
 
