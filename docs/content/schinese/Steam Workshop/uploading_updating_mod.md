@@ -5,38 +5,38 @@ weight = 5
 
 +++
 
-## Preparing Your Module For Publishing
+## 准备发布你的模组
 
-You need to Publish your module via the modding toolkit in order to allow/enable other players to use your module. You can deploy it for the end user, dedicated servers or other modders, all of which is explained below.
+你需要通过模组开发工具（Modding Kits）来发布（Publish）你的模组，这能让其他玩家使用你的模组。你可以为终端用户、独立服务器或其他开发者部署它，所有细节都会在接下来解释。
 
-### Exporting the Module via the Modding Tools
+### 通过模组开发工具导出模组
 
-* Open the Modding Kit via the Launcher after checking your mod in the Launcher’s module list
-* Open the Editor from the Main Menu UI
-* From the File menu on the top, select Publish Module
+* 在启动器的模组列表里选定你的模组后通过启动器打开模组开发工具（Modding Kit）
+* 通过主菜单（Main Menu）界面打开编辑器（Editor）
+* 通过顶部的文件（File）菜单，选择发布模组（Publish Module）
 
 <img src="/img/uploading_updating_mod/1.png"/>
 
-In the Publishing pop-up window, the following options are available:
+在弹出的发布模组（Publishing Modules）窗口中，有这样一些选项：
 
-|  |  |
+| 模组下拉列表 | 打包类型 |
 | ------ | ----------- |
 | <img src="/img/uploading_updating_mod/2.png"/> | <img src="/img/uploading_updating_mod/3.png"/> |
 
-* `Client`: Your module will be packed for client use. Which means that players will need to have these packages in order to play the game. This is the least you need to do if you want your module to be played via Steam Workshop.
-* `Dedicated Server`: Your module can be run on a server too. If you’d like your mod to be available on multiplayer too, you need to check it.
-* `Editor`: Other players can open your module via the Editor and modify it. If you don’t pack for the editor, players will not be able to open your module via the Editor.
+* `Client`: 你的模组将被打包为供客户端使用。这意味着玩家必须要有这些包才能够进行游玩。如果你希望你的模组能通过 Steam 创意工坊分发供玩家游玩，这是你必须要勾选的。
+* `Dedicated Server`: 你的模组能否运行在服务器上。如果你希望你的模组能够在多人游戏中使用，你需要勾选它。
+* `Editor`: 其他玩家能否通过编辑器（Editor）来编辑你的模组。如果你没有用编辑器打包，玩家将不能够通过编辑器打开你的模组。
 
 {{% notice warning %}}
-Do not forget to select your module in the “Module” dropdown list. Otherwise, you will most likely publish the Native module by accident which will take a significant amount of time.
+不要忘记在“模组（Module）”下拉列表中选择你的模组。否则，你很可能会意外地发布 Native 模组，这将浪费大量的时间。
 {{% /notice %}}
 
-* After selecting these options and your module from the Modules dropdown list, proceed with the Publish button.
-* After clicking the Publish button, a pop-up window for selecting a destination directory will appear. Select the destination directory, which is a writable location on your computer, and the module will be copied there as a ready-to-upload version.
-* Then just upload the mod folder in the destination directory to the Steam Workshop, following the instructions mentioned in “**Creating a new Steam Workshop Item**” and “**Updating a Steam Workshop Item**” sections.
+* 在下拉列表选取你的模组和勾选必要的选项后，点击发布（Publish）按钮继续。
+* 在点击发布按钮后，将会出现一个弹出窗口，然后选择一个目标文件夹（Destination Directory）。选择目标文件夹，这是一个在你的计算机上可写入文件的位置，将复制一份模组到那里作为准备上传的版本。
+* 然后按照“**新建一个 Steam 创意工坊项目**”和“**更新一个 Steam 创意工坊项目**”部分中的指示，将目标文件夹中中的模组目录上传到 Steam 创意工坊。
 
 {{% notice warning %}}
-If you, as a modder, are going to test your module after uploading to the Steam Workshop, please temporarily move your Module folder under “Steam\steamapps\common\Mount & Blade II Bannerlord\Modules” to somewhere else. If you don’t move it temporarily, then the game will try to fetch the module from Bannerlord/Modules instead of workshop/content/261550.
+如果你作为开发者想要测试上传到 Steam 创意工坊的模组，请将你“Steam\steamapps\common\Mount & Blade II Bannerlord\Modules”目录下的你的模组临时转移到其他地方。如果你不临时转移它，游戏将会从《霸主》安装目录下的 Modules 文件夹中获取你的模组，而不是通过创意工坊的“Steam\steamapps\workshop\content\261550”目录获取你的模组。
 {{% /notice %}}
 
 ## 新建一个 Steam 创意工坊项目
@@ -45,31 +45,33 @@ If you, as a modder, are going to test your module after uploading to the Steam 
 
 下载[该文件](https://download.taleworlds.com/WorkshopCreate.xml)然后把它放到任何你想放的地方。或者你也可以用以下代码创建一个：
 
-	<Tasks>
-		<CreateItem/>
-		<UpdateItem>
-			<ModuleFolder Value="C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\YourModuleName"/>
-			<!-- 你模组的绝对路径 -->
-			<ItemDescription Value="A Bannerlord Mod"/>
-			<!-- 将会显示在 Steam 创意工坊的说明，可以通过 Steam UI 来编辑 -->
-			<Tags> 
-				<!-- 你可以使用如下标签： -->
-				<!-- 类型：Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
-				<!-- 设定：Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
-				<!-- 游戏模式：Singleplayer, Multiplayer -->
-				<!-- 兼容版本：e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
-				<Tag Value="Partial Conversion" />
-				<Tag Value="Dark Ages" />
-				<Tag Value="Singleplayer" />
-				<Tag Value="Multiplayer" />
-				<Tag Value="e1.9.0" />
-			</Tags>
-			<Image Value="C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\YourModuleName\Image.png"/>
-			<!-- 决定显示在 Steam 创意工坊的展示图片，这里插入的必须是一个绝对路径（图片文件大小应小于 1 MB） -->
-			<Visibility Value="Public"/>
-			<!-- 决定是否在 Steam 创意工坊上可见，可以是：Public, FriendsOnly, Private -->
-		</UpdateItem>
-	</Tasks>
+```xml
+<Tasks>
+	<CreateItem/>
+	<UpdateItem>
+		<ModuleFolder Value="C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\YourModuleName"/>
+		<!-- 你模组的绝对路径 -->
+		<ItemDescription Value="A Bannerlord Mod"/>
+		<!-- 将会显示在 Steam 创意工坊的说明，可以通过 Steam UI 来编辑 -->
+		<Tags> 
+			<!-- 你可以使用如下标签： -->
+			<!-- 类型：Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
+			<!-- 设定：Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
+			<!-- 游戏模式：Singleplayer, Multiplayer -->
+			<!-- 兼容版本：e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
+			<Tag Value="Partial Conversion" />
+			<Tag Value="Dark Ages" />
+			<Tag Value="Singleplayer" />
+			<Tag Value="Multiplayer" />
+			<Tag Value="e1.9.0" />
+		</Tags>
+		<Image Value="C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\YourModuleName\Image.png"/>
+		<!-- 决定显示在 Steam 创意工坊的展示图片，这里插入的必须是一个绝对路径（图片文件大小应小于 1 MB） -->
+		<Visibility Value="Public"/>
+		<!-- 决定是否在 Steam 创意工坊上可见，可以是：Public, FriendsOnly, Private -->
+	</UpdateItem>
+</Tasks>
+```
 
 * 使用 Notepad, Notepad++ 或是其他工具打开该文件
 * 编辑匹配你模组的 `Items` 
@@ -109,30 +111,32 @@ If you, as a modder, are going to test your module after uploading to the Steam 
 
 下载[该文件](https://download.taleworlds.com/WorkshopUpdate.xml)然后把它放到任何你想放的地方。或者你也可以用以下代码创建一个：
 
-	<Tasks>
-		<GetItem>
-			<ItemId Value="YourWorkshopItemIdHere"/>
-			<!-- 可以是你的创意工坊项目的 URL -->
-		</GetItem>
-		<UpdateItem>
-			<ModuleFolder Value="C:\Mount &amp; Blade II Bannerlord\Modules\MyMod"/>
-			<!-- 你模组的绝对路径 -->	
-			<ChangeNotes Value="New cool features" />
-			<!-- 插入更新日志 -->
-			<Tags> 
-				<!-- 你可以使用如下标签： -->
-				<!-- Type: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
-				<!-- Setting: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
-				<!-- Game Mode: Singleplayer, Multiplayer -->
-				<!-- Compatible Version: e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
-				<Tag Value="Partial Conversion" />
-				<Tag Value="Dark Ages" />
-				<Tag Value="Singleplayer" />
-				<Tag Value="Multiplayer" />
-				<Tag Value="e1.9.0" />
-			</Tags>
-		</UpdateItem>
-	</Tasks>
+```xml
+<Tasks>
+	<GetItem>
+		<ItemId Value="YourWorkshopItemIdHere"/>
+		<!-- 可以是你的创意工坊项目的 URL -->
+	</GetItem>
+	<UpdateItem>
+		<ModuleFolder Value="C:\Mount &amp; Blade II Bannerlord\Modules\MyMod"/>
+		<!-- 你模组的绝对路径 -->	
+		<ChangeNotes Value="New cool features" />
+		<!-- 插入更新日志 -->
+		<Tags> 
+			<!-- 你可以使用如下标签： -->
+			<!-- Type: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
+			<!-- Setting: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
+			<!-- Game Mode: Singleplayer, Multiplayer -->
+			<!-- Compatible Version: e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
+			<Tag Value="Partial Conversion" />
+			<Tag Value="Dark Ages" />
+			<Tag Value="Singleplayer" />
+			<Tag Value="Multiplayer" />
+			<Tag Value="e1.9.0" />
+		</Tags>
+	</UpdateItem>
+</Tasks>
+```
 
 * 使用 Notepad, Notepad++ 或其他工具打开该文件
 * 编辑匹配你模组的 `Items` 
