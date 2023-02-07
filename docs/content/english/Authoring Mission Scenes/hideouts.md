@@ -1,7 +1,7 @@
 +++
 title = "What Makes a Hideout Scene"
 description = ""
-weight = 1
+weight = 5
 +++
 
 #### Introduction
