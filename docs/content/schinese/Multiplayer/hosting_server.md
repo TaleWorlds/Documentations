@@ -9,6 +9,8 @@ weight = 5
 在你的 Steam 库中选到“工具”，你会在列表里看到 `Mount & Blade II: Dedicated Server`。下载并安装它。
 
 ## 搭建
+By default, dedicated servers use UDP port 7210. You must have a visible (public) IP address on the internet as well as the aforementioned port being accessible.
+
 服务器不支持匿名搭建，你需要先进入游戏生成一个令牌（Token）。
 
 ### 生成一个令牌（Token）
@@ -105,14 +107,18 @@ weight = 5
 ##### 游戏内地图下载
 我们还提供了一种允许玩家通过游戏内面板下载服务器的地图文件的方式。作为服务器主机，你必须要满足一些条件才能让这个功能发挥作用：
 
-* 地图文件必须置于 `DedicatedCustomServerHelper` 模组的 `SceneObj` 目录下，就像一个典型的包含场景的模组一样。如果没有该目录，你可以手动新建一个。
+* 地图文件必须置于 **ONLY** `DedicatedCustomServerHelper` 模组的 `SceneObj` 目录下，就像一个典型的包含场景的模组一样。如果没有该目录，你可以手动新建一个。
 * 要把这个地图提供给玩家，必须通过 `Map` 选项或  `add_map_to_automated_battle_pool` 命令“注册”到服务器。
+
+Note that having the scene loaded in multiple modules will cause issues such as the scene not being shown on the download panel.
 
 为了让玩家能够打开下载面板，他们需要在加载了 `DedicatedCustomServerHelper` 模组后启动游戏。现在，他们可以鼠标右击自定义服务器列表项，然后会打开一个上下文菜单，其中会有打开该服务器下载面板的选项。地图下载成功后，无需重新启动游戏，他们应该就能直接加入你的服务器。
 
 <img src="/img/hosting_server/hosting_server_7.png" width="600px" />
 
 请注意，这个功能是用于支持这一简单的使用场景。这不是一个模组管理器功能，也无法支持获取给定的模组分布在其他资产（如 ModuleData、Prefabs 等）中的地图。只有 `SceneObj` 目录下的内容会在服务端和客户端之间传输。
+
+If the lack of prefab support is a concern, you may be able to make the scene usable through the helper module by breaking the prefabs. Open the scene in the editor, select all entity objects, right click and select *Break Prefab*.
 
 ## 常见问题
 ##### 在服务器搭建时需要 Steam 保持运行吗？
@@ -132,9 +138,6 @@ weight = 5
 
 ##### 我可以搭建多少服务器？
 你可以同时运行的服务器数量是有限的。目前，你最多可以同时运行 5 个服务器。
-
-##### 我的服务器在列表里显示了，但玩家无法加入。什么问题？
-默认情况下，独立服务器使用 UDP 端口 7210。你必须在互联网上有一个大家可以访问的（公共）IP 地址，以及上述端口也必须可以访问到。
 
 ##### 硬件要求是什么？
 这需要看是何种游戏模式以及玩家数量。这是我们搭建游戏服务器时，默认的配置：
