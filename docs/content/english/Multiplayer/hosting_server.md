@@ -8,6 +8,8 @@ weight = 5
 Enable Tools within your Steam Library. `Mount & Blade II: Dedicated Server` should appear on your list. Download and install it.
 
 ## Hosting
+By default, dedicated servers use UDP port 7210. You must have a visible (public) IP address on the internet as well as the aforementioned port being accessible.
+
 Anonymous hosting is not supported. You will have to create a server token by going in-game first.
 
 ### Generating a Token
@@ -108,14 +110,18 @@ If you do not want the web panel to be accessible from outside the local network
 ##### In-Game Map Downloads
 We also present a way to allow players to download your server’s map files through an in-game panel. As the server host, there are some conditions you must ensure to get this functioning:
 
-* The maps to be served must be located within the `DedicatedCustomServerHelper` module’s `SceneObj` directory, in the same way a typical module contains scenes. You can create the directory by hand if it is missing.
-* The maps to be served must be “registered” through either the *Map configuration* option or the `add_map_to_automated_battle_pool` command. In other words, only maps playable on the server are served.
+* The maps to be served must be located within **ONLY** the `DedicatedCustomServerHelper` module’s `SceneObj` directory, in the same way a typical module contains scenes. You can create the directory by hand if it is missing.
+* The maps to be served must be “registered” through either the `Map` configuration option or the `add_map_to_automated_battle_pool` command. In other words, only maps playable on the server are served.
+
+Note that having the scene loaded in multiple modules will cause issues such as the scene not being shown on the download panel.
 
 For the players to be able to open the download panel, they will need to launch the game with the `DedicatedCustomServerHelper` module loaded. Now, they can right click on a custom server list entry, which will open a context menu with the option to open the download panel for the server. Once a map is successfully downloaded, there is no need to restart the game, they should be able to join your server as is.
 
 <img src="/img/hosting_server/hosting_server_7.png" width="600px" />
 
 Note that this feature is intended to support simple use cases. This is not a module manager feature, and will not be able to support maps that require other assets (ModuleData, Prefabs, etc.) spread throughout a given module. Only the `SceneObj` directory contents are transferred between the server and the client.
+
+If the lack of prefab support is a concern, you may be able to make the scene usable through the helper module by breaking the prefabs. Open the scene in the editor, select all entity objects, right click and select *Break Prefab*.
 
 ## FAQ
 ##### Does Steam need to stay open for hosting?
@@ -135,9 +141,6 @@ Yes, your server will be accessible by everyone unless you make it password prot
 
 ##### How many servers can I host?
 There is a limit to the number of servers you can host simultaneously. Currently, you can host up to 5 servers.
-
-##### My server is available on the list but players can’t join it. What is wrong?
-By default, dedicated servers are using UDP port 7210. You must have a visible (public) IP address on the Internet as well as the aforementioned port being accessible.
 
 ##### What are the hardware requirements?
 It depends on the game mode and the player count. With the default configurations, we are hosting our games:
