@@ -78,7 +78,7 @@ By default, dedicated servers use UDP port 7210. You must have a visible (public
 
 `/LogOutputPath [输出目录] ` - 设置服务器日志文件的输出目录，路径应该用双引号括起来。
 
-`/port [number]` Optionally specify a port number to run the server from, useful for using ports other than the default.
+`/port [端口号]` - 可指定服务器运行的端口，对于使用默认以外的端口很有用。
 
 ##### 日志文件
 默认情况下，Windows 的自定义服务器的日志文件可以在你的 ProgramData 目录（`%programdata%\Mount and Blade II Bannerlord\logs`）下找到。

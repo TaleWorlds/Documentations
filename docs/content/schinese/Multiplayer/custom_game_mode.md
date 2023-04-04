@@ -21,22 +21,24 @@ weight = 10
 #### 模组定义（Module Definition）文件
 再开始定义你的游戏模式行为（behaviors）前，你需要先填写模组定义的 `SubModule.xml` 文件。在该文件中，你要给你的模组一个名字、一个 ID、一个版本，并定义它的依赖和 DLL 文件。
 
-	<Module>
-		<Name value="MP Bounty"/>
-		<Id value="BountyMP"/>
-		<Version value="v1.8.0"/>
-		<ModuleCategory value="Multiplayer"/>
-		<DependedModules>
-			<DependedModule Id="Native" DependentVersion="e1.8.0" Optional="false"/>
-		</DependedModules>
-		<SubModules>
-			<SubModule>
-				<Name value="BountyMP"/>
-				<DLLName value="BountyMP.dll"/>
-				<SubModuleClassType value="BountyMP.BountyMPSubModule"/>
-			</SubModule>
-		</SubModules>
-	</Module>
+```xml
+<Module>
+	<Name value="MP Bounty"/>
+	<Id value="BountyMP"/>
+	<Version value="v1.8.0"/>
+	<ModuleCategory value="Multiplayer"/>
+	<DependedModules>
+		<DependedModule Id="Native" DependentVersion="e1.8.0" Optional="false"/>
+	</DependedModules>
+	<SubModules>
+		<SubModule>
+			<Name value="BountyMP"/>
+			<DLLName value="BountyMP.dll"/>
+			<SubModuleClassType value="BountyMP.BountyMPSubModule"/>
+		</SubModule>
+	</SubModules>
+</Module>
+```
 
 从这个示例定义文件中，我们可以看到一个模组的基本需求。关于多人游戏模组的 `ModuleCategory` 节点，其值可以是 `Multiplayer` 或 `Server`。如果模组是一个 Multiplayer（多人游戏）模组， 这意味着它在客户端和服务端都会被加载。Server（服务器）模组就只在服务器端被加载，并且可以用于管理和分析需要。
 
@@ -45,80 +47,88 @@ weight = 10
 #### SubModule 类
 要在代码中定义你的游戏模式，你需要创建一个类并继承自 `MBSubModuleBase` 类。在这个类中，重写 `OnSubModuleLoad` 方法并添加此行：
 
-	Module.CurrentModule.AddMultiplayerGameMode(new MissionMultiplayerBountyMPMode("BountyMP"))
+```c#
+Module.CurrentModule.AddMultiplayerGameMode(new MissionMultiplayerBountyMPMode("BountyMP"))
+```
 
 传递给构造函数的字符串是你游戏模式的名字。在该示例中，我们创建了一个名为 `BountyMP` 的游戏模式。要加载有文本信息的 XML 文件，重写 `InitializeGameStarter` 方法，调用其 base 方法然后添加此行：
 
-	game.GameTextManager.LoadGameTexts(ModuleHelper.GetModuleFullPath("BountyMP") + "ModuleData/multiplayer_strings.xml")
+```c#
+game.GameTextManager.LoadGameTexts(ModuleHelper.GetModuleFullPath("BountyMP") + "ModuleData/multiplayer_strings.xml")
+```
 
 同样，模组名和 XML 文件名都取决于你模组中的文件的名字。
 
 在该 XML 文件中，你可以定义如下内容，这样你的游戏模式的名字就会显示在服务器列表中。
 
-	<?xml version="1.0" encoding="utf-8"?>
-	<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
-		<strings>
-			<string id="str_multiplayer_official_game_type_name.BountyMP" text="{=*}Bounty" />
-			<string id="str_multiplayer_game_type.BountyMP" text="{=*}Bounty" />
-		</strings>
-	</base>
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+	<strings>
+		<string id="str_multiplayer_official_game_type_name.BountyMP" text="{=*}Bounty" />
+		<string id="str_multiplayer_game_type.BountyMP" text="{=*}Bounty" />
+	</strings>
+</base>
+```
 
 确保 ID 与你在代码和模组定义文件中所定义的 ID 一致。
 
 #### GameMode 类
 要让服务器用你的游戏模式开始一场行动（mission），你需要新建一个类继承自 `MissionBasedMultiplayerGameMode`。在该类中，重写 `StartMultiplayerGame` 方法如下：
 
-	public override void StartMultiplayerGame(string scene) {
-		MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
-			missionController => {
-				if (GameNetwork.IsServer) {
-					return new MissionBehavior[] {
-						MissionLobbyComponent.CreateBehavior(),
-						new MissionMultiplayerBountyMP(),
-						new MissionMultiplayerBountyMPClient(),
-						new MultiplayerTimerComponent(),
-						new MultiplayerMissionAgentVisualSpawnComponent(),
-						new SpawnComponent(new BountyMPSpawnFrameBehavior(), new BountyMPSpawningBehavior()),
-						new MissionLobbyEquipmentNetworkComponent(),
-						new MultiplayerTeamSelectComponent(),
-						new MissionHardBorderPlacer(),
-						new MissionBoundaryPlacer(),
-						new MissionBoundaryCrossingHandler(),
-						new MultiplayerPollComponent(),
-						new MultiplayerAdminComponent(),
-						new MultiplayerGameNotificationsComponent(),
-						new MissionOptionsComponent(),
-						new MissionScoreboardComponent(new BountyMPScoreboardData()),
-						new MissionAgentPanicHandler(),
-						new AgentHumanAILogic(),
-						new EquipmentControllerLeaveLogic(),
-						new MultiplayerPreloadHelper(),
-					};
-				} else {
-					return new MissionBehavior[] {
-						MissionLobbyComponent.CreateBehavior(),
-						new MissionMultiplayerBountyMPClient(),
-						new MultiplayerAchievementComponent(),
-						new MultiplayerTimerComponent(),
-						new MultiplayerMissionAgentVisualSpawnComponent(),
-						new MissionLobbyEquipmentNetworkComponent(),
-						new MultiplayerTeamSelectComponent(),
-						new MissionHardBorderPlacer(),
-						new MissionBoundaryPlacer(),
-						new MissionBoundaryCrossingHandler(),
-						new MultiplayerPollComponent(),
-						new MultiplayerGameNotificationsComponent(),
-						new MissionOptionsComponent(),
-						new MissionScoreboardComponent(new BountyMPScoreboardData()),
-						new MissionMatchHistoryComponent(),
-						new EquipmentControllerLeaveLogic(),
-						new MissionRecentPlayersComponent(),
-						new MultiplayerPreloadHelper(),
-					};
-				}
+```c#
+public override void StartMultiplayerGame(string scene) {
+	MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
+		missionController => {
+			if (GameNetwork.IsServer) {
+				return new MissionBehavior[] {
+					MissionLobbyComponent.CreateBehavior(),
+					new MissionMultiplayerBountyMP(),
+					new MissionMultiplayerBountyMPClient(),
+					new MultiplayerTimerComponent(),
+					new MultiplayerMissionAgentVisualSpawnComponent(),
+					new SpawnComponent(new BountyMPSpawnFrameBehavior(), new BountyMPSpawningBehavior()),
+					new MissionLobbyEquipmentNetworkComponent(),
+					new MultiplayerTeamSelectComponent(),
+					new MissionHardBorderPlacer(),
+					new MissionBoundaryPlacer(),
+					new MissionBoundaryCrossingHandler(),
+					new MultiplayerPollComponent(),
+					new MultiplayerAdminComponent(),
+					new MultiplayerGameNotificationsComponent(),
+					new MissionOptionsComponent(),
+					new MissionScoreboardComponent(new BountyMPScoreboardData()),
+					new MissionAgentPanicHandler(),
+					new AgentHumanAILogic(),
+					new EquipmentControllerLeaveLogic(),
+					new MultiplayerPreloadHelper(),
+				};
+			} else {
+				return new MissionBehavior[] {
+					MissionLobbyComponent.CreateBehavior(),
+					new MissionMultiplayerBountyMPClient(),
+					new MultiplayerAchievementComponent(),
+					new MultiplayerTimerComponent(),
+					new MultiplayerMissionAgentVisualSpawnComponent(),
+					new MissionLobbyEquipmentNetworkComponent(),
+					new MultiplayerTeamSelectComponent(),
+					new MissionHardBorderPlacer(),
+					new MissionBoundaryPlacer(),
+					new MissionBoundaryCrossingHandler(),
+					new MultiplayerPollComponent(),
+					new MultiplayerGameNotificationsComponent(),
+					new MissionOptionsComponent(),
+					new MissionScoreboardComponent(new BountyMPScoreboardData()),
+					new MissionMatchHistoryComponent(),
+					new EquipmentControllerLeaveLogic(),
+					new MissionRecentPlayersComponent(),
+					new MultiplayerPreloadHelper(),
+				};
 			}
-		);
-	}
+		}
+	);
+}
+```
 
 通过这段代码，你可以看见 `GameNetwork` 有一个变量，可以用在你的代码里，用于检查运行的游戏实例是服务端还是客户端。在该方法中，你可以看到它用来分隔客户端行为和服务器行为。这能确保正确的 `MissionBehaviors` 被加载到正确类型的游戏。其他方法中， `GameNetwork.IsClient` 和 `GameNetwork.IsServer` 可用于对不同事件采取不同处理。
 
@@ -133,7 +143,9 @@ weight = 10
 #### 搭建使用模组的自定义服务器
 要搭建一个使用模组的自定义服务器，你可以使用启动命令，如下：
 
-	DedicatedCustomServer.Starter.exe _MODULES_*Native*Multiplayer*YOUR_MODULE_NAME_1*YOUR_MODULE_NAME_2*_MODULES_
+```powershell
+DedicatedCustomServer.Starter.exe _MODULES_*Native*Multiplayer*YOUR_MODULE_NAME_1*YOUR_MODULE_NAME_2*_MODULES_
+```
 
 在星号之间，你可以放入任何你想要的模组的名称。
 
