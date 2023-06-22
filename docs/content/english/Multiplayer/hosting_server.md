@@ -134,7 +134,7 @@ Yes. In fact, we are using Linux servers on our backend, but the system requires
 Yes, your server will be accessible by everyone unless you make it password protected.
 
 ##### How many servers can I host?
-There is a limit to the number of servers you can host simultaneously. Currently, you can host up to 5 servers.
+There is a limit to the number of servers you can host simultaneously. Currently, you can host up to 50 servers.
 
 ##### My server is available on the list but players can’t join it. What is wrong?
 By default, dedicated servers are using UDP port 7210. You must have a visible (public) IP address on the Internet as well as the aforementioned port being accessible.
