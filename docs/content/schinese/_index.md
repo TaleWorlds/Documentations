@@ -18,7 +18,7 @@ weight = 1
 - <strong>[[霸主任务系统]]({{< ref "Authoring Mission Scenes" >}})</strong> 详细介绍游戏脚本组件的工作原理，何时能触发回调，以及骑砍2：霸主中用来建立游戏流程（体验）的特定脚本模板。
 - <strong>[[最佳实践]]({{< ref "BestPractices" >}})</strong> 各种热门话题及其最佳实践的相关信息。
 - <strong>[[编辑器]]({{< ref "Editor" >}})</strong> 关于编辑器的信息，引导玩家如何能最有效地使用编辑器编辑场景和内容。
-- <strong>[[Playing Sounds]]({{< ref "Playing Sounds" >}})</strong> Adding sounds to your module using intended XMLs and code.
+- <strong>[[游戏音乐]]({{< ref "Playing Sounds" >}})</strong> 用XMLs和代码来给你的Mod添加音乐。
 - <strong>[[多人游戏]]({{< ref "Multiplayer" >}})</strong> 所有关于搭建服务器、创建自定义游戏模式和制作多人游戏场景的内容都在这里。
 - <strong>[[Steam 创意工坊]]({{< ref "Steam Workshop" >}})</strong> 关于如何将你的模组上传到 Steam 创意工坊的详细信息。
 
