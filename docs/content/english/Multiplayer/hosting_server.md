@@ -40,7 +40,7 @@ You can administrate your server by typing commands in your server’s console (
 
 By typing `list` and pressing `enter`, you will get all the available commands in the dedicated server:
 
-<img src="/img/hosting_server/hosting_server_5.png" width="800px" />
+<img src="/img/hosting_server/consolecommands.png" width="600px" />
 
 For example, to get a simple server running, you can type the following commands into your console:
 
@@ -91,37 +91,100 @@ By using the command `set_automated_battle_count` before `enable_automated_battl
 
 For example, `set_automated_battle_count 10` will have the server play 10 missions and shut down. If you would like to have an unlimited number of missions, set it to `-1`.
 
-#### Helper Modules
-We supply the optional `DedicatedCustomServerHelper` module to help server hosts. There are several submodules within for distinct purposes. For the server side modules to be usable from the outside, you will need to make TCP port 7210 accessible as well.
+#### Additional Features
+With patch v1.2.x the below striken through text is no longer relevant. The `DedicatedCustomServerHelper` module and its functionality has been merged into the base game.
 
-Note that although the module is optional for server hosts, if you as the host do load the module, the players will also need to have it loaded. Otherwise, a mismatch in modules will prevent players from joining.
+~~We supply the optional `DedicatedCustomServerHelper` module to help server hosts. There are several submodules within for distinct purposes.~~ For the server side modules to be usable from the outside, you will need to make TCP port 7210 accessible as well.
+
+~~Note that although the module is optional for server hosts, if you as the host do load the module, the players will also need to have it loaded. Otherwise, a mismatch in modules will prevent players from joining.~~
 
 ##### Administration Web Panel
 This module launches a web panel to interact with your custom server, through a general management page and a terminal page:
 
 <img src="/img/hosting_server/hosting_server_6.png" width="900px" />
 
-You can find the URL for the web panel in your server console once it has been initialized.
+You can access the web panel with your server's IP address and port once it has been initialized.
 
 The web panel is password protected by the server’s configured `AdminPassword` option. **By default, this option is left blank, so be sure to change it to a secure password**.
 
 If you do not want the web panel to be accessible from outside the local network or machine, and also do not need the map download feature below, you are free to block TCP port 7210 from external access.
 
-##### In-Game Map Downloads
-We also present a way to allow players to download your server’s map files through an in-game panel. As the server host, there are some conditions you must ensure to get this functioning:
+##### In-Game Map Downloads [Map Downloader]
+We also present a way to allow players to download your server's map files through an in-game panel. As the server host, there are some conditions you must ensure to get this functioning:
 
-* The maps to be served must be located within **ONLY** the `DedicatedCustomServerHelper` module’s `SceneObj` directory, in the same way a typical module contains scenes. You can create the directory by hand if it is missing.
-* The maps to be served must be “registered” through either the `Map` configuration option or the `add_map_to_automated_battle_pool` command. In other words, only maps playable on the server are served.
+* The maps to be served must be located within ONLY the Multiplayer module's `SceneObj` directory, in the same way a typical module contains scenes. You can create the directory by hand if it is missing.
+* The maps to be served must be "registered" through either the `Map` configuration option, the `add_map_to_automated_battle_pool` or `add_map_to_usable_maps` commands. In other words, only maps playable on the server are served.
 
 Note that having the scene loaded in multiple modules will cause issues such as the scene not being shown on the download panel.
 
-For the players to be able to open the download panel, they will need to launch the game with the `DedicatedCustomServerHelper` module loaded. Now, they can right click on a custom server list entry, which will open a context menu with the option to open the download panel for the server. Once a map is successfully downloaded, there is no need to restart the game, they should be able to join your server as is.
+Players will then get prompted to download all of the missing maps as they try to join the server or they can right click on the custom server list entry, which will open a context menu with the option to open the download panel for the server. Once all missing maps are successfully downloaded, there is no need to restart the game, they should be able to join your server as is.
 
-<img src="/img/hosting_server/hosting_server_7.png" width="600px" />
+<img src="/img/hosting_server/downloadpanel.png" width="600px" />
 
 Note that this feature is intended to support simple use cases. This is not a module manager feature, and will not be able to support maps that require other assets (ModuleData, Prefabs, etc.) spread throughout a given module. Only the `SceneObj` directory contents are transferred between the server and the client.
 
-If the lack of prefab support is a concern, you may be able to make the scene usable through the helper module by breaking the prefabs. Open the scene in the editor, select all entity objects, right click and select *Break Prefab*.
+If the lack of prefab support is a concern, you may be able to make the scene usable through the Map Downloader by breaking the prefabs. Open the scene in the editor, select all entity objects, right click and select *Break Prefab*.
+
+##### In-game admin panel & admin features
+The in-game admin panel provides an easy way to organize and moderate events.
+
+The admin features are only available to those that enter the server as an admin by providing the admin password (right-click on the server and then `Join as Admin`). You can then access the admin panel via the Escape menu. The `AdminPassword` can be set from the server config.
+
+|  |  |
+| ------ | ----------- |
+| <img src="/img/hosting_server/adminpanel1.png"/ width="400px"> | <img src="/img/hosting_server/adminpanel2.png" width="400px"/> |
+
+The in-game panel has two main operational buttons:
+
+* `Apply and Start Mission` -> This will apply all of the changes made and start a new mission immediately.
+* `Apply Changes` -> This will apply all of the changes made. The ones that are listed under Immediate Effects will go into effect right away. Those that are listed under Mission Options will be applied on the next mission.
+
+The in-game admin panel comes with the following options:
+
+###### Require mission restart
+* Game Type
+	* Lists all available game types (Siege, TeamDeathmatch, Captain, Skirmish, Duel, Battle)
+* Map
+	* Lists all the maps that have been passed to the server inside the config with the `add_map_to_usable_maps [MapName] [GameType],[GameType]` command
+		* For example: `add_map_to_usable_maps mymap Siege,Skirmish` (please note that the GameType must be correctly capitalized)
+* Attacker & Defender Cultures
+* Number of Rounds
+* Map Time Limit
+* Round Time Limit
+* Warmup Time Limit
+* Maximum Number of Players
+
+###### Have immediate effect
+* Welcome Message
+* Team Balance Threshold
+* Friendly Damages
+* Class Limits (Allow, Disallow)
+
+###### Others
+* End Warmup
+	* Overrides the warmup timer and ends the warmup in 30 seconds.
+* Mute/Unmute Player
+	* Mutes a player, preventing them from using chat.
+* Kick Player
+	* Kicks a player from the server. Kicked players are able to immediately rejoin the server.
+* Ban Player
+	* Bans a player from the server. Banned players are not able to rejoin the server until it restarts.
+
+Here are some behaviours you should expect while changing Game Types, Maps and Cultures:
+
+* If you leave Game Type, Map and Cultures UNSELECTED -> The game will run the current Game Type being played and give the players the option to vote on the available maps (those passed with `add_map_to_automated_battle_pool`) and cultures.
+* If you leave Game Type, Map and Cultures UNSELECTED AND the Game Type isn't the one that the server initially launched with -> The game will run the current Game Type being played and use a random map from the available maps (those passed with `add_map_to_usable_maps`) and give the players the option to vote on cultures.
+* If you select a Game Type but leave Map and Cultures UNSELECTED AND the selected Game Type isn't the one that the server initially launched with -> The game will run the current Game Type being played and use a random map from the available maps (those passed with `add_map_to_usable_maps`) and give the players the option to vote on cultures.
+* If you select a Game Type and Map but leave Cultures UNSELECTED -> The game will run the selected Game Type with the selected Map and give the players the option to vote on cultures.
+* If you select a Game Type, Map and Cultures -> The game will run the selected Game Type, Map and Cultures with no voting screen.
+* If you provide no maps for a specific Game Type using the `add_map_to_usable_maps` parameter, that specific Game Type will be disabled in the admin panel.
+* Official maps will only work with the intended Game Types. Trying to use them with another Game Type with `add_map_to_usable_maps` will not display them in the admin panel.
+
+###### Admin Announcements
+You can also make use of the admin announcements system which pushes out text to everyone on the server by typing the following into chat:
+
+* `/ab [text]` - Admin Broadcast - Displays the announcement in the middle of the screen as well as in chat alongside a sound notification.
+* `/ac [text]` - Admin Chat - Displays the announcement in chat.
 
 ## FAQ
 ##### Does Steam need to stay open for hosting?
@@ -134,7 +197,7 @@ Yes.
 Right now, Steam is the only way to download it. We are planning to add it to other game platforms and are also discussing using a Docker host for distributing the server files in the future.
 
 ##### Will you provide Linux support?
-Yes. In fact, we are using Linux servers on our backend, but the system requires further development to make it publicly available.
+Linux server files are already available!
 
 ##### Will my server be accessible by everyone?
 Yes, your server will be accessible by everyone unless you make it password protected.
@@ -156,10 +219,4 @@ You can also try to host a very small game with a single core machine as well bu
 It depends on the player count. By default, we are sending 60 packets to each player and each packet is less than 1.5 kilobytes. For most configurations, any dedicated server provider should be able to provide a sufficient network connection.
 
 ##### Is there any modification support?
-Yes!
-
-##### What about anti-cheat with modifications?
-Anti-cheat is disabled for modified games. Note that any player who has modified their game will not be able to join the official servers.
-
-##### Will there be an in-game administration panel for quicker and easier administration?
-We are planning to make one.
+Yes! Go to https://moddocs.bannerlord.com/multiplayer/custom_game_mode/ to learn more.
