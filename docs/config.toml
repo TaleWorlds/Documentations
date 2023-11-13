@@ -1,4 +1,4 @@
-baseUrl = "http://localhost:4444/"
+baseUrl = "https://moddocs.bannerlord.com/"
 languageCode = "en-us"
 DefaultContentLanguage = "en"
 hasCJKLanguage = true
