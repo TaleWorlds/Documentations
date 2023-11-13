@@ -5,38 +5,39 @@ weight = 5
 
 +++
 
-## Preparing Your Module For Publishing
+## 为你的MODs上传做准备
 
-You need to Publish your module via the modding toolkit in order to allow/enable other players to use your module. You can deploy it for the end user, dedicated servers or other modders, all of which is explained below.
+为了能让其他玩家使用你的MOD，你需要通过模组工具上传你的MOD。你可以为终端玩家部署它，或只用于服务器或者其他开发者，所有的这些都会在下面解释。
 
-### Exporting the Module via the Modding Tools
+### 通过模组工具来输出
+Exporting the Module via the Modding Tools
 
-* Open the Modding Kit via the Launcher after checking your mod in the Launcher’s module list
-* Open the Editor from the Main Menu UI
-* From the File menu on the top, select Publish Module
+* 在检查你的MOD在登陆器的MOD列表中后，通过登陆器打开模组工具。
+* 从主菜单界面打开编辑器
+* 在最上面的文件（File）选项，选择输出（export）。
 
 <img src="/img/uploading_updating_mod/1.png"/>
 
-In the Publishing pop-up window, the following options are available:
+在弹出的“发表”窗口中，应可从下面的选项选择：
 
 |  |  |
 | ------ | ----------- |
 | <img src="/img/uploading_updating_mod/2.png"/> | <img src="/img/uploading_updating_mod/3.png"/> |
 
-* `Client`: Your module will be packed for client use. Which means that players will need to have these packages in order to play the game. This is the least you need to do if you want your module to be played via Steam Workshop.
-* `Dedicated Server`: Your module can be run on a server too. If you’d like your mod to be available on multiplayer too, you need to check it.
-* `Editor`: Other players can open your module via the Editor and modify it. If you don’t pack for the editor, players will not be able to open your module via the Editor.
-
+* `Client`: 你的MOD会被包装起来用作客户端，这就意味着玩家需要这些安装包来进行游戏。如果你想通过Steam的创意工坊来发表你的MOD，这是你最起码应该做的。
+* `Dedicated Server`: 你的MOD也可以在服务器上运行。如果你想在多人模式中运行你的MOD，那么你需要检查这个选项。
+* `Editor`: 别的玩家可以通过编辑器（Editor）来打开你的模组并且更改。如果你不讲编辑器打包，那么别人就不能通过编辑器打开你的MOD。
+* 
 {{% notice warning %}}
-Do not forget to select your module in the “Module” dropdown list. Otherwise, you will most likely publish the Native module by accident which will take a significant amount of time.
+不要忘记在“Module”下拉菜单中去选择你的MOD。否则，你很可能会不小心发表系统自带的MOD（Native module），这会耗费很长的时间。
 {{% /notice %}}
 
-* After selecting these options and your module from the Modules dropdown list, proceed with the Publish button.
-* After clicking the Publish button, a pop-up window for selecting a destination directory will appear. Select the destination directory, which is a writable location on your computer, and the module will be copied there as a ready-to-upload version.
-* Then just upload the mod folder in the destination directory to the Steam Workshop, following the instructions mentioned in “**Creating a new Steam Workshop Item**” and “**Updating a Steam Workshop Item**” sections.
-
+* 在选择这些选项并在下拉菜单中选择你的MOD之后，单击发布（Publish）以继续。
+* 在点击发布按钮后，一个选择目标文件夹的弹窗会出现，选择需要保存的地址，此地址需要是你电脑上可写入的储存空间，你的MOD会被复制到这里作为即将上传的版本。
+* 之后就只要上传在目标地址下的MOD文件夹到Steam的创意工坊即可。请遵守在“**新建一个 Steam 创意工坊项目**” 和 “**更新一个 Steam 创意工坊项目**”章节的指示
+  
 {{% notice warning %}}
-If you, as a modder, are going to test your module after uploading to the Steam Workshop, please temporarily move your Module folder under “Steam\steamapps\common\Mount & Blade II Bannerlord\Modules” to somewhere else. If you don’t move it temporarily, then the game will try to fetch the module from Bannerlord/Modules instead of workshop/content/261550.
+作为一个MOD开发者，如果你要在上传到Steam的创意工坊后去测试你的MOD，请暂时将你的MOD从“Steam\steamapps\common\Mount & Blade II Bannerlord\Modules”移到其他地方。如果你没有暂时移开，那么游戏会尝试从Bannerlord/Modules文件夹加载module而不是workshop/content/261550。
 {{% /notice %}}
 
 ## 新建一个 Steam 创意工坊项目
