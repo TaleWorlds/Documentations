@@ -141,7 +141,10 @@ The in-game panel has two main operational buttons:
 
 The in-game admin panel comes with the following options:
 
-###### Require mission restart
+###### Mission Options (require mission restart)
+
+Please note that if you wish to change "Mission Options" that require a mission restart using the in-game Admin Panel - you must use the map intermission system. This means you must use the `start_game_and_mission` (or `start_game`) and `enable_automated_battle_switching` commands in your server config. Not using these will automatically disable all Mission Options on the Admin Panel.
+
 * Game Type
 	* Lists all available game types (Siege, TeamDeathmatch, Captain, Skirmish, Duel, Battle)
 * Map
@@ -154,7 +157,7 @@ The in-game admin panel comes with the following options:
 * Warmup Time Limit
 * Maximum Number of Players
 
-###### Have immediate effect
+###### Immediate Effects
 * Welcome Message
 * Team Balance Threshold
 * Friendly Damages
