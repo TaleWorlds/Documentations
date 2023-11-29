@@ -125,6 +125,73 @@ Note that this feature is intended to support simple use cases. This is not a mo
 
 If the lack of prefab support is a concern, you may be able to make the scene usable through the Map Downloader by breaking the prefabs. Open the scene in the editor, select all entity objects, right click and select *Break Prefab*.
 
+##### In-game admin panel & admin features
+The in-game admin panel provides an easy way to organize and moderate events.
+
+The admin features are only available to those that enter the server as an admin by providing the admin password (right-click on the server and then `Join as Admin`). You can then access the admin panel via the Escape menu. The `AdminPassword` can be set from the server config.
+
+|  |  |
+| ------ | ----------- |
+| <img src="/img/hosting_server/adminpanel1.png"/ width="400px"> | <img src="/img/hosting_server/adminpanel2.png" width="400px"/> |
+
+The in-game panel has two main operational buttons:
+
+* `Apply and Start Mission` -> This will apply all of the changes made and start a new mission immediately.
+* `Apply Changes` -> This will apply all of the changes made. The ones that are listed under Immediate Effects will go into effect right away. Those that are listed under Mission Options will be applied on the next mission.
+
+The in-game admin panel comes with the following options:
+
+###### Mission Options (require mission restart)
+
+Please note that if you wish to change "Mission Options" that require a mission restart using the in-game Admin Panel - you must use the map intermission system. This means you must use the `start_game_and_mission` (or `start_game`) and `enable_automated_battle_switching` commands in your server config. Not using these will automatically disable all Mission Options on the Admin Panel.
+
+Additionally, options open up based on the selected Game Type. For example, the Warmup Time Limit option is not available when selecting TeamDeathMatch - as there's no warmup in TDM.
+
+* Game Type
+	* Lists all available game types (Siege, TeamDeathmatch, Captain, Skirmish, Duel, Battle)
+* Map
+	* Lists all the maps that have been passed to the server inside the config with the `add_map_to_usable_maps [MapName] [GameType],[GameType]` command
+		* For example: `add_map_to_usable_maps mymap Siege,Skirmish` (please note that the GameType must be correctly capitalized)
+* Attacker & Defender Cultures
+* Minimum Score to Win Duel
+* Number of Rounds
+* Map Time Limit
+* Round Time Limit
+* Warmup Time Limit
+* Maximum Number of Players
+
+###### Immediate Effects
+* Welcome Message
+* Team Balance Threshold
+* Friendly Damages
+* Class Limits (Allow, Disallow)
+
+###### Others
+* End Warmup
+	* Overrides the warmup timer and ends the warmup in 30 seconds.
+* Mute/Unmute Player
+	* Mutes a player, preventing them from using chat.
+* Kick Player
+	* Kicks a player from the server. Kicked players are able to immediately rejoin the server.
+* Ban Player
+	* Bans a player from the server. Banned players are not able to rejoin the server until it restarts.
+
+Here are some behaviours you should expect while changing Game Types, Maps and Cultures:
+
+* If you leave Game Type, Map and Cultures UNSELECTED -> The game will run the current Game Type being played and give the players the option to vote on the available maps (those passed with `add_map_to_automated_battle_pool`) and cultures.
+* If you leave Game Type, Map and Cultures UNSELECTED AND the Game Type isn't the one that the server initially launched with -> The game will run the current Game Type being played and use a random map from the available maps (those passed with `add_map_to_usable_maps`) and give the players the option to vote on cultures.
+* If you select a Game Type but leave Map and Cultures UNSELECTED AND the selected Game Type isn't the one that the server initially launched with -> The game will run the current Game Type being played and use a random map from the available maps (those passed with `add_map_to_usable_maps`) and give the players the option to vote on cultures.
+* If you select a Game Type and Map but leave Cultures UNSELECTED -> The game will run the selected Game Type with the selected Map and give the players the option to vote on cultures.
+* If you select a Game Type, Map and Cultures -> The game will run the selected Game Type, Map and Cultures with no voting screen.
+* If you provide no maps for a specific Game Type using the `add_map_to_usable_maps` parameter, that specific Game Type will be disabled in the admin panel.
+* Official maps will only work with the intended Game Types. Trying to use them with another Game Type with `add_map_to_usable_maps` will not display them in the admin panel.
+
+###### Admin Announcements
+You can also make use of the admin announcements system which pushes out text to everyone on the server by typing the following into chat:
+
+* `/ab [text]` - Admin Broadcast - Displays the announcement in the middle of the screen as well as in chat alongside a sound notification.
+* `/ac [text]` - Admin Chat - Displays the announcement in chat.
+
 ## FAQ
 ##### Does Steam need to stay open for hosting?
 No. You only need Steam for keeping your server files up to date. You are free to copy your server files to some other computer to host it. But we strongly recommend you to use it with Steam in order to keep it up to date. Unlike Warband, currently, any older versions of the server files will be incompatible with our system.
