@@ -8,7 +8,10 @@ weight = 10
 #### 前提条件
 要制作一个多人游戏模式，你首先需要在你游戏安装目录的 `Modules` 目录下创建你的模组文件夹。在你的模组目录下，你需要创建一个 `bin` 文件夹来放置 DLL 文件，还要创建一个 `SubModule.xml` 文件来存放你的模组定义和额外数据。
 
-对于程序开发，你需要有 .NET Framework 开发工具。配置开发环境的话，下载 Visual Studio 2017 社区版并安装 .NET Framework 4.7.2 支持。完成这些步骤后，新建一个 Class Library 项目。对于客户端而言，添加位于你的 Mount & Blade II: Bannerlord 安装目录的 `Win64_Shipping_Client` 目录下的所有的 DLL 引用。对于服务端而言，添加位于你的 Mount & Blade II: Dedicated Server 安装目录的 `Win64_Shipping_Server` 目录下的所有的 DLL 引用。
+对于程序开发，你需要有 .NET Framework 开发工具。配置开发环境的话，下载 Visual Studio 2022 社区版并安装 .NET 6 支持。完成这些步骤后，新建一个 Class Library 项目。\\
+
+对于客户端而言，添加位于你的 Mount & Blade II: Bannerlord 安装目录的 `Win64_Shipping_Client` 目录下的所有的 DLL 引用。\\
+对于服务端而言，添加位于你的 Mount & Blade II: Dedicated Server 安装目录的 `Win64_Shipping_Server` 目录下的所有的 DLL 引用。
 
 请保证你项目的输出路径是：
 
@@ -66,61 +69,68 @@ weight = 10
 确保 ID 与你在代码和模组定义文件中所定义的 ID 一致。
 
 #### GameMode 类
-要让服务器用你的游戏模式开始一场行动（mission），你需要新建一个类继承自 `MissionBasedMultiplayerGameMode`。在该类中，重写 `StartMultiplayerGame` 方法如下：
+要让服务器用你的游戏模式开始一场行动（mission），你需要新建一个类继承自 `MissionBasedMultiplayerGameMode`。在该类中，重写 `StartMultiplayerGame` 方法如下 **for your client module**：
 
 	public override void StartMultiplayerGame(string scene) {
 		MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
 			missionController => {
-				if (GameNetwork.IsServer) {
-					return new MissionBehavior[] {
-						MissionLobbyComponent.CreateBehavior(),
-						new MissionMultiplayerBountyMP(),
-						new MissionMultiplayerBountyMPClient(),
-						new MultiplayerTimerComponent(),
-						new MultiplayerMissionAgentVisualSpawnComponent(),
-						new SpawnComponent(new BountyMPSpawnFrameBehavior(), new BountyMPSpawningBehavior()),
-						new MissionLobbyEquipmentNetworkComponent(),
-						new MultiplayerTeamSelectComponent(),
-						new MissionHardBorderPlacer(),
-						new MissionBoundaryPlacer(),
-						new MissionBoundaryCrossingHandler(),
-						new MultiplayerPollComponent(),
-						new MultiplayerAdminComponent(),
-						new MultiplayerGameNotificationsComponent(),
-						new MissionOptionsComponent(),
-						new MissionScoreboardComponent(new BountyMPScoreboardData()),
-						new MissionAgentPanicHandler(),
-						new AgentHumanAILogic(),
-						new EquipmentControllerLeaveLogic(),
-						new MultiplayerPreloadHelper(),
-					};
-				} else {
-					return new MissionBehavior[] {
-						MissionLobbyComponent.CreateBehavior(),
-						new MissionMultiplayerBountyMPClient(),
-						new MultiplayerAchievementComponent(),
-						new MultiplayerTimerComponent(),
-						new MultiplayerMissionAgentVisualSpawnComponent(),
-						new MissionLobbyEquipmentNetworkComponent(),
-						new MultiplayerTeamSelectComponent(),
-						new MissionHardBorderPlacer(),
-						new MissionBoundaryPlacer(),
-						new MissionBoundaryCrossingHandler(),
-						new MultiplayerPollComponent(),
-						new MultiplayerGameNotificationsComponent(),
-						new MissionOptionsComponent(),
-						new MissionScoreboardComponent(new BountyMPScoreboardData()),
-						new MissionMatchHistoryComponent(),
-						new EquipmentControllerLeaveLogic(),
-						new MissionRecentPlayersComponent(),
-						new MultiplayerPreloadHelper(),
-					};
-				}
+				return new MissionBehavior[] {
+					MissionLobbyComponent.CreateBehavior(),
+					new MissionMultiplayerBountyMPClient(),
+					new MultiplayerAchievementComponent(),
+					new MultiplayerTimerComponent(),
+					new MultiplayerMissionAgentVisualSpawnComponent(),
+					new MissionLobbyEquipmentNetworkComponent(),
+					new MultiplayerTeamSelectComponent(),
+					new MissionHardBorderPlacer(),
+					new MissionBoundaryPlacer(),
+					new MissionBoundaryCrossingHandler(),
+					new MultiplayerPollComponent(),
+					new MultiplayerAdminComponent(),
+					new MultiplayerGameNotificationsComponent(),
+					new MissionOptionsComponent(),
+					new MissionScoreboardComponent(new BountyMPScoreboardData()),
+					new MissionMatchHistoryComponent(),
+					new EquipmentControllerLeaveLogic(),
+					new MissionRecentPlayersComponent(),
+					new MultiplayerPreloadHelper(),
+				};
 			}
 		);
 	}
 
-通过这段代码，你可以看见 `GameNetwork` 有一个变量，可以用在你的代码里，用于检查运行的游戏实例是服务端还是客户端。在该方法中，你可以看到它用来分隔客户端行为和服务器行为。这能确保正确的 `MissionBehaviors` 被加载到正确类型的游戏。其他方法中， `GameNetwork.IsClient` 和 `GameNetwork.IsServer` 可用于对不同事件采取不同处理。
+In this class, override StartMultiplayerGame method like this for your server module:
+
+	public override void StartMultiplayerGame(string scene) {
+		MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
+			missionController => {
+				return new MissionBehavior[] {
+					MissionLobbyComponent.CreateBehavior(),
+					new MissionMultiplayerBountyMP(),
+					new MissionMultiplayerBountyMPClient(),
+					new MultiplayerTimerComponent(),
+					new SpawnComponent(new BountyMPSpawnFrameBehavior(), new BountyMPSpawningBehavior()),
+					new MissionLobbyEquipmentNetworkComponent(),
+					new MultiplayerTeamSelectComponent(),
+					new MissionHardBorderPlacer(),
+					new MissionBoundaryPlacer(),
+					new MissionBoundaryCrossingHandler(),
+					new MultiplayerPollComponent(),
+					new MultiplayerAdminComponent(),
+					new MultiplayerGameNotificationsComponent(),
+					new MissionOptionsComponent(),
+					new MissionScoreboardComponent(new BountyMPScoreboardData()),
+					new MissionAgentPanicHandler(),
+					new AgentHumanAILogic(),
+					new EquipmentControllerLeaveLogic(),
+					new MultiplayerPreloadHelper(),
+				};
+			}
+		);
+	}
+
+
+
 
 该方法也大概展示了一场行动是如何进行的。所有行动行为（mission behaviors）都是一个接一个加载的，它们分别处理游戏的不同方面。根据你的游戏模式，你可能希望在你的模式中使用全部这些行为，又或者是只使用一部分。另外请注意，其中一些行为之间存在依赖关系，这意味着如果一个行为不存在，其他行为可能无法正确工作。在本例中，如果你按照第一部分中提到的步骤创建了一个空项目，那么有两个任务行为是无法实现的。开发者创建这两个行为来添加自己的游戏逻辑，它们是 `MissionMultiplayerBountyMP` 和 `MissionMultiplayerBountyMPClient`。前者从服务端管理游戏模式，后者从客户端管理游戏模式，确保所有重要的共享数据都在你的服务器上并正确同步。
 

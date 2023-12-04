@@ -7,7 +7,10 @@ weight = 10
 #### Prerequisites
 To make a custom MP game mode, you first need to create your module’s folder under the `Modules` folder of your games installation. Inside your module’s folder, you need to create a `bin` folder for your DLL files and a `SubModule.xml` file for your module’s definition and additional data.
 
-For programming, you need to have .NET Framework development tools installed. To do that, download Visual Studio 2017 Community Edition and install .NET Framework 4.7.2 support. After that’s done, create a new Class Library project. For the client side, add references to DLLs located in the `Win64_Shipping_Client` folder of your Mount & Blade II: Bannerlord installation. For the server side, add references to DLLs located in the `Win64_Shipping_Server` folder of your Mount & Blade II: Dedicated Server installation.
+For programming, you need to have .NET Framework development tools installed. To do that, download Visual Studio 2022 Community Edition and install .NET 6 support. After that’s done, create a new Class Library project.\
+
+For the client side, add references to DLLs located in the `Win64_Shipping_Client` folder of your Mount & Blade II: Bannerlord installation. \\
+For the server side, add references to DLLs located in the `Win64_Shipping_Server` folder of your Mount & Blade II: Dedicated Server installation.
 
 Make sure the output directory of your project is:
 
@@ -65,63 +68,68 @@ In the XML file, you can define the following so your game mode’s name show up
 Make sure IDs match up with the ones you defined in your code and module definition files.
 
 #### GameMode Class
-To make the server start the mission with your game mode, you need to create a new class that inherits `MissionBasedMultiplayerGameMode`. In this class, override `StartMultiplayerGame` method like this:
+To make the server start the mission with your game mode, you need to create a new class that inherits `MissionBasedMultiplayerGameMode`. In this class, override `StartMultiplayerGame` method like this **for your client module**:
 
 	public override void StartMultiplayerGame(string scene) {
 		MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
 			missionController => {
-				if (GameNetwork.IsServer) {
-					return new MissionBehavior[] {
-						MissionLobbyComponent.CreateBehavior(),
-						new MissionMultiplayerBountyMP(),
-						new MissionMultiplayerBountyMPClient(),
-						new MultiplayerTimerComponent(),
-						new MultiplayerMissionAgentVisualSpawnComponent(),
-						new SpawnComponent(new BountyMPSpawnFrameBehavior(), new BountyMPSpawningBehavior()),
-						new MissionLobbyEquipmentNetworkComponent(),
-						new MultiplayerTeamSelectComponent(),
-						new MissionHardBorderPlacer(),
-						new MissionBoundaryPlacer(),
-						new MissionBoundaryCrossingHandler(),
-						new MultiplayerPollComponent(),
-						new MultiplayerAdminComponent(),
-						new MultiplayerGameNotificationsComponent(),
-						new MissionOptionsComponent(),
-						new MissionScoreboardComponent(new BountyMPScoreboardData()),
-						new MissionAgentPanicHandler(),
-						new AgentHumanAILogic(),
-						new EquipmentControllerLeaveLogic(),
-						new MultiplayerPreloadHelper(),
-					};
-				} else {
-					return new MissionBehavior[] {
-						MissionLobbyComponent.CreateBehavior(),
-						new MissionMultiplayerBountyMPClient(),
-						new MultiplayerAchievementComponent(),
-						new MultiplayerTimerComponent(),
-						new MultiplayerMissionAgentVisualSpawnComponent(),
-						new MissionLobbyEquipmentNetworkComponent(),
-						new MultiplayerTeamSelectComponent(),
-						new MissionHardBorderPlacer(),
-						new MissionBoundaryPlacer(),
-						new MissionBoundaryCrossingHandler(),
-						new MultiplayerPollComponent(),
-						new MultiplayerGameNotificationsComponent(),
-						new MissionOptionsComponent(),
-						new MissionScoreboardComponent(new BountyMPScoreboardData()),
-						new MissionMatchHistoryComponent(),
-						new EquipmentControllerLeaveLogic(),
-						new MissionRecentPlayersComponent(),
-						new MultiplayerPreloadHelper(),
-					};
-				}
+				return new MissionBehavior[] {
+					MissionLobbyComponent.CreateBehavior(),
+					new MissionMultiplayerBountyMPClient(),
+					new MultiplayerAchievementComponent(),
+					new MultiplayerTimerComponent(),
+					new MultiplayerMissionAgentVisualSpawnComponent(),
+					new MissionLobbyEquipmentNetworkComponent(),
+					new MultiplayerTeamSelectComponent(),
+					new MissionHardBorderPlacer(),
+					new MissionBoundaryPlacer(),
+					new MissionBoundaryCrossingHandler(),
+					new MultiplayerPollComponent(),
+					new MultiplayerAdminComponent(),
+					new MultiplayerGameNotificationsComponent(),
+					new MissionOptionsComponent(),
+					new MissionScoreboardComponent(new BountyMPScoreboardData()),
+					new MissionMatchHistoryComponent(),
+					new EquipmentControllerLeaveLogic(),
+					new MissionRecentPlayersComponent(),
+					new MultiplayerPreloadHelper(),
+				};
 			}
 		);
 	}
 
-From this code, you can see that `GameNetwork` has a variable that you can use in all of your code to check if the running game instance is a server or a client. In this method, you can see that it is used to separate client behaviors from server behaviors. This way we make sure that correct `MissionBehaviors` are loaded for the correct type of the game. In other methods, `GameNetwork.IsClient` and `GameNetwork.IsServer` can be used to act differently on different events.
+In this class, override StartMultiplayerGame method like this for your server module:
 
-This method also shows how a mission runs at an overview. All mission behaviors are loaded one by one and they all handle different aspects of the game. Depending on your game mode, you might want all of these or only some of these at your mode. Also please note that there are dependencies between some of these behaviors, meaning that if one is not present, others might not work correctly.  In this example, there are two mission behaviors that you are not going to get if you have created a clean project with the steps mentioned in the first section. These two behaviors are the ones the modder creates to add their own game logic. These are `MissionMultiplayerBountyMP` and `MissionMultiplayerBountyMPClient`. The former manages the game mode from the server while the latter manages the game mode from the client side. Make sure that all shared and important data is on your server and synchronized properly.
+	public override void StartMultiplayerGame(string scene) {
+		MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
+			missionController => {
+				return new MissionBehavior[] {
+					MissionLobbyComponent.CreateBehavior(),
+					new MissionMultiplayerBountyMP(),
+					new MissionMultiplayerBountyMPClient(),
+					new MultiplayerTimerComponent(),
+					new SpawnComponent(new BountyMPSpawnFrameBehavior(), new BountyMPSpawningBehavior()),
+					new MissionLobbyEquipmentNetworkComponent(),
+					new MultiplayerTeamSelectComponent(),
+					new MissionHardBorderPlacer(),
+					new MissionBoundaryPlacer(),
+					new MissionBoundaryCrossingHandler(),
+					new MultiplayerPollComponent(),
+					new MultiplayerAdminComponent(),
+					new MultiplayerGameNotificationsComponent(),
+					new MissionOptionsComponent(),
+					new MissionScoreboardComponent(new BountyMPScoreboardData()),
+					new MissionAgentPanicHandler(),
+					new AgentHumanAILogic(),
+					new EquipmentControllerLeaveLogic(),
+					new MultiplayerPreloadHelper(),
+				};
+			}
+		);
+	}
+
+
+This method shows how a mission runs at an overview. All mission behaviors are loaded one by one and they all handle different aspects of the game. Depending on your game mode, you might want all of these or only some of these at your mode. Also please note that there are dependencies between some of these behaviors, meaning that if one is not present, others might not work correctly.  In this example, there are two mission behaviors that you are not going to get if you have created a clean project with the steps mentioned in the first section. These two behaviors are the ones the modder creates to add their own game logic. These are `MissionMultiplayerBountyMP` and `MissionMultiplayerBountyMPClient`. The former manages the game mode from the server while the latter manages the game mode from the client side. Make sure that all shared and important data is on your server and synchronized properly.
 
 #### Mission Behaviors
 For all native game modes, the server side game mode logic class, `MissionMultiplayerBountyMP` in this example, inherits `MissionMultiplayerGameModeBase`. This class defines basic spawning and synchronization systems. Also for all native game modes, the client side game mode message handling logic class, `MissionMultiplayerBountyMPClient` in this example, inherits `MissionMultiplayerGameModeBaseClient`. There are several overrides available for this class that makes sure the registering and deregistering from message handlers happen at the correct time.
