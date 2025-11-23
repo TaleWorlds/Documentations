@@ -55,10 +55,12 @@ Exporting the Module via the Modding Tools
 			<!-- 将会显示在 Steam 创意工坊的说明，可以通过 Steam UI 来编辑 -->
 			<Tags> 
 				<!-- 你可以使用如下标签： -->
+				<!-- DLC Required: War Sails - If your mod relies on the War Sails DLC, make sure to insert the tag -->
 				<!-- 类型：Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
 				<!-- 设定：Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
 				<!-- 游戏模式：Singleplayer, Multiplayer -->
 				<!-- 兼容版本：e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
+				<Tag Value="War Sails" />
 				<Tag Value="Partial Conversion" />
 				<Tag Value="Dark Ages" />
 				<Tag Value="Singleplayer" />
@@ -122,10 +124,12 @@ Exporting the Module via the Modding Tools
 			<!-- 插入更新日志 -->
 			<Tags> 
 				<!-- 你可以使用如下标签： -->
+				<!-- DLC Required: War Sails - If your mod relies on the War Sails DLC, make sure to insert the tag -->
 				<!-- Type: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
 				<!-- Setting: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
 				<!-- Game Mode: Singleplayer, Multiplayer -->
 				<!-- Compatible Version: e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
+				<Tag Value="War Sails" />
 				<Tag Value="Partial Conversion" />
 				<Tag Value="Dark Ages" />
 				<Tag Value="Singleplayer" />

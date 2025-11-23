@@ -53,10 +53,12 @@ Download [this file](https://download.taleworlds.com/WorkshopCreate.xml) and pla
 			<!-- A description that will be displayed on Steam Workshop, can be edited via the Steam UI -->
 			<Tags> 
 				<!-- You can use the following tags: -->
+				<!-- DLC Required: War Sails - If your mod relies on the War Sails DLC, make sure to insert the tag -->
 				<!-- Type: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
 				<!-- Setting: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
 				<!-- Game Mode: Singleplayer, Multiplayer -->
 				<!-- Compatible Version: e1.9.0, v1.0.0,... The currently available versions can be found at the Steam Workshop "Browse by Tag" section -->
+				<Tag Value="War Sails" />
 				<Tag Value="Partial Conversion" />
 				<Tag Value="Dark Ages" />
 				<Tag Value="Singleplayer" />
@@ -120,10 +122,12 @@ Download [this file](https://download.taleworlds.com/WorkshopUpdate.xml) and pla
 			<!-- Insert patch notes -->
 			<Tags> 
 				<!-- You can use the following tags: -->
+				<!-- DLC Required: War Sails - If your mod relies on the War Sails DLC, make sure to insert the tag -->
 				<!-- Type: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
 				<!-- Setting: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
 				<!-- Game Mode: Singleplayer, Multiplayer -->
 				<!-- Compatible Version: e1.9.0, v1.0.0,... The currently available versions can be found at the Steam Workshop "Browse by Tag" section -->
+				<Tag Value="War Sails" />
 				<Tag Value="Partial Conversion" />
 				<Tag Value="Dark Ages" />
 				<Tag Value="Singleplayer" />
