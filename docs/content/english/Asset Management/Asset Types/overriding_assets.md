@@ -36,7 +36,7 @@ Currently moddable asset types are:
 
 ### Folder Hierarchy
 
-Asset system treats some folders in module directory specially according to their names. Here is the list of these folders and their uesages : 
+Asset system treats some folders in module directory specially according to their names. Here is the list of these folders and their usages : 
 
 - **Assets** : Includes editable *.tpac files which stores meta data of each asset.
 - **AssetSources** : Includes source files of imported assets(.psd, .fbx).
