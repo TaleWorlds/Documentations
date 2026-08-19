@@ -396,7 +396,7 @@ The upgrade system is driven by several XML files that you must edit to register
 
 > * ship\_slots.xml: Defines all upgrade slot types available for ships. Every upgrade piece type your ship uses must have a corresponding entry here. The IDs defined in this file are referenced by the other XMLs below.  
 > * ship\_upgrade\_pieces.xml: Defines the individual upgrade pieces — their stats, visual effects, descriptions, and which slot ID they belong to.  
-> * mission\_ship.xml: Registers your ship as a usable ship in missions. Contains the ship's ID, prefab name, mass, and other mission-level properties.  
+> * mission\_ships.xml: Registers your ship as a usable ship in missions. Contains the ship's ID, prefab name, mass, and other mission-level properties.  
 > * ship\_hulls.xml: Defines the ship's mission statistics (health, speed, maneuverability, etc.) and specifies which upgrade slots are available on this hull type.
 
 #### **2.2.1. hull\_group**
