@@ -1,41 +1,42 @@
 +++
-title = "What Makes a Seaborne Raid Scene"
+title = "Из чего состоит сцена морского набега"
 description = ""
 weight = 20
+ai_translated = true
 +++
 
-### **Navigation Mesh**
+### **Навигационная сетка (Navigation Mesh)**
 
-* Works similarly to village scenes.  
-* In scenes created using two separate levels, for the `land_raid` **Level** (check ["What Makes a Village Scene"](https://moddocs.bannerlord.com/authoring-mission-scenes/villages/) documentation), all **NavMesh** on land must have **ID 0** in the `naval_raid` **Level**.  
-* **Agents** can walk in water up to a height of 1.40 meters. Therefore, **NavMesh** with **ID 0** should be baked up to a depth of 1.40m; if the water is deeper, **Agents** will swim.
-
----
-
-### **Spawn Points**
-
-* All **Spawn Points** must be positioned inside the **Soft Borders**.  
-* All **Spawn Points** must be placed on top of the **NavMesh**.  
-* **Battle Spawn Points**:  
-  * All defender **Spawn Points** must be located within the **Defender Boundaries**.  
-  * **Prefab**: `naval_battle_set`  
-  * Place the defender parts of the set on land and the attacker parts in the sea/river.  
-  * Attacker **Spawn Points** should not be too close to the shore.  
-  * Ensure all defender **Spawn Points** have empty space around them for troops to spawn properly.  
-  * Move defender reinforcement **Spawn Points** out of sight as much as possible without being too far from the front lines.  
-  * Since a raid can be performed with 3 ships, you can position attacker infantry, archer, and cavalry **Spawn Points** facing the direction they will travel in the water.  
-  * The distance between attacker **Spawn Points** should be adjusted according to ship dimensions.  
-  * If a river scene is being prepared, it must be wide enough for large ships to move freely.
+* Работает аналогично сценам деревень.  
+* В сценах, созданных с использованием двух отдельных уровней, для уровня (**Level**) `land_raid` (см. документацию ["What Makes a Village Scene"](https://moddocs.bannerlord.com/authoring-mission-scenes/villages/)) вся **NavMesh** на суше должна иметь **ID 0** на уровне (**Level**) `naval_raid`.  
+* **Агенты (Agents)** могут передвигаться по воде на глубину до 1,40 метра. Поэтому **NavMesh** с **ID 0** должна быть запечена (baked) на глубину до 1,40 м; если вода глубже, **Агенты** будут плыть.
 
 ---
 
-### **Tactical Positions**
+### **Точки появления (Spawn Points)**
 
-* **Prefab**: `tactical_position`  
-* Use the `chokepoint` **Tactical Position** type within the **Script**, adjusting its size for where you want infantry to position and defend.  
-* Use the `cliff` **Tactical Position** for the general placement of archers. This position determines the general location of archers, from which they distribute to `strategic_archer_point` entities and return to when retreating.  
-* The `cliff` **Tactical Position** **Prefab** should be used as a child of the `chokepoint` **Tactical Position** **Prefab**.  
-* **AI** will position themselves according to the rotation of the **Prefab** and the width defined in the **Script**.  
+* Все **точки появления (Spawn Points)** должны располагаться внутри **мягких границ (Soft Borders)**.  
+* Все **точки появления (Spawn Points)** должны быть размещены поверх **NavMesh**.  
+* **Боевые точки появления (Battle Spawn Points)**:  
+  * Все точки появления защитников должны находиться в пределах **границ защитников (Defender Boundaries)**.  
+  * **Префаб (Prefab)**: `naval_battle_set`  
+  * Размещайте части набора для защитников на суше, а части для атакующих — в море/реке.  
+  * Точки появления атакующих не должны находиться слишком близко к берегу.  
+  * Убедитесь, что вокруг всех точек появления защитников есть свободное пространство для правильного появления войск.  
+  * Перемещайте точки появления подкрепления защитников как можно дальше от поля зрения, не слишком удаляя их от передовой.  
+  * Поскольку набег может выполняться с использованием 3 кораблей, вы можете расположить точки появления пехоты, лучников и кавалерии атакующих лицом в направлении их движения по воде.  
+  * Расстояние между точками появления атакующих следует регулировать в зависимости от размеров кораблей.  
+  * Если готовится речная сцена, река должна быть достаточно широкой, чтобы большие корабли могли свободно перемещаться.
+
+---
+
+### **Тактические позиции (Tactical Positions)**
+
+* **Префаб (Prefab)**: `tactical_position`  
+* Используйте тип тактической позиции (**Tactical Position**) `chokepoint` в **скрипте (Script)**, регулируя его размер в соответствии с местом, где вы хотите, чтобы пехота занимала позицию и обороняла её.  
+* Используйте тактическую позицию **Tactical Position** `cliff` для общего размещения лучников. Эта позиция определяет общее расположение лучников, откуда они распределяются по сущностям `strategic_archer_point` и возвращаются при отступлении.  
+* Префаб (**Prefab**) тактической позиции `cliff` следует использовать как дочерний элемент префаба тактической позиции `chokepoint`.  
+* **ИИ (AI)** будет позиционировать себя в соответствии с поворотом префаба (**Prefab**) и шириной, заданной в **скрипте (Script)**.  
 
 <img src="/img/seaborne_raid/1.jpg" style="max-width: 800px;"/>
 
@@ -43,89 +44,89 @@ weight = 20
 
 ---
 
-### **Tactical & Strategic Archer Positions**
+### **Тактические и стратегические позиции лучников**
 
-* **Prefab**: `strategic_archer_position`  
-* Defines the location where a single archer will go. Many can be added to the scene; all defender archers in battle will distribute among these positions.   
-* To reposition archers who are placed far from the main battlefield to harass incoming ships early on, you have two tactical options to bring them back into the main fight:  
-* **Option A (`unsafe_archer_point`):** If you give these entities the `unsafe_archer_point` **Tag**, once the ships complete their landing, these archers will automatically fall back toward the main battlefield (`cliff` **Tactical Position**) to rejoin the active defense.  
-* **Option B (`volume_box_archer_point`):** If you want more precise control, you can use the `volume_box_archer_point` **Tag** (applied to both the archer positions and a corresponding `volume_box`). This ensures that the archers will hold their positions and only fall back to the `cliff` **Tactical Position** when the enemy actually penetrates your designated **Volume Box** area.
+* **Префаб (Prefab)**: `strategic_archer_position`  
+* Определяет местоположение, куда отправится один лучник. В сцену можно добавить множество таких позиций; все лучники-защитники в бою будут распределяться по этим позициям.   
+* Чтобы переместить лучников, расположенных далеко от основного поля боя, которые должны досаждать приближающимся кораблям на раннем этапе, у вас есть два тактических варианта вернуть их в основной бой:  
+* **Вариант A (`unsafe_archer_point`):** Если вы присвоите этим сущностям **тег (Tag)** `unsafe_archer_point`, то после завершения высадки кораблей эти лучники автоматически отступят к основному полю боя (тактическая позиция **Tactical Position** `cliff`), чтобы присоединиться к активной обороне.  
+* **Вариант B (`volume_box_archer_point`):** Если вам нужен более точный контроль, вы можете использовать **тег (Tag)** `volume_box_archer_point` (применяемый как к позициям лучников, так и к соответствующему `volume_box`). Это гарантирует, что лучники будут удерживать свои позиции и отступят к тактической позиции `cliff` только тогда, когда враг действительно проникнет в вашу заданную область **Volume Box**.
 
 <img src="/img/seaborne_raid/3.png" style="max-width: 800px;"/>
 
-**Volume Box Trigger Point**:
+**Точка триггера Volume Box**:
 
-* **Prefab**: `volume_box`  
-* **Tag**: `volume_box_archer_point`  
-* This setup acts as a spatial trigger for archer maneuvers. Unlike the `unsafe_archer_point` which triggers upon landing, this allows for precise control based on attacker progression.  
-* **Setup Rule**: The `volume_box_archer_point` Tag must be assigned to both the `volume_box` entity itself and all `strategic_archer_point` entities that you want to be triggered by this specific box.  
-* **Behavior**: When any attacker enters the tagged `volume_box`, all archers stationed at the matching tagged `strategic_archer_point` entities will immediately begin their retreat toward the `cliff` **Tactical Position**.
+* **Префаб (Prefab)**: `volume_box`  
+* **Тег (Tag)**: `volume_box_archer_point`  
+* Эта настройка действует как пространственный триггер для манёвров лучников. В отличие от `unsafe_archer_point`, который срабатывает при высадке, этот вариант позволяет точно контролировать ситуацию на основе продвижения атакующих.  
+* **Правило настройки**: Тег `volume_box_archer_point` должен быть присвоен как самой сущности `volume_box`, так и всем сущностям `strategic_archer_point`, которые должны срабатывать от этого конкретного бокса.  
+* **Поведение**: Когда любой атакующий входит в помеченный тегом `volume_box`, все лучники, размещённые в соответствующих помеченных тегом сущностях `strategic_archer_point`, немедленно начинают отступление к тактической позиции (**Tactical Position**) `cliff`.
 
 <img src="/img/seaborne_raid/4.jpg" style="max-width: 800px;"/>
 
 ---
 
-### **Player View Point (for Defender)**
+### **Точка обзора игрока (для защитника)**
 
-* Use the `arrow_new_icon` **Prefab** and assign the `player_spawn_frame` **Tag** to it.  
-* The player will **Spawn** facing the direction of the arrow.  
-* **Note**: The rotation and direction of the arrow are critical, as they directly determine the player's initial field of view upon spawning.
+* Используйте префаб (**Prefab**) `arrow_new_icon` и присвойте ему **тег (Tag)** `player_spawn_frame`.  
+* Игрок появится (**Spawn**) лицом в направлении стрелки.  
+* **Примечание**: Поворот и направление стрелки имеют решающее значение, поскольку они напрямую определяют начальное поле зрения игрока при появлении.
 
 ---
 
-### **Landing Points**
+### **Точки высадки (Landing Points)**
 
-* 3 empty entities must be placed on the shore using the correct **Tags** for 3 ships to land:  
-  * Attacker infantry ship landing **Tag**: `landing_001_0`  
-  * Attacker archer ship landing **Tag**: `landing_002_0`  
-  * Attacker cavalry ship landing **Tag**: `landing_003_0`  
-* Ensure there is enough distance between the landing points of the ships on the shore.  
-* For the route you want ships to follow in the water, you can give similar **Tags** to empty entities placed in the water.  
-  * Example: For the infantry ship, from near to far: `landing_001_1`, `landing_001_2`, `landing_001_3`. In this case, the attacker infantry **Spawn Point** inside the `naval_battle_set` will target `landing_001_3` first, then the others in sequence to reach `landing_001_0`.  
-* The rotation of all entities must face the next target landing entity.  
-* The rotation of the final destination `landing_00x_0` must be positioned to ensure the ship docks correctly at the shore.
+* На берегу необходимо разместить 3 пустые сущности с правильными **тегами (Tags)** для высадки 3 кораблей:  
+  * Тег высадки пехотного корабля атакующих: `landing_001_0`  
+  * Тег высадки корабля лучников атакующих: `landing_002_0`  
+  * Тег высадки кавалерийского корабля атакующих: `landing_003_0`  
+* Убедитесь, что между точками высадки кораблей на берегу достаточно расстояния.  
+* Для маршрута, по которому должны следовать корабли в воде, вы можете присвоить аналогичные **теги (Tags)** пустым сущностям, размещённым в воде.  
+  * Пример: Для пехотного корабля, от ближней точки к дальней: `landing_001_1`, `landing_001_2`, `landing_001_3`. В этом случае точка появления (**Spawn Point**) пехоты атакующих внутри `naval_battle_set` сначала нацелится на `landing_001_3`, а затем последовательно на остальные, чтобы достичь `landing_001_0`.  
+* Поворот всех сущностей должен быть направлен на следующую целевую точку высадки.  
+* Поворот конечной точки назначения `landing_00x_0` должен быть выставлен так, чтобы корабль правильно причаливал к берегу.
 
 <img src="/img/seaborne_raid/5.jpg" style="max-width: 800px;"/>
 
 ---
 
-### **Jumping Points**
+### **Точки прыжка (Jumping Points)**
 
-* Used to indicate which direction **Agents** jumping from the ship to the shore should move.  
-* Use empty entities with **Tags** `jumping_001`, `jumping_002`, `jumping_003` for each ship, and they must be a child of their associated final landing point.  
-  * Example: The entity with the `jumping_001` **Tag** must always be a child of the `landing_001_0` entity.  
-* The rotation should be adjusted to ensure **Agents** use the most logical **Mechanics** to leave the ship.
-
----
-
-### **Flee Positions**
-
-* Positions to which fleeing troops and horses will run.  
-* Ensure they are inside the **Soft Border** and have **NavMesh** below them.
+* Используются для указания направления, в котором должны двигаться **агенты (Agents)**, прыгающие с корабля на берег.  
+* Используйте пустые сущности с **тегами (Tags)** `jumping_001`, `jumping_002`, `jumping_003` для каждого корабля, и они должны быть дочерними элементами соответствующей конечной точки высадки.  
+  * Пример: Сущность с **тегом (Tag)** `jumping_001` всегда должна быть дочерней для сущности `landing_001_0`.  
+* Поворот следует отрегулировать так, чтобы **агенты (Agents)** использовали наиболее логичную **механику (Mechanics)** для схода с корабля.
 
 ---
 
-### **Soft Border**
+### **Позиции бегства (Flee Positions)**
 
-* **Prefab**: `border_soft`  
-* These entities define the red boundaries of the scene.  
-* When placed, they form a polygon by connecting the two closest border entities.  
-* To visualize the current boundaries, navigate to `Visibility Window` \-\> `Visibility Masks` and enable `Borders`.  
-* **Design Note**: Ensure the layout of these borders prevents players from abusing the map limits or finding unintended escape routes.
+* Позиции, к которым будут бежать отступающие войска и лошади.  
+* Убедитесь, что они находятся внутри **мягкой границы (Soft Border)** и под ними есть **NavMesh**.
 
 ---
 
-### **Sounds & Atmosphere**
+### **Мягкая граница (Soft Border)**
 
-* Works similarly to village scenes.  
-* Ensure environmental sounds reflect the naval nature of the raid.  
-* **Atmosphere** must look consistent across all seasons and times of day.
+* **Префаб (Prefab)**: `border_soft`  
+* Эти сущности определяют красные границы сцены.  
+* При размещении они образуют многоугольник, соединяя две ближайшие пограничные сущности.  
+* Чтобы визуализировать текущие границы, перейдите в `Visibility Window` \-\> `Visibility Masks` и включите `Borders`.  
+* **Замечание по дизайну**: Убедитесь, что расположение этих границ не позволяет игрокам злоупотреблять пределами карты или находить непредусмотренные пути отступления.
 
 ---
 
-### **Gameplay Design Hints**
+### **Звуки и атмосфера**
 
-* Having ships under fire before docking increases the epic battle feel. You can place archers further out to shoot at ships early on. To ensure these archers rejoin the frontline defense rather than getting left behind, you can use the `unsafe_archer_point` **Tag** to trigger their fallback to the `cliff` **Tactical Position** upon ship landing, or utilize the `volume_box_archer_point` setup to trigger their relocation exactly when the enemy reaches a specific zone in your scene.  
-* Using physical **Chokepoints** in the scene will increase the difficulty for the attacker.  
-* Make sure the scene works well at night.  
-* To maintain the "village raid" atmosphere, ensure the battle does not start or end too far from the village area.
+* Работает аналогично сценам деревень.  
+* Убедитесь, что звуки окружения отражают морской характер набега.  
+* **Атмосфера** должна выглядеть согласованно во всех сезонах и в любое время суток.
+
+---
+
+### **Рекомендации по игровому дизайну**
+
+* Обстрел кораблей до их причаливания усиливает ощущение эпичности боя. Вы можете разместить лучников дальше, чтобы они стреляли по кораблям на раннем этапе. Чтобы эти лучники присоединялись к обороне передовой, а не оставались позади, вы можете использовать **тег (Tag)** `unsafe_archer_point`, чтобы запустить их отступление к тактической позиции (**Tactical Position**) `cliff` после высадки кораблей, либо использовать настройку `volume_box_archer_point`, чтобы запускать их перемещение именно тогда, когда враг достигает определённой зоны в вашей сцене.  
+* Использование физических **узких проходов (Chokepoints)** в сцене повысит сложность для атакующего.  
+* Убедитесь, что сцена хорошо работает ночью.  
+* Чтобы сохранить атмосферу "набега на деревню", убедитесь, что бой не начинается и не заканчивается слишком далеко от территории деревни.

@@ -1,134 +1,135 @@
 +++
-title = "Custom Water Materials for Non-Naval Scenes"
+title = "非海战场景的自定义水体材质"
 description = ""
 weight = 1
+ai_translated = true
 +++
 
-This guide explains how to give a scene its own water look when the Naval DLC macro-displacement renderer is **not** in use — for example, a river ford, a lake, or any land battle with a water body in it.
+本指南介绍了在**未**使用 Naval DLC 宏观位移渲染器的情况下,如何为场景赋予自己独特的水体外观——例如河流浅滩、湖泊,或任何包含水体的陆地战斗场景。
 
 ---
 
-## Overview
+## 概述
 
-By default every non-naval scene shares a single engine water material called `base_water_scene_default`. That material controls the colour of the water, how light scatters through it, and what the surface looks like.
+默认情况下,每个非海战场景都共享一个名为 `base_water_scene_default` 的单一引擎水体材质。该材质控制着水的颜色、光线在水中散射的方式,以及水面的外观。
 
-You can replace it per-scene with any material that uses the `water_surface` shader. When you do, the engine uses your material instead — and the wave simulation parameters (strength, choppiness, wind direction influence) are no longer overridden by gameplay code, so you can tune them directly in the Scene Inspector.
+你可以按场景使用任何采用 `water_surface` 着色器的材质来替换它。当你这样做时,引擎将使用你的材质——并且波浪模拟参数(强度、波浪尖锐度、风向影响)将不再被游戏玩法代码覆盖,因此你可以直接在场景检查器(Scene Inspector)中进行调整。
 
-> **Naval DLC note:** This override only applies when the Naval DLC macro-displacement renderer is **inactive**. In naval combat missions the override is ignored and the naval pipeline takes over as usual.
-
----
-
-## Step 1 — Create a Water Material
-
-1. Open the **Resource Browser** and find `base_water_scene_default`.  
-2. Duplicate it and give it a clear name, for example `my_module_lake_water`.  
-3. Open the duplicate in the **Material Inspector**.  
-4. Verify that the **Shader** field shows `water_surface`. Only materials with this exact shader will appear in the scene's water material picker.
+> **Naval DLC 说明:** 此覆盖仅在 Naval DLC 宏观位移渲染器**未激活**时生效。在海战任务中,该覆盖会被忽略,海战渲染管线会照常接管。
 
 ---
 
-## Step 2 — Set the Material on the Scene
+## 步骤 1 — 创建水体材质
 
-1. Open your scene in the editor.  
-2. In the **Scene Inspector**, expand the **Water** group.  
-3. Find the **Non-Naval Water Material Override** field.  
-4. Click the picker and choose your material.  
-   - The list is filtered to show only `water_surface` materials.  
-   - Leave the field empty to revert to the engine default (`base_water_scene_default`).  
-5. Save the scene. The override is stored in the scene file and loaded automatically every time the scene is opened in-game or in the editor.
+1. 打开 **资源浏览器(Resource Browser)**,找到 `base_water_scene_default`。  
+2. 复制它,并给它起一个清晰的名称,例如 `my_module_lake_water`。  
+3. 在 **材质检查器(Material Inspector)** 中打开该副本。  
+4. 确认 **着色器(Shader)** 字段显示的是 `water_surface`。只有使用这一精确着色器的材质才会出现在场景的水体材质选择器中。
+
+---
+
+## 步骤 2 — 在场景中设置材质
+
+1. 在编辑器中打开你的场景。  
+2. 在 **场景检查器(Scene Inspector)** 中,展开 **水(Water)** 组。  
+3. 找到 **非海战水体材质覆盖(Non-Naval Water Material Override)** 字段。  
+4. 点击选择器并选择你的材质。  
+   - 该列表已筛选为仅显示 `water_surface` 材质。  
+   - 将此字段留空以恢复为引擎默认值(`base_water_scene_default`)。  
+5. 保存场景。该覆盖会被存储在场景文件中,并在每次于游戏内或编辑器中打开该场景时自动加载。
 
 >   
-> **Editor preview:** If the Naval DLC is active in your editor session, the **Visibility Manager** panel will show a **"Preview Naval Water Renderer"** checkbox. Make sure this is **unchecked** while working on non-naval water — when it is checked the naval macro-displacement renderer is active and your material override will not be visible. Uncheck it to switch the viewport to the non-naval path and see your material changes live.
+> **编辑器预览:** 如果你的编辑器会话中启用了 Naval DLC,**可见性管理器(Visibility Manager)** 面板将显示一个 **“Preview Naval Water Renderer”**(预览海战水体渲染器)复选框。请确保在处理非海战水体时**取消勾选**此项——当它被勾选时,海战宏观位移渲染器处于激活状态,你的材质覆盖将不可见。取消勾选它可将视口切换到非海战路径,从而实时查看你的材质更改效果。
 
 ---
 
-## Step 3 — Tune the Material
+## 步骤 3 — 调整材质
 
-The two fields that have the most visual impact are in the Material Inspector. Everything else (wave animation, displacement, caustics) is driven by the simulation and cannot be changed per-material.
+在材质检查器中,对视觉效果影响最大的两个字段如下。其他一切(波浪动画、位移、焦散)都由模拟系统驱动,无法按材质单独更改。
 
-### Factor Color — Water Body Color
+### Factor Color(因子颜色)— 水体颜色
 
-This controls how light is absorbed as it travels down through the water. Think of it as the colour the water takes on when it is deep.
+此参数控制光线在水中向下传播时被吸收的程度。可以将其理解为水在深处所呈现的颜色。
 
-| Channel | What it controls |
+| 通道 | 作用 |
 | :---- | :---- |
-| **R (red)** | How much red light survives at depth. Low \= reds disappear quickly, giving a blue-green tint. |
-| **G (green)** | How much green light survives. |
-| **B (blue)** | How much blue light survives. High \= clear blue water. |
-| **A (alpha)** | How quickly the scattered haze takes over with depth. Low values make the haze appear almost immediately; higher values (0.5–2.0) give a natural depth gradient. |
+| **R(红色)** | 红光在深处存活的程度。数值低 \= 红色迅速消失,呈现蓝绿色调。 |
+| **G(绿色)** | 绿光存活的程度。 |
+| **B(蓝色)** | 蓝光存活的程度。数值高 \= 清澈的蓝色水体。 |
+| **A(透明度)** | 散射雾霭随深度加深而占主导的速度。数值低时雾霭几乎立即出现;数值较高(0.5–2.0)时则呈现自然的深度渐变。 |
 
-**Starting points to try:**
+**可尝试的起始数值:**
 
-| Water type | Factor Color (R, G, B, A) |
+| 水体类型 | Factor Color(R、G、B、A) |
 | :---- | :---- |
-| Clear tropical blue | 0.05, 0.35, 0.80, 1.0 |
-| Deep dark ocean | 0.02, 0.10, 0.25, 1.5 |
-| Murky river | 0.10, 0.50, 0.30, 0.8 |
-| Shallow lagoon | 0.15, 0.60, 0.70, 0.5 |
-| Swamp / bog | 0.20, 0.35, 0.10, 0.4 |
+| 清澈的热带蓝水 | 0.05, 0.35, 0.80, 1.0 |
+| 深邃幽暗的海洋 | 0.02, 0.10, 0.25, 1.5 |
+| 浑浊的河流 | 0.10, 0.50, 0.30, 0.8 |
+| 浅水潟湖 | 0.15, 0.60, 0.70, 0.5 |
+| 沼泽/泥潭 | 0.20, 0.35, 0.10, 0.4 |
 
-> The colour values are in linear space. The Material Inspector displays them converted to sRGB for readability — what you see in the colour picker is approximately what you will see in-game in bright sunlight.
+> 这些颜色数值处于线性空间。材质检查器会将其转换为 sRGB 以便于阅读——你在颜色选择器中看到的内容,大致就是你在明亮阳光下的游戏画面中会看到的效果。
 
-### Factor2 Color — Underwater Haze / Scatter Color
+### Factor2 Color(因子2颜色)— 水下雾霭/散射颜色
 
-This is the tint of the murky glow you see when looking through shallow water at a lit surface below. Think of it as the colour of the water itself rather than what is behind it.
+这是在浅水中透过水面观察下方被照亮表面时所看到的那种浑浊光晕的色调。可以将其理解为水本身的颜色,而非水后面物体的颜色。
 
-| Channel | What it controls |
+| 通道 | 作用 |
 | :---- | :---- |
-| **R, G, B** | The haze colour. A good starting point is a lighter, slightly greenish version of your Factor Color. |
-| **A (alpha)** | How strongly the haze colour appears near the surface. 0.1–0.3 is a natural range. |
+| **R、G、B** | 雾霭的颜色。一个不错的起点是采用比 Factor Color 更浅、略带绿色调的颜色。 |
+| **A(透明度)** | 雾霭颜色在靠近水面处显现的强烈程度。0.1–0.3 是一个自然的取值范围。 |
 
-**Starting points to try:**
+**可尝试的起始数值:**
 
-| Water type | Factor2 Color (R, G, B, A) |
+| 水体类型 | Factor2 Color(R、G、B、A) |
 | :---- | :---- |
-| Clear tropical blue | 0.10, 0.60, 0.50, 0.2 |
-| Deep dark ocean | 0.05, 0.20, 0.40, 0.1 |
-| Murky river | 0.15, 0.40, 0.20, 0.3 |
-| Swamp / bog | 0.20, 0.30, 0.08, 0.35 |
+| 清澈的热带蓝水 | 0.10, 0.60, 0.50, 0.2 |
+| 深邃幽暗的海洋 | 0.05, 0.20, 0.40, 0.1 |
+| 浑浊的河流 | 0.15, 0.40, 0.20, 0.3 |
+| 沼泽/泥潭 | 0.20, 0.30, 0.08, 0.35 |
 
-> Set Factor2 Color to a colour in the same family as Factor Color but lighter and slightly more green or cyan. Very saturated values can look unnatural.
+> 将 Factor2 Color 设置为与 Factor Color 同色系但更浅、略偏绿色或青色的颜色。过于饱和的数值可能会显得不自然。
 
 ---
 
-## Step 4 — Tune the Scene Wave Settings
+## 步骤 4 — 调整场景波浪设置
 
-When a custom water material override is active, the gameplay code no longer forces fixed wave parameters onto your scene. The sliders in the **Scene Inspector Water group** now have full effect.
+当自定义水体材质覆盖处于激活状态时,游戏玩法代码将不再对你的场景强制施加固定的波浪参数。**场景检查器水组(Scene Inspector Water group)** 中的滑块现在将完全生效。
 
-| Slider | What it does | Suggested range |
+| 滑块 | 作用 | 建议范围 |
 | :---- | :---- | :---- |
-| **Strength** | Controls how energetic and tall the waves are. Higher \= choppier surface, more foam at the edges. | 0.5–3.0 for rivers and lakes; up to 6–8 for stormy coasts |
-| **Choppiness** | Controls the shape of wave peaks. 0 \= smooth rolling waves, 1 \= sharp peaked waves. | 0.3–0.7 for most water bodies |
-| **Wind Dependency** | How strongly the waves align with the wind direction. 0 \= waves travel in all directions equally, 1 \= waves strongly follow the wind. | 0.0–0.5 for enclosed water; 0.5–1.0 for open water |
+| **Strength(强度)** | 控制波浪的能量和高度。数值越高 \= 水面越汹涌,边缘泡沫越多。 | 河流和湖泊为 0.5–3.0;暴风雨中的海岸可达 6–8 |
+| **Choppiness(波浪尖锐度)** | 控制波峰的形状。0 \= 平滑的滚动波浪,1 \= 尖锐的波峰。 | 大多数水体为 0.3–0.7 |
+| **Wind Dependency(风向依赖度)** | 波浪与风向对齐的强烈程度。0 \= 波浪在各个方向上均匀传播,1 \= 波浪强烈跟随风向。 | 封闭水域为 0.0–0.5;开阔水域为 0.5–1.0 |
 
-> Without a material override, **Strength** is forced to 10 and **Wind Dependency** to 0 by the engine regardless of what you set here. The sliders only take effect when a custom material override is assigned.
-
----
-
-## What Cannot Be Changed per Material
-
-The following are driven by the engine simulation or the global render pipeline. They are the same for every non-naval water surface in every scene and cannot be overridden by changing the water material.
-
-- Wave normal maps and displacement (these come from the FFT water simulation)  
-- Caustics  
-- Refraction of the scene behind the water
+> 如果没有材质覆盖,引擎会强制将 **Strength** 设为 10,将 **Wind Dependency** 设为 0,无论你在此处设置什么数值。只有在指定了自定义材质覆盖之后,这些滑块才会生效。
 
 ---
 
-## Hot-Reloading in the Editor
+## 哪些内容无法按材质更改
 
-When you save changes to your water material while the scene is open in the editor, the engine detects the change and refreshes the water automatically within a few seconds. You do not need to reload the scene.
+以下内容由引擎模拟系统或全局渲染管线驱动。它们在每个场景的每个非海战水面上都是相同的,无法通过更改水体材质来覆盖。
 
-If the water does not update after saving the material, try toggling the **Non-Naval Water Material Override** picker off and back on to force a refresh.
+- 波浪法线贴图与位移(这些来自 FFT 水体模拟)  
+- 焦散(Caustics)  
+- 水面背后场景的折射
 
 ---
 
-## Quick Checklist
+## 编辑器中的热重载
 
-- [ ] Material shader is exactly `water_surface`  
-- [ ] Override field is set in the Scene Inspector Water group  
-- [ ] Scene is saved after setting the override  
-- [ ] Factor Color alpha is above 0.1 (very low values make all water look uniformly hazy)  
-- [ ] Factor2 Color is in the same colour family as Factor Color but lighter  
-- [ ] Strength and Choppiness sliders are set to the values you want (they now matter)
+当你在编辑器中打开场景的同时保存对水体材质的更改时,引擎会检测到该更改,并在几秒钟内自动刷新水体效果。你无需重新加载场景。
 
+如果保存材质后水体没有更新,请尝试将 **非海战水体材质覆盖(Non-Naval Water Material Override)** 选择器关闭再重新打开,以强制刷新。
+
+---
+
+## 快速检查清单
+
+- [ ] 材质着色器精确为 `water_surface`  
+- [ ] 已在场景检查器的水组中设置覆盖字段  
+- [ ] 设置覆盖后已保存场景  
+- [ ] Factor Color 的透明度高于 0.1(数值过低会使所有水看起来均匀模糊)  
+- [ ] Factor2 Color 与 Factor Color 属于同一色系,但更浅  
+- [ ] Strength 和 Choppiness 滑块已设置为你想要的数值(它们现在会产生实际效果)
+</content>

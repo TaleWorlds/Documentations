@@ -1,24 +1,25 @@
 +++
-title = "Merging Module XML Files with Native"
+title = "Слияние XML-файлов модуля с нативными файлами"
+ai_translated = true
 
 [menu.main]
 identifier = "merging_module_xml_files_with_native"
 parent = "bestpractices"
 +++
 
-With Bannerlord v1.3, we have implemented an XML merging algorithm that assists in merging XML files defined in other modules' module data without using XSLT. We can add new elements to the XMLs or change some attributes during merging, using their unique attributes and other information gathered from XSDs. Follow these steps to enable the merging algorithm:
+Начиная с Bannerlord v1.3, мы реализовали алгоритм слияния XML, который помогает объединять XML-файлы, определённые в данных модулей (module data) других модулей, без использования XSLT. Во время слияния мы можем добавлять новые элементы в XML или изменять некоторые атрибуты, используя их уникальные атрибуты и другую информацию, полученную из XSD. Выполните следующие шаги, чтобы включить алгоритм слияния:
 
-1. Create an XML file that needs to be merged with the base game
-2. Add new elements with the content of the mod; they will be added to the appropriate places in the final merged XML file that is going to be used by the game
-3. Change elements that are already present in the base game
+1. Создайте XML-файл, который необходимо объединить с базовой игрой
+2. Добавьте новые элементы с содержимым мода; они будут добавлены в соответствующие места в итоговом объединённом XML-файле, который будет использоваться игрой
+3. Измените элементы, которые уже присутствуют в базовой игре
 
-In the engine, merging of native and other modules' data is done in two ways.
+В движке слияние данных нативной игры и других модулей выполняется двумя способами.
 
-## Merging for Native
+## Слияние для нативной игры (Native)
 
-These are the XML files that start with "soln". In ModuleData, they are defined in the "project.mbproj" file.
+Это XML-файлы, имена которых начинаются с "soln". В ModuleData они определяются в файле "project.mbproj".
 
-In the following code, we can see that this module registers:
+В приведённом ниже коде видно, что этот модуль регистрирует:
 
 * action_sets
 * action_types
@@ -42,11 +43,11 @@ In the following code, we can see that this module registers:
 </base>
 ```
 
-These files are automatically found by the system and merged with native.
+Эти файлы автоматически обнаруживаются системой и объединяются с нативными данными.
 
-## Managed XML Files
+## Управляемые XML-файлы (Managed XML Files)
 
-The other kind of merging is done with managed XML files such as items.xml, heroes.xml, and settlements.xml. They are defined in the SubModule.xml file located at the module's root. Here's an example of a SubModule file:
+Другой вид слияния выполняется для управляемых (managed) XML-файлов, таких как items.xml, heroes.xml и settlements.xml. Они определяются в файле SubModule.xml, расположенном в корне модуля. Вот пример файла SubModule:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -75,9 +76,9 @@ The other kind of merging is done with managed XML files such as items.xml, hero
 </Module>
 ```
 
-In the above example, we have registered an XMLNode to the game with the id="Items". So when we need merging, items.xml from the base game will merge with the items.xml from the mod. The only thing that needs to be done is to implement the items.xml file as usual, and they will be merged.
+В приведённом выше примере мы зарегистрировали в игре XMLNode с id="Items". Поэтому при слиянии items.xml из базовой игры будет объединён с items.xml из мода. Всё, что нужно сделать — это реализовать файл items.xml как обычно, и они будут объединены.
 
-Let's have a look at the Torch item located in the native "items.xml":
+Рассмотрим предмет Torch (факел), расположенный в нативном файле "items.xml":
 
 ```xml
 <Item
@@ -116,7 +117,7 @@ Let's have a look at the Torch item located in the native "items.xml":
 </Item>
 ```
 
-We can change some properties of this item by rewriting it in our own module. When the merge algorithm runs, it searches through the XML file and looks at the "unique" attributes of that element (which is "id" in this case). If a unique attribute is found, that element is changed, and if it is not found, the new item is added to the XML file. Let's say we wanted to change the above Torch item, which has the following unique attribute id: "torch". We want to make it available in shops, change its swing_damage to 9, and set the DropOnWeaponChange flag to false. We would insert the following code into our module's items.xml:
+Мы можем изменить некоторые свойства этого предмета, переписав его в нашем собственном модуле. Когда запускается алгоритм слияния, он проходит по XML-файлу и просматривает "уникальные" атрибуты данного элемента (в данном случае это "id"). Если уникальный атрибут найден, этот элемент изменяется; если не найден, новый элемент добавляется в XML-файл. Предположим, мы хотим изменить указанный выше предмет Torch, у которого уникальный атрибут id равен "torch". Мы хотим сделать его доступным в магазинах, изменить его swing_damage на 9 и установить флаг DropOnWeaponChange в false. Для этого мы вставим следующий код в items.xml нашего модуля:
 
 ```xml
 <Item
@@ -131,7 +132,7 @@ We can change some properties of this item by rewriting it in our own module. Wh
 </Item>
 ```
 
-The algorithm then searches through the items and finds an item with a unique attribute that is already present in native files. It then starts the merging process. This is the resulting item:
+Затем алгоритм проходит по предметам и находит предмет с уникальным атрибутом, который уже присутствует в нативных файлах. После этого начинается процесс слияния. Вот итоговый предмет:
 
 ```xml
 <Item
@@ -170,7 +171,7 @@ The algorithm then searches through the items and finds an item with a unique at
 </Item>
 ```
 
-For each XML file, there is an XSD schema file that gives information about the structure of the XML file. The XSD files are located in the XmlSchemas folder. These files also tell us which attributes of an element are unique attributes. And there are some elements where the algorithm always prefers merging. In the XML files above, if we look at the corresponding XSD schemas, we will see that for the element "Item", the unique attribute is "id", for the element "ItemComponent", we should always prefer merging because it is restricted that there is only one "ItemComponent" element for each "Item". All these information is read from the xsd files by the algorithm. For example, let's look at the xsd schema of "ShipHulls":
+Для каждого XML-файла существует файл схемы XSD, который предоставляет информацию о структуре XML-файла. Файлы XSD находятся в папке XmlSchemas. Эти файлы также сообщают нам, какие атрибуты элемента являются уникальными. Кроме того, существуют элементы, для которых алгоритм всегда предпочитает слияние. В приведённых выше XML-файлах, если посмотреть на соответствующие XSD-схемы, можно увидеть, что для элемента "Item" уникальным атрибутом является "id", а для элемента "ItemComponent" всегда следует предпочитать слияние, поскольку установлено ограничение, что для каждого "Item" может быть только один элемент "ItemComponent". Вся эта информация считывается алгоритмом из xsd-файлов. Например, рассмотрим xsd-схему для "ShipHulls":
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
@@ -244,7 +245,7 @@ For each XML file, there is an XSD schema file that gives information about the 
 </xs:schema>
 ```
 
-In the schema above, we can see that "xs:unique" elements tells us which attributes of the element specified with "xpath" are unique. For example lets look at:
+В приведённой выше схеме видно, что элементы "xs:unique" сообщают нам, какие атрибуты элемента, указанного в "xpath", являются уникальными. Например, рассмотрим:
 
 ```xml
 <!-- id attribute is unique for ShipHull -->
@@ -254,7 +255,7 @@ In the schema above, we can see that "xs:unique" elements tells us which attribu
 </xs:unique>
 ```
 
-This tells that, "id" attribute of an element "ShipHull" is unique. So, the merging algorithm checks this "id" field while merging. There are also some annotations that can be seen in the xsd files such as:
+Это означает, что атрибут "id" элемента "ShipHull" является уникальным. Таким образом, алгоритм слияния при объединении проверяет именно это поле "id". В xsd-файлах также можно встретить некоторые аннотации, например:
 
 ```xml
 <xs:element name="AvailableSlots" maxOccurs="1">
@@ -265,4 +266,4 @@ This tells that, "id" attribute of an element "ShipHull" is unique. So, the merg
   </xs:annotation>
 ```
 
-This tells us that an "AvailableSlots" element occurs only once in its parent and when the algorithm encounters an "AvailableSlots" item while modifying the parent item with merging, it knows that the "AvailableSlots" present in the other element that we are trying to merge directly merges with the existing "AvailableSlots" without resulting in two "AvailableSlots" elements. Elements that are annotated like this do not have unique id's as well because we don't need one.
+Это сообщает нам, что элемент "AvailableSlots" встречается в своём родительском элементе только один раз, и когда алгоритм при слиянии родительского элемента встречает элемент "AvailableSlots", он понимает, что "AvailableSlots" в другом элементе, с которым мы пытаемся выполнить слияние, напрямую объединяется с существующим "AvailableSlots", не создавая при этом два элемента "AvailableSlots". Элементы, аннотированные таким образом, также не имеют уникальных идентификаторов, поскольку они нам не нужны.

@@ -1,27 +1,28 @@
 +++
-title = "Creating a Custom Game Mode"
+title = "Создание пользовательского игрового режима"
 description = ""
 weight = 10
+ai_translated = true
 +++
 
-#### Prerequisites
-To make a custom MP game mode, you first need to create your module’s folder under the `Modules` folder of your games installation. Inside your module’s folder, you need to create a `bin` folder for your DLL files and a `SubModule.xml` file for your module’s definition and additional data.
+#### Предварительные требования
+Чтобы создать пользовательский MP игровой режим, вам сначала нужно создать папку вашего модуля в папке `Modules` вашей установленной игры. Внутри папки вашего модуля вам нужно создать папку `bin` для ваших DLL-файлов и файл `SubModule.xml` для определения вашего модуля и дополнительных данных.
 
-For programming, you need to have .NET Framework development tools installed. To do that, download Visual Studio 2022 Community Edition and install .NET 6 support. After that’s done, create a new Class Library project.\
+Для программирования вам потребуются установленные инструменты разработки .NET Framework. Для этого скачайте Visual Studio 2022 Community Edition и установите поддержку .NET 6. После этого создайте новый проект Class Library.\
 
-For the client side, add references to DLLs located in the `Win64_Shipping_Client` folder of your Mount & Blade II: Bannerlord installation. \\
-For the server side, add references to DLLs located in the `Win64_Shipping_Server` folder of your Mount & Blade II: Dedicated Server installation.
+Для клиентской стороны добавьте ссылки на DLL-файлы, находящиеся в папке `Win64_Shipping_Client` вашей установки Mount & Blade II: Bannerlord. \\
+Для серверной стороны добавьте ссылки на DLL-файлы, находящиеся в папке `Win64_Shipping_Server` вашей установки Mount & Blade II: Dedicated Server.
 
-Make sure the output directory of your project is:
+Убедитесь, что выходной каталог вашего проекта следующий:
 
-* `Win64_Shipping_Client` of your module’s `bin` folder for the client code.
-* `Win64_Shipping_Server` of your module’s `bin` folder for the server code.
+* `Win64_Shipping_Client` в папке `bin` вашего модуля для клиентского кода.
+* `Win64_Shipping_Server` в папке `bin` вашего модуля для серверного кода.
 
-After everything is set up, you can start programming your game mode.
-Please note that the game mode created in this document with its full source code and additional data files are provided to you in a ZIP file.
+После того как всё настроено, вы можете начать программировать свой игровой режим.
+Обратите внимание, что игровой режим, созданный в этом документе, вместе с полным исходным кодом и дополнительными файлами данных, предоставляется вам в ZIP-архиве.
 
-#### Module Definition File
-Before starting defining behaviors of your game mode, you first need to fill the `SubModule.xml` file so the mod is defined. This file is where you give your mod a name, an ID, version and define its dependencies and DLL files.
+#### Файл определения модуля
+Прежде чем начать определять поведения вашего игрового режима, вам сначала нужно заполнить файл `SubModule.xml`, чтобы определить мод. В этом файле вы даёте вашему моду имя, ID, версию и определяете его зависимости и DLL-файлы.
 
 	<Module>
 		<Name value="MP Bounty"/>
@@ -40,22 +41,22 @@ Before starting defining behaviors of your game mode, you first need to fill the
 		</SubModules>
 	</Module>
 
-From this sample definition file, we can see the basic needs of a mod. For the `ModuleCategory` node, the value can be either `Multiplayer` or `Server` for MP mods. If the mod is a Multiplayer mod, it means that it is loaded for both client and server. Server mods are only loaded on the server side and can be used for management or analytics needs.
+Из этого примера файла определения мы можем увидеть базовые потребности мода. Для узла `ModuleCategory` значением может быть либо `Multiplayer`, либо `Server` для MP модов. Если мод является мультиплеерным модом, это означает, что он загружается как на клиенте, так и на сервере. Серверные моды загружаются только на стороне сервера и могут использоваться для нужд управления или аналитики.
 
-`SubModules` node defines DLL files that this mod creates and uses. Make sure the name of your DLL file and the name of your class that inherits `MBSubModuleBase` matches with the ones in this file.
+Узел `SubModules` определяет DLL-файлы, которые создаёт и использует этот мод. Убедитесь, что имя вашего DLL-файла и имя вашего класса, наследующего `MBSubModuleBase`, совпадают с указанными в этом файле.
 
-#### SubModule Class
-To define your game mode in code, you need to create a class that inherits the `MBSubModuleBase` class. In this class, override `OnSubModuleLoad` method and add this line:
+#### Класс SubModule
+Чтобы определить ваш игровой режим в коде, вам нужно создать класс, наследующий класс `MBSubModuleBase`. В этом классе переопределите метод `OnSubModuleLoad` и добавьте эту строку:
 
 	Module.CurrentModule.AddMultiplayerGameMode(new MissionMultiplayerBountyMPMode("BountyMP"))
 
-The string given to the constructor is the name of your game mode. For this sample, we’re creating a game mode named `BountyMP`. To load XML files with text information, override `InitializeGameStarter` method, call the base method and add this line:
+Строка, передаваемая в конструктор, является именем вашего игрового режима. Для данного примера мы создаём игровой режим под названием `BountyMP`. Чтобы загрузить XML-файлы с текстовой информацией, переопределите метод `InitializeGameStarter`, вызовите базовый метод и добавьте эту строку:
 
 	game.GameTextManager.LoadGameTexts(ModuleHelper.GetModuleFullPath("BountyMP") + "ModuleData/multiplayer_strings.xml")
 
-Again, both the module name and XML file name depend on your mod’s file names.
+Опять же, и имя модуля, и имя XML-файла зависят от имён файлов вашего мода.
 
-In the XML file, you can define the following so your game mode’s name show up on the server list:
+В XML-файле вы можете определить следующее, чтобы название вашего игрового режима отображалось в списке серверов:
 
 	<?xml version="1.0" encoding="utf-8"?>
 	<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
@@ -65,10 +66,10 @@ In the XML file, you can define the following so your game mode’s name show up
 		</strings>
 	</base>
 
-Make sure IDs match up with the ones you defined in your code and module definition files.
+Убедитесь, что ID совпадают с теми, что вы определили в файлах кода и определения модуля.
 
-#### GameMode Class
-To make the server start the mission with your game mode, you need to create a new class that inherits `MissionBasedMultiplayerGameMode`. In this class, override `StartMultiplayerGame` method like this **for your client module**:
+#### Класс GameMode
+Чтобы заставить сервер запустить миссию с вашим игровым режимом, вам нужно создать новый класс, наследующий `MissionBasedMultiplayerGameMode`. В этом классе переопределите метод `StartMultiplayerGame` следующим образом **для вашего клиентского модуля**:
 
 	public override void StartMultiplayerGame(string scene) {
 		MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
@@ -98,7 +99,7 @@ To make the server start the mission with your game mode, you need to create a n
 		);
 	}
 
-In this class, override StartMultiplayerGame method like this for your server module:
+В этом классе переопределите метод StartMultiplayerGame следующим образом для вашего серверного модуля:
 
 	public override void StartMultiplayerGame(string scene) {
 		MissionState.OpenNew("BountyMP", new MissionInitializerRecord(scene),
@@ -129,27 +130,26 @@ In this class, override StartMultiplayerGame method like this for your server mo
 	}
 
 
-This method shows how a mission runs at an overview. All mission behaviors are loaded one by one and they all handle different aspects of the game. Depending on your game mode, you might want all of these or only some of these at your mode. Also please note that there are dependencies between some of these behaviors, meaning that if one is not present, others might not work correctly.  In this example, there are two mission behaviors that you are not going to get if you have created a clean project with the steps mentioned in the first section. These two behaviors are the ones the modder creates to add their own game logic. These are `MissionMultiplayerBountyMP` and `MissionMultiplayerBountyMPClient`. The former manages the game mode from the server while the latter manages the game mode from the client side. Make sure that all shared and important data is on your server and synchronized properly.
+Этот метод показывает в общих чертах, как работает миссия. Все поведения миссии (mission behaviors) загружаются одно за другим, и каждое из них отвечает за разные аспекты игры. В зависимости от вашего игрового режима вам может понадобиться либо всё это, либо только часть этого в вашем режиме. Также обратите внимание, что между некоторыми из этих поведений существуют зависимости, то есть если одно из них отсутствует, другие могут работать некорректно. В этом примере есть два поведения миссии, которых вы не получите, если создали чистый проект, следуя шагам, упомянутым в первом разделе. Эти два поведения — те, что создаёт сам моддер для добавления собственной игровой логики. Это `MissionMultiplayerBountyMP` и `MissionMultiplayerBountyMPClient`. Первый управляет игровым режимом со стороны сервера, а второй — со стороны клиента. Убедитесь, что все общие и важные данные находятся на вашем сервере и правильно синхронизируются.
 
-#### Mission Behaviors
-For all native game modes, the server side game mode logic class, `MissionMultiplayerBountyMP` in this example, inherits `MissionMultiplayerGameModeBase`. This class defines basic spawning and synchronization systems. Also for all native game modes, the client side game mode message handling logic class, `MissionMultiplayerBountyMPClient` in this example, inherits `MissionMultiplayerGameModeBaseClient`. There are several overrides available for this class that makes sure the registering and deregistering from message handlers happen at the correct time.
+#### Поведения миссии (Mission Behaviors)
+Для всех нативных игровых режимов класс логики игрового режима на стороне сервера, в данном примере `MissionMultiplayerBountyMP`, наследует `MissionMultiplayerGameModeBase`. Этот класс определяет базовые системы спавна и синхронизации. Также для всех нативных игровых режимов класс логики обработки сообщений игрового режима на стороне клиента, в данном примере `MissionMultiplayerBountyMPClient`, наследует `MissionMultiplayerGameModeBaseClient`. Для этого класса доступно несколько переопределений, которые обеспечивают правильное время регистрации и отмены регистрации обработчиков сообщений.
 
-#### Mission Representatives
-In native game modes, Mission Representative classes are added to all clients to handle game mode specific data and logic. From this representative class, the client can query various things about the game mode depending on the situation. The server can also use a client’s mission representative to calculate various things, including gold gains, flag information and more. Contents of this class are dependent on the game mode itself, the base class of Mission Representative only has the gold and controlled agent of the client. In the example, it is `BountyMPMissionRepresentative`. Mission Representatives are added in the server game mode Mission Behavior class mentioned in the previous section.
+#### Представители миссии (Mission Representatives)
+В нативных игровых режимах классы Mission Representative добавляются всем клиентам для обработки данных и логики, специфичных для игрового режима. Из этого класса представителя клиент может запрашивать различную информацию об игровом режиме в зависимости от ситуации. Сервер также может использовать представителя миссии клиента для вычисления различных значений, включая прирост золота, информацию о флагах и прочее. Содержимое этого класса зависит от самого игрового режима, базовый класс Mission Representative содержит только золото и управляемого агента клиента. В данном примере это `BountyMPMissionRepresentative`. Представители миссии добавляются в классе поведения миссии игрового режима на стороне сервера, упомянутом в предыдущем разделе.
 
-#### Hosting a Modded Custom Server
-To host a custom server with mods, you can use the launch command like the following:
+#### Хостинг моддированного пользовательского сервера
+Чтобы разместить пользовательский сервер с модами, вы можете использовать команду запуска следующего вида:
 
 	DedicatedCustomServer.Starter.exe _MODULES_*Native*Multiplayer*YOUR_MODULE_NAME_1*YOUR_MODULE_NAME_2*_MODULES_
 
-In between asterisk characters, you can put the name of any mod you want.
+Между символами звёздочки вы можете указать имя любого нужного вам мода.
 
-The file you've provided to `/dedicatedcustomserverconfigfile` parameter can also have the name of your custom game mode in it.
+Файл, который вы передали в параметр `/dedicatedcustomserverconfigfile`, также может содержать имя вашего пользовательского игрового режима.
 
-#### Sample Mod
-You can find a sample mod that adds a new MP Game Mode [here](https://download.taleworlds.com/BountyMP.zip). Please note that there might be small bugs in the sample mod, since it's not a complete and polished official game mode.
+#### Пример мода
+Вы можете найти пример мода, который добавляет новый MP игровой режим, [здесь](https://download.taleworlds.com/BountyMP.zip). Обратите внимание, что в примере мода могут быть небольшие ошибки, поскольку это не завершённый и не отполированный официальный игровой режим.
 
-To compile the client side of the sample, you need to have `Mount & Blade II: Bannerlord` installed.
+Чтобы скомпилировать клиентскую часть примера, у вас должна быть установлена `Mount & Blade II: Bannerlord`.
 
-To compile the server side of the sample, you need to have `Mount & Blade II: Dedicated Server` installed.
-
+Чтобы скомпилировать серверную часть примера, у вас должен быть установлен `Mount & Blade II: Dedicated Server`.

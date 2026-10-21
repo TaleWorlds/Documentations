@@ -1,98 +1,99 @@
 +++
-title = "What Makes a Hideout Scene"
+title = "藏身处场景的构成要素"
 description = ""
-weight = 1
+weight = 5
+ai_translated = true
 +++
 
-#### Introduction
-This list of checkpoints should aid you in creation of hideout scenes and provide you with an insight into what we pay attention to when creating them. Unlike many other of our scenes, hideouts are only used for fighting missions and usually have a very strict one way layout.
+#### 简介
+这份检查清单旨在帮助你制作藏身处场景,并让你了解我们在制作这类场景时所关注的要点。与我们的许多其他场景不同,藏身处场景仅用于战斗任务,通常具有非常严格的单向布局。
 
-#### Navigation Mesh
-* [Works similarly to how it does with village scenes.]({{< ref "villages.md/#navigation-mesh" >}})
-* No need to have special ID’s on paths or around animal enclosures.
-* Take special care to define the costs of navmeshes off the path correctly, to avoid having AI run sharply around rocks, or run through rough terrain like swamps, forests and such.
+#### 导航网格 (Navigation Mesh)
+* [其工作方式与村庄场景类似。]({{< ref "villages.md/#navigation-mesh" >}})
+* 路径上或动物围栏周围无需使用特殊 ID。
+* 要特别注意正确设置路径之外的导航网格的消耗值(costs),以避免 AI 紧贴岩石急转,或穿过沼泽、森林等崎岖地形。
 
-#### Spawn Points
-##### General
-* Don't use any animal spawns.
+#### 生成点 (Spawn Points)
+##### 概述
+* 不要使用任何动物生成点。
 
-##### Player Party
-* Troop Prefab: **sp_hideout_group_attacker**.
-* Player Prefab: **sp_player**.
-* You will need a battle entry point for the players party. Make sure you have enough space around it to spawn in the other attacking troops.
+##### 玩家队伍 (Player Party)
+* 部队预制体:**sp_hideout_group_attacker**。
+* 玩家预制体:**sp_player**。
+* 你需要为玩家队伍设置一个战斗入口点。确保其周围有足够的空间,以便生成其余的进攻部队。
 
 ![](/img/hideout_scenes/hideout_scenes_1.png)
 
-##### Bandit Areas
-* Hideout scenes are in essence a set of multiple Bandit Areas.
-* Having these positions in a linear layout is generally the best idea, to avoid backtracking of players or them totally overlooking a position in general.
-* Players need to clear every position for the battle to be over.
-* Each Hideout Scene should contain between 6 and 8 common_area positions.
-	* Prefab: **common_area_x**.
-	* The defending bandit party will be split amongst these positions.
-	* Not every position is always defended (if the defender count is low).
-	* Make sure to have a sensible spacing in between.
-		* Having the positions close to each other might trigger defending agents of both positions to attack the player as they approach.
-		* If they are too far apart, the mission loses its pace.
-		* Keep in mind that the troops in most campaigns are probably going to have higher athletics than the player, hence run faster.
-	* You can increase the spawning radius of units by scaling the common area prefab.
-	* Make sure that there is some indication of where the defending units could be so that the player has a chance of finding them (especially at night).
+##### 强盗区域 (Bandit Areas)
+* 藏身处场景本质上是一组多个强盗区域。
+* 将这些位置按线性布局排列通常是最佳选择,以避免玩家走回头路或完全忽略某个位置。
+* 玩家必须清理每一个位置,战斗才算结束。
+* 每个藏身处场景应包含 6 到 8 个 common_area 位置。
+	* 预制体:**common_area_x**。
+	* 防守方的强盗队伍将被分配到这些位置之间。
+	* 并非每个位置都总是有人防守(如果防守方人数较少)。
+	* 确保各位置之间保持合理的间距。
+		* 如果位置彼此过于靠近,可能会导致两个位置的防守单位在玩家接近时同时发起攻击。
+		* 如果彼此距离过远,任务的节奏会变差。
+		* 请记住,大多数战役中的部队的体能(athletics)可能高于玩家,因此跑得更快。
+	* 你可以通过缩放 common area 预制体来增加单位的生成半径。
+	* 确保有一些线索表明防守单位可能在哪里,以便玩家有机会找到他们(尤其是在夜间)。
 
 ![](/img/hideout_scenes/hideout_scenes_2.png)
 
-* Have around 10 to 15 spawnpoints per common area.
-	* Use **sp_npc_x** spawnpoints. Do not have them do chores like farming/smithing though.
-	* Use civilian animation points as spawn points for bandits, some suggestions: “**sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait**”.
-	* All spawn points in the radius will spawn bandits.
+* 每个 common area 应有大约 10 到 15 个生成点。
+	* 使用 **sp_npc_x** 生成点。但不要让他们做耕种/打铁之类的杂务。
+	* 使用平民动画点作为强盗的生成点,一些建议:"**sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait**"。
+	* 半径范围内的所有生成点都将生成强盗。
 
 ![](/img/hideout_scenes/hideout_scenes_3.png)
 
-* You can also use patrol spawnpoints: “**sp_guard_patrol_simple, sp_guard_patrol**”.
-	* These have a chance to spawn bandits.
-	* Can be used outside of the common area.
+* 你也可以使用巡逻生成点:"**sp_guard_patrol_simple, sp_guard_patrol**"。
+	* 这些有一定几率生成强盗。
+	* 可以在 common area 之外使用。
 
-##### Boss Fight
+##### Boss 战 (Boss Fight)
 
 ![](/img/hideout_scenes/hideout_scenes_4.png)
 
-* Prefab: **hideout_boss_fight**.
-* At the end of each Hideout mission there is a boss fight.
-* The position of it should be inside the last Bandit Area (common_area). Make sure that it’s likely for the player to end up around there in the normal fighting mission, so that they are not teleported around the map into a totally different area.
-* How the boss fight works:
-	* Both parties spawn at their outer radius positions.
-	* They then move towards each other right up to the inner radius positions.
-	* You can adjust the distance between the outer and the inner radius with the "WalkDistance" property on the prefab.
-* Inside the prefab you can toggle a preview of the positions.
-* Make sure that the path is clear for both parties between those positions.
-* Also make sure that the camera position isn't too close to other objects.
-	* You can’t adjust the camera in the editor, you will need to test the scene for this.
-	* Keep big prefabs out of the area shown by the preview and you will be fine.
+* 预制体:**hideout_boss_fight**。
+* 每个藏身处任务的结尾都有一场 Boss 战。
+* 其位置应在最后一个强盗区域(common_area)内。确保玩家在正常战斗任务中很可能会到达该附近区域,这样他们就不会被传送到地图上一个完全不同的区域。
+* Boss 战的运作方式:
+	* 双方队伍先在各自的外侧半径位置生成。
+	* 然后双方相向移动,一直走到内侧半径位置。
+	* 你可以通过预制体上的 "WalkDistance" 属性调整外侧半径与内侧半径之间的距离。
+* 在预制体内部,你可以切换这些位置的预览显示。
+* 确保两支队伍之间的路径是畅通的。
+* 同时确保摄像机位置不会离其他物体太近。
+	* 你无法在编辑器中调整摄像机,需要通过实际测试场景来调整。
+	* 只要将大型预制体放置在预览所显示的区域之外,就不会有问题。
 
-#### Soft Border
-* [Works in the same manner as it does with village scenes.]({{< ref "villages.md/#soft-border" >}})
+#### 软边界 (Soft Border)
+* [其工作方式与村庄场景相同。]({{< ref "villages.md/#soft-border" >}})
 
-#### Sounds
-* [Works in the same manner as it does with village scenes.]({{< ref "villages.md/#sounds" >}})
-* Make sure to not use any sounds with civilian life elements in them (like chatter, or town sounds).
+#### 声音 (Sounds)
+* [其工作方式与村庄场景相同。]({{< ref "villages.md/#sounds" >}})
+* 请确保不要使用任何带有平民生活元素的声音(如闲聊声或城镇声音)。
 
-#### Lights
-* [Works in the same manner as it does with village scenes.]({{< ref "villages.md/#lights" >}})
-* Take extra care that your scene works properly at night.
-* Place enough torches along the paths and light up the bandit areas.
+#### 灯光 (Lights)
+* [其工作方式与村庄场景相同。]({{< ref "villages.md/#lights" >}})
+* 要特别注意确保你的场景在夜间也能正常运作。
+* 沿路径放置足够的火把,并照亮强盗区域。
 
 ![](/img/hideout_scenes/hideout_scenes_5.png)
 
-#### Atmosphere
-* [Works in the same manner as it does with village scenes.]({{< ref "villages.md/#atmosphere" >}})
+#### 氛围 (Atmosphere)
+* [其工作方式与村庄场景相同。]({{< ref "villages.md/#atmosphere" >}})
 
-#### Gameplay Design Hints
-You should keep in mind the following hints to ensure proper gameplay of your hideout scene.
+#### 玩法设计提示 (Gameplay Design Hints)
+你应当牢记以下提示,以确保藏身处场景拥有良好的游戏体验。
 
-* **Use a linear layout**. Giving the players many options for choosing paths and to experience your scene in itself is not a bad thing. Keep in mind though that the mission is designed to be linear. Bandits might or might not spawn in bandit areas or patrol paths. If your scene branches off too much the player might find themselves not knowing where the next bandit area might be or might be forced to backtrack the scene to find the remaining bandits.
-* Only if all bandits are killed the mission is successful. **Your first priority should be to make sure the player finds them**. Spend extra detail & time on the navmesh on the paths and where the fights will be.
-* **Make sure to keep the scene tight** so that the player doesn't accidently flank around bandit areas. Best practice is to border your scene with impassable props like cliffs, rather than with the artificial soft borders.
-* **Make sure the scene works well at night**. It might be a little counterintuitive that bandits would blast hundreds of fires to light up their hideout but players will thank you for guiding them with those.
-* **Take extra care to make the Bandit Boss fighting location great**. It's one of the few positions you can be sure that the player will always fight in. Also make sure that the Bandit Boss fight location is close to your last expected fighting position.
-* **Focus your environmental storytelling around the paths and inside the bandit areas**. Since this mission has no civilian part, players will not have much time to explore the scene off the paths.
+* **采用线性布局**。为玩家提供多种路径选择、让他们以自己的方式体验场景本身并不是坏事。但请记住,该任务被设计为线性的。强盗可能会、也可能不会在强盗区域或巡逻路径中生成。如果你的场景分支过多,玩家可能会不知道下一个强盗区域在哪里,或者被迫在场景中走回头路以寻找剩余的强盗。
+* 只有当所有强盗都被消灭后,任务才算成功。**你的首要任务是确保玩家能够找到他们**。请在路径以及将发生战斗的区域的导航网格上投入额外的精力和时间。
+* **确保场景保持紧凑**,这样玩家就不会意外地绕过强盗区域进行包抄。最佳做法是用悬崖等不可通行的道具来限定场景边界,而不是使用人为的软边界。
+* **确保场景在夜间也能良好运作**。强盗在藏身处点燃数百堆篝火来照明可能有点反直觉,但玩家会感谢你用这些篝火为他们指路。
+* **特别用心地打造强盗 Boss 战斗地点**。这是少数几个可以确定玩家一定会在此战斗的位置之一。同时确保强盗 Boss 战斗地点靠近你预期的最后一个战斗位置。
+* **将环境叙事的重点放在路径沿线和强盗区域内部**。由于该任务没有平民部分,玩家没有太多时间在路径之外探索场景。
 
 ![](/img/hideout_scenes/hideout_scenes_6.png)

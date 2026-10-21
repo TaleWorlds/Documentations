@@ -1,134 +1,134 @@
 +++
-title = "Custom Water Materials for Non-Naval Scenes"
+title = "Пользовательские материалы воды для не морских (non-naval) сцен"
 description = ""
 weight = 1
+ai_translated = true
 +++
 
-This guide explains how to give a scene its own water look when the Naval DLC macro-displacement renderer is **not** in use — for example, a river ford, a lake, or any land battle with a water body in it.
+Это руководство объясняет, как придать сцене собственный вид воды, когда рендерер макро-смещения (macro-displacement) из дополнения Naval DLC **не** используется — например, брод через реку, озеро или любое сухопутное сражение с водоёмом.
 
 ---
 
-## Overview
+## Обзор
 
-By default every non-naval scene shares a single engine water material called `base_water_scene_default`. That material controls the colour of the water, how light scatters through it, and what the surface looks like.
+По умолчанию каждая не морская (non-naval) сцена использует общий для движка материал воды `base_water_scene_default`. Этот материал управляет цветом воды, тем, как свет рассеивается в ней, и тем, как выглядит поверхность.
 
-You can replace it per-scene with any material that uses the `water_surface` shader. When you do, the engine uses your material instead — and the wave simulation parameters (strength, choppiness, wind direction influence) are no longer overridden by gameplay code, so you can tune them directly in the Scene Inspector.
+Вы можете заменить его для конкретной сцены любым материалом, использующим шейдер `water_surface`. Когда вы это делаете, движок использует ваш материал вместо стандартного — а параметры симуляции волн (сила, хаотичность, влияние направления ветра) больше не переопределяются игровым кодом, поэтому вы можете настраивать их напрямую в Scene Inspector.
 
-> **Naval DLC note:** This override only applies when the Naval DLC macro-displacement renderer is **inactive**. In naval combat missions the override is ignored and the naval pipeline takes over as usual.
-
----
-
-## Step 1 — Create a Water Material
-
-1. Open the **Resource Browser** and find `base_water_scene_default`.  
-2. Duplicate it and give it a clear name, for example `my_module_lake_water`.  
-3. Open the duplicate in the **Material Inspector**.  
-4. Verify that the **Shader** field shows `water_surface`. Only materials with this exact shader will appear in the scene's water material picker.
+> **Примечание о Naval DLC:** Это переопределение применяется только тогда, когда рендерер макро-смещения из Naval DLC **неактивен**. В морских боевых миссиях переопределение игнорируется, и управление берёт на себя морской (naval) пайплайн как обычно.
 
 ---
 
-## Step 2 — Set the Material on the Scene
+## Шаг 1 — Создание материала воды
 
-1. Open your scene in the editor.  
-2. In the **Scene Inspector**, expand the **Water** group.  
-3. Find the **Non-Naval Water Material Override** field.  
-4. Click the picker and choose your material.  
-   - The list is filtered to show only `water_surface` materials.  
-   - Leave the field empty to revert to the engine default (`base_water_scene_default`).  
-5. Save the scene. The override is stored in the scene file and loaded automatically every time the scene is opened in-game or in the editor.
-
->   
-> **Editor preview:** If the Naval DLC is active in your editor session, the **Visibility Manager** panel will show a **"Preview Naval Water Renderer"** checkbox. Make sure this is **unchecked** while working on non-naval water — when it is checked the naval macro-displacement renderer is active and your material override will not be visible. Uncheck it to switch the viewport to the non-naval path and see your material changes live.
+1. Откройте **Resource Browser** и найдите `base_water_scene_default`.
+2. Дублируйте его и дайте ему понятное имя, например `my_module_lake_water`.
+3. Откройте дубликат в **Material Inspector**.
+4. Убедитесь, что в поле **Shader** указано `water_surface`. В списке выбора материала воды сцены будут отображаться только материалы именно с этим шейдером.
 
 ---
 
-## Step 3 — Tune the Material
+## Шаг 2 — Назначение материала сцене
 
-The two fields that have the most visual impact are in the Material Inspector. Everything else (wave animation, displacement, caustics) is driven by the simulation and cannot be changed per-material.
+1. Откройте вашу сцену в редакторе.
+2. В **Scene Inspector** разверните группу **Water**.
+3. Найдите поле **Non-Naval Water Material Override**.
+4. Нажмите на элемент выбора и выберите ваш материал.
+   - Список отфильтрован так, чтобы показывать только материалы `water_surface`.
+   - Оставьте поле пустым, чтобы вернуться к стандартному материалу движка (`base_water_scene_default`).
+5. Сохраните сцену. Переопределение сохраняется в файле сцены и загружается автоматически каждый раз при открытии сцены в игре или в редакторе.
 
-### Factor Color — Water Body Color
+>
+> **Предпросмотр в редакторе:** Если Naval DLC активен в вашей сессии редактора, на панели **Visibility Manager** появится флажок **"Preview Naval Water Renderer"**. Убедитесь, что он **отключён**, пока вы работаете с не морской водой — когда он включён, активен морской рендерер макро-смещения, и переопределение вашего материала не будет видно. Отключите его, чтобы переключить вьюпорт на не морской путь рендеринга и увидеть изменения материала в реальном времени.
 
-This controls how light is absorbed as it travels down through the water. Think of it as the colour the water takes on when it is deep.
+---
 
-| Channel | What it controls |
+## Шаг 3 — Настройка материала
+
+Два поля, которые оказывают наибольшее визуальное влияние, находятся в Material Inspector. Всё остальное (анимация волн, смещение, каустика) определяется симуляцией и не может быть изменено для отдельного материала.
+
+### Factor Color — цвет тела воды
+
+Этот параметр определяет, как свет поглощается по мере прохождения вглубь воды. Думайте об этом как о цвете, который приобретает вода на глубине.
+
+| Канал | Что он контролирует |
 | :---- | :---- |
-| **R (red)** | How much red light survives at depth. Low \= reds disappear quickly, giving a blue-green tint. |
-| **G (green)** | How much green light survives. |
-| **B (blue)** | How much blue light survives. High \= clear blue water. |
-| **A (alpha)** | How quickly the scattered haze takes over with depth. Low values make the haze appear almost immediately; higher values (0.5–2.0) give a natural depth gradient. |
+| **R (красный)** | Насколько красный свет сохраняется на глубине. Низкое значение \= красный быстро исчезает, давая сине-зелёный оттенок. |
+| **G (зелёный)** | Насколько сохраняется зелёный свет. |
+| **B (синий)** | Насколько сохраняется синий свет. Высокое значение \= чистая синяя вода. |
+| **A (альфа)** | Насколько быстро рассеянная дымка проявляется с глубиной. Низкие значения делают дымку почти мгновенной; более высокие значения (0,5–2,0) дают естественный градиент глубины. |
 
-**Starting points to try:**
+**Отправные точки для проб:**
 
-| Water type | Factor Color (R, G, B, A) |
+| Тип воды | Factor Color (R, G, B, A) |
 | :---- | :---- |
-| Clear tropical blue | 0.05, 0.35, 0.80, 1.0 |
-| Deep dark ocean | 0.02, 0.10, 0.25, 1.5 |
-| Murky river | 0.10, 0.50, 0.30, 0.8 |
-| Shallow lagoon | 0.15, 0.60, 0.70, 0.5 |
-| Swamp / bog | 0.20, 0.35, 0.10, 0.4 |
+| Чистая тропическая синяя | 0.05, 0.35, 0.80, 1.0 |
+| Глубокий тёмный океан | 0.02, 0.10, 0.25, 1.5 |
+| Мутная река | 0.10, 0.50, 0.30, 0.8 |
+| Мелкая лагуна | 0.15, 0.60, 0.70, 0.5 |
+| Болото / трясина | 0.20, 0.35, 0.10, 0.4 |
 
-> The colour values are in linear space. The Material Inspector displays them converted to sRGB for readability — what you see in the colour picker is approximately what you will see in-game in bright sunlight.
+> Значения цвета заданы в линейном пространстве. Material Inspector отображает их конвертированными в sRGB для удобства восприятия — то, что вы видите в выборе цвета, примерно соответствует тому, что вы увидите в игре при ярком солнечном свете.
 
-### Factor2 Color — Underwater Haze / Scatter Color
+### Factor2 Color — цвет подводной дымки / рассеяния
 
-This is the tint of the murky glow you see when looking through shallow water at a lit surface below. Think of it as the colour of the water itself rather than what is behind it.
+Это оттенок мутного свечения, которое вы видите, глядя сквозь мелкую воду на освещённую поверхность внизу. Думайте об этом как о цвете самой воды, а не того, что находится за ней.
 
-| Channel | What it controls |
+| Канал | Что он контролирует |
 | :---- | :---- |
-| **R, G, B** | The haze colour. A good starting point is a lighter, slightly greenish version of your Factor Color. |
-| **A (alpha)** | How strongly the haze colour appears near the surface. 0.1–0.3 is a natural range. |
+| **R, G, B** | Цвет дымки. Хорошей отправной точкой будет более светлая, слегка зеленоватая версия вашего Factor Color. |
+| **A (альфа)** | Насколько сильно цвет дымки проявляется у поверхности. 0,1–0,3 — естественный диапазон. |
 
-**Starting points to try:**
+**Отправные точки для проб:**
 
-| Water type | Factor2 Color (R, G, B, A) |
+| Тип воды | Factor2 Color (R, G, B, A) |
 | :---- | :---- |
-| Clear tropical blue | 0.10, 0.60, 0.50, 0.2 |
-| Deep dark ocean | 0.05, 0.20, 0.40, 0.1 |
-| Murky river | 0.15, 0.40, 0.20, 0.3 |
-| Swamp / bog | 0.20, 0.30, 0.08, 0.35 |
+| Чистая тропическая синяя | 0.10, 0.60, 0.50, 0.2 |
+| Глубокий тёмный океан | 0.05, 0.20, 0.40, 0.1 |
+| Мутная река | 0.15, 0.40, 0.20, 0.3 |
+| Болото / трясина | 0.20, 0.30, 0.08, 0.35 |
 
-> Set Factor2 Color to a colour in the same family as Factor Color but lighter and slightly more green or cyan. Very saturated values can look unnatural.
+> Установите Factor2 Color в цвет той же гаммы, что и Factor Color, но светлее и чуть более зелёный или циановый. Слишком насыщенные значения могут выглядеть неестественно.
 
 ---
 
-## Step 4 — Tune the Scene Wave Settings
+## Шаг 4 — Настройка параметров волн сцены
 
-When a custom water material override is active, the gameplay code no longer forces fixed wave parameters onto your scene. The sliders in the **Scene Inspector Water group** now have full effect.
+Когда активно переопределение материала воды для конкретной сцены, игровой код больше не навязывает сцене фиксированные параметры волн. Ползунки в группе **Scene Inspector Water group** теперь получают полный эффект.
 
-| Slider | What it does | Suggested range |
+| Ползунок | Что он делает | Рекомендуемый диапазон |
 | :---- | :---- | :---- |
-| **Strength** | Controls how energetic and tall the waves are. Higher \= choppier surface, more foam at the edges. | 0.5–3.0 for rivers and lakes; up to 6–8 for stormy coasts |
-| **Choppiness** | Controls the shape of wave peaks. 0 \= smooth rolling waves, 1 \= sharp peaked waves. | 0.3–0.7 for most water bodies |
-| **Wind Dependency** | How strongly the waves align with the wind direction. 0 \= waves travel in all directions equally, 1 \= waves strongly follow the wind. | 0.0–0.5 for enclosed water; 0.5–1.0 for open water |
+| **Strength (сила)** | Управляет тем, насколько энергичными и высокими будут волны. Выше \= более хаотичная поверхность, больше пены у краёв. | 0,5–3,0 для рек и озёр; до 6–8 для штормовых побережий |
+| **Choppiness (хаотичность)** | Управляет формой гребней волн. 0 \= гладкие пологие волны, 1 \= острые пики волн. | 0,3–0,7 для большинства водоёмов |
+| **Wind Dependency (зависимость от ветра)** | Насколько сильно волны выравниваются по направлению ветра. 0 \= волны движутся во всех направлениях одинаково, 1 \= волны сильно следуют за ветром. | 0,0–0,5 для замкнутых водоёмов; 0,5–1,0 для открытой воды |
 
-> Without a material override, **Strength** is forced to 10 and **Wind Dependency** to 0 by the engine regardless of what you set here. The sliders only take effect when a custom material override is assigned.
-
----
-
-## What Cannot Be Changed per Material
-
-The following are driven by the engine simulation or the global render pipeline. They are the same for every non-naval water surface in every scene and cannot be overridden by changing the water material.
-
-- Wave normal maps and displacement (these come from the FFT water simulation)  
-- Caustics  
-- Refraction of the scene behind the water
+> Без переопределения материала **Strength** принудительно устанавливается в 10, а **Wind Dependency** — в 0 движком, независимо от того, что вы здесь зададите. Ползунки вступают в силу только тогда, когда назначено переопределение пользовательского материала.
 
 ---
 
-## Hot-Reloading in the Editor
+## Что нельзя изменить для отдельного материала
 
-When you save changes to your water material while the scene is open in the editor, the engine detects the change and refreshes the water automatically within a few seconds. You do not need to reload the scene.
+Следующее управляется симуляцией движка или глобальным пайплайном рендеринга. Эти параметры одинаковы для каждой не морской поверхности воды в каждой сцене и не могут быть переопределены изменением материала воды.
 
-If the water does not update after saving the material, try toggling the **Non-Naval Water Material Override** picker off and back on to force a refresh.
+- Карты нормалей волн и смещение (они берутся из симуляции воды на основе FFT)
+- Каустика
+- Преломление сцены позади воды
 
 ---
 
-## Quick Checklist
+## Горячая перезагрузка в редакторе (Hot-Reloading)
 
-- [ ] Material shader is exactly `water_surface`  
-- [ ] Override field is set in the Scene Inspector Water group  
-- [ ] Scene is saved after setting the override  
-- [ ] Factor Color alpha is above 0.1 (very low values make all water look uniformly hazy)  
-- [ ] Factor2 Color is in the same colour family as Factor Color but lighter  
-- [ ] Strength and Choppiness sliders are set to the values you want (they now matter)
+Когда вы сохраняете изменения в своём материале воды, пока сцена открыта в редакторе, движок обнаруживает изменение и автоматически обновляет воду в течение нескольких секунд. Перезагружать сцену не требуется.
 
+Если вода не обновляется после сохранения материала, попробуйте переключить элемент выбора **Non-Naval Water Material Override** выключить и снова включить, чтобы принудительно обновить.
+
+---
+
+## Краткий чек-лист
+
+- [ ] Шейдер материала — точно `water_surface`
+- [ ] Поле переопределения установлено в группе Water в Scene Inspector
+- [ ] Сцена сохранена после установки переопределения
+- [ ] Альфа Factor Color выше 0,1 (слишком низкие значения делают всю воду равномерно мутной)
+- [ ] Factor2 Color в той же цветовой гамме, что и Factor Color, но светлее
+- [ ] Ползунки Strength и Choppiness установлены на нужные вам значения (теперь они имеют значение)

@@ -1,5 +1,5 @@
 +++
-title = "给你的Mod添加音乐 (Outdated)"
+title = "给你的Mod添加音乐 （已过时）"
 weight = 100
 +++
 

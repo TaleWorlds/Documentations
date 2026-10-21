@@ -1,228 +1,229 @@
 +++
-title = "Hosting a Custom Server"
+title = "Размещение пользовательского сервера"
 description = ""
 weight = 5
+ai_translated = true
 +++
 
-## Installing
-Enable Tools within your Steam Library. `Mount & Blade II: Dedicated Server` should appear on your list. Download and install it.
+## Установка
+Включите Tools в своей библиотеке Steam. В списке должен появиться `Mount & Blade II: Dedicated Server`. Загрузите и установите его.
 
-## Hosting
-By default, dedicated servers use UDP port 7210. You must have a visible (public) IP address on the internet as well as the aforementioned port being accessible.
+## Размещение сервера
+По умолчанию выделенные серверы используют UDP-порт 7210. У вас должен быть видимый (публичный) IP-адрес в интернете, а также должен быть доступен указанный порт.
 
-Anonymous hosting is not supported. You will have to create a server token by going in-game first.
+Анонимный хостинг не поддерживается. Вам нужно будет сначала создать токен сервера, зайдя в игру.
 
-### Generating a Token
-Launch `Mount & Blade II: Bannerlord` multiplayer and log into the game lobby:
+### Генерация токена
+Запустите мультиплеер `Mount & Blade II: Bannerlord` и войдите в игровое лобби:
 
 <img src="/img/hosting_server/hosting_server_1.jpg" width="900px" />
 
-Open the game console by pressing `ALT` + `tilde key (~)`:
+Откройте игровую консоль, нажав `ALT` + `клавиша тильды (~)`:
 
 <img src="/img/hosting_server/hosting_server_2.jpg" width="900px" />
 
-Type `customserver.gettoken` in the textbox and press enter:
+Введите `customserver.gettoken` в текстовое поле и нажмите Enter:
 
 <img src="/img/hosting_server/hosting_server_3.jpg" width="900px" />
 
-Your token has been generated and saved under your `Documents\Mount & Blade II Bannerlord\Tokens` folder:
+Ваш токен был сгенерирован и сохранён в папке `Documents\Mount & Blade II Bannerlord\Tokens`:
 
 <img src="/img/hosting_server/hosting_server_4.png" width="900px" />
 
-If you are planning to host the dedicated server on the same computer where you installed Bannerlord, this is all you have to do. But if you are planning to host using a different computer, please copy this token file to the target computer’s `Documents\Mount & Blade II Bannerlord\Tokens` folder. There is also one other alternative method shown in the Launch Arguments section below.
+Если вы планируете размещать выделенный сервер на том же компьютере, на котором установлен Bannerlord, это всё, что вам нужно сделать. Но если вы планируете использовать для хостинга другой компьютер, пожалуйста, скопируйте этот файл токена в папку `Documents\Mount & Blade II Bannerlord\Tokens` на целевом компьютере. Существует также альтернативный способ, описанный в разделе Launch Arguments ниже.
 
-Beware that the generated token is tied to your Bannerlord account. Any abuse would be traced back to the user who originally generated the token. **We recommend keeping it private**, and not sharing it with other people.
+Имейте в виду, что сгенерированный токен привязан к вашему аккаунту Bannerlord. Любое злоупотребление будет отслежено до пользователя, который изначально сгенерировал токен. **Мы рекомендуем хранить его в тайне** и не передавать другим людям.
 
-Also remember that **your token expires after 3 months** due to security reasons at which point you can replace it by generating a new one.
+Также помните, что **срок действия вашего токена истекает через 3 месяца** по соображениям безопасности, после чего вы можете заменить его, сгенерировав новый.
 
-### Server Administration
-You can administrate your server by typing commands in your server’s console (that opens up when launching the server).
+### Администрирование сервера
+Вы можете администрировать свой сервер, вводя команды в консоли сервера (которая открывается при запуске сервера).
 
-By typing `list` and pressing `enter`, you will get all the available commands in the dedicated server:
+Введя `list` и нажав `Enter`, вы получите список всех доступных команд выделенного сервера:
 
 <img src="/img/hosting_server/consolecommands.png" width="600px" />
 
-For example, to get a simple server running, you can type the following commands into your console:
+Например, чтобы запустить простой сервер, вы можете ввести в консоль следующие команды:
 
 * `ServerName Custom Dedicated Beta Test`
 * `GameType TeamDeathmatch`
 * `start_game`
 * `start_mission`
 
-By executing these commands, you will make your custom server visible and accessible to all players.
+Выполнив эти команды, вы сделаете свой пользовательский сервер видимым и доступным для всех игроков.
 
-With the `ServerName` and `GameType` commands, you are simply setting the name of your server and setting your game mode.
+С помощью команд `ServerName` и `GameType` вы просто задаёте имя своего сервера и устанавливаете режим игры.
 
-With the `start_game` command, you are starting to host your server. Your server becomes visible to all players. Any player who enters your server will wait in the intermission state.
+С помощью команды `start_game` вы начинаете хостинг своего сервера. Ваш сервер становится видимым для всех игроков. Любой игрок, зашедший на ваш сервер, будет ожидать в состоянии перерыва (intermission).
 
-With the `start_mission` command, your server will switch into mission mode and players will be able to play the game.
+С помощью команды `start_mission` ваш сервер переключится в режим миссии, и игроки смогут играть.
 
-You can also use the shorthand `start_game_and_mission` instead of the two commands.
+Вы также можете использовать сокращение `start_game_and_mission` вместо двух команд.
 
-#### Tips & Tricks
+#### Советы и рекомендации
 
-##### Configuration Files
-Instead of executing commands one at a time with the server console, you can specify a configuration file to run on initialization, which will have its contents executed line by line.
+##### Файлы конфигурации
+Вместо того чтобы выполнять команды по одной в консоли сервера, вы можете указать файл конфигурации для запуска при инициализации, содержимое которого будет выполняться построчно.
 
-You can find sample configuration files within the Native module directory (`Modules\Native\ds_config_*.txt`). Note that currently, your own configuration files must also reside within this same directory to be found by the server. See the launch arguments section below for how you can specify a configuration file to be run.
+Вы можете найти примеры файлов конфигурации в директории модуля Native (`Modules\Native\ds_config_*.txt`). Обратите внимание, что в настоящее время ваши собственные файлы конфигурации также должны находиться в этой же директории, чтобы сервер мог их найти. См. раздел о параметрах запуска ниже, чтобы узнать, как указать файл конфигурации для запуска.
 
-##### Launch Arguments
-There are a few particularly useful launch arguments at the moment:
+##### Параметры запуска
+В настоящее время есть несколько особенно полезных параметров запуска:
 
 `/dedicatedcustomserverconfigfile [configuration_file_name]`
-Specify a configuration file to be run as seen in the Configuration Files section above.
+Указывает файл конфигурации для запуска, как описано в разделе «Файлы конфигурации» выше.
 
 `/dedicatedcustomserverauthtoken [authentication_token_contents]`
-When the token is passed through the launch argument, a local file containing the token is not required.
+Когда токен передаётся через параметр запуска, локальный файл, содержащий токен, не требуется.
 
 `/DisableErrorReporting`
-Disables the Crash Uploader popup and automatic error reporting.
+Отключает всплывающее окно Crash Uploader и автоматическую отправку отчётов об ошибках.
 
 `/LogOutputPath [output_path]`
-Sets the log output directory of the server. Path should be in double quotes.
+Задаёт директорию вывода логов сервера. Путь должен быть указан в двойных кавычках.
 
-`/port [number]` Optionally specify a port number to run the server from, useful for using ports other than the default.
+`/port [number]` Опционально позволяет указать номер порта для запуска сервера, полезно при использовании портов, отличных от стандартного.
 
-##### Log Files
-By default, log files for the custom server can be found in your ProgramData directory on Windows (`%programdata%\Mount and Blade II Bannerlord\logs`).
+##### Файлы журналов
+По умолчанию файлы журналов для пользовательского сервера можно найти в директории ProgramData на Windows (`%programdata%\Mount and Blade II Bannerlord\logs`).
 
-##### Automated Battle Count
-By using the command `set_automated_battle_count` before `enable_automated_battle_switching`, you can set the number of missions to be played before the server shuts down.
+##### Автоматический подсчёт боёв
+Используя команду `set_automated_battle_count` перед `enable_automated_battle_switching`, вы можете задать количество миссий, которые будут сыграны до завершения работы сервера.
 
-For example, `set_automated_battle_count 10` will have the server play 10 missions and shut down. If you would like to have an unlimited number of missions, set it to `-1`.
+Например, `set_automated_battle_count 10` заставит сервер сыграть 10 миссий и завершить работу. Если вы хотите, чтобы количество миссий было неограниченным, установите значение `-1`.
 
-#### Additional Features
-With patch v1.2.x the below striken through text is no longer relevant. The `DedicatedCustomServerHelper` module and its functionality has been merged into the base game.
+#### Дополнительные функции
+Начиная с патча v1.2.x, нижеуказанный перечёркнутый текст больше не актуален. Модуль `DedicatedCustomServerHelper` и его функциональность были объединены с базовой игрой.
 
-~~We supply the optional `DedicatedCustomServerHelper` module to help server hosts. There are several submodules within for distinct purposes.~~ For the server side modules to be usable from the outside, you will need to make TCP port 7210 accessible as well.
+~~Мы предоставляем опциональный модуль `DedicatedCustomServerHelper` для помощи хостам серверов. В нём есть несколько подмодулей для различных целей.~~ Чтобы серверные модули были доступны извне, вам нужно также сделать доступным TCP-порт 7210.
 
-~~Note that although the module is optional for server hosts, if you as the host do load the module, the players will also need to have it loaded. Otherwise, a mismatch in modules will prevent players from joining.~~
+~~Обратите внимание, что хотя модуль является опциональным для хостов серверов, если вы, как хост, загружаете этот модуль, игрокам также потребуется загрузить его. В противном случае несовпадение модулей не позволит игрокам подключиться.~~
 
-##### Administration Web Panel
-This module launches a web panel to interact with your custom server, through a general management page and a terminal page:
+##### Веб-панель администрирования
+Этот модуль запускает веб-панель для взаимодействия с вашим пользовательским сервером через общую страницу управления и страницу терминала:
 
 <img src="/img/hosting_server/hosting_server_6.png" width="900px" />
 
-You can access the web panel with your server's IP address and port once it has been initialized.
+Вы можете получить доступ к веб-панели по IP-адресу и порту вашего сервера после его инициализации.
 
-The web panel is password protected by the server’s configured `AdminPassword` option. **By default, this option is left blank, so be sure to change it to a secure password**.
+Веб-панель защищена паролем, который настраивается в опции `AdminPassword` сервера. **По умолчанию эта опция оставлена пустой, поэтому обязательно замените её на надёжный пароль**.
 
-If you do not want the web panel to be accessible from outside the local network or machine, and also do not need the map download feature below, you are free to block TCP port 7210 from external access.
+Если вы не хотите, чтобы веб-панель была доступна извне локальной сети или машины, и вам также не нужна функция загрузки карт ниже, вы можете заблокировать TCP-порт 7210 для внешнего доступа.
 
-##### In-Game Map Downloads [Map Downloader]
-We also present a way to allow players to download your server's map files through an in-game panel. As the server host, there are some conditions you must ensure to get this functioning:
+##### Загрузка карт внутри игры [Map Downloader]
+Мы также предоставляем способ позволить игрокам загружать файлы карт вашего сервера через внутриигровую панель. Как хост сервера, вам нужно обеспечить выполнение нескольких условий, чтобы это работало:
 
-* The maps to be served must be located within ONLY the Multiplayer module's `SceneObj` directory, in the same way a typical module contains scenes. You can create the directory by hand if it is missing.
-* The maps to be served must be "registered" through either the `Map` configuration option, the `add_map_to_automated_battle_pool` or `add_map_to_usable_maps` commands. In other words, only maps playable on the server are served.
+* Карты, которые должны раздаваться, должны находиться ТОЛЬКО в директории `SceneObj` модуля Multiplayer, так же, как в типичном модуле содержатся сцены. Вы можете создать эту директорию вручную, если она отсутствует.
+* Карты, которые должны раздаваться, должны быть «зарегистрированы» через конфигурационную опцию `Map`, либо через команды `add_map_to_automated_battle_pool` или `add_map_to_usable_maps`. Другими словами, раздаются только карты, доступные для игры на сервере.
 
-Note that having the scene loaded in multiple modules will cause issues such as the scene not being shown on the download panel.
+Обратите внимание, что наличие загруженной сцены в нескольких модулях вызовет проблемы, например, сцена не будет отображаться на панели загрузки.
 
-Players will then get prompted to download all of the missing maps as they try to join the server or they can right click on the custom server list entry, which will open a context menu with the option to open the download panel for the server. Once all missing maps are successfully downloaded, there is no need to restart the game, they should be able to join your server as is.
+Затем игрокам будет предложено загрузить все отсутствующие карты при попытке зайти на сервер, либо они могут щёлкнуть правой кнопкой мыши на записи пользовательского сервера в списке, что откроет контекстное меню с опцией открытия панели загрузки для этого сервера. После успешной загрузки всех недостающих карт перезапуск игры не требуется — игроки смогут сразу же подключиться к вашему серверу.
 
 <img src="/img/hosting_server/downloadpanel.png" width="600px" />
 
-Note that this feature is intended to support simple use cases. This is not a module manager feature, and will not be able to support maps that require other assets (ModuleData, Prefabs, etc.) spread throughout a given module. Only the `SceneObj` directory contents are transferred between the server and the client.
+Обратите внимание, что эта функция предназначена для поддержки простых сценариев использования. Это не функция менеджера модулей, и она не сможет поддерживать карты, которые требуют других ресурсов (ModuleData, Prefabs и т. д.), разбросанных по модулю. Между сервером и клиентом передаётся только содержимое директории `SceneObj`.
 
-If the lack of prefab support is a concern, you may be able to make the scene usable through the Map Downloader by breaking the prefabs. Open the scene in the editor, select all entity objects, right click and select *Break Prefab*.
+Если отсутствие поддержки префабов является проблемой, вы можете сделать сцену пригодной для использования с Map Downloader, разбив префабы. Откройте сцену в редакторе, выберите все объекты-сущности, щёлкните правой кнопкой мыши и выберите *Break Prefab*.
 
-##### In-game admin panel & admin features
-The in-game admin panel provides an easy way to organize and moderate events.
+##### Внутриигровая панель администратора и функции администратора
+Внутриигровая панель администратора предоставляет удобный способ организации и модерации событий.
 
-The admin features are only available to those that enter the server as an admin by providing the admin password (right-click on the server and then `Join as Admin`). You can then access the admin panel via the Escape menu. The `AdminPassword` can be set from the server config.
+Функции администратора доступны только тем, кто заходит на сервер как администратор, введя пароль администратора (щёлкните правой кнопкой мыши на сервере и выберите `Join as Admin`). Затем вы можете получить доступ к панели администратора через меню Escape. `AdminPassword` можно задать в конфигурации сервера.
 
 |  |  |
 | ------ | ----------- |
 | <img src="/img/hosting_server/adminpanel1.png"/ width="400px"> | <img src="/img/hosting_server/adminpanel2.png" width="400px"/> |
 
-The in-game panel has two main operational buttons:
+Внутриигровая панель имеет две основные операционные кнопки:
 
-* `Apply and Start Mission` -> This will apply all of the changes made and start a new mission immediately.
-* `Apply Changes` -> This will apply all of the changes made. The ones that are listed under Immediate Effects will go into effect right away. Those that are listed under Mission Options will be applied on the next mission.
+* `Apply and Start Mission` -> Применяет все внесённые изменения и немедленно запускает новую миссию.
+* `Apply Changes` -> Применяет все внесённые изменения. Те, что перечислены в разделе Immediate Effects, вступят в силу сразу же. Те, что перечислены в разделе Mission Options, будут применены к следующей миссии.
 
-The in-game admin panel comes with the following options:
+Внутриигровая панель администратора включает следующие опции:
 
-###### Mission Options (require mission restart)
+###### Опции миссии (требуют перезапуска миссии)
 
-Please note that if you wish to change "Mission Options" that require a mission restart using the in-game Admin Panel - you must use the map intermission system. This means you must use the `start_game_and_mission` (or `start_game`) and `enable_automated_battle_switching` commands in your server config. Not using these will automatically disable all Mission Options on the Admin Panel.
+Обратите внимание, что если вы хотите изменить «Опции миссии» (Mission Options), требующие перезапуска миссии, используя внутриигровую панель администратора, — вам нужно использовать систему перерыва между картами (map intermission). Это означает, что вам нужно использовать команды `start_game_and_mission` (или `start_game`) и `enable_automated_battle_switching` в конфигурации сервера. Если вы их не используете, все опции миссии на панели администратора будут автоматически отключены.
 
-Additionally, options open up based on the selected Game Type. For example, the Warmup Time Limit option is not available when selecting TeamDeathMatch - as there's no warmup in TDM.
+Кроме того, доступные опции зависят от выбранного типа игры. Например, опция Warmup Time Limit недоступна при выборе TeamDeathMatch, поскольку в TDM нет разминки.
 
-* Game Type
-	* Lists all available game types (Siege, TeamDeathmatch, Captain, Skirmish, Duel, Battle)
-* Map
-	* Lists all the maps that have been passed to the server inside the config with the `add_map_to_usable_maps [MapName] [GameType],[GameType]` command
-		* For example: `add_map_to_usable_maps mymap Siege,Skirmish` (please note that the GameType must be correctly capitalized)
-* Attacker & Defender Cultures
-* Minimum Score to Win Duel
-* Number of Rounds
-* Map Time Limit
-* Round Time Limit
-* Warmup Time Limit
-* Maximum Number of Players
+* Game Type (Тип игры)
+	* Список всех доступных типов игры (Siege, TeamDeathmatch, Captain, Skirmish, Duel, Battle)
+* Map (Карта)
+	* Список всех карт, которые были переданы серверу в конфигурации с помощью команды `add_map_to_usable_maps [MapName] [GameType],[GameType]`
+		* Например: `add_map_to_usable_maps mymap Siege,Skirmish` (обратите внимание, что GameType должен быть написан с правильным регистром)
+* Attacker & Defender Cultures (Культуры атакующей и защищающейся сторон)
+* Minimum Score to Win Duel (Минимальный счёт для победы в дуэли)
+* Number of Rounds (Количество раундов)
+* Map Time Limit (Лимит времени на карту)
+* Round Time Limit (Лимит времени на раунд)
+* Warmup Time Limit (Лимит времени разминки)
+* Maximum Number of Players (Максимальное количество игроков)
 
-###### Immediate Effects
-* Welcome Message
-* Team Balance Threshold
-* Friendly Damages
-* Class Limits (Allow, Disallow)
+###### Немедленные эффекты (Immediate Effects)
+* Welcome Message (Приветственное сообщение)
+* Team Balance Threshold (Порог баланса команд)
+* Friendly Damages (Дружественный урон)
+* Class Limits (Лимиты классов) (Allow, Disallow)
 
-###### Others
-* End Warmup
-	* Overrides the warmup timer and ends the warmup in 30 seconds.
-* Mute/Unmute Player
-	* Mutes a player, preventing them from using chat.
-* Kick Player
-	* Kicks a player from the server. Kicked players are able to immediately rejoin the server.
-* Ban Player
-	* Bans a player from the server. Banned players are not able to rejoin the server until it restarts.
+###### Прочее
+* End Warmup (Завершить разминку)
+	* Отменяет таймер разминки и завершает её через 30 секунд.
+* Mute/Unmute Player (Заглушить/снять заглушение игрока)
+	* Заглушает игрока, не позволяя ему пользоваться чатом.
+* Kick Player (Выгнать игрока)
+	* Выгоняет игрока с сервера. Выгнанные игроки могут сразу же повторно присоединиться к серверу.
+* Ban Player (Забанить игрока)
+	* Банит игрока на сервере. Забаненные игроки не могут снова присоединиться к серверу до его перезапуска.
 
-Here are some behaviours you should expect while changing Game Types, Maps and Cultures:
+Вот некоторые особенности поведения, которые следует ожидать при изменении типов игры, карт и культур:
 
-* If you leave Game Type, Map and Cultures UNSELECTED -> The game will run the current Game Type being played and give the players the option to vote on the available maps (those passed with `add_map_to_automated_battle_pool`) and cultures.
-* If you leave Game Type, Map and Cultures UNSELECTED AND the Game Type isn't the one that the server initially launched with -> The game will run the current Game Type being played and use a random map from the available maps (those passed with `add_map_to_usable_maps`) and give the players the option to vote on cultures.
-* If you select a Game Type but leave Map and Cultures UNSELECTED AND the selected Game Type isn't the one that the server initially launched with -> The game will run the current Game Type being played and use a random map from the available maps (those passed with `add_map_to_usable_maps`) and give the players the option to vote on cultures.
-* If you select a Game Type and Map but leave Cultures UNSELECTED -> The game will run the selected Game Type with the selected Map and give the players the option to vote on cultures.
-* If you select a Game Type, Map and Cultures -> The game will run the selected Game Type, Map and Cultures with no voting screen.
-* If you provide no maps for a specific Game Type using the `add_map_to_usable_maps` parameter, that specific Game Type will be disabled in the admin panel.
-* Official maps will only work with the intended Game Types. Trying to use them with another Game Type with `add_map_to_usable_maps` will not display them in the admin panel.
+* Если вы оставите Game Type, Map и Cultures НЕВЫБРАННЫМИ -> Игра продолжит текущий тип игры и предоставит игрокам возможность голосовать за доступные карты (те, что переданы через `add_map_to_automated_battle_pool`) и культуры.
+* Если вы оставите Game Type, Map и Cultures НЕВЫБРАННЫМИ, И текущий тип игры не совпадает с тем, с которым сервер изначально был запущен -> Игра продолжит текущий тип игры и использует случайную карту из доступных карт (переданных через `add_map_to_usable_maps`) и предоставит игрокам возможность голосовать за культуры.
+* Если вы выберете Game Type, но оставите Map и Cultures НЕВЫБРАННЫМИ, И выбранный тип игры не совпадает с тем, с которым сервер изначально был запущен -> Игра продолжит текущий тип игры и использует случайную карту из доступных карт (переданных через `add_map_to_usable_maps`) и предоставит игрокам возможность голосовать за культуры.
+* Если вы выберете Game Type и Map, но оставите Cultures НЕВЫБРАННЫМИ -> Игра запустит выбранный тип игры с выбранной картой и предоставит игрокам возможность голосовать за культуры.
+* Если вы выберете Game Type, Map и Cultures -> Игра запустит выбранный тип игры, карту и культуры без экрана голосования.
+* Если вы не укажете ни одной карты для определённого типа игры с помощью параметра `add_map_to_usable_maps`, этот тип игры будет отключён на панели администратора.
+* Официальные карты будут работать только с предназначенными для них типами игры. Попытка использовать их с другим типом игры через `add_map_to_usable_maps` не приведёт к их отображению на панели администратора.
 
-###### Admin Announcements
-You can also make use of the admin announcements system which pushes out text to everyone on the server by typing the following into chat:
+###### Объявления администратора
+Вы также можете использовать систему объявлений администратора, которая рассылает текст всем на сервере, введя следующее в чат:
 
-* `/ab [text]` - Admin Broadcast - Displays the announcement in the middle of the screen as well as in chat alongside a sound notification.
-* `/ac [text]` - Admin Chat - Displays the announcement in chat.
+* `/ab [text]` - Admin Broadcast (Трансляция администратора) - Отображает объявление в центре экрана, а также в чате вместе со звуковым уведомлением.
+* `/ac [text]` - Admin Chat (Чат администратора) - Отображает объявление в чате.
 
-## FAQ
-##### Does Steam need to stay open for hosting?
-No. You only need Steam for keeping your server files up to date. You are free to copy your server files to some other computer to host it. But we strongly recommend you to use it with Steam in order to keep it up to date. Unlike Warband, currently, any older versions of the server files will be incompatible with our system.
+## Часто задаваемые вопросы
+##### Нужно ли держать Steam открытым для хостинга?
+Нет. Steam нужен только для поддержания актуальности файлов вашего сервера. Вы можете свободно копировать файлы своего сервера на другой компьютер для хостинга. Но мы настоятельно рекомендуем использовать его вместе со Steam, чтобы поддерживать актуальность. В отличие от Warband, в настоящее время любые более старые версии файлов сервера будут несовместимы с нашей системой.
 
-##### Are you planning to add support for other game platforms?
-Yes.
+##### Планируете ли вы добавить поддержку других игровых платформ?
+Да.
 
-##### What if I don’t want to use any game platform to retrieve the server files, will there be any other option?
-Right now, Steam is the only way to download it. We are planning to add it to other game platforms and are also discussing using a Docker host for distributing the server files in the future.
+##### Что, если я не хочу использовать какую-либо игровую платформу для получения файлов сервера, будет ли другой вариант?
+Прямо сейчас Steam — единственный способ его загрузить. Мы планируем добавить поддержку других игровых платформ, а также обсуждаем использование Docker-хоста для распространения файлов сервера в будущем.
 
-##### Will you provide Linux support?
-Linux server files are already available!
+##### Будет ли поддержка Linux?
+Файлы сервера для Linux уже доступны!
 
-##### Will my server be accessible by everyone?
-Yes, your server will be accessible by everyone unless you make it password protected.
+##### Будет ли мой сервер доступен всем?
+Да, ваш сервер будет доступен всем, если вы не защитите его паролем.
 
-##### How many servers can I host?
-There is a limit to the number of servers you can host simultaneously. Currently, you can host up to 50 servers.
+##### Сколько серверов я могу разместить?
+Существует ограничение на количество серверов, которые вы можете размещать одновременно. В настоящее время вы можете разместить до 50 серверов.
 
-##### What are the hardware requirements?
-It depends on the game mode and the player count. With the default configurations, we are hosting our games:
+##### Каковы требования к аппаратному обеспечению?
+Это зависит от режима игры и количества игроков. С конфигурациями по умолчанию мы размещаем наши игры следующим образом:
 
-* For smaller battles (Skirmish and Duel): 2 core CPUs (2GHz to 3GHz) with 4GB Memory
-* For bigger battles (Siege, Team Deathmatch and Captain): 4 core CPUs (2GHz to 3GHz) with 8GB Memory
+* Для небольших боёв (Skirmish и Duel): 2-ядерные CPU (2–3 ГГц) с 4 ГБ памяти
+* Для крупных боёв (Siege, Team Deathmatch и Captain): 4-ядерные CPU (2–3 ГГц) с 8 ГБ памяти
 
-But, for instance, you can always host a siege mode with less players on a 2 core machine as well.
+Но, например, вы всегда можете разместить режим осады с меньшим количеством игроков на 2-ядерной машине.
 
-You can also try to host a very small game with a single core machine as well but you might get some spikes during the game.
+Вы также можете попробовать разместить очень маленькую игру на одноядерной машине, но при этом могут возникнуть всплески во время игры.
 
-##### What are the bandwidth requirements?
-It depends on the player count. By default, we are sending 60 packets to each player and each packet is less than 1.5 kilobytes. For most configurations, any dedicated server provider should be able to provide a sufficient network connection.
+##### Каковы требования к пропускной способности сети?
+Это зависит от количества игроков. По умолчанию мы отправляем 60 пакетов каждому игроку, и каждый пакет весит менее 1,5 килобайт. Для большинства конфигураций любой провайдер выделенных серверов должен быть способен предоставить достаточное сетевое соединение.
 
-##### Is there any modification support?
-Yes! Go to https://moddocs.bannerlord.com/multiplayer/custom_game_mode/ to learn more.
+##### Поддерживается ли модификация?
+Да! Перейдите по адресу https://moddocs.bannerlord.com/multiplayer/custom_game_mode/, чтобы узнать больше.

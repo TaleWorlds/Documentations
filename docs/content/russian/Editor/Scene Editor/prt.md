@@ -1,85 +1,84 @@
 +++
-title = "Precomputed Radiance Transfer - GI System"
+title = "Precomputed Radiance Transfer - система глобального освещения"
+ai_translated = true
 
 [menu.main]
 identifier = "prt_system"
 parent = "core_components"
 +++
 
-We introduce a new global illumination system to the engine. It is based on a pre-baked system called "Precomputed Radiance Transfer". This technique allow us to bake the local ambient in the scene and display it in an optimized manner at runtime. Baked data is independent from the atmospheres. Thus, we can light the scene with the same bake data for every atmosphere.
+Мы представляем новую систему глобального освещения (global illumination) в движке. Она основана на предварительно запекаемой системе под названием "Precomputed Radiance Transfer" (предварительно вычисленный перенос излучения). Эта техника позволяет нам запекать локальную окружающую среду (ambient) в сцене и отображать её оптимизированным образом во время выполнения. Запечённые данные не зависят от атмосфер. Таким образом, мы можем освещать сцену одними и теми же данными запекания для любой атмосферы.
 
-| With | Without |
+| С системой | Без системы |
 | ------ | ------------ |
 | ![](/img/prt_system/prt_ss_gi.png) | ![](/img/prt_system/prt_ss_sky_access.png) |
 
-### Baking Procedure
+### Процедура запекания
 
-Scene baking is divided into a couple of parts:
+Запекание сцены делится на несколько частей:
 
-- First, the artist should place the border probes to identify the GI boundaries of the scene. 
+- Сначала художник должен разместить пограничные пробы (border probes), чтобы определить границы GI (глобального освещения) сцены.
 
-Side Note 1: If you minimize the GI boundaries as much as possible(not extending it to distant places from navigatable area) , you can decrease the grid dimensions and thus you will have more precision inside the town where it matters the most. For town scenes, we generally use grid dimensions of 1.5 meters width and 2.5 meters height. 
+Примечание 1: Если минимизировать границы GI насколько это возможно (не распространяя их на удалённые места от проходимой зоны), можно уменьшить размеры сетки (grid), и таким образом у вас будет больше точности внутри города, где это наиболее важно. Для городских сцен мы обычно используем размеры сетки шириной 1,5 метра и высотой 2,5 метра.
 
-Side Note 2: For the pixels outside the GI borders, we use a fallback probe from the scene. The default is the highest active probe near to the left corner of the GI order. Artist can select any other probe from the scene by first selecting probe and checking the "Fallback Probe" checkbox in the UI.
+Примечание 2: Для пикселей за пределами границ GI мы используем резервную пробу (fallback probe) из сцены. По умолчанию это самая высокая активная проба, ближайшая к левому углу области GI. Художник может выбрать любую другую пробу из сцены, сначала выбрав пробу и отметив флажок "Fallback Probe" в интерфейсе.
 
 ![](/img/prt_system/grid1.png) ![](/img/prt_system/grid2.png)
 
-- AT the next pass, the GI probes are created. The initial positions of the probes computed automatically by using the navigation mesh of the scene. With the navigation mesh, we place the probes where the agents can move and also to everywhere visible from those navigation points. The probes are generated within a 3d grid structure. A directional ambient data is computed for every probe position. Using these ambient light values, every pixel in the screen is illuminated by the nearest 8 probes. In some cases, when the lighting between neighbour probes have a very high difference, light or shadow leaking can occur. In order to fix these issues, we render shadowmaps from the probes just like point lights. Probes with shadowmaps are named as "Visibility Probes". For memory usage issues, there is a limit for these Visibility Probes, which is 2048. At the automatic placement phase, the system also tries to find the most probable leak positions and assign those probes as Visibility Probes. It takes into account the ambient light difference. For additional leak fixes, the system leaves the last 5 percent Visibility Probe limit empty, so that the scene designer can fix the remaining leak issues.
+- На следующем этапе создаются пробы GI. Начальные позиции проб вычисляются автоматически с использованием навигационной сетки (navigation mesh) сцены. С помощью навигационной сетки мы размещаем пробы там, где могут перемещаться агенты, а также везде, что видно из этих навигационных точек. Пробы генерируются в рамках 3D-сеточной структуры. Для каждой позиции пробы вычисляются данные направленного окружающего освещения (directional ambient). Используя эти значения окружающего освещения, каждый пиксель на экране освещается 8 ближайшими пробами. В некоторых случаях, когда разница в освещении между соседними пробами очень велика, может произойти утечка света или тени (light or shadow leaking). Чтобы исправить эти проблемы, мы рендерим карты теней (shadowmaps) от проб так же, как от точечных источников света. Пробы с картами теней называются "пробами видимости" (Visibility Probes). Из-за проблем с использованием памяти для таких проб видимости существует ограничение — 2048. На этапе автоматического размещения система также пытается найти наиболее вероятные места утечек и назначить соответствующие пробы в качестве проб видимости. При этом учитывается разница в окружающем освещении. Для дополнительного устранения утечек система оставляет пустыми последние 5 процентов лимита проб видимости, чтобы дизайнер сцены мог исправить оставшиеся проблемы с утечками.
 
 ![](/img/prt_system/prt_probes.png)
 ![](/img/prt_system/diffuse_ambient.png)
 
-### PRT Files
+### Файлы PRT
 
-Just like the scene edit data system, prt data is divided into two parts. prt_data.bin is located inside the SceneObj folder and is the compressed version which is stripped of any editing data. This file should be sent to the source control. The other file is the edit data file. It is very big (at around 2 - 3 gb) and automaticaly sent to the edit data folder inside the network. Once you open a pre-baked scene in editor, only the compressed data is loaded. To be able to edit the bake data, you should Load the edit data with the 'Load' button in the "General Info" panel of the PrtInspector.
+Как и в системе данных редактирования сцены, данные prt делятся на две части. Файл prt_data.bin находится внутри папки SceneObj и представляет собой сжатую версию, лишённую каких-либо данных редактирования. Этот файл следует отправлять в систему контроля версий. Другой файл — это файл данных редактирования. Он очень большой (около 2–3 ГБ) и автоматически отправляется в папку данных редактирования в сети. При открытии уже запечённой сцены в редакторе загружаются только сжатые данные. Чтобы иметь возможность редактировать данные запекания, вам нужно загрузить данные редактирования с помощью кнопки 'Load' на панели "General Info" инспектора PrtInspector.
 
-**Important Node** : After any changes to the prt data, do not forget to save the data with the 'Save' button in the "General Info" panel of the PrtInspector.
+**Важное замечание**: После внесения любых изменений в данные prt не забудьте сохранить данные с помощью кнопки 'Save' на панели "General Info" инспектора PrtInspector.
 
-### PRT Operations
+### Операции PRT
 
 ![](/img/prt_system/gi_operations_tab.png)
 
-- **Load** :  Loads the edit data from the server.
-- **Save** :  Saves the current edit data to the server.
-- **Auto Height Boundary** :  Adjusts the PRT boundary probes's height to the min/max of the scene.
-- **Bake Single Level** :  Bakes the scene with the current levels, should be used for the interior scenes
-- **Bake All Levels** :  Bakes the scene with the pre-defined multiple levels(namely level-1/level-2/level-3 and siege/civilian) combinations. 
+- **Load (Загрузить)**: Загружает данные редактирования с сервера.
+- **Save (Сохранить)**: Сохраняет текущие данные редактирования на сервер.
+- **Auto Height Boundary (Автоматическая граница по высоте)**: Регулирует высоту граничных проб PRT в соответствии с минимумом/максимумом сцены.
+- **Bake Single Level (Запечь один уровень)**: Запекает сцену с текущими уровнями, следует использовать для сцен интерьеров.
+- **Bake All Levels (Запечь все уровни)**: Запекает сцену с заранее определёнными комбинациями нескольких уровней (а именно level-1/level-2/level-3 и siege/civilian).
 
 
-### Probe Placement Parameters:
-- **Grid Width** : Determines the probe grid cell size in XY plane. For towns, you can use 1.5. For interiors scenes, you can use between 0.5 to 1.0.
-- **Grid Height** : Determines the probe grid cell height. For towns, you should use a value near 2.5. For interiors scenes, you can use between 0.5 to 1.0.
-	 
-### Selection Tools:
-To ensure fast and smooth editing of probes, various selection tools are implemented.
+### Параметры размещения проб:
+- **Grid Width (Ширина сетки)**: Определяет размер ячейки сетки проб в плоскости XY. Для городов можно использовать значение 1,5. Для сцен интерьеров можно использовать значение от 0,5 до 1,0.
+- **Grid Height (Высота сетки)**: Определяет высоту ячейки сетки проб. Для городов следует использовать значение около 2,5. Для сцен интерьеров можно использовать значение от 0,5 до 1,0.
 
-- **Select All** :  Selects all probes.
-- **Grow** : Grows the selection to include neighbour probes in XY plane. 
-- **Shrink** : Shrink the selection to only include the inner neighbour probes in XY plane.
-- **Fill** : Finds the inner probes of the current selected probe group and selectes them.
-- **Select Border** : Finds and selects the border probes of the current selection.
-- **Select Inner Border** : Finds and selects the inner border of the current selection.
-- **Select Outer Border** : Finds and selects the outer border of the current selection.
-- **Lasso Tool** : We implemented a screen space lasso tool for easy selection of a group of probes. It can be started by pressing 'r' and finished by either double clik or pressing 'r' again.
+### Инструменты выделения:
+Для обеспечения быстрого и плавного редактирования проб реализованы различные инструменты выделения.
+
+- **Select All (Выбрать всё)**: Выбирает все пробы.
+- **Grow (Расширить)**: Расширяет выделение, включая соседние пробы в плоскости XY.
+- **Shrink (Сжать)**: Сжимает выделение, оставляя только внутренние соседние пробы в плоскости XY.
+- **Fill (Заполнить)**: Находит внутренние пробы текущей выбранной группы проб и выбирает их.
+- **Select Border (Выбрать границу)**: Находит и выбирает граничные пробы текущего выделения.
+- **Select Inner Border (Выбрать внутреннюю границу)**: Находит и выбирает внутреннюю границу текущего выделения.
+- **Select Outer Border (Выбрать внешнюю границу)**: Находит и выбирает внешнюю границу текущего выделения.
+- **Lasso Tool (Инструмент "Лассо")**: Мы реализовали инструмент лассо в экранном пространстве для удобного выбора группы проб. Его можно запустить, нажав 'r', и завершить двойным щелчком или повторным нажатием 'r'.
 
 ![](/img/prt_system/lasso.png)
 
-### Visibility Tools
+### Инструменты видимости
 
-- **Show Active Probes** :  Shows all active probes
-- **Show Deactive Probes** :  Show deactived probes.
-- **Show Visibility Probes** :  Show the Visibility probes (the ones with the visibility calculation to prevent leaking).
-- **Level To Show** :  Selects the Z level to show. -1 means all levels.
-- **Show Probe Radius** :  Determines the probe radius for debug visualization.
-- **Box Tool** :  Enables a mode where you .
+- **Show Active Probes (Показать активные пробы)**: Показывает все активные пробы.
+- **Show Deactive Probes (Показать неактивные пробы)**: Показывает деактивированные пробы.
+- **Show Visibility Probes (Показать пробы видимости)**: Показывает пробы видимости (те, у которых есть расчёт видимости для предотвращения утечек).
+- **Level To Show (Отображаемый уровень)**: Выбирает Z-уровень для отображения. -1 означает все уровни.
+- **Show Probe Radius (Показать радиус пробы)**: Определяет радиус пробы для визуализации отладки.
+- **Box Tool (Инструмент "Бокс")**: Включает режим, в котором вы .
 
-Side Not : This system only renders the nearest 100 probes with respect to the camera.
+Примечание: Эта система рендерит только 100 ближайших к камере проб.
 
-### Useful Shortcuts
+### Полезные сочетания клавиш
 
-- **Left Ctrl + x**: Enable/Disable the selected probes
-- **Left Ctrl + c**: Toggles the "Visibility Probe" status
-- **Left Alt + Left Mouse Click**: Select the probes that influences a pixel
-(very neat tool for fixing the leak issue, select the pixel and use the toggle visibility status shortcut to fix the issue) 
-
-
+- **Левый Ctrl + x**: Включить/выключить выбранные пробы
+- **Левый Ctrl + c**: Переключить статус "Visibility Probe" (проба видимости)
+- **Левый Alt + левая кнопка мыши**: Выбрать пробы, влияющие на пиксель
+(очень удобный инструмент для исправления утечек — выберите пиксель и используйте сочетание клавиш переключения статуса видимости, чтобы устранить проблему)

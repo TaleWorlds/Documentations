@@ -1,33 +1,33 @@
 +++
-title = "Terrain Creation"
+title = "Создание рельефа"
 description = ""
 weight = 1
+ai_translated = true
 +++
 
 ------------------
-### Create a new terrain ###
-Terrain creation, removal, and node modifications can be done in <strong>Terrain Inspector > Properties</strong> tab. <br>
-Terrain node count in both dimensions, their resolution and size can be specified in <strong>New Terrain Properties</strong> panel.<br>
-This parameters must be specified proir to the creation, although they can be canged per-node basis later.
+### Создание нового рельефа ###
+Создание, удаление рельефа и изменение узлов (node) можно выполнить на вкладке <strong>Terrain Inspector > Properties</strong>. <br>
+Количество узлов рельефа по обоим измерениям, их разрешение и размер можно задать на панели <strong>New Terrain Properties</strong>.<br>
+Эти параметры должны быть заданы до создания, хотя их можно изменить позже для каждого узла отдельно.
 
  | 
 ---- | ----
 ![](/img/terrain_generation/generate_terrain.png) | ![](/img/terrain_generation/generate_terrain_result.png)
 
 
-### Adjusting node properties ###
-Node resolution can be adjusted by selection nodes (Hold CTRL for multiple selection)m and change the resolution parameter in <strong>Node Properties</strong> panel. <br>
-This feature can be used to further optimize terrain in places where resolution is not that important (eg. Outside of Settlemets where player is not allowed to go, or nodes that are completely under water).
+### Настройка свойств узлов ###
+Разрешение узла можно настроить, выбрав узлы (удерживайте CTRL для множественного выбора) и изменив параметр resolution (разрешение) на панели <strong>Node Properties</strong>. <br>
+Эту функцию можно использовать для дальнейшей оптимизации рельефа в местах, где разрешение не так важно (например, за пределами поселений, куда игроку не разрешено заходить, или в узлах, полностью находящихся под водой).
 ![](/img/terrain_generation/resolution.png)
 
 
-### Import / Export Materialmaps or Heightmap ###
-To support external terrain generation softwares, engine can Import / Export terrain layer materialmaps or heightmap.
-You can easly create believable terrains by importing various layers (Debris, flowmap, vegetation, bedrock), and 16-bit heightmaps.
-To import a materialmap, first you must create a new terrain layer, after selecting this layer, go to Properties tab, select some nodes (CTRL + A to select all) and hit Import Materialmap button. This will open file selection dialog, you can select any 8-bit (grayscale) texture to use as materialmap.
-You can do the same to import Heightmap, heightmaps can be 8-bit or 16-bit (png or raw).
+### Импорт / экспорт карт материалов или карты высот ###
+Для поддержки внешнего программного обеспечения для генерации рельефа движок может импортировать / экспортировать карты материалов слоёв рельефа или карту высот.
+Вы можете легко создавать достоверные рельефы, импортируя различные слои (мусор (debris), карту потоков (flowmap), растительность, коренную породу (bedrock)) и 16-битные карты высот.
+Чтобы импортировать карту материалов, сначала нужно создать новый слой рельефа, затем, выбрав этот слой, перейти на вкладку Properties, выбрать несколько узлов (CTRL + A, чтобы выбрать все) и нажать кнопку Import Materialmap. Откроется диалог выбора файла, в котором можно выбрать любую 8-битную (в оттенках серого) текстуру для использования в качестве карты материалов.
+Аналогичным образом можно импортировать карту высот (Heightmap); карты высот могут быть 8-битными или 16-битными (png или raw).
 
  | | | | 
 ---- | ---- | ---- | ---- | ----
 ![](/img/terrain_generation/add_layer.png) | ![](/img/terrain_generation/import_weightmap.png) | ![](/img/terrain_generation/weightmap.png) | ![](/img/terrain_generation/weight_imported.png) | ![](/img/terrain_generation/height_imported.png)
-

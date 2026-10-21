@@ -1,24 +1,25 @@
 +++
-title = "Audio Systems & Optimization"
+title = "音频系统与优化"
 weight = 40
+ai_translated = true
 +++
 
-_Last updated: April 3, 2026_
+_最后更新时间：2026年4月3日_
 
 ---
 
-## Voice System {#voice-system}
+## 语音系统 {#voice-system}
 
-Non-dialogue vocalizations for humans, mounts, and animals (grunts, pain sounds, commands, etc.) are not hardcoded into game logic. Instead, they're managed through an external configuration file called `voice_definitions.xml`. This makes it straightforward to add or adjust voices without touching code. All declarations and definitions are written in XML and link directly to FMOD event paths.
+人类、坐骑和动物的非对话发声(呻吟、痛苦声、指令等)并未硬编码在游戏逻辑中,而是通过一个名为 `voice_definitions.xml` 的外部配置文件进行管理。这使得在不修改代码的情况下添加或调整语音变得非常简单。所有声明和定义都以 XML 编写,并直接链接到 FMOD 事件路径。
 
-**File path:**
+**文件路径:**
 ```
 ..\Modules\Native\ModuleData\voice_definitions.xml
 ```
 
-### Voice Type Declarations
+### 语音类型声明
 
-Before a voice can be used, it must be declared under the `<voice_type_declarations>` section. This registers the voice type so it can be referenced later.
+在使用某个语音之前,必须先在 `<voice_type_declarations>` 部分中声明它。这会注册该语音类型,以便之后可以被引用。
 
 ```xml
 <voice_type_declarations>
@@ -26,11 +27,11 @@ Before a voice can be used, it must be declared under the `<voice_type_declarati
 </voice_type_declarations>
 ```
 
-Here, the voice type `Grunt` is declared and can now be used in one or more definitions.
+在此示例中,语音类型 `Grunt` 已被声明,现在可以在一个或多个定义中使用。
 
-### Voice Definitions
+### 语音定义
 
-Once a type is declared, a **voice definition** links it to an FMOD event path and defines metadata such as pitch variation and usage restrictions.
+声明类型后,**语音定义(voice definition)**会将其链接到一个 FMOD 事件路径,并定义诸如音高变化和使用限制之类的元数据。
 
 ```xml
 <voice_definition
@@ -48,245 +49,245 @@ Once a type is declared, a **voice definition** links it to an FMOD event path a
 </voice_definition>
 ```
 
-### Definition Attributes
+### 定义属性
 
-| Attribute | Description |
+| 属性 | 描述 |
 |---|---|
-| `name` | Unique identifier for the voice definition |
-| `sound_and_collision_info_class` | Class of entity this voice belongs to (e.g. `human`, `horse`) |
-| `only_for_npcs` | If `true`, this voice cannot be assigned to the player |
-| `min_pitch_multiplier` / `max_pitch_multiplier` | Defines the pitch variation range |
+| `name` | 语音定义的唯一标识符 |
+| `sound_and_collision_info_class` | 该语音所属实体的类别(例如 `human`、`horse`) |
+| `only_for_npcs` | 如果为 `true`,则该语音不能分配给玩家 |
+| `min_pitch_multiplier` / `max_pitch_multiplier` | 定义音高变化范围 |
 
-### Voice Node Details
+### 语音节点详情
 
-Inside a `<voice_definition>`, one or more `<voice>` entries can be added:
+在 `<voice_definition>` 内部,可以添加一个或多个 `<voice>` 条目:
 
-| Attribute | Description |
+| 属性 | 描述 |
 |---|---|
-| `type` | Must match a declared `<voice_type>` |
-| `path` | FMOD event path triggered for this voice |
-| `face_anim` | Facial animation tag associated with this voice (e.g. `grunt`) |
+| `type` | 必须与某个已声明的 `<voice_type>` 匹配 |
+| `path` | 该语音所触发的 FMOD 事件路径 |
+| `face_anim` | 与该语音关联的面部动画标签(例如 `grunt`) |
 
-### Workflow Summary
+### 工作流程摘要
 
-1. Add a new `<voice_type>` under `<voice_type_declarations>`
-2. Create a `<voice_definition>` with a name, class, restrictions, and pitch range
-3. Add one or more `<voice>` elements linking the definition to FMOD event paths
-4. Assign `face_anim` for animation syncing
+1. 在 `<voice_type_declarations>` 下添加一个新的 `<voice_type>`
+2. 创建一个 `<voice_definition>`,并指定名称、类别、限制条件和音高范围
+3. 添加一个或多个 `<voice>` 元素,将该定义链接到 FMOD 事件路径
+4. 为动画同步分配 `face_anim`
 
 ---
 
-## Physics Materials
+## 物理材质
 
-The physics system manages all material-to-material interactions in the game and determines which sound events are triggered when collisions occur. Instead of handling each case independently, all physical interactions — wood striking metal, stone colliding with a projectile, metal on metal — are processed in a single unified system. This keeps logic consistent, reduces duplication, and makes it easier to maintain and expand audio coverage as the game grows.
+物理系统管理游戏中所有材质与材质之间的交互,并决定碰撞发生时触发哪些声音事件。所有物理交互——木材撞击金属、石头碰撞抛射物、金属对金属——都在一个统一的系统中处理,而不是单独处理每种情况。这样可以保持逻辑的一致性,减少重复工作,并使得随着游戏的发展更容易维护和扩展音频覆盖范围。
 
-### Material Interaction Handling
+### 材质交互处理
 
-Each material type is defined in the physics system along with its interaction rules when colliding with other materials. For example:
+每种材质类型都在物理系统中定义,并附带其与其他材质碰撞时的交互规则。例如:
 
-| Interaction | Result |
+| 交互 | 结果 |
 |---|---|
-| Wood vs. Metal | A metallic clash with resonant overtones |
-| Stone vs. Missile | A sharp, brittle impact sound |
-| Wood vs. Stone | A dull, muted collision |
+| 木材 vs. 金属 | 带有共鸣泛音的金属碰撞声 |
+| 石头 vs. 抛射物 | 尖锐、脆硬的撞击声 |
+| 木材 vs. 石头 | 沉闷、低沉的碰撞声 |
 
-When two materials collide, the system evaluates their properties and selects the correct FMOD event to play. This removes the need to hard-code every possible pairwise interaction and ensures audio scales automatically as new materials are introduced.
+当两种材质碰撞时,系统会评估它们的属性并选择正确的 FMOD 事件进行播放。这样就无需为每一种可能的成对交互手动编写代码,并确保音频在引入新材质时能够自动扩展。
 
-### Special Case: Water Interactions
+### 特殊情况:水的交互
 
-Water requires unique treatment compared to solid materials. Unlike other pairings, "object + water" doesn't need a dedicated event for every possible object type. Regardless of what enters the water, the player primarily perceives it as a water sound — not as "body hitting water" or "stone hitting water."
+与固体材质相比,水需要独特的处理方式。与其他配对不同,"物体 + 水"并不需要为每一种可能的物体类型都设置专门的事件。无论进入水中的是什么,玩家主要感知到的都是水声——而不是"物体撞击水面"或"石头撞击水面"。
 
-To simplify implementation, the system uses a **single generic water event** parameterized by the physical properties of the object entering the water:
+为简化实现,系统使用一个**通用的水事件**,该事件通过进入水中物体的物理属性进行参数化:
 
-| Parameter | Description |
+| 参数 | 描述 |
 |---|---|
-| **Volume** | Determines how large the displaced splash should sound |
-| **Mass** | Scales the weight and depth of the impact |
-| **Force** (velocity/acceleration) | Controls the intensity and sharpness of the splash |
+| **体积(Volume)** | 决定溅起的水花听起来有多大 |
+| **质量(Mass)** | 调整撞击的重量和深度 |
+| **力(Force)**(速度/加速度) | 控制水花的强度和锐利程度 |
 
-By combining these variables, the system can produce a wide range of splash sounds from the same event — from a small pebble skipping across the surface to a heavy boulder crashing into deep water.
+通过组合这些变量,系统可以从同一个事件中产生各种各样的水花声——从一颗小石子在水面上掠过,到一块巨石坠入深水中。
 
-**Benefits of this approach:**
+**此方法的优势:**
 
-- **Unified logic** — All material interactions are handled consistently in one system
-- **Scalability** — Adding new materials only requires defining their properties, not rewriting interaction logic
-- **Efficiency** — Parameter-driven variations replace dozens of unique event definitions
-- **Water optimization** — One generic event covers all possible water interactions, driven dynamically by physics parameters
-- **Realism** — Splash sounds scale naturally with object size, weight, and velocity
+- **统一逻辑** —— 所有材质交互都在一个系统中以一致的方式处理
+- **可扩展性** —— 添加新材质只需定义其属性,而无需重写交互逻辑
+- **效率** —— 参数驱动的变化取代了数十种独特的事件定义
+- **水体优化** —— 一个通用事件涵盖所有可能的水体交互,由物理参数动态驱动
+- **真实感** —— 水花声会随着物体的大小、重量和速度自然变化
 
 ---
 
-## Priority System {#priority-system}
+## 优先级系统 {#priority-system}
 
-This system runs **before** FMOD's built-in priority system, acting as a pre-filter to reduce the CPU cost of evaluating large numbers of events. It applies its own rules to decide which sounds are eligible, and only those are passed on to FMOD for playback. FMOD's internal priority system still applies once events are submitted, so you can continue using it to refine prioritization among active events.
+该系统在 FMOD 内置的优先级系统**之前**运行,充当一个预过滤器,以降低评估大量事件所需的 CPU 成本。它应用自己的规则来决定哪些声音符合条件,只有这些声音才会被传递给 FMOD 进行播放。一旦事件被提交,FMOD 的内部优先级系统仍会生效,因此你仍然可以使用它来细化活动事件之间的优先级排序。
 
-### Core Mechanism
+### 核心机制
 
-The system maintains an array whose maximum size corresponds to the maximum number of events it's allowed to manage at once. Each candidate event is evaluated against a priority scheme based on:
+该系统维护一个数组,其最大大小对应于它一次可以管理的最大事件数量。每个候选事件都会根据以下优先级方案进行评估:
 
-| Parameter | Description |
+| 参数 | 描述 |
 |---|---|
-| **Length** | Duration of the event — used to determine whether short transient sounds or long events should be favored |
-| **Distance** | Spatial distance between emitter and listener. If this exceeds the event's defined max distance in FMOD, the sound is culled immediately and never passed to FMOD |
-| **PriorityMultiplier** | A user-defined multiplier that adjusts the relative importance of an event compared to others |
+| **长度(Length)** | 事件的持续时间——用于决定应优先考虑短暂的瞬态声音还是较长的事件 |
+| **距离(Distance)** | 发射器与监听器之间的空间距离。如果超过了事件在 FMOD 中定义的最大距离,该声音将被立即剔除,永远不会传递给 FMOD |
+| **PriorityMultiplier(优先级乘数)** | 一个用户定义的乘数,用于调整某事件相对于其他事件的重要性 |
 
-These parameters are stored in the **SEDF (Sound Event Data File)** for every event, ensuring consistent evaluation.
+这些参数存储在每个事件的 **SEDF(Sound Event Data File,声音事件数据文件)**中,以确保评估的一致性。
 
-### Distance Filtering
+### 距离过滤
 
-Events that fall outside their maximum audible distance are killed before FMOD ever processes them. This prevents FMOD from spending resources evaluating voices that can't be heard.
+超出其最大可听距离的事件会在 FMOD 处理它们之前就被终止。这可以防止 FMOD 浪费资源去评估那些根本听不到的声音。
 
-### Exceptions and Looping Events
+### 例外情况与循环事件
 
-Looping sounds need special handling:
+循环声音需要特殊处理:
 
-- **Ambient sounds** are excluded from this system entirely and marked as persistent within FMOD — they are never culled by pre-priority logic.
-- **Looped sounds** present a problem: if they're killed and restarted, they can't resume from their previous play position, causing synchronization issues.
+- **环境音(Ambient sounds)**完全不受此系统影响,并在 FMOD 中被标记为持久性——它们永远不会被预优先级逻辑剔除。
+- **循环声音(Looped sounds)**存在一个问题:如果它们被终止后重新启动,就无法从之前的播放位置继续,从而导致同步问题。
 
-To handle this, looped sounds can be **virtualized** instead of killed. Virtualization lets the event stop consuming CPU while still tracking its playback position, so when it returns to audible range it continues seamlessly from where it left off.
+为解决此问题,循环声音可以被**虚拟化(virtualized)**,而不是被终止。虚拟化可以让该事件停止消耗 CPU,同时仍然追踪其播放位置,因此当它重新回到可听范围内时,可以从停止的位置无缝继续播放。
 
-### User Property Overrides
+### 用户属性覆盖
 
-User Properties provide additional flexibility (see [User Properties]({{< ref "audio-modding-event-setup.md#user-properties" >}})):
+用户属性(User Properties)提供了额外的灵活性(参见[用户属性]({{< ref "audio-modding-event-setup.md#user-properties" >}})):
 
-- **Ignore flags** — Distance or length checks can be bypassed for specific events if tagged accordingly
-- **Custom multipliers** — A multiplier can be defined per event through User Properties, modifying its relative priority when compared with others
+- **忽略标志(Ignore flags)** —— 对于被相应标记的特定事件,可以跳过距离或长度检查
+- **自定义乘数(Custom multipliers)** —— 可以通过用户属性为每个事件定义一个乘数,从而在与其他事件比较时修改其相对优先级
 
-**Benefits:**
+**优势:**
 
-- **CPU efficiency** — Reduces FMOD's workload by culling inaudible or unnecessary sounds before they reach the engine
-- **Flexible prioritization** — Length, distance, and multipliers allow fine-tuned control over event importance
-- **Synchronization safety** — Virtualization ensures looped events remain consistent when reactivated
-- **Designer control** — User Properties enable exceptions and weighting without code changes
+- **CPU 效率** —— 在声音到达引擎之前剔除听不见或不必要的声音,从而减少 FMOD 的工作负载
+- **灵活的优先级排序** —— 长度、距离和乘数可对事件重要性进行精细化控制
+- **同步安全性** —— 虚拟化确保循环事件在重新激活时保持一致性
+- **设计师控制权** —— 用户属性无需修改代码即可实现例外情况和权重调整
 
 ---
 
-## Battle Ambient Sound System {#battle-ambient-sound-system}
+## 战斗环境声音系统 {#battle-ambient-sound-system}
 
-The Battle Ambient Sound System — abbreviated as **BASS** — is designed to optimize the playback of high-density sound effects, such as multiple sword clashes occurring in the same area. Instead of letting each individual sound play independently (which can quickly overwhelm both the mix and the CPU), BASS aggregates these events and replaces them with a single emitter that represents the group.
+战斗环境声音系统(Battle Ambient Sound System)——简称为 **BASS**——旨在优化高密度音效的播放,例如同一区域内发生的多次刀剑碰撞声。该系统不会让每个独立的声音单独播放(这很快会使混音和 CPU 不堪重负),而是将这些事件聚合起来,并用代表整个群体的单个发射器替代它们。
 
-### How It Works
+### 工作原理
 
-Within a defined region, BASS monitors the number of sound events triggered over a given period. When the count exceeds a specified threshold, the system suppresses the individual sounds in that region and spawns a single **group emitter event** in their place.
+在一个指定区域内,BASS 会监控在给定时间段内触发的声音事件数量。当数量超过指定阈值时,系统会抑制该区域内的单个声音,并在其位置生成一个**群组发射器事件(group emitter event)**。
 
-This emitter event includes a parameter reflecting the density of sounds in the area. As the parameter increases, the mix shifts from sparse individual clashes to dense, chaotic battle noise. Players still perceive an intense soundscape, but without the overhead of dozens of overlapping one-shots.
+该发射器事件包含一个反映该区域内声音密度的参数。随着该参数增加,混音会从稀疏的个别碰撞声转变为密集、混乱的战斗噪音。玩家仍然能感受到紧张激烈的音景,但不会产生数十个重叠单次声音所带来的开销。
 
-### Interaction with the Priority System
+### 与优先级系统的交互
 
-BASS operates **before** our proprietary engine's priority system. Normally, the priority system decides which sounds to cull when many voices compete for playback. In this workflow, BASS preemptively reduces polyphony at the source level — only the grouped emitter remains active, meaning the priority system has fewer voices to manage. This prevents unnecessary CPU/DSP usage and ensures consistent sound quality during crowded combat.
+BASS 在我们专有引擎的优先级系统**之前**运行。通常,当许多声音竞争播放时,优先级系统会决定剔除哪些声音。而在此工作流程中,BASS 会预先在源头减少复音数——只有分组后的发射器保持活动状态,这意味着优先级系统需要管理的声音更少。这可以防止不必要的 CPU/DSP 占用,并确保在拥挤的战斗场景中保持一致的声音质量。
 
-### BASS Group IDs
+### BASS 分组 ID
 
-Use the `battle_ambient_group_id` user property (see [User Properties]({{< ref "audio-modding-event-setup.md#user-properties" >}})) to assign an event to a BASS group.
+使用 `battle_ambient_group_id` 用户属性(参见[用户属性]({{< ref "audio-modding-event-setup.md#user-properties" >}}))将事件分配到一个 BASS 分组。
 
-| ID | Group |
+| ID | 分组 |
 |---|---|
-| 0 | Infantry move |
-| 1 | Cavalry move |
-| 2 | Weapons fight |
-| 3 | Shield fight |
-| 4 | Missile volley |
-| 5 | Human fight |
-| 6 | Human victory |
-| 7 | Horse vocal |
+| 0 | 步兵移动 |
+| 1 | 骑兵移动 |
+| 2 | 武器战斗 |
+| 3 | 盾牌战斗 |
+| 4 | 抛射物齐射 |
+| 5 | 人类战斗 |
+| 6 | 人类胜利 |
+| 7 | 马匹发声 |
 
-**Examples:**
-- Adding a new weapon event → set `battle_ambient_group_id` to **2**
-- Adding a footstep event for a new mount type → set `battle_ambient_group_id` to **1**
+**示例:**
+- 添加一个新的武器事件 → 将 `battle_ambient_group_id` 设置为 **2**
+- 为新的坐骑类型添加脚步声事件 → 将 `battle_ambient_group_id` 设置为 **1**
 
-By assigning the correct group ID, BASS fires one unified event per group instead of hundreds of individual ones, significantly reducing active event count and saving system resources.
+通过分配正确的分组 ID,BASS 会为每个分组触发一个统一的事件,而不是数百个独立事件,从而大幅减少活动事件数量并节省系统资源。
 
-**Benefits:**
+**优势:**
 
-- **Performance optimization** — Prevents CPU and memory spikes from excessive overlapping sounds
-- **Mix clarity** — Replaces cluttered layers of transients with a single controlled emitter
-- **Scalability** — Parameter-driven event design adapts automatically to combat density
+- **性能优化** —— 防止过多重叠声音造成的 CPU 和内存峰值
+- **混音清晰度** —— 用单个受控发射器替代杂乱的瞬态层
+- **可扩展性** —— 参数驱动的事件设计可根据战斗密度自动调整
 
 ---
 
-## Performance and Optimization
+## 性能与优化
 
-In a CPU- and memory-intensive title like **Mount & Blade II: Bannerlord**, FMOD must be treated as part of the overall performance budget. Poorly managed audio banks, codecs, or event design can consume resources the game engine needs for everything else. Optimization is not a one-off task — it's an ongoing discipline throughout the entire modding process.
+在像 **Mount & Blade II: Bannerlord** 这样对 CPU 和内存要求很高的游戏中,FMOD 必须被视为整体性能预算的一部分。管理不善的音频库(bank)、编解码器或事件设计可能会消耗游戏引擎其他方面所需的资源。优化不是一次性的任务——它是贯穿整个模组制作过程的持续性工作。
 
-### Codec and Asset Strategy
+### 编解码器与资产策略
 
-Every decoded sample costs CPU, every oversized file costs memory and disk I/O, and every resample costs even more CPU. Codec strategy must be set deliberately, not left to chance.
+每个解码的采样都会消耗 CPU,每个过大的文件都会消耗内存和磁盘 I/O,每次重采样都会消耗更多的 CPU。编解码器策略必须经过深思熟虑地设定,而不是随意选择。
 
-FMOD lets you set a default codec for the entire audio build in the bank build settings (ensuring consistency across the project) and override codecs per asset when specific files demand different treatment.
+FMOD 允许你在音频库(bank)构建设置中为整个音频构建设置默认编解码器(以确保项目的一致性),并在特定文件需要不同处理方式时针对各资产覆盖编解码器。
 
-FMOD Studio's practical PC formats are:
+FMOD Studio 实用的 PC 格式包括:
 
-| Codec | Characteristics |
+| 编解码器 | 特性 |
 |---|---|
-| **Vorbis** | Best compression, but higher decode cost. Best overall choice when CPU is available |
-| **ADPCM** | Larger than Vorbis but almost free to decode. Good fallback when Vorbis is too CPU-heavy |
-| **PCM** | No compression, no decode cost. Can quickly bloat memory — avoid unless strictly necessary |
+| **Vorbis** | 压缩效果最好,但解码成本较高。在 CPU 资源充足时是最佳的整体选择 |
+| **ADPCM** | 比 Vorbis 更大,但解码几乎不消耗资源。当 Vorbis 对 CPU 负担过重时是一个很好的备选方案 |
+| **PCM** | 无压缩,无解码成本。会迅速占用大量内存——除非确有必要,否则应避免使用 |
 
-#### Load Types
+#### 加载类型
 
-Each asset has a **Load Type** setting that determines how it lives in memory:
+每个资产都有一个**加载类型(Load Type)**设置,决定其在内存中的存在方式:
 
-| Load Type | Description |
+| 加载类型 | 描述 |
 |---|---|
-| **Compressed** | Loaded in compressed form and decompressed at playback. Less memory, slightly more CPU at play time |
-| **Decompressed** | Decompressed into PCM when banks load, not at playback. Not recommended unless you have a specific need (e.g. very low-spec devices) |
-| **Streaming** | Loaded in chunks from disk as needed. Good for long music and ambiences that aren't time-sensitive |
+| **Compressed(压缩)** | 以压缩形式加载,在播放时解压缩。占用内存较少,播放时 CPU 占用略高 |
+| **Decompressed(解压缩)** | 在音频库(bank)加载时解压为 PCM,而不是在播放时解压。除非有特殊需求(例如非常低配置的设备),否则不建议使用 |
+| **Streaming(流式传输)** | 根据需要分块从磁盘加载。适合对时间不敏感的长时间音乐和环境音 |
 
-### Streaming and Bank Management
+### 流式传输与音频库管理
 
-On PC, long assets like music or ambiences can balloon RAM usage if kept fully in memory. Streaming solves this by pulling audio in chunks from disk, but every stream adds CPU overhead and disk I/O pressure. Stream too many files at once and you risk stutters and thread contention, especially on HDDs or low-end systems. **Stream only what needs it.**
+在 PC 上,如果长时间的资产(如音乐或环境音)完全保存在内存中,会导致内存占用激增。流式传输通过从磁盘分块拉取音频来解决这个问题,但每个流都会增加 CPU 开销和磁盘 I/O 压力。如果同时流式传输过多文件,就会有卡顿和线程争用的风险,尤其是在机械硬盘(HDD)或低端系统上。**只对确实需要的内容使用流式传输。**
 
-Banks are containers for events, assets, and metadata — they determine what FMOD loads into RAM at runtime. Poorly structured banks leave unnecessary assets in memory, extend load times, and create streaming bottlenecks. Each event should live in a single bank; the same event should never appear in multiple banks unless there's an unavoidable design requirement.
+音频库(Bank)是事件、资产和元数据的容器——它们决定了 FMOD 在运行时加载到内存中的内容。结构不良的音频库会在内存中留下不必要的资产,延长加载时间,并产生流式传输瓶颈。每个事件都应存在于单一一个音频库中;除非有不可避免的设计需求,否则同一个事件绝不应出现在多个音频库中。
 
-### Event, DSP, and Channel Management
+### 事件、DSP 与声道管理
 
-Every event generates one or more voices, each consuming CPU and memory. Stereo, quad, or 5.1 events multiply the number of channels being mixed. Combine this with DSP on each path and costs grow fast. If you don't actively manage instances, channels, and DSP chains, your mix can choke the CPU long before your assets fill memory.
+每个事件都会生成一个或多个声音(voice),每个声音都会消耗 CPU 和内存。立体声、四声道或 5.1 声道事件会增加需要混音的声道数量。再加上每条路径上的 DSP 处理,成本会迅速增长。如果你不积极管理实例、声道和 DSP 链,你的混音可能会在资产填满内存之前就拖垮 CPU。
 
-#### Controlling Event Instances and Channels
+#### 控制事件实例与声道
 
-Although we already handle this with our custom priority system, you can set max instance limits on heavily triggered events if needed. For each event, define a sensible polyphony cap and choose a **stealing rule**:
+虽然我们已经通过自定义优先级系统处理了这一点,但如有需要,你仍可以为触发频率高的事件设置最大实例数限制。为每个事件定义一个合理的复音数上限,并选择一个**抢占规则(stealing rule)**:
 
-| Rule | Behavior |
+| 规则 | 行为 |
 |---|---|
-| **Oldest** | Cuts off the instance that has been playing the longest |
-| **Newest** | Blocks the most recently triggered instance from starting |
-| **Quietest** | Stops the currently lowest-volume instance |
-| **Virtualize** | Suspends an instance into a no-CPU "virtual" state while keeping its timeline active. Useful for VO and music |
-| **None** | Prevents new instances from starting if the max is already reached |
-| **Furthest** | Stops the instance furthest from the listener |
+| **Oldest(最早)** | 终止播放时间最长的实例 |
+| **Newest(最新)** | 阻止最近触发的实例开始播放 |
+| **Quietest(最安静)** | 停止当前音量最低的实例 |
+| **Virtualize(虚拟化)** | 将实例挂起至不消耗 CPU 的"虚拟"状态,同时保持其时间轴处于活动状态。对语音和音乐非常有用 |
+| **None(无)** | 如果已达到最大数量,则阻止新实例启动 |
+| **Furthest(最远)** | 停止距离监听器最远的实例 |
 
-Keep channel counts realistic:
+保持声道数量合理:
 
-- Use **mono** for any sound with no spatial width
-- Use **stereo** only when width is essential (music, ambiences, UI)
-- Save **quad or 5.1+** for true surround beds that justify the cost
+- 对任何没有空间宽度需求的声音使用**单声道(mono)**
+- 仅在宽度至关重要时使用**立体声(stereo)**(音乐、环境音、UI)
+- 将**四声道或 5.1+ 声道**留给真正值得其成本的环绕声床
 
-Every extra channel means extra mixing, panning, and potential DSP. Don't waste channels on one-shots that will collapse to mono in most contexts anyway.
+每增加一个声道都意味着额外的混音、声像(panning)以及潜在的 DSP 处理。不要在大多数情况下都会被折叠为单声道的单次音效上浪费声道资源。
 
-#### Managing DSP Load
+#### 管理 DSP 负载
 
-DSP processing is the heaviest part of runtime audio performance. Effects like convolution reverb, FFT filters, and multiband dynamics consume significant CPU — often more than their audible benefit justifies. Apply DSP only when it provides clear value, such as shaping the overall mix in a way that can't be pre-baked. For common one-shot events, keep them clean or embed processing directly into the audio file.
+DSP 处理是运行时音频性能中开销最大的部分。卷积混响、FFT 滤波器和多频段动态处理等效果会消耗大量 CPU——通常超过其可听收益所能证明的价值。只有在能提供明确价值时才应用 DSP,例如以无法预先烘焙的方式塑造整体混音。对于常见的单次事件,应保持其纯净,或将处理过程直接嵌入音频文件中。
 
-Channel count multiplies DSP cost: a stereo convolution reverb is twice the work of mono, and a quad instance multiplies it further. Use mono effects wherever possible.
+声道数量会使 DSP 成本成倍增加:立体声卷积混响的工作量是单声道的两倍,而四声道实例则进一步成倍增加。应尽可能使用单声道效果。
 
-### Bus and Routing
+### 总线与路由
 
-Bus hierarchies should stay functional and minimal. Group major categories under dedicated sub-buses only where it serves a clear purpose. Use sends and sidechains intentionally — every extra routing hop adds to channel mixing and DSP load. Consolidate DSP chains at the bus level instead of stacking them across many individual events. Snapshots can then modify the properties of a single DSP effect across multiple states, significantly cutting down on total DSP instances required.
+总线层级结构应保持功能性和精简性。仅在有明确目的的情况下,才将主要类别归入专用子总线。有意识地使用发送(sends)和侧链(sidechains)——每增加一个路由跳转都会增加声道混音和 DSP 负载。应在总线级别整合 DSP 链,而不是在众多单独事件中叠加。快照(Snapshots)可以在多个状态下修改单个 DSP 效果的属性,从而大幅减少所需的 DSP 实例总数。
 
-### Using Baked Effects
+### 使用预烘焙效果
 
-If a sound always needs coloration (EQ, distortion, static reverb), bake it into the source file. Reserve runtime DSP for genuinely interactive processing: parameter-driven filters, ducking, pitch modulation, or environmental reverb zones that change dynamically. This prevents the slow creep of redundant DSP costs.
+如果某个声音始终需要染色处理(均衡、失真、静态混响),应将其烘焙进源文件中。将运行时 DSP 保留给真正需要交互处理的场景:参数驱动的滤波器、闪避(ducking)、音高调制,或动态变化的环境混响区域。这样可以防止冗余 DSP 成本的缓慢累积。
 
-### Importing Assets
+### 导入资产
 
-Keep assets lean before they reach FMOD:
+在资产进入 FMOD 之前保持其精简:
 
-- **Trim silence** from samples
-- **Normalize loudness** to a consistent LUFS baseline
-- **Match the project sample rate** (48 kHz) to avoid hidden resampling and wasted CPU cycles
+- 从采样中**修剪静音部分**
+- **规范化响度(Normalize loudness)**至一致的 LUFS 基准
+- **匹配项目采样率**(48 kHz),以避免隐藏的重采样和浪费的 CPU 周期
 
-While FMOD encodes assets into its own formats at build time, the **source format** you import still affects workflow. Using `.wav` for everything bloats the project since .wav files are uncompressed. Switching to **`.flac`** for source assets can drastically reduce disk footprint while preserving lossless quality — this doesn't affect the final encoded format (PCM, Vorbis, ADPCM, etc.), but makes asset management lighter and faster.
+虽然 FMOD 会在构建时将资产编码为自己的格式,但你导入时使用的**源格式**仍然会影响工作流程。对所有内容都使用 `.wav` 会使项目膨胀,因为 .wav 文件是未压缩的。将源资产切换为 **`.flac`** 格式可以在保持无损质量的同时大幅减少磁盘占用空间——这不会影响最终编码格式(PCM、Vorbis、ADPCM 等),但会使资产管理更加轻量和快速。
 
-### Testing for Edge Cases
+### 测试边界情况
 
-Always test edge conditions: thousands of agents in combat, long campaign sessions, or rapid scene transitions. These scenarios reveal memory leaks, mismanaged banks, or runaway event counts before they become real-world problems reported by players.
+务必测试边界条件:数千个代理(agent)参与战斗、长时间的战役会话或快速的场景切换。这些场景能够在内存泄漏、音频库管理不当或事件数量失控成为玩家报告的实际问题之前就将其揭示出来。

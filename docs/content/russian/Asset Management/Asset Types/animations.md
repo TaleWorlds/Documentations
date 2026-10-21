@@ -2,106 +2,107 @@
 title = "Анимации"
 description = ""
 weight = 1
+ai_translated = true
 +++
 
-### Modding the Animation System
+### Модификация системы анимаций
 
-#### Exporting Animation for Bannerlord 
+#### Экспорт анимации для Bannerlord 
 
-##### Default Animation Settings
+##### Настройки анимации по умолчанию
 
-* Frame rate: 30 FPS(Optimal) or 60 FPS
-* Humanoid or Creature Skeleton(Rig) Settings
-* Max supported bone count: 64
-* Bones that are not used should contain “_notused” at the end of the string. Also root bone (highest bone in the hierarchy) should contain this only for the animations. 
+* Частота кадров: 30 FPS (оптимально) или 60 FPS
+* Настройки гуманоидного или звериного скелета (Rig)
+* Максимальное поддерживаемое количество костей: 64
+* Кости, которые не используются, должны содержать «_notused» в конце строки. Также корневая кость (самая верхняя в иерархии) должна содержать это только для анимаций. 
 ![](/img/animation_system/image2.jpg)
 
-##### FBX export settings (Autodesk Maya)
-These settings are applied to Maya. Similar kind of software might contain the same settings. When we export the new rig for the first time, the exported FBX file should contain the skeleton and the mesh.
+##### Настройки экспорта FBX (Autodesk Maya)
+Эти настройки применяются в Maya. Похожее программное обеспечение может содержать такие же настройки. Когда мы экспортируем новый риг впервые, экспортированный FBX-файл должен содержать скелет и меш.
 
-##### First time setup (Skeleton + Mesh)
+##### Первоначальная настройка (скелет + меш)
 ![](/img/animation_system/image4.jpg)
 ![](/img/animation_system/image3.jpg)
 
-##### Exporting Animation Only Settings
-We make sure to disable mesh and skin related options before we export the animations. ”Use scene name” is very important to check when exporting for both animations and rigs. Also make sure that the root bone contains “_notused” at the end of the string.
+##### Настройки экспорта только анимации
+Мы обязательно отключаем параметры, связанные с мешем и скином, перед экспортом анимаций. «Use scene name» очень важно проверить при экспорте как анимаций, так и ригов. Также убедитесь, что корневая кость содержит «_notused» в конце строки.
 ![](/img/animation_system/image6.jpg)
 
-We make sure that we don’t send any kind of “Constraints and Skeleton Definitions”. Constraints, Connections and Unit settings should be set as the image below. Our engine also uses the “Z” as the up axis.
+Мы убеждаемся, что не отправляем никаких «Constraints and Skeleton Definitions» (ограничений и определений скелета). Constraints, Connections и Unit settings должны быть установлены так, как на изображении ниже. Наш движок также использует ось «Z» в качестве направления вверх.
 ![](/img/animation_system/image5.jpg)
 
-##### Defining New Animations
-After exporting your animation, to reference it in the game, you need to add new animation clips from the resources browser which references that animation. To do so, you should use the "Animation Clip" button inside the " Create" parent build. Most important properties of these clips are:
+##### Определение новых анимаций
+После экспорта анимации, чтобы сослаться на неё в игре, вам нужно добавить новые клипы анимации из браузера ресурсов, которые ссылаются на эту анимацию. Для этого используйте кнопку «Animation Clip» внутри родительской сборки «Create». Самые важные свойства этих клипов:
 
-* id: ID(unique name) of the anim clip to be used in other systems
-* source1: Start keyframe of the animation clip 
-* source2: End keyframe of the animation clip 
-* anim_data_name: The source animation resource that was imported to the engine for this clip
-* duration: Duration of this animation clip in seconds
+* id: ID (уникальное имя) клипа анимации, используемого в других системах
+* source1: Начальный ключевой кадр клипа анимации 
+* source2: Конечный ключевой кадр клипа анимации 
+* anim_data_name: Исходный ресурс анимации, импортированный в движок для этого клипа
+* duration: Продолжительность этого клипа анимации в секундах
 
-A typical animation contains some optional attributes as well. Most common one is blend_in_period, which sets the duration for blending to the existing animation and reaching 100% weight. blend_out_period is the opposite of this blending, but it has an important difference. Blending out actually means that the animation ends earlier than the given duration, and the rest of the animation will only be used for blending out to another animation. But blend duration is only set by blend_in_period. Having a longer blend_out_period than the next animation’s blend_in_period doesn’t extend this blend duration. It just helps the blend to look smoother, since during that blend, if both animations play at the same time, it looks visually more appealing. An animation with 0 blend_out_period simply pauses during the blending to the next animation, and it causes a sudden stop/velocity change in bone rotations.
+Типичная анимация также содержит несколько опциональных атрибутов. Самый распространённый — blend_in_period, который задаёт продолжительность смешивания с существующей анимацией и достижения 100% веса. blend_out_period — это противоположность этому смешиванию, но с важным отличием. Смешивание на выходе на самом деле означает, что анимация заканчивается раньше заданной продолжительности, а оставшаяся часть анимации используется только для смешивания с другой анимацией. Но продолжительность смешивания задаётся только через blend_in_period. Наличие более длинного blend_out_period, чем blend_in_period следующей анимации, не увеличивает эту продолжительность смешивания. Это просто помогает смешиванию выглядеть более плавным, так как во время этого смешивания, если обе анимации проигрываются одновременно, это выглядит визуально более привлекательно. Анимация с 0 blend_out_period просто приостанавливается во время смешивания со следующей анимацией, что вызывает резкую остановку/изменение скорости во вращениях костей.
 
-An animation has several more optional attributes:
+Анимация имеет ещё несколько опциональных атрибутов:
 
-* priority: Priority simply allows/disallows animations to be played as an interrupt while another animation is in progress. Higher priority animations are played over lower or equal priorities as interrupts.
-* param1, param2, param3: Params are used in cases when the engine requires additional data. They may have quite different meanings.
-* sound_code: Plays a sound when the animation is played. 
-* step_points: These are step points for sound.
-* voice_code: Plays a voice when the animation is played.
-* facial_anim_id: Morphs the face to this when the animation is played.
-* left_hand_pose, right_hand_pose: These morph the hands to their values when the animation is played.
-* combat_parameter_id: This gives an additional set of information to the engine (see combat_parameters.xml)
-* blends_with_action: This attribute references another action (warning: action, not animation) to blend the animation with. This is valid only when the engine requires two animations to be blended with (i.e. shield blocking up/down, weapon swings requiring balanced and unbalanced versions etc.).
-* continue_to_action: This attribute calls another action (warning: action, not animation) to be played soon after this animation is finished. Animation is considered to be finished always when the duration (blend_out_period) is reached.
+* priority: Priority просто разрешает/запрещает проигрывание анимаций в качестве прерывания, пока проигрывается другая анимация. Анимации с более высоким приоритетом проигрываются поверх анимаций с более низким или равным приоритетом в качестве прерываний.
+* param1, param2, param3: Параметры используются в случаях, когда движку требуются дополнительные данные. Они могут иметь совершенно разное значение.
+* sound_code: Проигрывает звук при проигрывании анимации. 
+* step_points: Это точки шага для звука.
+* voice_code: Проигрывает голос при проигрывании анимации.
+* facial_anim_id: Преобразует лицо в это выражение при проигрывании анимации.
+* left_hand_pose, right_hand_pose: Преобразуют позы рук в заданные значения при проигрывании анимации.
+* combat_parameter_id: Передаёт движку дополнительный набор информации (см. combat_parameters.xml)
+* blends_with_action: Этот атрибут ссылается на другое действие (внимание: действие, а не анимация), с которым нужно смешать анимацию. Это актуально только тогда, когда движку требуется смешать две анимации (например, поднятие/опускание блока щитом, взмахи оружием, требующие сбалансированной и несбалансированной версий и т. д.).
+* continue_to_action: Этот атрибут вызывает другое действие (внимание: действие, а не анимация), которое проигрывается вскоре после завершения этой анимации. Анимация считается завершённой всегда, когда достигается продолжительность (blend_out_period).
 
-Animations usually contain two other nodes: flags and clip_usage_data. clip_usage_data is a common data pointer that may refer to blend_data, displacement_data, bipedal_movement_and_ik_data, and quadrupedal_movement_data. Their usage is mostly for specific cases and their details are out of this explanation’s scope. Flags are used for nearly all animations though and require some explanation. Possible flags that can be used for an animation are:
+Анимации обычно содержат два других узла: flags и clip_usage_data. clip_usage_data — это общий указатель на данные, который может ссылаться на blend_data, displacement_data, bipedal_movement_and_ik_data и quadrupedal_movement_data. Их использование в основном предназначено для специфических случаев, и их детали выходят за рамки данного объяснения. Флаги же используются практически для всех анимаций и требуют некоторого объяснения. Возможные флаги, которые можно использовать для анимации:
 
-* disable_agent_agent_collisions: Disables collisions between agents.
-* ignore_all_collisions: Disables all collisions.
-* Ignore_static_body_collisions: Disables collisions with static bodies.
-* use_last_step_point_as_data: 4th step point is considered as data instead of a sound point.
-* make_bodyfall_sound: Creates a fall sound when the body touches the ground.
-* client_prediction: Prevents animations from being sent through the network.
-* keep: Doesn’t end the animation when it is finished and keeps it as paused instead.
-* restart: Forces the animation to start from the beginning if the same animation is already being played by that skeleton.
-* client_owner_prediction: Prevents animations from being sent through the network only for the agents that are controlled by that client.
-* make_walk_sound: Plays hardcoded walk sounds.
-* disable_hand_ik: Prevents hand inverse kinematics to be applied during the animation.
-* blends_according_to_look_slope: Allows animation to be blended with another animation according to the look slope, with this one being downward.
-* synch_with_horse: Plays the animation without using its original duration, it instead matches the progress with the mount’s animation.
-* use_left_hand_during_attack: Allows the combat system to check the left hand as the collider during an attack.
-* lock_camera: Prevents players from controlling the camera during this animation.
-* lock_movement: Prevents agents to move during this animation.
-* synch_with_movement: Plays the animation without using its original duration, it instead matches the progress with the agent’s movement animations.
-* enable_hand_spring_ik: Allows a spring-like inverse kinematics to be applied to hands for applying lower body movement’s forces on them.
-* enable_hand_blend_ik: Allows inverse kinematics to try to keep the hands a bit at the starting location when this animation starts by blending the original position and the animation position.
-* synch_with_ladder_movement: Plays the animation without using its original duration, it instead matches the progress with the agent’s movement on the ladder.
-* do_not_keep_track_of_sound: Prevents engine from holding a reference to a sound when it is played.	 
-* reset_camera_height: Reduces the additional camera height for this animation.
-* disable_auto_increment_progress: Prevents the animation from being played and keeps it paused at the current progress instead. Progress might have to be set manually from the code.
-* enforce_lowerbody: Prevents previous channel and movement animations to be played during this animation.
-* enforce_all: Valid for channel 0 only. Prevents channel 1 and movement animations to be played during this animation.
-* cyclic: Animation loops and never ends.
-* enforce_root_rotation: Abdomen (root) rotation is taken from this animation instead of the previous channel or movement animation for internal calculations.
-* allow_head_movement: Allows agent’s head to move according to look direction.
-* disable_foot_ik: Disables foot inverse kinematics for this animation.
-* affected_by_movement: Allows movement adder animations to be added on top of this animation to give a better shaky feeling.
-* update_bounding_volume: Disables bounding box optimization, should be used when the agent moves outside its regular boundaries with this animation.
-* align_with_ground: Aligns agent's frame with the ground during this animation.
-* ignore_slope: Prevents quadruped agents to align with the ground during this animation.
-* displace_position: Updates world position of the agent during the animation using the displacement data.
-* enable_left_hand_ik: Forces the left hand to stay on this animation’s target frame even during blending with other animations using inverse kinematics.
-* ignore_scale_on_root_position: Allows abdomen (root) position to stay at the same position with the original scale, allowing the agents to interact with objects better.
-* randomization_weight: Randomizes the animation inside its alternative group with this value. Higher value allows the animation to be selected more frequently.
+* disable_agent_agent_collisions: Отключает столкновения между агентами.
+* ignore_all_collisions: Отключает все столкновения.
+* Ignore_static_body_collisions: Отключает столкновения со статическими телами.
+* use_last_step_point_as_data: 4-я точка шага считается данными, а не звуковой точкой.
+* make_bodyfall_sound: Создаёт звук падения, когда тело касается земли.
+* client_prediction: Предотвращает отправку анимаций через сеть.
+* keep: Не завершает анимацию по окончании, а оставляет её на паузе.
+* restart: Принудительно запускает анимацию с начала, если та же анимация уже проигрывается этим скелетом.
+* client_owner_prediction: Предотвращает отправку анимаций через сеть только для агентов, управляемых этим клиентом.
+* make_walk_sound: Проигрывает жёстко закодированные звуки ходьбы.
+* disable_hand_ik: Предотвращает применение обратной кинематики рук во время анимации.
+* blends_according_to_look_slope: Позволяет смешивать анимацию с другой анимацией в зависимости от угла наклона взгляда, причём эта является нисходящей.
+* synch_with_horse: Проигрывает анимацию без использования её исходной продолжительности, вместо этого синхронизируя прогресс с анимацией коня.
+* use_left_hand_during_attack: Позволяет боевой системе проверять левую руку как коллайдер во время атаки.
+* lock_camera: Предотвращает управление камерой игроком во время этой анимации.
+* lock_movement: Предотвращает движение агентов во время этой анимации.
+* synch_with_movement: Проигрывает анимацию без использования её исходной продолжительности, вместо этого синхронизируя прогресс с анимациями движения агента.
+* enable_hand_spring_ik: Позволяет применять пружинную обратную кинематику к рукам для передачи на них сил движения нижней части тела.
+* enable_hand_blend_ik: Позволяет обратной кинематике пытаться удерживать руки немного в начальном положении при старте этой анимации, смешивая исходное положение и положение анимации.
+* synch_with_ladder_movement: Проигрывает анимацию без использования её исходной продолжительности, вместо этого синхронизируя прогресс с движением агента по лестнице.
+* do_not_keep_track_of_sound: Предотвращает удержание движком ссылки на звук, когда он проигрывается.	 
+* reset_camera_height: Уменьшает дополнительную высоту камеры для этой анимации.
+* disable_auto_increment_progress: Предотвращает проигрывание анимации и удерживает её на паузе на текущем прогрессе. Прогресс может потребоваться устанавливать вручную из кода.
+* enforce_lowerbody: Предотвращает проигрывание предыдущего канала и анимаций движения во время этой анимации.
+* enforce_all: Актуально только для канала 0. Предотвращает проигрывание канала 1 и анимаций движения во время этой анимации.
+* cyclic: Анимация зацикливается и никогда не заканчивается.
+* enforce_root_rotation: Вращение живота (корня) берётся из этой анимации вместо предыдущего канала или анимации движения для внутренних расчётов.
+* allow_head_movement: Позволяет голове агента двигаться в соответствии с направлением взгляда.
+* disable_foot_ik: Отключает обратную кинематику ног для этой анимации.
+* affected_by_movement: Позволяет накладывать анимации-добавки движения поверх этой анимации для создания более качественного эффекта тряски.
+* update_bounding_volume: Отключает оптимизацию ограничивающего объёма, следует использовать, когда агент выходит за пределы своих обычных границ с этой анимацией.
+* align_with_ground: Выравнивает систему координат агента с землёй во время этой анимации.
+* ignore_slope: Предотвращает выравнивание четвероногих агентов с землёй во время этой анимации.
+* displace_position: Обновляет мировую позицию агента во время анимации, используя данные смещения.
+* enable_left_hand_ik: Заставляет левую руку оставаться в целевой позиции этой анимации даже во время смешивания с другими анимациями с помощью обратной кинематики.
+* ignore_scale_on_root_position: Позволяет позиции живота (корня) оставаться в том же положении с исходным масштабом, позволяя агентам лучше взаимодействовать с объектами.
+* randomization_weight: Рандомизирует анимацию внутри её альтернативной группы с этим значением. Более высокое значение позволяет анимации выбираться чаще.
 
-##### Modifying/Adding New Actions
-Agent animations are mapped to action sets as actions. In order to set a new animation to an existing action, first you need to define a new animation clip through the resource browser. Animation clips define the animation start and end seconds, FPS and various properties. Then you need to map it under action_sets.xml for the specific action set. If a new action is needed to be created, first you need to add it as a new line under action_types.xml, and then do the same steps above.
+##### Изменение/добавление новых действий
+Анимации агентов сопоставляются с наборами действий (action sets) как действия (actions). Чтобы назначить новую анимацию существующему действию, сначала нужно определить новый клип анимации через браузер ресурсов. Клипы анимации определяют начальную и конечную секунды анимации, FPS и различные свойства. Затем нужно сопоставить его в action_sets.xml для конкретного набора действий. Если необходимо создать новое действие, сначала нужно добавить его как новую строку в action_types.xml, а затем выполнить те же шаги, что и выше.
 
-Non-agent animations are not mapped as actions. For those, you just need to add the animation clips through the resource browser and then start using it in the code.
+Анимации, не относящиеся к агентам, не сопоставляются как действия. Для них просто нужно добавить клипы анимации через браузер ресурсов, а затем начать использовать их в коде.
 
-Each action has several attributes. These attributes are hardcoded so that the engine can understand certain properties of the action. The attributes are:
+Каждое действие имеет несколько атрибутов. Эти атрибуты жёстко закодированы, чтобы движок мог понимать определённые свойства действия. Атрибуты:
 
-type (default: actt_other):
+type (по умолчанию: actt_other):
 
 * actt_other,
 * actt_defend_fist,
@@ -153,7 +154,7 @@ type (default: actt_other):
 * actt_strike_knock_back,
 * actt_mount_strike
 
-usage_direction (optional):
+usage_direction (опционально):
 
 * ud_attack_up,
 * ud_attack_down,
@@ -167,7 +168,7 @@ usage_direction (optional):
 * ud_attack_any
 
 
-action_stage (optional):
+action_stage (опционально):
 
 * as_attack_ready,
 * as_attack_quick_ready,
@@ -178,10 +179,9 @@ action_stage (optional):
 * as_defend_parry
 
 
-Using the modified actions is pretty straightforward, you just need to change the action to animation mapping under action_sets.xml and that will probably be enough. But if you want to create a new action, or create a new behavior for an existing action, possible ways of integrating it within the game would be:
+Использование изменённых действий довольно простое — вам просто нужно изменить сопоставление действия с анимацией в action_sets.xml, и этого, вероятно, будет достаточно. Но если вы хотите создать новое действие или новое поведение для существующего действия, возможные способы интеграции его в игру могут быть следующими:
 
-* Calling the action from the code: Agent class has the necessary functions to do that. For performance reasons, make sure to cache the index of the action using the ActionIndexCache class.
-* Using it in movement_sets.xml: This file contains two sets: movement_sets and full_movement_sets. A movement_set contains all the animations required for a character to move in all directions in a single stance and state. A full_movement_set contains a group of movemen_sets in order to satisfy all stances and all states: walking, running, crouch walking and crouch running with left and right stances. Please keep in mind that crouch does not have a left stance, and as such some weapon usages enforce only right stance to be used in all cases (i.e. ranged weapons in Native). full_movement_sets contain their conditions as attributes: left_stance and movement_mode.
-* Using it in item_usage_sets.xml: new combat actions should be given from here as long as they don't require a combat system change. Idle, guard, weapon usage, kick usage actions can be set from here for every item with certain conditions. In addition to that the actions defined under movement_sets.xml are also referenced from here. There are too many conditions and attributes for the usage_sets to explain them here, but the existing examples should help you understand how everything works. One important and not so straightforward detail is that, all of the usages defined here are traversed from top to bottom, and the first usage that satisfies the condition is used. So it is important to keep the usages that have more limits at the top of the list, and fallback usages at the bottom.
-* Using it in monster_usage_sets.xml: Just like item_usage_sets.xml, this file contains possible actions that agents can do without depending on an item type. Those can be strikes, jumps, falls and mountings. For quadruped agents there are a few more possibilities: upper_body_movements, movements and movement_adders. This file requires a closer explanation, but its structure is similar to item_usage_sets.xml and the examples shown there should be self explanatory. Again for all cases, usages are traversed from the top and first usage that satisfies the conditions is used. Since the conditions vary a lot for different conditions of actions, sometimes a condition can be used outside of its meaning (i.e. meaning of is_heavy becomes a speed condition for quadruped falls and strikes). And some directions may not be applied for certain conditions (some actions check 4 directions, some check front_left and front_right instead of front, and some check only cross directions: front_left, front_right, back_left and back_right), so it is advised that you experiment a bit if you try to go beyond what the Native code gives you. For the full possible body_parts, please check bone_body_types.xml, which mainly holds some attributes for body parts related to combat collision checks.
-
+* Вызов действия из кода: класс Agent имеет необходимые функции для этого. Из соображений производительности обязательно кэшируйте индекс действия с помощью класса ActionIndexCache.
+* Использование в movement_sets.xml: этот файл содержит два набора: movement_sets и full_movement_sets. movement_set содержит все анимации, необходимые персонажу для движения во всех направлениях в одной стойке и состоянии. full_movement_set содержит группу movement_set, чтобы удовлетворить все стойки и все состояния: ходьба, бег, ходьба и бег в приседе с левой и правой стойкой. Пожалуйста, учтите, что присед не имеет левой стойки, и поэтому некоторые варианты использования оружия предписывают использовать только правую стойку во всех случаях (например, дальнобойное оружие в Native). full_movement_sets содержат свои условия в виде атрибутов: left_stance и movement_mode.
+* Использование в item_usage_sets.xml: новые боевые действия следует задавать отсюда, если они не требуют изменения боевой системы. Простой, стража, использование оружия, действия удара ногой можно задать отсюда для каждого предмета с определёнными условиями. Кроме того, действия, определённые в movement_sets.xml, также упоминаются отсюда. Для usage_sets существует слишком много условий и атрибутов, чтобы объяснять их здесь, но существующие примеры должны помочь вам понять, как всё работает. Одна важная и не самая очевидная деталь заключается в том, что все варианты использования, определённые здесь, обходятся сверху вниз, и используется первый вариант, удовлетворяющий условию. Поэтому важно держать варианты с большим количеством ограничений в верхней части списка, а резервные варианты — внизу.
+* Использование в monster_usage_sets.xml: как и item_usage_sets.xml, этот файл содержит возможные действия, которые агенты могут выполнять независимо от типа предмета. Это могут быть удары, прыжки, падения и посадки верхом. Для четвероногих агентов есть ещё несколько возможностей: upper_body_movements, movements и movement_adders. Этот файл требует более подробного объяснения, но его структура похожа на item_usage_sets.xml, и примеры, показанные там, должны быть понятны сами по себе. Опять же, во всех случаях варианты использования обходятся сверху, и используется первый, удовлетворяющий условиям. Поскольку условия сильно различаются для разных состояний действий, иногда условие может использоваться вне своего смысла (например, значение is_heavy становится условием скорости для падений и ударов четвероногих). А некоторые направления могут не применяться для определённых условий (некоторые действия проверяют 4 направления, некоторые проверяют front_left и front_right вместо front, а некоторые проверяют только перекрёстные направления: front_left, front_right, back_left и back_right), поэтому рекомендуется немного поэкспериментировать, если вы пытаетесь выйти за рамки того, что даёт вам код Native. Полный список возможных body_parts можно найти в bone_body_types.xml, который в основном содержит некоторые атрибуты для частей тела, связанных с проверками боевых столкновений.

@@ -1,6 +1,6 @@
 +++
 title = "Редактор"
-description = "editor"
+description = "Редактор"
 weight = 4
 +++
 

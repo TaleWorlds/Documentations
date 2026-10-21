@@ -54,3 +54,53 @@ name = "<i class='fa-brands fa-github fa-xl'></i> <label>&nbsp;Contribute on Git
 identifier = "blgithub"
 url = "https://github.com/TaleWorlds/Documentations"
 weight = 40
+
+# Russian top-bar menu
+[[languages.ru.menu.shortcuts]]
+name = "<i class='fa fa-code'></i> <label>Документация API</label>"
+identifier = "blapi"
+url = "https://apidoc.bannerlord.com/"
+weight = 10
+
+[[languages.ru.menu.shortcuts]]
+name = "<i class='fa fa-comment'></i> <label>Обсудить на форуме</label>"
+identifier = "blforums"
+url = "https://forums.taleworlds.com/index.php?forums/the-smithy-mod-development.643/"
+weight = 20
+
+[[languages.ru.menu.shortcuts]]
+name = "<i class='fa-brands fa-discord fa-xl'></i> <label>&nbsp;Обсудить в Discord</label>"
+identifier = "bldiscord"
+url = "https://discord.gg/ykFVJGQ"
+weight = 30
+
+[[languages.ru.menu.shortcuts]]
+name = "<i class='fa-brands fa-github fa-xl'></i> <label>&nbsp;Участвовать на GitHub</label>"
+identifier = "blgithub"
+url = "https://github.com/TaleWorlds/Documentations"
+weight = 40
+
+# Chinese top-bar menu
+[[languages.zh_cn.menu.shortcuts]]
+name = "<i class='fa fa-code'></i> <label>API 文档</label>"
+identifier = "blapi"
+url = "https://apidoc.bannerlord.com/"
+weight = 10
+
+[[languages.zh_cn.menu.shortcuts]]
+name = "<i class='fa fa-comment'></i> <label>论坛讨论</label>"
+identifier = "blforums"
+url = "https://forums.taleworlds.com/index.php?forums/the-smithy-mod-development.643/"
+weight = 20
+
+[[languages.zh_cn.menu.shortcuts]]
+name = "<i class='fa-brands fa-discord fa-xl'></i> <label>&nbsp;Discord 讨论</label>"
+identifier = "bldiscord"
+url = "https://discord.gg/ykFVJGQ"
+weight = 30
+
+[[languages.zh_cn.menu.shortcuts]]
+name = "<i class='fa-brands fa-github fa-xl'></i> <label>&nbsp;在 GitHub 上贡献</label>"
+identifier = "blgithub"
+url = "https://github.com/TaleWorlds/Documentations"
+weight = 40

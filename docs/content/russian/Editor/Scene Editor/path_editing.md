@@ -1,16 +1,16 @@
 +++
-title = "Path Editing"
+title = "Редактирование путей"
 description = ""
 weight = 1
+ai_translated = true
 +++
 
-Level designer can easily add, edit or delete paths and path points by the scene editor.
+Левел-дизайнер может легко добавлять, редактировать или удалять пути и точки путей (path points) с помощью редактора сцен (Scene Editor).
 
-##### Adding a new path
+##### Добавление нового пути
 
-User can use the Add New Path button at the upper toolbar. User should enter a unique name for every path. After the path is added, the editor's editing state will become "Path Select". By spacing either space or the "Add a new path point" button from the upper toolbar, user can transition to the "Path Node Add" mode and start adding new path nodes. At every click one more path node will be added to the current selected path. By pressing space again, user can start selecting and editing the existing path nodes. Every path node has three transform points. These are the center(cube) and the two tangents(spheres). User can hover onto them and select them by pressing the left mouse button. Then, pressing "T" button will spawn the transformation triad which can be used to move these points. Every operation can be undone by the "Control z" key combination. Selected path nodes can be deleted via the "Del" key. A path can be deleted by selecting the path and hitting the "Del" button. Also, to select another path, one can just hover into one of its node poinmts and pressing the left mouse button.
+Пользователь может использовать кнопку Add New Path (Добавить новый путь) на верхней панели инструментов. Для каждого пути пользователь должен ввести уникальное имя. После добавления пути состояние редактирования редактора станет «Path Select» (Выбор пути). Нажав пробел или кнопку «Add a new path point» (Добавить новую точку пути) на верхней панели инструментов, пользователь может перейти в режим «Path Node Add» (Добавление узла пути) и начать добавлять новые узлы пути. При каждом клике к текущему выбранному пути будет добавляться ещё один узел пути. Повторно нажав пробел, пользователь может начать выбирать и редактировать существующие узлы пути. У каждого узла пути есть три точки трансформации. Это центр (куб) и две касательные (сферы). Пользователь может навести на них курсор и выбрать их, нажав левую кнопку мыши. Затем нажатие кнопки «T» вызовет триаду трансформации, которую можно использовать для перемещения этих точек. Любую операцию можно отменить комбинацией клавиш «Control z». Выбранные узлы пути можно удалить клавишей «Del». Путь можно удалить, выбрав его и нажав кнопку «Del». Также, чтобы выбрать другой путь, можно просто навести курсор на одну из его точек узла и нажать левую кнопку мыши.
 
-| Add a new path | Add a new path point | Select a path point |
+| Добавление нового пути | Добавление новой точки пути | Выбор точки пути |
 | ------------ | ------------ | ------------ |
 | ![](/img/path_editing/add_path.png) | ![](/img/path_editing/add_path_point.png) | ![](/img/path_editing/select_path_point.png) |
-

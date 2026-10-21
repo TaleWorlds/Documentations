@@ -1,14 +1,15 @@
 +++
-title = "War Sails World Map"
+title = "Карта мира War Sails"
 description = ""
 weight = 10
+ai_translated = true
 +++
 
-Creating or modifying the War Sails world map involves a few additional requirements compared to Bannerlord. They are listed below.
+Создание или изменение карты мира War Sails связано с несколькими дополнительными требованиями по сравнению с Bannerlord. Они перечислены ниже.
 
-## Navmesh
+## Навигационная сетка (Navmesh)
 
-With the War Sails DLC, many bodies of water become navigable, introducing several new navmesh types beyond those used in the base game. When creating or modifying a War Sails world map, you may need to use the following navmesh types:
+С DLC War Sails многие водоёмы становятся судоходными, что вводит несколько новых типов навигационной сетки помимо тех, что используются в базовой игре. При создании или изменении карты мира War Sails вам может понадобиться использовать следующие типы навигационной сетки:
 
 * `CoastalSea`  
 * `OpenSea`  
@@ -17,59 +18,59 @@ With the War Sails DLC, many bodies of water become navigable, introducing sever
 * `UnderBridge`  
 * `Lake`
 
-The corresponding navmesh ID values are shown in the image below.
+Соответствующие значения ID навигационной сетки показаны на изображении ниже.
 
 <img src="/img/warsails_world_map/1.png" style="max-width: 800px;"/>
 
-`CoastalSea` and `OpenSea` are both navigable water types, but they serve different gameplay purposes. They use different movement speed modifiers and are treated differently by the sea attrition system, so choose the appropriate type based on the intended gameplay.
+`CoastalSea` и `OpenSea` — оба типа судоходной воды, но они служат разным игровым целям. Они используют разные модификаторы скорости движения и по-разному обрабатываются системой морского истощения (sea attrition), поэтому выбирайте подходящий тип в зависимости от предполагаемого геймплея.
 
-Use the `UnderBridge` navmesh type for the faces directly beneath bridges, as well as the adjacent faces leading into and out of the bridge. This navmesh type does not affect movement speed or sea attrition. Instead, it controls bridge-specific behavior:
+Используйте тип навигационной сетки `UnderBridge` для граней непосредственно под мостами, а также для соседних граней, ведущих к мосту и от него. Этот тип навигационной сетки не влияет на скорость движения или морское истощение. Вместо этого он управляет поведением, специфичным для мостов:
 
-* Ships will automatically fold and unfold their sails when passing underneath the bridge.  
-* When the player sails under a bridge, the bridge becomes transparent to improve visibility.
+* Корабли будут автоматически складывать и раскладывать паруса при прохождении под мостом.  
+* Когда игрок проплывает под мостом, мост становится прозрачным для улучшения видимости.
 
-Lakes are not navigable in War Sails. The `Lake` navmesh type functions as impassable terrain and cannot be traversed by ships.
+Озёра не судоходны в War Sails. Тип навигационной сетки `Lake` функционирует как непроходимая местность и не может быть пересечён кораблями.
 
-## Flowmap
+## Карта потоков (Flowmap)
 
-In War Sails, wind and water currents affect movement across navigable water. Strength and direction are defined by the Flowmap, which can be edited directly in the World Map Editor.
+В War Sails ветер и водные течения влияют на движение по судоходной воде. Сила и направление определяются картой потоков (Flowmap), которую можно редактировать прямо в редакторе карты мира (World Map Editor).
 
-To edit the Flowmap:
+Чтобы отредактировать Flowmap:
 
-1. Click Paint Flowmap, located between the Paint Flora and Navigation Mesh buttons.  
-2. Also, open the Inspector and select the Flowmap tab in order to correctly edit it.
+1. Нажмите кнопку Paint Flowmap, расположенную между кнопками Paint Flora и Navigation Mesh.  
+2. Также откройте Inspector и выберите вкладку Flowmap, чтобы корректно её редактировать.
 
 <img src="/img/warsails_world_map/2.png" style="max-width: 800px;"/>
 
-The Flowmap is painted much like terrain textures or the heightmap, but each brush stroke also defines a direction. The editor displays colored arrows to visualize the Flowmap:
+Flowmap рисуется примерно так же, как текстуры местности или карта высот, но каждый мазок кисти также определяет направление. Редактор отображает цветные стрелки для визуализации Flowmap:
 
-* The arrow direction indicates the wind and water current direction.  
-* The arrow color indicates the wind and water current strength.  
-  * Blue represents the weakest wind and water current.  
-  * Red represents the strongest wind and water current.
+* Направление стрелки указывает направление ветра и водного течения.  
+* Цвет стрелки указывает силу ветра и водного течения.  
+  * Синий цвет обозначает самый слабый ветер и течение.  
+  * Красный цвет обозначает самый сильный ветер и течение.
 
-The Flowmap directly influences the water shader. Because of this, painting neighboring areas with sharply opposing flow directions can cause visible stretching or unrealistic water deformation. If you need adjacent areas with opposite current directions, create a smooth transition between them instead of painting an abrupt change. This produces more natural-looking water while still allowing distinct current patterns.
+Flowmap напрямую влияет на шейдер воды. Из-за этого окраска соседних областей с резко противоположными направлениями потока может вызвать заметное растяжение или нереалистичную деформацию воды. Если вам нужны соседние области с противоположными направлениями течения, создайте плавный переход между ними вместо того, чтобы рисовать резкое изменение. Это обеспечивает более естественный вид воды, сохраняя при этом возможность задавать отдельные узоры течений.
 
-## Settlement Setup
+## Настройка поселений
 
-War Sails introduces several additional entities for coastal settlements. These entities enable features such as embarking and disembarking, naval blockades, and village landing points.
+War Sails вводит несколько дополнительных сущностей для прибрежных поселений. Эти сущности обеспечивают такие функции, как посадка и высадка, морские блокады и точки высадки у деревень.
 
-### Port Points
+### Точки порта
 
-To allow naval parties to embark and disembark at a coastal town, add a child entity named `town_port` to the settlement.
+Чтобы разрешить морским партиям садиться на корабли и высаживаться в прибрежном городе, добавьте дочернюю сущность с именем `town_port` в поселение.
 
-The entity must:
+Эта сущность должна:
 
-* Be tagged with `main_map_city_port`.  
-* Be placed on a navigable naval navmesh, such as `CoastalSea` or `River`. Not placing it correctly will lead to errors.
+* Быть помечена тегом `main_map_city_port`.  
+* Быть размещена на судоходной морской навигационной сетке, такой как `CoastalSea` или `River`. Неправильное размещение приведёт к ошибкам.
 
 <img src="/img/warsails_world_map/3.png" style="max-width: 800px;"/>
 
-**Settlement XML Configuration**
+**Настройка XML поселения**
 
-After adding a `town_port` entity to a coastal town, you must also update the `settlements.xml` file.
+После добавления сущности `town_port` в прибрежный город необходимо также обновить файл `settlements.xml`.
 
-In the settlement's Buildings section, add the Shipyard building:
+В разделе зданий (Buildings) поселения добавьте здание верфи (Shipyard):
 
 ```xml
 <Building
@@ -77,7 +78,7 @@ In the settlement's Buildings section, add the Shipyard building:
     level="1" />
 ```
 
-And for the shipyard scene, you should add the shipyard location in the settlement's Locations section, like this:
+А для сцены верфи вам следует добавить локацию верфи в разделе локаций (Locations) поселения следующим образом:
 
 ```xml
 <Location
@@ -85,152 +86,152 @@ And for the shipyard scene, you should add the shipyard location in the settleme
     scene_name="aserai_shipyard" />
 ```
 
-### Blockade Points
+### Точки блокады
 
-When a coastal town is under siege, War Sails displays a naval blockade around the settlement. To define the blockade area and ship positions, add the following:
+Когда прибрежный город осаждён, War Sails отображает морскую блокаду вокруг поселения. Чтобы определить область блокады и позиции кораблей, добавьте следующее:
 
-* `town_blockade_start` entity with the `Blockade_Arc_Start` tag as a child entity  
-* `town_blockade_end` entity with the `Blockade_Arc_End` tag as a child entity  
-* `BlockadePositionScript` to the town entity
+* Сущность `town_blockade_start` с тегом `Blockade_Arc_Start` в качестве дочерней сущности  
+* Сущность `town_blockade_end` с тегом `Blockade_Arc_End` в качестве дочерней сущности  
+* `BlockadePositionScript` к сущности города
 
 <img src="/img/warsails_world_map/4.png" style="max-width: 800px;"/>
 
-Once these have been added, the editor will display:
+После добавления этого редактор будет отображать:
 
-* Red markers representing the individual blockade ship positions.  
-* A sphere indicating the center of the blockade arc.
+* Красные маркеры, представляющие отдельные позиции кораблей блокады.  
+* Сферу, обозначающую центр дуги блокады.
 
-Moving the start and end points changes the extent of the blockade arc, allowing you to adjust the visual placement of the blockade fleet.
+Перемещение начальной и конечной точек изменяет протяжённость дуги блокады, позволяя регулировать визуальное расположение блокадного флота.
 
-The `BlockadePositionScript` also exposes several parameters that control the appearance of the blockade, including:
+`BlockadePositionScript` также предоставляет несколько параметров, которые управляют внешним видом блокады, включая:
 
-* The number of ships.  
-* The number of blockade arcs.  
-* The spacing between ships.  
-* Other blockade layout settings.
+* Количество кораблей.  
+* Количество дуг блокады.  
+* Расстояние между кораблями.  
+* Другие настройки расположения блокады.
 
-Adjust these values to achieve the desired visual result.
+Настройте эти значения, чтобы добиться желаемого визуального результата.
 
 <img src="/img/warsails_world_map/5.png" style="max-width: 800px;"/>
 
-### Drop Off Points
+### Точки высадки (Drop Off Points)
 
-Coastal villages use drop-off points instead of ports to support embarking and disembarking.
+Прибрежные деревни используют точки высадки вместо портов для поддержки посадки и высадки.
 
-To add a drop-off point, create a child entity named `drop_point` and assign it the `main_map_village_dropoff` tag.
+Чтобы добавить точку высадки, создайте дочернюю сущность с именем `drop_point` и присвойте ей тег `main_map_village_dropoff`.
 
-As with town ports, the drop-off point must be placed on a navigable naval navmesh (such as `CoastalSea` or `River`) for it to function correctly.
+Как и в случае с портами городов, точка высадки должна быть размещена на судоходной морской навигационной сетке (такой как `CoastalSea` или `River`), чтобы она функционировала корректно.
 
 <img src="/img/warsails_world_map/6.png" style="max-width: 800px;"/>
 
-## Transition
+## Переход
 
-In addition to transitions between naval travel and coastal settlements, War Sails also supports direct transitions between navigable water and land.
+Помимо переходов между морским плаванием и прибрежными поселениями, War Sails также поддерживает прямые переходы между судоходной водой и сушей.
 
-The only requirement is that both the source and destination navmesh types must be navigable.
+Единственное требование заключается в том, что как исходный, так и целевой тип навигационной сетки должны быть судоходными/проходимыми.
 
-For example:
+Например:
 
-* A party can transition from `CoastalSea` to `Plain` or `Forest`.  
-* A party cannot transition to an impassable terrain type, such as `Mountain`.
+* Партия может перейти из `CoastalSea` в `Plain` или `Forest`.  
+* Партия не может перейти на непроходимый тип местности, такой как `Mountain`.
 
-This allows you to define embarkation and disembarkation points at any suitable navigable shoreline, not just at settlements.
+Это позволяет вам определять точки посадки и высадки на любом подходящем судоходном береге, а не только в поселениях.
 
-## Scripts
+## Скрипты
 
-One of the most important components in the world map scene is the `SettlementPositionScript`, located under the `settlement_scripts` entity.
+Один из важнейших компонентов на сцене карты мира — `SettlementPositionScript`, расположенный на сущности `settlement_scripts`.
 
-Whenever you make changes that affect navigation or settlement locations, the Settlement Distance Cache must be regenerated. This includes changes such as editing the navmesh or moving a settlement, including `town_gate`, `town_port`, or `drop_point`.
+Всякий раз, когда вы вносите изменения, влияющие на навигацию или расположение поселений, необходимо регенерировать кэш расстояний между поселениями (Settlement Distance Cache). Это включает такие изменения, как редактирование навигационной сетки или перемещение поселения, включая `town_gate`, `town_port` или `drop_point`.
 
-To safely regenerate the cache, perform the following steps in order:
+Чтобы безопасно регенерировать кэш, выполните следующие шаги по порядку:
 
-1. Before rebuilding the Settlement Distance Cache, verify that the following are selected:  
+1. Перед перестроением кэша расстояний между поселениями убедитесь, что выбраны следующие параметры:  
    * `_partyNavigationModelOverridenClassName` → `NavalPartyNavigationModel`  
    * `_distanceModelOverridenClassName` → `NavalDLCMapDistanceModel`  
-2. Check Positions  
-   * Validates settlement-related positions and moves the camera to any problematic locations, making them easier to identify and fix.  
-3. Save Positions  
-   * Saves the current settlement positions and all associated data.  
+2. Check Positions (Проверить позиции)  
+   * Проверяет позиции, связанные с поселениями, и перемещает камеру к любым проблемным местам, облегчая их выявление и исправление.  
+3. Save Positions (Сохранить позиции)  
+   * Сохраняет текущие позиции поселений и все связанные с ними данные.  
 4. `ComputeAndSaveSettlementDistanceCache`  
-   * Rebuilds the Settlement Distance Cache. This final step can take a significant amount of time, depending on your hardware. During the process, the editor computes pathfinding routes between every settlement and every other settlement, then stores the results in the cache.
+   * Перестраивает кэш расстояний между поселениями. Этот заключительный шаг может занять значительное время в зависимости от вашего оборудования. В процессе редактор вычисляет маршруты поиска пути между каждым поселением и всеми остальными поселениями, а затем сохраняет результаты в кэше.
 
 <img src="/img/warsails_world_map/7.png" style="max-width: 800px;"/>
 
-## Water Plane and Material
+## Плоскость воды и материал
 
-War Sails does not use the engine's automatically generated scene water. Instead, it uses custom planar meshes with water materials.
+War Sails не использует автоматически генерируемую воду сцены движка. Вместо этого используются пользовательские плоские меши с материалами воды.
 
-The built-in scene water is designed for mission scenes and has fixed scaling and behavior, making it unsuitable for the flexibility required by the campaign world map. Custom water planes allow you to precisely control the size, placement, and appearance of navigable water.
+Встроенная вода сцены предназначена для миссионных сцен и имеет фиксированное масштабирование и поведение, что делает её непригодной для гибкости, необходимой для карты мира кампании. Пользовательские плоскости воды позволяют точно контролировать размер, расположение и внешний вид судоходной воды.
 
-A standard War Sails water plane uses the following configuration:
+Стандартная плоскость воды War Sails использует следующую конфигурацию:
 
-* Material: `naval_worldmap_water`  
-* Scripts:  
+* Материал: `naval_worldmap_water`  
+* Скрипты:  
   * `water_flowmap`  
   * `CampaignMapAmbientOccluder`  
-* Tag: `snapped_water_body`
+* Тег: `snapped_water_body`
 
-The image below shows the required components and parameters for the main world map water plane.
+На изображении ниже показаны необходимые компоненты и параметры для основной плоскости воды карты мира.
 
-Note: The world map scene also contains additional `water_plane` entities used for lakes. Before making any changes, make sure you have selected the correct water plane.
+Примечание: сцена карты мира также содержит дополнительные сущности `water_plane`, используемые для озёр. Прежде чем вносить какие-либо изменения, убедитесь, что вы выбрали правильную плоскость воды.
 
 <img src="/img/warsails_world_map/8.png" style="max-width: 800px;"/>
 
-### Creating a New Water Plane
+### Создание новой плоскости воды
 
-To create a new water plane:
+Чтобы создать новую плоскость воды:
 
-1. Add the `water_plane` prefab to the scene.  
-2. Position, rotate, and scale it as needed.  
-3. In the Inspector, open the Materials tab and assign the desired water material (typically `naval_worldmap_water`).  
-4. Ensure the required scripts and tag are present if the water plane is intended to function as navigable world map water.
+1. Добавьте префаб `water_plane` на сцену.  
+2. Позиционируйте, вращайте и масштабируйте его по мере необходимости.  
+3. В Inspector откройте вкладку Materials и назначьте нужный материал воды (обычно `naval_worldmap_water`).  
+4. Убедитесь, что необходимые скрипты и тег присутствуют, если плоскость воды предназначена для функционирования в качестве судоходной воды карты мира.
 
-Once configured, the water plane will integrate with the War Sails water rendering and Flowmap systems.
+После настройки плоскость воды будет интегрирована с системами рендеринга воды War Sails и Flowmap.
 
-## Storm System
+## Система штормов
 
-War Sails features a dynamic storm system that generates storms over open water.
+War Sails включает динамическую систему штормов, которая генерирует штормы над открытой водой.
 
-The world map is divided into a grid of 32 × 32 unit cells. For each cell whose center lies on an `OpenSea` navmesh, the game periodically checks whether a storm should spawn.
+Карта мира разделена на сетку ячеек размером 32 × 32 единицы. Для каждой ячейки, центр которой лежит на навигационной сетке `OpenSea`, игра периодически проверяет, должен ли появиться шторм.
 
-Three storm types are available:
+Доступны три типа штормов:
 
 * `Storm`  
 * `ThunderStorm`  
 * `Hurricane`
 
-The type of storm generated depends on the Flowmap data at the selected location. Each storm type has its own movement speed, radius, and damage characteristics.
+Тип генерируемого шторма зависит от данных Flowmap в выбранном месте. Каждый тип шторма имеет свою собственную скорость перемещения, радиус и характеристики урона.
 
-### Configuring Storms
+### Настройка штормов
 
-Storm behavior can be customized by overriding the `StormModel` (through code, not in the editor). This allows you to adjust parameters such as:
+Поведение шторма можно настроить, переопределив `StormModel` (через код, а не в редакторе). Это позволяет настраивать такие параметры, как:
 
-* Hourly spawn chance  
-* Maximum number of active storms  
-* Storm type configuration  
-* Storm lifetime
+* Почасовой шанс появления  
+* Максимальное количество активных штормов  
+* Конфигурация типов штормов  
+* Продолжительность жизни шторма
 
-### Storm Movement
+### Движение шторма
 
-Storms do not follow predefined paths. Instead, they are driven by the Flowmap.
+Штормы не следуют заранее определённым путям. Вместо этого ими управляет Flowmap.
 
-As a storm moves across the world map, it continuously follows the flow direction defined by the Flowmap at its current location. This allows storm movement to naturally match the current patterns you've painted into the map.
+По мере того как шторм перемещается по карте мира, он непрерывно следует направлению потока, определённому Flowmap в его текущем местоположении. Это позволяет движению шторма естественным образом соответствовать узорам течений, которые вы нарисовали на карте.
 
-### Flowmap Considerations
+### Соображения по Flowmap
 
-Storms gradually weaken and eventually dissipate when they remain over land navmesh.
+Штормы постепенно ослабевают и в конечном итоге рассеиваются, если остаются над навигационной сеткой суши.
 
-For this reason, when painting the Flowmap near coastlines, it is recommended to direct the flow away from land and toward open water. This helps keep storms at sea and prevents them from immediately dissipating after spawning or drifting near the coast.
+По этой причине при рисовании Flowmap вблизи береговых линий рекомендуется направлять поток от суши к открытой воде. Это помогает удерживать штормы в море и предотвращает их немедленное рассеивание после появления или дрейфа вблизи побережья.
 
-## Pirate Spawn Points
+## Точки появления пиратов
 
-War Sails uses dedicated pirate spawn points to control where pirate parties appear and the regions they patrol over time.
+War Sails использует выделенные точки появления пиратов для контроля того, где появляются пиратские партии и какие регионы они патрулируют со временем.
 
-Each pirate spawn point must have a `PirateSpawnPoint` script attached. In the script, set the Clan String ID to the appropriate pirate clan. War Sails has two clans available:
+К каждой точке появления пиратов должен быть прикреплён скрипт `PirateSpawnPoint`. В скрипте установите Clan String ID (строковый ID клана) на соответствующий пиратский клан. В War Sails доступны два клана:
 
 * `northern_pirates`  
 * `southern_pirates`
 
-If you wish to add new clans, you should define them in the `clans.xml`, and then proceed to add them to the world map.
+Если вы хотите добавить новые кланы, вам следует определить их в `clans.xml`, а затем добавить их на карту мира.
 
 <img src="/img/warsails_world_map/9.png" style="max-width: 800px;"/>

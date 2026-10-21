@@ -1,22 +1,23 @@
 +++
-title = "Distance Tool"
+title = "Инструмент измерения расстояния"
+ai_translated = true
 
 [menu.main]
 identifier = "distance_tool"
 parent = "core_components"
 +++
 
-## Distance Measure Tool
-The <b>Distance Tool</b> measures the distance between two points in the scene.
-Distance measure mode can be activated by either pressing <b>Alt + D</b> shortcut or the respective button on the editor toolbar. 
+## Инструмент измерения расстояния (Distance Measure Tool)
+<b>Инструмент измерения расстояния (Distance Tool)</b> измеряет расстояние между двумя точками в сцене.
+Режим измерения расстояния можно активировать либо нажатием сочетания клавиш <b>Alt + D</b>, либо соответствующей кнопкой на панели инструментов редактора. 
 
-While holding the <b>left mouse button</b>, drag the mouse between two points in the scene to measure distance. The tool snaps to vertices if close enough to a one by default, holding down <b>Left Shift</b> overrides this.
+Удерживая <b>левую кнопку мыши</b>, перетащите курсор между двумя точками в сцене, чтобы измерить расстояние. По умолчанию инструмент привязывается к вершинам (vertices), если находится достаточно близко к одной из них, удержание клавиши <b>Left Shift</b> отменяет эту привязку.
 
-The tool can be de-activated by pressing <b>Alt + D</b> or the respective button on the editor toolbar again. For further use, the gizmos stay visible even after the tool is de-activated. Pressing <b>Alt + Shift + D</b> clears these gizmos from the screen.
+Инструмент можно деактивировать, снова нажав <b>Alt + D</b> или соответствующую кнопку на панели инструментов редактора. Для дальнейшего использования гизмо остаются видимыми даже после деактивации инструмента. Нажатие <b>Alt + Shift + D</b> очищает эти гизмо с экрана.
 
 ![](/img/distance_tool/distance_tool_gizmos.png)
-<center><b>Helper Gizmos</b></center>
+<center><b>Вспомогательные гизмо (Helper Gizmos)</b></center>
 
-* <b>Green line</b> shows the actual distance between points.
-* <b>Blue lines</b> show the lateral and longtidunal distances.
-* <b>Yellow circle</b> depicts the range.
+* <b>Зелёная линия</b> показывает фактическое расстояние между точками.
+* <b>Синие линии</b> показывают боковое и продольное расстояния.
+* <b>Жёлтый круг</b> обозначает диапазон.

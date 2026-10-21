@@ -1,228 +1,229 @@
 +++
-title = "Hosting a Custom Server"
+title = "托管自定义服务器"
 description = ""
 weight = 5
+ai_translated = true
 +++
 
-## Installing
-Enable Tools within your Steam Library. `Mount & Blade II: Dedicated Server` should appear on your list. Download and install it.
+## 安装
+在 Steam 库中启用工具（Tools）。`Mount & Blade II: Dedicated Server` 应该会出现在你的列表中。下载并安装它。
 
-## Hosting
-By default, dedicated servers use UDP port 7210. You must have a visible (public) IP address on the internet as well as the aforementioned port being accessible.
+## 托管
+默认情况下,专用服务器使用 UDP 端口 7210。你必须拥有一个可见的(公共)互联网 IP 地址,并且上述端口必须可被访问。
 
-Anonymous hosting is not supported. You will have to create a server token by going in-game first.
+不支持匿名托管。你必须先进入游戏来创建一个服务器令牌(token)。
 
-### Generating a Token
-Launch `Mount & Blade II: Bannerlord` multiplayer and log into the game lobby:
+### 生成令牌
+启动 `Mount & Blade II: Bannerlord` 多人游戏并登录游戏大厅:
 
 <img src="/img/hosting_server/hosting_server_1.jpg" width="900px" />
 
-Open the game console by pressing `ALT` + `tilde key (~)`:
+按下 `ALT` + `波浪号键 (~)` 打开游戏控制台:
 
 <img src="/img/hosting_server/hosting_server_2.jpg" width="900px" />
 
-Type `customserver.gettoken` in the textbox and press enter:
+在文本框中输入 `customserver.gettoken` 并按回车:
 
 <img src="/img/hosting_server/hosting_server_3.jpg" width="900px" />
 
-Your token has been generated and saved under your `Documents\Mount & Blade II Bannerlord\Tokens` folder:
+你的令牌已生成,并保存在你的 `Documents\Mount & Blade II Bannerlord\Tokens` 文件夹下:
 
 <img src="/img/hosting_server/hosting_server_4.png" width="900px" />
 
-If you are planning to host the dedicated server on the same computer where you installed Bannerlord, this is all you have to do. But if you are planning to host using a different computer, please copy this token file to the target computer’s `Documents\Mount & Blade II Bannerlord\Tokens` folder. There is also one other alternative method shown in the Launch Arguments section below.
+如果你打算在安装了 Bannerlord 的同一台电脑上托管专用服务器,那么这就是你需要做的全部工作。但如果你打算使用另一台电脑进行托管,请将此令牌文件复制到目标电脑的 `Documents\Mount & Blade II Bannerlord\Tokens` 文件夹中。下面的启动参数(Launch Arguments)部分还展示了另一种替代方法。
 
-Beware that the generated token is tied to your Bannerlord account. Any abuse would be traced back to the user who originally generated the token. **We recommend keeping it private**, and not sharing it with other people.
+请注意,生成的令牌与你的 Bannerlord 账户绑定。任何滥用行为都将被追溯到最初生成该令牌的用户。**我们建议将其保密**,不要与他人分享。
 
-Also remember that **your token expires after 3 months** due to security reasons at which point you can replace it by generating a new one.
+还要记住,出于安全原因,**你的令牌会在 3 个月后过期**,届时你可以通过生成一个新令牌来替换它。
 
-### Server Administration
-You can administrate your server by typing commands in your server’s console (that opens up when launching the server).
+### 服务器管理
+你可以通过在服务器控制台(启动服务器时会打开)中输入命令来管理你的服务器。
 
-By typing `list` and pressing `enter`, you will get all the available commands in the dedicated server:
+输入 `list` 并按下 `enter`,你将获得专用服务器中所有可用的命令:
 
 <img src="/img/hosting_server/consolecommands.png" width="600px" />
 
-For example, to get a simple server running, you can type the following commands into your console:
+例如,要运行一个简单的服务器,你可以在控制台中输入以下命令:
 
 * `ServerName Custom Dedicated Beta Test`
 * `GameType TeamDeathmatch`
 * `start_game`
 * `start_mission`
 
-By executing these commands, you will make your custom server visible and accessible to all players.
+执行这些命令后,你的自定义服务器将对所有玩家可见并可访问。
 
-With the `ServerName` and `GameType` commands, you are simply setting the name of your server and setting your game mode.
+通过 `ServerName` 和 `GameType` 命令,你只是简单地设置服务器的名称和游戏模式。
 
-With the `start_game` command, you are starting to host your server. Your server becomes visible to all players. Any player who enters your server will wait in the intermission state.
+通过 `start_game` 命令,你开始托管你的服务器。你的服务器将对所有玩家可见。任何进入你服务器的玩家都将在中场(intermission)状态等待。
 
-With the `start_mission` command, your server will switch into mission mode and players will be able to play the game.
+通过 `start_mission` 命令,你的服务器将切换到任务(mission)模式,玩家将能够开始游戏。
 
-You can also use the shorthand `start_game_and_mission` instead of the two commands.
+你也可以使用简写命令 `start_game_and_mission` 来代替这两个命令。
 
-#### Tips & Tricks
+#### 技巧与窍门
 
-##### Configuration Files
-Instead of executing commands one at a time with the server console, you can specify a configuration file to run on initialization, which will have its contents executed line by line.
+##### 配置文件
+除了在服务器控制台中逐条执行命令外,你还可以指定一个在初始化时运行的配置文件,该文件的内容将被逐行执行。
 
-You can find sample configuration files within the Native module directory (`Modules\Native\ds_config_*.txt`). Note that currently, your own configuration files must also reside within this same directory to be found by the server. See the launch arguments section below for how you can specify a configuration file to be run.
+你可以在 Native 模组目录下找到示例配置文件(`Modules\Native\ds_config_*.txt`)。请注意,目前你自己的配置文件也必须位于同一目录中才能被服务器找到。有关如何指定要运行的配置文件,请参阅下面的启动参数部分。
 
-##### Launch Arguments
-There are a few particularly useful launch arguments at the moment:
+##### 启动参数
+目前有几个特别有用的启动参数:
 
 `/dedicatedcustomserverconfigfile [configuration_file_name]`
-Specify a configuration file to be run as seen in the Configuration Files section above.
+指定一个要运行的配置文件,如上面配置文件部分所述。
 
 `/dedicatedcustomserverauthtoken [authentication_token_contents]`
-When the token is passed through the launch argument, a local file containing the token is not required.
+当令牌通过启动参数传递时,就不需要包含令牌的本地文件了。
 
 `/DisableErrorReporting`
-Disables the Crash Uploader popup and automatic error reporting.
+禁用崩溃上传器弹窗和自动错误报告。
 
 `/LogOutputPath [output_path]`
-Sets the log output directory of the server. Path should be in double quotes.
+设置服务器的日志输出目录。路径应放在双引号中。
 
-`/port [number]` Optionally specify a port number to run the server from, useful for using ports other than the default.
+`/port [number]` 可选地指定一个端口号来运行服务器,适用于使用非默认端口的情况。
 
-##### Log Files
-By default, log files for the custom server can be found in your ProgramData directory on Windows (`%programdata%\Mount and Blade II Bannerlord\logs`).
+##### 日志文件
+默认情况下,自定义服务器的日志文件可以在 Windows 的 ProgramData 目录下找到(`%programdata%\Mount and Blade II Bannerlord\logs`)。
 
-##### Automated Battle Count
-By using the command `set_automated_battle_count` before `enable_automated_battle_switching`, you can set the number of missions to be played before the server shuts down.
+##### 自动战斗计数
+在 `enable_automated_battle_switching` 之前使用命令 `set_automated_battle_count`,你可以设置服务器关闭前要进行的任务数量。
 
-For example, `set_automated_battle_count 10` will have the server play 10 missions and shut down. If you would like to have an unlimited number of missions, set it to `-1`.
+例如,`set_automated_battle_count 10` 将使服务器进行 10 场任务后关闭。如果你想要无限数量的任务,请将其设置为 `-1`。
 
-#### Additional Features
-With patch v1.2.x the below striken through text is no longer relevant. The `DedicatedCustomServerHelper` module and its functionality has been merged into the base game.
+#### 附加功能
+从 v1.2.x 补丁开始,下面带删除线的文本不再适用。`DedicatedCustomServerHelper` 模组及其功能已合并到基础游戏中。
 
-~~We supply the optional `DedicatedCustomServerHelper` module to help server hosts. There are several submodules within for distinct purposes.~~ For the server side modules to be usable from the outside, you will need to make TCP port 7210 accessible as well.
+~~我们提供了可选的 `DedicatedCustomServerHelper` 模组来帮助服务器主机。其中有几个子模组用于不同的目的。~~ 要让服务器端模组能够从外部被使用,你还需要使 TCP 端口 7210 可被访问。
 
-~~Note that although the module is optional for server hosts, if you as the host do load the module, the players will also need to have it loaded. Otherwise, a mismatch in modules will prevent players from joining.~~
+~~请注意,虽然该模组对服务器主机来说是可选的,但如果你作为主机加载了该模组,玩家也需要加载它。否则,模组不匹配将导致玩家无法加入。~~
 
-##### Administration Web Panel
-This module launches a web panel to interact with your custom server, through a general management page and a terminal page:
+##### 管理 Web 面板
+该模组会启动一个 Web 面板,通过一个常规管理页面和一个终端页面与你的自定义服务器进行交互:
 
 <img src="/img/hosting_server/hosting_server_6.png" width="900px" />
 
-You can access the web panel with your server's IP address and port once it has been initialized.
+一旦服务器初始化完成,你可以通过服务器的 IP 地址和端口访问该 Web 面板。
 
-The web panel is password protected by the server’s configured `AdminPassword` option. **By default, this option is left blank, so be sure to change it to a secure password**.
+该 Web 面板受服务器配置的 `AdminPassword` 选项密码保护。**默认情况下,此选项为空,因此请务必将其更改为一个安全的密码**。
 
-If you do not want the web panel to be accessible from outside the local network or machine, and also do not need the map download feature below, you are free to block TCP port 7210 from external access.
+如果你不希望该 Web 面板可从本地网络或本机以外被访问,并且也不需要下面的地图下载功能,你可以自由地阻止 TCP 端口 7210 的外部访问。
 
-##### In-Game Map Downloads [Map Downloader]
-We also present a way to allow players to download your server's map files through an in-game panel. As the server host, there are some conditions you must ensure to get this functioning:
+##### 游戏内地图下载 [地图下载器]
+我们还提供了一种方式,允许玩家通过游戏内面板下载你服务器的地图文件。作为服务器主机,有一些条件你必须确保才能使此功能正常工作:
 
-* The maps to be served must be located within ONLY the Multiplayer module's `SceneObj` directory, in the same way a typical module contains scenes. You can create the directory by hand if it is missing.
-* The maps to be served must be "registered" through either the `Map` configuration option, the `add_map_to_automated_battle_pool` or `add_map_to_usable_maps` commands. In other words, only maps playable on the server are served.
+* 要提供的地图必须且只能位于 Multiplayer 模组的 `SceneObj` 目录中,方式与典型模组包含场景的方式相同。如果该目录缺失,你可以手动创建它。
+* 要提供的地图必须通过 `Map` 配置选项、`add_map_to_automated_battle_pool` 或 `add_map_to_usable_maps` 命令进行"注册"。换句话说,只有在服务器上可玩的地图才会被提供。
 
-Note that having the scene loaded in multiple modules will cause issues such as the scene not being shown on the download panel.
+请注意,如果场景被加载到多个模组中,会导致诸如场景不显示在下载面板上等问题。
 
-Players will then get prompted to download all of the missing maps as they try to join the server or they can right click on the custom server list entry, which will open a context menu with the option to open the download panel for the server. Once all missing maps are successfully downloaded, there is no need to restart the game, they should be able to join your server as is.
+玩家在尝试加入服务器时将收到下载所有缺失地图的提示,或者他们可以在自定义服务器列表条目上点击右键,这将打开一个上下文菜单,其中包含打开该服务器下载面板的选项。一旦所有缺失的地图成功下载完成,就无需重启游戏,他们应该能够直接加入你的服务器。
 
 <img src="/img/hosting_server/downloadpanel.png" width="600px" />
 
-Note that this feature is intended to support simple use cases. This is not a module manager feature, and will not be able to support maps that require other assets (ModuleData, Prefabs, etc.) spread throughout a given module. Only the `SceneObj` directory contents are transferred between the server and the client.
+请注意,此功能旨在支持简单的使用场景。这不是一个模组管理器功能,无法支持需要分散在给定模组中其他资源(ModuleData、Prefabs 等)的地图。只有 `SceneObj` 目录的内容会在服务器和客户端之间传输。
 
-If the lack of prefab support is a concern, you may be able to make the scene usable through the Map Downloader by breaking the prefabs. Open the scene in the editor, select all entity objects, right click and select *Break Prefab*.
+如果缺乏预制件(prefab)支持是个问题,你或许可以通过打破预制件,使该场景可以通过地图下载器使用。在编辑器中打开场景,选中所有实体对象,右键单击并选择 *Break Prefab*(打破预制件)。
 
-##### In-game admin panel & admin features
-The in-game admin panel provides an easy way to organize and moderate events.
+##### 游戏内管理面板与管理功能
+游戏内管理面板提供了一种组织和管理活动的简便方式。
 
-The admin features are only available to those that enter the server as an admin by providing the admin password (right-click on the server and then `Join as Admin`). You can then access the admin panel via the Escape menu. The `AdminPassword` can be set from the server config.
+管理功能仅对那些通过提供管理员密码(在服务器上右键单击,然后选择 `Join as Admin`)以管理员身份进入服务器的人开放。然后你可以通过 Escape 菜单访问管理面板。`AdminPassword` 可以从服务器配置中设置。
 
 |  |  |
 | ------ | ----------- |
 | <img src="/img/hosting_server/adminpanel1.png"/ width="400px"> | <img src="/img/hosting_server/adminpanel2.png" width="400px"/> |
 
-The in-game panel has two main operational buttons:
+游戏内面板有两个主要的操作按钮:
 
-* `Apply and Start Mission` -> This will apply all of the changes made and start a new mission immediately.
-* `Apply Changes` -> This will apply all of the changes made. The ones that are listed under Immediate Effects will go into effect right away. Those that are listed under Mission Options will be applied on the next mission.
+* `Apply and Start Mission`(应用并开始任务)-> 这将应用所做的所有更改并立即开始一场新任务。
+* `Apply Changes`(应用更改)-> 这将应用所做的所有更改。列在"立即生效"(Immediate Effects)下的更改将立即生效。列在"任务选项"(Mission Options)下的更改将在下一场任务中应用。
 
-The in-game admin panel comes with the following options:
+游戏内管理面板带有以下选项:
 
-###### Mission Options (require mission restart)
+###### 任务选项(需要任务重启)
 
-Please note that if you wish to change "Mission Options" that require a mission restart using the in-game Admin Panel - you must use the map intermission system. This means you must use the `start_game_and_mission` (or `start_game`) and `enable_automated_battle_switching` commands in your server config. Not using these will automatically disable all Mission Options on the Admin Panel.
+请注意,如果你希望使用游戏内管理面板更改需要任务重启的"任务选项",你必须使用地图中场系统。这意味着你必须在服务器配置中使用 `start_game_and_mission`(或 `start_game`)和 `enable_automated_battle_switching` 命令。不使用这些命令将自动禁用管理面板上的所有任务选项。
 
-Additionally, options open up based on the selected Game Type. For example, the Warmup Time Limit option is not available when selecting TeamDeathMatch - as there's no warmup in TDM.
+此外,选项会根据所选的游戏类型而开放。例如,选择 TeamDeathMatch 时,预热时间限制(Warmup Time Limit)选项不可用——因为 TDM 中没有预热环节。
 
-* Game Type
-	* Lists all available game types (Siege, TeamDeathmatch, Captain, Skirmish, Duel, Battle)
-* Map
-	* Lists all the maps that have been passed to the server inside the config with the `add_map_to_usable_maps [MapName] [GameType],[GameType]` command
-		* For example: `add_map_to_usable_maps mymap Siege,Skirmish` (please note that the GameType must be correctly capitalized)
-* Attacker & Defender Cultures
-* Minimum Score to Win Duel
-* Number of Rounds
-* Map Time Limit
-* Round Time Limit
-* Warmup Time Limit
-* Maximum Number of Players
+* Game Type(游戏类型)
+	* 列出所有可用的游戏类型(Siege、TeamDeathmatch、Captain、Skirmish、Duel、Battle)
+* Map(地图)
+	* 列出所有通过 `add_map_to_usable_maps [MapName] [GameType],[GameType]` 命令传递给服务器配置的地图
+		* 例如:`add_map_to_usable_maps mymap Siege,Skirmish`(请注意,GameType 必须正确大写)
+* Attacker & Defender Cultures(攻方与守方文化)
+* Minimum Score to Win Duel(赢得决斗所需的最低分数)
+* Number of Rounds(回合数)
+* Map Time Limit(地图时间限制)
+* Round Time Limit(回合时间限制)
+* Warmup Time Limit(预热时间限制)
+* Maximum Number of Players(最大玩家数)
 
-###### Immediate Effects
-* Welcome Message
-* Team Balance Threshold
-* Friendly Damages
-* Class Limits (Allow, Disallow)
+###### 立即生效
+* Welcome Message(欢迎消息)
+* Team Balance Threshold(队伍平衡阈值)
+* Friendly Damages(友军伤害)
+* Class Limits(职业限制,Allow、Disallow)
 
-###### Others
-* End Warmup
-	* Overrides the warmup timer and ends the warmup in 30 seconds.
-* Mute/Unmute Player
-	* Mutes a player, preventing them from using chat.
-* Kick Player
-	* Kicks a player from the server. Kicked players are able to immediately rejoin the server.
-* Ban Player
-	* Bans a player from the server. Banned players are not able to rejoin the server until it restarts.
+###### 其他
+* End Warmup(结束预热)
+	* 覆盖预热计时器,在 30 秒内结束预热。
+* Mute/Unmute Player(静音/取消静音玩家)
+	* 使玩家静音,阻止其使用聊天功能。
+* Kick Player(踢出玩家)
+	* 将玩家踢出服务器。被踢出的玩家可以立即重新加入服务器。
+* Ban Player(封禁玩家)
+	* 将玩家从服务器中封禁。被封禁的玩家在服务器重启之前无法重新加入。
 
-Here are some behaviours you should expect while changing Game Types, Maps and Cultures:
+以下是在更改游戏类型、地图和文化时你应该预期的一些行为:
 
-* If you leave Game Type, Map and Cultures UNSELECTED -> The game will run the current Game Type being played and give the players the option to vote on the available maps (those passed with `add_map_to_automated_battle_pool`) and cultures.
-* If you leave Game Type, Map and Cultures UNSELECTED AND the Game Type isn't the one that the server initially launched with -> The game will run the current Game Type being played and use a random map from the available maps (those passed with `add_map_to_usable_maps`) and give the players the option to vote on cultures.
-* If you select a Game Type but leave Map and Cultures UNSELECTED AND the selected Game Type isn't the one that the server initially launched with -> The game will run the current Game Type being played and use a random map from the available maps (those passed with `add_map_to_usable_maps`) and give the players the option to vote on cultures.
-* If you select a Game Type and Map but leave Cultures UNSELECTED -> The game will run the selected Game Type with the selected Map and give the players the option to vote on cultures.
-* If you select a Game Type, Map and Cultures -> The game will run the selected Game Type, Map and Cultures with no voting screen.
-* If you provide no maps for a specific Game Type using the `add_map_to_usable_maps` parameter, that specific Game Type will be disabled in the admin panel.
-* Official maps will only work with the intended Game Types. Trying to use them with another Game Type with `add_map_to_usable_maps` will not display them in the admin panel.
+* 如果你将游戏类型、地图和文化保持未选择状态 -> 游戏将运行当前正在进行的游戏类型,并让玩家对可用地图(通过 `add_map_to_automated_battle_pool` 传递的那些)和文化进行投票。
+* 如果你将游戏类型、地图和文化保持未选择状态,并且该游戏类型不是服务器最初启动时的类型 -> 游戏将运行当前正在进行的游戏类型,并从可用地图(通过 `add_map_to_usable_maps` 传递的那些)中随机使用一张地图,并让玩家对文化进行投票。
+* 如果你选择了游戏类型但将地图和文化保持未选择状态,并且所选游戏类型不是服务器最初启动时的类型 -> 游戏将运行当前正在进行的游戏类型,并从可用地图(通过 `add_map_to_usable_maps` 传递的那些)中随机使用一张地图,并让玩家对文化进行投票。
+* 如果你选择了游戏类型和地图,但将文化保持未选择状态 -> 游戏将使用所选的游戏类型和所选地图运行,并让玩家对文化进行投票。
+* 如果你选择了游戏类型、地图和文化 -> 游戏将使用所选的游戏类型、地图和文化运行,不会出现投票画面。
+* 如果你没有通过 `add_map_to_usable_maps` 参数为特定游戏类型提供任何地图,该特定游戏类型将在管理面板中被禁用。
+* 官方地图只能与预定的游戏类型配合使用。尝试通过 `add_map_to_usable_maps` 将它们用于其他游戏类型,将不会在管理面板中显示它们。
 
-###### Admin Announcements
-You can also make use of the admin announcements system which pushes out text to everyone on the server by typing the following into chat:
+###### 管理员公告
+你还可以利用管理员公告系统,通过在聊天中输入以下内容向服务器上的所有人推送文本:
 
-* `/ab [text]` - Admin Broadcast - Displays the announcement in the middle of the screen as well as in chat alongside a sound notification.
-* `/ac [text]` - Admin Chat - Displays the announcement in chat.
+* `/ab [text]` - 管理员广播(Admin Broadcast)- 在屏幕中央以及聊天中显示公告,并伴有提示音。
+* `/ac [text]` - 管理员聊天(Admin Chat)- 在聊天中显示公告。
 
-## FAQ
-##### Does Steam need to stay open for hosting?
-No. You only need Steam for keeping your server files up to date. You are free to copy your server files to some other computer to host it. But we strongly recommend you to use it with Steam in order to keep it up to date. Unlike Warband, currently, any older versions of the server files will be incompatible with our system.
+## 常见问题
+##### 托管时 Steam 需要保持打开吗?
+不需要。你只需要 Steam 来保持服务器文件的更新。你可以自由地将服务器文件复制到其他电脑进行托管。但我们强烈建议你配合 Steam 使用,以保持其更新。与 Warband 不同,目前任何旧版本的服务器文件都将与我们的系统不兼容。
 
-##### Are you planning to add support for other game platforms?
-Yes.
+##### 你们是否计划添加对其他游戏平台的支持?
+是的。
 
-##### What if I don’t want to use any game platform to retrieve the server files, will there be any other option?
-Right now, Steam is the only way to download it. We are planning to add it to other game platforms and are also discussing using a Docker host for distributing the server files in the future.
+##### 如果我不想使用任何游戏平台来获取服务器文件,还有其他选择吗?
+目前,Steam 是唯一的下载方式。我们计划将其添加到其他游戏平台,也正在讨论在未来使用 Docker 主机来分发服务器文件。
 
-##### Will you provide Linux support?
-Linux server files are already available!
+##### 你们会提供 Linux 支持吗?
+Linux 服务器文件已经可用!
 
-##### Will my server be accessible by everyone?
-Yes, your server will be accessible by everyone unless you make it password protected.
+##### 我的服务器是否对所有人可见?
+是的,除非你设置密码保护,否则你的服务器将对所有人可见。
 
-##### How many servers can I host?
-There is a limit to the number of servers you can host simultaneously. Currently, you can host up to 50 servers.
+##### 我可以托管多少个服务器?
+你可以同时托管的服务器数量是有限制的。目前,你最多可以托管 50 个服务器。
 
-##### What are the hardware requirements?
-It depends on the game mode and the player count. With the default configurations, we are hosting our games:
+##### 硬件要求是什么?
+这取决于游戏模式和玩家数量。在默认配置下,我们托管我们的游戏:
 
-* For smaller battles (Skirmish and Duel): 2 core CPUs (2GHz to 3GHz) with 4GB Memory
-* For bigger battles (Siege, Team Deathmatch and Captain): 4 core CPUs (2GHz to 3GHz) with 8GB Memory
+* 对于较小规模的战斗(Skirmish 和 Duel):2 核 CPU(2GHz 至 3GHz),4GB 内存
+* 对于较大规模的战斗(Siege、Team Deathmatch 和 Captain):4 核 CPU(2GHz 至 3GHz),8GB 内存
 
-But, for instance, you can always host a siege mode with less players on a 2 core machine as well.
+但是,举例来说,你也始终可以在 2 核机器上以较少玩家数托管攻城模式。
 
-You can also try to host a very small game with a single core machine as well but you might get some spikes during the game.
+你也可以尝试用单核机器托管一个非常小的游戏,但你在游戏过程中可能会遇到一些性能峰值。
 
-##### What are the bandwidth requirements?
-It depends on the player count. By default, we are sending 60 packets to each player and each packet is less than 1.5 kilobytes. For most configurations, any dedicated server provider should be able to provide a sufficient network connection.
+##### 带宽要求是什么?
+这取决于玩家数量。默认情况下,我们向每个玩家发送 60 个数据包,每个数据包小于 1.5 千字节。对于大多数配置,任何专用服务器提供商都应该能够提供足够的网络连接。
 
-##### Is there any modification support?
-Yes! Go to https://moddocs.bannerlord.com/multiplayer/custom_game_mode/ to learn more.
+##### 是否支持修改(Modification)?
+是的!前往 https://moddocs.bannerlord.com/multiplayer/custom_game_mode/ 了解更多信息。

@@ -1,43 +1,44 @@
 +++
-title = "Audio Modding with FMOD Studio"
+title = "Моддинг звука с помощью FMOD Studio"
 weight = 10
+ai_translated = true
 +++
 
-_Last updated: April 3, 2026_
+_Последнее обновление: 3 апреля 2026 г._
 
 ---
 
-## Introduction
+## Введение
 
-This guide is not a replacement for the official FMOD Studio manual. If you're completely new to FMOD Studio or audio middleware in general, we recommend starting with the official documentation on FMOD's website before diving in here.
+Это руководство не заменяет официальное руководство по FMOD Studio. Если вы совершенно новичок в FMOD Studio или в аудио-middleware в целом, мы рекомендуем сначала ознакомиться с официальной документацией на сайте FMOD, прежде чем переходить к этому руководству.
 
-The purpose of this guide is to give you an up-to-date, Bannerlord-specific reference that helps you work efficiently with FMOD. It focuses on workflows, best practices, and performance considerations that are unique to **Mount & Blade II: Bannerlord**.
+Цель этого руководства — предоставить вам актуальный справочник, специфичный для Bannerlord, который поможет вам эффективно работать с FMOD. Оно сосредоточено на рабочих процессах, лучших практиках и аспектах производительности, которые уникальны для **Mount & Blade II: Bannerlord**.
 
-With direct FMOD Studio support, modders now have access to nearly all of the tools used internally by the game's audio team. That means you can:
+Благодаря прямой поддержке FMOD Studio у моддеров теперь есть доступ почти ко всем инструментам, которые внутренняя аудиокоманда игры использует сама. Это означает, что вы можете:
 
-- Add and configure events
-- Create instruments and layers
-- Apply automations and modulations
-- Build and manage soundbanks
-- Add or re-route busses
-- Create and tune snapshots
-- Define or modify parameters
-- Insert DSP effects
-- Implement or modify controller vibrations
+- Добавлять и настраивать события (events)
+- Создавать инструменты и слои
+- Применять автоматизации и модуляции
+- Создавать и управлять звуковыми банками (soundbanks)
+- Добавлять или перенаправлять шины (busses)
+- Создавать и настраивать снапшоты (snapshots)
+- Определять или изменять параметры
+- Вставлять DSP-эффекты
+- Реализовывать или изменять вибрацию контроллера
 
-**Mount & Blade II: Bannerlord** is a performance-critical title. Every change you make in FMOD Studio is reflected in real time inside the game, and a poorly optimized setup can hurt both audio quality and overall performance. Because of this, treat optimization as part of your workflow — not something to deal with at the end.
+**Mount & Blade II: Bannerlord** — требовательная к производительности игра. Каждое изменение, которое вы вносите в FMOD Studio, отражается в игре в реальном времени, и плохо оптимизированная настройка может навредить как качеству звука, так и общей производительности. Из-за этого относитесь к оптимизации как к части рабочего процесса, а не как к чему-то, что нужно сделать в конце.
 
-A dedicated section of this guide covers performance optimization guidelines. We strongly encourage you to read it before finalizing any FMOD modifications. Following those practices will help you avoid common pitfalls like excessive voice counts, unnecessary DSP load, or inefficient streaming setups.
+Отдельный раздел этого руководства посвящён рекомендациям по оптимизации производительности. Мы настоятельно рекомендуем прочитать его перед завершением любых изменений в FMOD. Следование этим рекомендациям поможет вам избежать распространённых проблем, таких как избыточное количество голосов (voice counts), ненужная нагрузка DSP или неэффективная настройка стриминга.
 
 ---
 
-## Getting Started
+## Начало работы
 
-Before anything shows up in-game, your mod needs to be wired up so that Bannerlord knows where to find your sound data. This involves two steps: registering the required data files in your `.mbproj` file, and generating those files using the FMOD Studio script provided.
+Прежде чем что-либо появится в игре, ваш мод должен быть настроен так, чтобы Bannerlord знал, где искать ваши звуковые данные. Это включает два шага: регистрацию необходимых файлов данных в вашем файле `.mbproj` и генерацию этих файлов с помощью предоставленного скрипта FMOD Studio.
 
-### 1. Register Sound Files in Your .mbproj
+### 1. Регистрация звуковых файлов в вашем .mbproj
 
-Add the following lines to your mod's `.mbproj` file, inside the `base` scope:
+Добавьте следующие строки в файл `.mbproj` вашего мода, внутри области видимости `base`:
 
 ```xml
 <file id="soln_sound_files"          name="ModuleData/soundfiles.xml"            type="sound_files" />
@@ -45,44 +46,44 @@ Add the following lines to your mod's `.mbproj` file, inside the `base` scope:
 <file id="soln_sound_parameter_data" name="ModuleData/sound_params.gen.xml"      type="sound_parameter_data" />
 ```
 
-The `name` field specifies the XML file path relative to your mod's directory. The `id` and `type` fields must be kept exactly as shown.
+Поле `name` указывает путь к XML-файлу относительно директории вашего мода. Поля `id` и `type` должны оставаться точно такими же, как показано.
 
-### 2. Generate the Data Files
+### 2. Генерация файлов данных
 
-All three XML files — along with the associated sound banks — are generated by the **SEDFGen.js** script included with the project. To run it, use the scripting interface inside FMOD Studio: go to **Scripts > Taleworlds**.
+Все три XML-файла — вместе с соответствующими звуковыми банками — генерируются скриптом **SEDFGen.js**, входящим в состав проекта. Чтобы запустить его, используйте интерфейс скриптов внутри FMOD Studio: перейдите в **Scripts > Taleworlds**.
 
-The script outputs:
+Скрипт выводит:
 
-- XML data files to `ExampleSoundMod/ModuleData/`
-- Sound bank files to `ExampleSoundMod/Sounds/`
+- Файлы XML-данных в `ExampleSoundMod/ModuleData/`
+- Файлы звуковых банков в `ExampleSoundMod/Sounds/`
 
-An example directory structure with all required files is provided for reference.
+Для справки предоставлена структура директорий с примером всех необходимых файлов.
 
-### Important: Do Not Include main.bank
+### Важно: не включайте main.bank
 
-In `soundfiles.xml`, `main.bank` is intentionally left out. Do **not** add your own `main.bank`. Including it can cause issues such as:
+В `soundfiles.xml` файл `main.bank` намеренно не включён. **Не** добавляйте собственный `main.bank`. Его включение может вызвать такие проблемы, как:
 
-- Volume sliders not working correctly
-- Sounds not being routed to buses as expected
+- Неправильная работа ползунков громкости
+- Звуки не маршрутизируются к шинам (buses), как ожидается
 
-You **can** add your own VCAs and buses, as long as you do not modify any of the existing buses and VCAs provided by the base game.
+Вы **можете** добавлять собственные VCA и шины, при условии, что вы не изменяете никакие существующие шины и VCA, предоставленные базовой игрой.
 
-### Overriding Existing Sound Events
+### Переопределение существующих звуковых событий
 
-To override a sound event that already exists in the game, your event must match the original **exactly** — including the full event path, not just the event name.
+Чтобы переопределить звуковое событие, уже существующее в игре, ваше событие должно **в точности** совпадать с оригиналом — включая полный путь события, а не только название события.
 
-For example, to override `event:/mission/combat/sword_hit`, your event must use that exact path.
+Например, чтобы переопределить `event:/mission/combat/sword_hit`, ваше событие должно использовать именно этот путь.
 
-### Mod Load Order
+### Порядок загрузки модов
 
-If multiple sound mods are active at the same time and any of them define events with identical paths, the **mod loaded last takes priority**. Keep this in mind when publishing your mod or when testing alongside other audio mods.
+Если одновременно активно несколько звуковых модов и любой из них определяет события с одинаковыми путями, **приоритет получает мод, загруженный последним**. Учитывайте это при публикации своего мода или при тестировании вместе с другими аудио-модами.
 
 ---
 
-## Guide Structure
+## Структура руководства
 
-This guide is split into the following pages:
+Это руководство разделено на следующие страницы:
 
-- **[Event Setup]({{< ref "audio-modding-event-setup.md" >}})** — Parameters, effects presets, snapshots, and user properties
-- **[Scene Audio]({{< ref "audio-modding-scene-audio.md" >}})** — Placing sounds in scenes, reverb zones, animation and particle audio, quadraphonic ambients
-- **[Audio Systems & Optimization]({{< ref "audio-modding-systems.md" >}})** — Voice system, physics materials, priority system, battle ambient sound system, and performance guidelines
+- **[Настройка событий]({{< ref "audio-modding-event-setup.md" >}})** — параметры, пресеты эффектов, снапшоты и пользовательские свойства
+- **[Звук сцены]({{< ref "audio-modding-scene-audio.md" >}})** — размещение звуков в сценах, зоны реверберации, звук анимаций и частиц, квадрафонические амбиенты
+- **[Аудиосистемы и оптимизация]({{< ref "audio-modding-systems.md" >}})** — система голосов, физические материалы, система приоритетов, система звукового амбиента боя и рекомендации по производительности
