@@ -2,7 +2,7 @@ baseUrl = "https://moddocs.bannerlord.com/"
 languageCode = "en-us"
 DefaultContentLanguage = "en"
 hasCJKLanguage = true
-title = "Taleworlds Documentation"
+title = "TaleWorlds Documentation"
 theme = "hugo-theme-docdock-master"
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
@@ -24,6 +24,9 @@ enableMissingTranslationPlaceholders = false
 
 # Add more languages here
 
+
+[params]
+description = "Official Mount & Blade II: Bannerlord modding documentation by TaleWorlds: modules, assets, editor, scenes, multiplayer and Steam Workshop."
 
 [outputs]
 home = ["HTML", "RSS", "JSON"]

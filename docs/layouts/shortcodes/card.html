@@ -1,0 +1,12 @@
+{{- $title := .Get "title" -}}
+{{- $icon := .Get "icon" -}}
+{{- $link := .Get "link" -}}
+<div class="tw-card">
+  <h3 class="tw-card-title">
+    {{- with $icon }}<i class="{{ if not (in . " ") }}fa-solid {{ end }}{{ . }}" aria-hidden="true"></i> {{ end -}}
+    {{- if $link }}<a href="{{ $link }}">{{ $title }}</a>{{ else }}{{ $title }}{{ end -}}
+  </h3>
+  <div class="tw-card-body">
+{{ .Inner | markdownify }}
+  </div>
+</div>
