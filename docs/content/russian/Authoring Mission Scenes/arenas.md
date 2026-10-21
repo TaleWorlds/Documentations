@@ -1,109 +1,110 @@
 +++
-title = "What Makes an Arena Scene"
+title = "Что составляет сцену арены"
 description = ""
 weight = 1
+ai_translated = true
 +++
 
-#### Intro
+#### Введение
 
-* We are going to answer the “How to create an arena scene?” and “What should we take into consideration when creating an arena scene?” questions in this documentation.
+* В этой документации мы ответим на вопросы «Как создать сцену арены?» и «Что следует учитывать при создании сцены арены?».
 
-#### Scene Preparation
+#### Подготовка сцены
 
-* The first topic that needs to be highlighted is that the terrain for the arena scene should not be too big. Fewer terrain nodes can be used in arena scenes. Far less than you need on other types of scenes.
+* Первое, на что нужно обратить внимание, — это то, что местность для сцены арены не должна быть слишком большой. В сценах арены можно использовать меньше узлов местности. Гораздо меньше, чем требуется для других типов сцен.
 
-#### Terrain and scene models
-* In an arena scene, the terrain should be flat or near flat with a few uneven parts (it is up to the scene author’s taste).
-* Models should be placed before with modular parts (stands and lounges).
-	* Example: A Sturgian arena scene has `sturgia_arena_grandstand_a`, `sturgia_arena_grandstand_b`, `sturgia_arena_grandstand_c`, `sturgia_arena_grandstand_d` modular mesh parts.
-* Fake houses should be used because we don’t want the background of the stands and the inner city view to be empty. We can do this by referencing the `Adam0` model’s head height view in the fighting areas and lounges.
-* Each faction has unique models. These models should be used accordingly and should be placed on the appropriate parts of the scene.
+#### Местность и модели сцены
+* В сцене арены местность должна быть плоской или почти плоской, с несколькими неровными участками (это зависит от вкуса автора сцены).
+* Модели следует размещать заранее с помощью модульных частей (трибуны и ложи).
+	* Пример: Стурийская сцена арены имеет модульные части меша `sturgia_arena_grandstand_a`, `sturgia_arena_grandstand_b`, `sturgia_arena_grandstand_c`, `sturgia_arena_grandstand_d`.
+* Следует использовать фальшивые дома, поскольку мы не хотим, чтобы фон трибун и вид на внутренний город были пустыми. Это можно сделать, ориентируясь на высоту головы модели `Adam0` в зонах боя и ложах.
+* У каждой фракции есть уникальные модели. Эти модели следует использовать соответствующим образом и размещать в подходящих частях сцены.
 
-#### Required spawn points
-* In the active fighting area:
+#### Необходимые точки появления (spawn points)
+* В активной зоне боя:
 	* `tournament_practice_set`
 	* `tournament_fight_set`
-* In the lounge area:
+* В зоне ложи:
 	* `sp_tournament_master`
 	* `sp_player_near_arena_master`
-	* `_barrier_passage_center` (needs to be placed at the door or the lounge entry points)
+	* `_barrier_passage_center` (должна быть размещена у двери или входных точек ложи)
 	* `sp_player`
 
-#### Step-by-step arena creation with screenshots
-* Terrain features: One node (Color Map Resolution: 512x512), LOD Multiplier (1)
-* The fighting area is now specified. We have also done the terrain painting (we suggest you use `adam0` mesh to help with proportions).
+#### Пошаговое создание арены со скриншотами
+* Особенности местности: один узел (разрешение карты цвета: 512x512), множитель LOD (1)
+* Зона боя теперь определена. Мы также выполнили покраску местности (рекомендуем использовать меш `adam0` для помощи с пропорциями).
 
 |  |  |
 | ------ | ----------- |
 | <img src="/img/arena_scenes/1.jpg"/> | <img src="/img/arena_scenes/2.jpg"/> |
 
 
-* After designating the arena place, the lounges and the stands should be placed (if you have your own custom models you can use them at this stage, otherwise use existing models in the prefab tab, like `arena_main_building`).
-* In addition to the environmental elements, you can place various meshes for visual beautification (stones, broken barrels, logs, etc.).
+* После обозначения места арены следует разместить ложи и трибуны (если у вас есть собственные пользовательские модели, вы можете использовать их на этом этапе, в противном случае используйте существующие модели во вкладке префабов, например `arena_main_building`).
+* В дополнение к элементам окружения вы можете разместить различные меши для визуального украшения (камни, разбитые бочки, брёвна и т. д.).
 
 <img src="/img/arena_scenes/3.jpg" width="1200px" />
 
-* Torches and light sources should also be placed on the scene.
+* На сцене также следует разместить факелы и источники света.
 
 <img src="/img/arena_scenes/4.jpg" width="1200px" />
 
-* Search for `arena_audience_mid_point` in the prefab tab. Place it in the middle of the scene periodically.
+* Найдите `arena_audience_mid_point` во вкладке префабов. Размещайте его периодически в середине сцены.
 
 <img src="/img/arena_scenes/5.jpg" width="1200px" />
 
-* Search for `crowd_man` in the prefab tab. Place the three variants as you like on the stands.
+* Найдите `crowd_man` во вкладке префабов. Разместите три варианта по своему усмотрению на трибунах.
 
 <img src="/img/arena_scenes/6.jpg" width="1200px" />
 
-* This stage is one of the most important ones. The spawn points that should be placed in the arena's main building which we call lounges are the following:
+* Этот этап — один из самых важных. Точки появления, которые следует разместить в главном здании арены, которое мы называем ложами, следующие:
 	* `sp_tournament_master`
 	* `sp_player_near_arena_master`
 	* `_barrier_passage_center`
 	* `sp_player`
-* `sp_tournament_master` should be placed facing back to the fighting area. In front of this spawn point, you need to place `sp_player_near_arena_master` because they need to face each other. Besides this, `camera_height_limiter` needs to be placed as the lens should see the lounge area.
-* Barries need to be placed in the lounge.
+* `sp_tournament_master` следует разместить спиной к зоне боя. Перед этой точкой появления нужно разместить `sp_player_near_arena_master`, поскольку они должны быть обращены друг к другу. Помимо этого, необходимо разместить `camera_height_limiter`, поскольку объектив должен видеть зону ложи.
+* В ложе необходимо разместить барьеры.
 
-| Spawn point placements | Spawn point placements and placed barriers |
+| Размещение точек появления | Размещение точек появления и установленные барьеры |
 | ------ | ----------- |
 | <img src="/img/arena_scenes/7.jpg"/> | <img src="/img/arena_scenes/8.jpg"/> |
 
-| Another angle of the placed spawn points | The level of the Camera Height Limiter, place, and lens’ target |
+| Другой угол размещённых точек появления | Уровень ограничителя высоты камеры, место и цель объектива |
 | ------ | ----------- |
 | <img src="/img/arena_scenes/9.jpg"/> | <img src="/img/arena_scenes/10.jpg"/> |
 
-* `envmap_prop` should be placed in the arena centre. The height of this is important. It is suggested to use the `Adam0` model for proportioning.
+* `envmap_prop` следует разместить в центре арены. Высота этого объекта важна. Рекомендуется использовать модель `Adam0` для определения пропорций.
 
 <img src="/img/arena_scenes/11.jpg" width="1200px" />
 
-* If there are any areas that we don’t want the player or the AI to go to, we should place barriers.
+* Если есть области, куда мы не хотим, чтобы заходил игрок или ИИ, следует разместить барьеры.
 
 <img src="/img/arena_scenes/12.jpg" width="1200px" />
 
-* A path should be drawn along the stands. This path is used for the stand audio. Don’t forget to name the path.
-	* Search for `arena_path_sound` in the prefab tab. Place the prefab on the scene wherever you want. Enlarge the `Scripts` drop-down menu on the `Entity Inspector` tab. You should see the `path_converger` script. Enter the path name you entered before into the `Path Name` field in the `path_converger` script.
+* Вдоль трибун следует нарисовать путь (path). Этот путь используется для звука трибун. Не забудьте дать пути имя.
+	* Найдите `arena_path_sound` во вкладке префабов. Разместите префаб на сцене там, где хотите. Разверните выпадающее меню `Scripts` во вкладке `Entity Inspector`. Вы должны увидеть скрипт `path_converger`. Введите имя пути, которое вы указали ранее, в поле `Path Name` скрипта `path_converger`.
 
 |  |  |
 | ------ | ----------- |
 | <img src="/img/arena_scenes/13.jpg"/> | <img src="/img/arena_scenes/14.jpg"/> |
 
-* A general camera needs to be placed on the scene. You can search for `camera_instance` in the prefabs tab. WARNING! There are two Camera Instances in the prefabs tab. The one we are going to use is the one named with lowercase letters. You can add your camera to the scene as shown in the screenshot.
+* На сцене необходимо разместить общую камеру. Вы можете найти `camera_instance` во вкладке префабов. ВНИМАНИЕ! Во вкладке префабов есть два Camera Instance. Нам нужен тот, что назван строчными буквами. Вы можете добавить камеру на сцену, как показано на скриншоте.
 
 <img src="/img/arena_scenes/15.jpg" width="1200px" />
 
-* For the arena fighting area, you need to place two spawn points. These are:
-	* `tournament_practice_set` (used for “Practice fight” campaign option)
-	* `tournament_fight_set` (used for “Join the tournament” campaign option)
-* After placing these two sets you need to place child spawn points. You can check the screenshot for details.
+* Для зоны боя арены нужно разместить две точки появления. Это:
+	* `tournament_practice_set` (используется для опции кампании «Тренировочный бой»)
+	* `tournament_fight_set` (используется для опции кампании «Присоединиться к турниру»)
+* После размещения этих двух наборов нужно разместить дочерние точки появления. Подробности можно посмотреть на скриншоте.
 
 |  |  |
 | ------ | ----------- |
 | <img src="/img/arena_scenes/16.jpg"/> | <img src="/img/arena_scenes/17.jpg"/> |
 
-* You need to place `border_soft` around the fighting area (not necessary around the stands).
+* Вокруг зоны боя нужно разместить `border_soft` (не обязательно вокруг трибун).
 
 <img src="/img/arena_scenes/18.jpg" width="1200px" />
 
-* The last stage consists of creating the navmesh for the lounge and the fighting area.
+* Последний этап заключается в создании навигационной сетки (navmesh) для ложи и зоны боя.
 
 |  |  |
 | ------ | ----------- |

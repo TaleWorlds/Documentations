@@ -1,164 +1,165 @@
 +++
-title = "Event Setup"
+title = "Настройка событий (Event Setup)"
 weight = 20
+ai_translated = true
 +++
 
-_Last updated: April 3, 2026_
+_Последнее обновление: 3 апреля 2026 г._
 
 ---
 
-## Parameters
+## Параметры (Parameters)
 
-Parameters in FMOD Studio are variables that control how an event behaves during playback. They can drive changes in volume, pitch, filters, instrument playback, or event logic — making sounds dynamic and responsive rather than static.
+Параметры в FMOD Studio — это переменные, которые управляют поведением события (event) во время воспроизведения. Они могут влиять на изменения громкости, высоты тона, фильтров, воспроизведения инструментов или логики события — делая звуки динамичными и отзывчивыми, а не статичными.
 
-Each parameter has a name, a range of values, and a type. During gameplay, your code can set or adjust these values, or they can be driven automatically by game states, distance, velocity, or other inputs.
+У каждого параметра есть имя, диапазон значений и тип. Во время игры ваш код может устанавливать или изменять эти значения, либо они могут управляться автоматически состояниями игры, расстоянием, скоростью или другими входными данными.
 
-Parameters are the main bridge between the game and the sound design. They let audio react directly to gameplay, giving you fine-grained, real-time control over how sound evolves.
+Параметры — это главный мост между игрой и звуковым дизайном. Они позволяют звуку напрямую реагировать на игровой процесс, давая вам точный, детальный контроль в реальном времени над тем, как развивается звук.
 
-You can use existing parameters or create your own presets. To view existing parameters, go to **Window > Preset Browser** or press **Ctrl+8** to open the Preset Browser.
+Вы можете использовать существующие параметры или создавать собственные пресеты. Чтобы просмотреть существующие параметры, перейдите в **Window > Preset Browser** или нажмите **Ctrl+8**, чтобы открыть Preset Browser.
 
-### Adding Parameters
+### Добавление параметров (Adding Parameters)
 
-To add a custom parameter, click **New Parameter** or press **Ctrl+P**. This opens the **Add Parameter** dialog.
+Чтобы добавить пользовательский параметр, нажмите **New Parameter** или **Ctrl+P**. Откроется диалоговое окно **Add Parameter**.
 
-| Field | Description |
+| Поле | Описание |
 |---|---|
-| **Parameter Type** | Defines what kind of values the parameter accepts (see types below) |
-| **Parameter Name** | A unique, self-explanatory identifier |
-| **Range** | Minimum and maximum values |
-| **Labels** | Names for each label, if using a Labeled type |
-| **Initial Value** | The default value when the event starts |
-| **Parameter Scope** | Local (separate per instance) or Global (shared across all instances) |
+| **Parameter Type** | Определяет, какие значения принимает параметр (см. типы ниже) |
+| **Parameter Name** | Уникальный, понятный идентификатор |
+| **Range** | Минимальное и максимальное значения |
+| **Labels** | Имена для каждой метки, если используется тип Labeled |
+| **Initial Value** | Значение по умолчанию при запуске события |
+| **Parameter Scope** | Local (отдельно для каждого экземпляра) или Global (общее для всех экземпляров) |
 
-**Parameter Types:**
+**Типы параметров (Parameter Types):**
 
-| Type | Description |
+| Тип | Описание |
 |---|---|
-| User: Continuous | Float values for smooth, gradual changes |
-| User: Discrete | Integer values for stepped states |
-| User: Labeled | String values for named categories |
-| Built-in: Distance | Listener–emitter distance |
-| Built-in: Distance (Normalized) | Distance scaled 0–1 by min/max |
-| Built-in: Direction | Horizontal angle relative to listener facing |
-| Built-in: Elevation | Vertical angle relative to listener |
-| Built-in: Event Cone Angle | Emitter's facing direction relative to the listener |
-| Built-in: Event Orientation | Difference in facing between listener and emitter |
-| Built-in: Speed (Relative) | Emitter speed relative to listener |
-| Built-in: Speed (Absolute) | World-space emitter speed |
+| User: Continuous | Значения с плавающей точкой для плавных, постепенных изменений |
+| User: Discrete | Целочисленные значения для ступенчатых состояний |
+| User: Labeled | Строковые значения для именованных категорий |
+| Built-in: Distance | Расстояние между слушателем и источником звука |
+| Built-in: Distance (Normalized) | Расстояние, нормализованное от 0 до 1 по мин/макс значениям |
+| Built-in: Direction | Горизонтальный угол относительно направления взгляда слушателя |
+| Built-in: Elevation | Вертикальный угол относительно слушателя |
+| Built-in: Event Cone Angle | Направление, в котором смотрит источник звука, относительно слушателя |
+| Built-in: Event Orientation | Разница в направлении между слушателем и источником звука |
+| Built-in: Speed (Relative) | Скорость источника звука относительно слушателя |
+| Built-in: Speed (Absolute) | Скорость источника звука в мировом пространстве |
 
-**Additional options in the dialog:**
+**Дополнительные параметры в диалоговом окне:**
 
-| Option | Description |
+| Опция | Описание |
 |---|---|
-| Exposed recursively via event instrument | Makes the parameter accessible through nested event instruments |
-| Read-only | The parameter can be monitored but not modified |
-| Hold value during playback | Local held parameters can only be set before an event starts or when it is stopped/paused. Global held parameters cannot be changed by the game at all. |
+| Exposed recursively via event instrument | Делает параметр доступным через вложенные инструменты событий |
+| Read-only | Параметр можно отслеживать, но нельзя изменять |
+| Hold value during playback | Удерживаемые локальные параметры можно устанавливать только до начала события или когда оно остановлено/приостановлено. Удерживаемые глобальные параметры вообще не могут изменяться игрой. |
 
 ---
 
-### Global Parameters
+### Глобальные параметры (Global Parameters)
 
-Global parameters are project-wide variables that exist once, affect any event that references them, and can be read or modified from anywhere.
+Глобальные параметры — это переменные уровня всего проекта, которые существуют в единственном экземпляре, влияют на любое событие, ссылающееся на них, и могут читаться или изменяться из любого места.
 
-| Name | Type | Range / Default | Description |
+| Имя | Тип | Диапазон / По умолчанию | Описание |
 |---|---|---|---|
-| ArenaIntensity | Discrete | 1–3, default: 1 | Number of people in the arena audience. **1** = Low, **2** = Medium, **3** = High |
-| CampaignCameraHeight | Continuous | 0.0–1000.0, default: 0.0 | Camera distance above campaign terrain |
-| Daytime | Continuous | 0.0–24.0, default: 12.0 | Time of day in 24-hour format |
-| MissionCombatMode | Labeled | default: False | **True** = Scene is in combat, **False** = Scene is non-combat |
-| MissionCulture | Labeled | default: None | Culture assigned to the scene: None, Aserai, Battania, Empire, Khuzait, Sturgia, Vlandia, Nord _(War Sails DLC)_, Outlaw, Reserved A, Reserved B |
-| MissionProsperity | Labeled | default: None | Prosperity level: None _(e.g. Hideouts)_, Low, Medium, High |
-| Rainfall | Continuous | 0.0–1.0, default: 0.0 | Rain presence and intensity. **0.0** = no rain |
-| SceneType | Labeled | default: Exterior | **Exterior** = Outdoor scene, **Interior** = Indoor scene |
-| Season | Labeled | default: Summer | Summer, Fall, Winter, Spring |
-| SlowMotionMode | Labeled | default: False | **False** = Normal speed, **True** = Slow motion enabled |
-| SoundPreset | Labeled | default: Speakers | Audio output profile: Speakers, Headphones, TV, Night Mode |
-| WaveHeight | Continuous | −10.0–10.0, default: −10.0 | Vertical height of waves |
-| WaveStrength | Continuous | 0.0–10.0, default: 0.0 | Intensity of wave motion |
-| WindStrength | Continuous | 0.0–10.0, default: 0.0 | Intensity of wind |
+| ArenaIntensity | Discrete | 1–3, по умолчанию: 1 | Количество людей на арене среди зрителей. **1** = Низкое, **2** = Среднее, **3** = Высокое |
+| CampaignCameraHeight | Continuous | 0.0–1000.0, по умолчанию: 0.0 | Высота камеры над рельефом карты кампании |
+| Daytime | Continuous | 0.0–24.0, по умолчанию: 12.0 | Время суток в 24-часовом формате |
+| MissionCombatMode | Labeled | по умолчанию: False | **True** = Сцена находится в бою, **False** = Сцена не боевая |
+| MissionCulture | Labeled | по умолчанию: None | Культура, назначенная сцене: None, Aserai, Battania, Empire, Khuzait, Sturgia, Vlandia, Nord _(War Sails DLC)_, Outlaw, Reserved A, Reserved B |
+| MissionProsperity | Labeled | по умолчанию: None | Уровень процветания: None _(например, Hideouts)_, Low, Medium, High |
+| Rainfall | Continuous | 0.0–1.0, по умолчанию: 0.0 | Наличие и интенсивность дождя. **0.0** = нет дождя |
+| SceneType | Labeled | по умолчанию: Exterior | **Exterior** = Сцена на открытом воздухе, **Interior** = Сцена в помещении |
+| Season | Labeled | по умолчанию: Summer | Summer, Fall, Winter, Spring |
+| SlowMotionMode | Labeled | по умолчанию: False | **False** = Обычная скорость, **True** = Включён замедленный режим |
+| SoundPreset | Labeled | по умолчанию: Speakers | Профиль аудиовывода: Speakers, Headphones, TV, Night Mode |
+| WaveHeight | Continuous | −10.0–10.0, по умолчанию: −10.0 | Высота волн по вертикали |
+| WaveStrength | Continuous | 0.0–10.0, по умолчанию: 0.0 | Интенсивность движения волн |
+| WindStrength | Continuous | 0.0–10.0, по умолчанию: 0.0 | Интенсивность ветра |
 
 ---
 
-### Local Parameters
+### Локальные параметры (Local Parameters)
 
-Local parameters belong to a specific event instance. Each instance keeps its own value and changes don't affect any other event.
+Локальные параметры принадлежат конкретному экземпляру события. Каждый экземпляр хранит собственное значение, и изменения не влияют на другие события.
 
-| Name | Type | Range / Default | Description |
+| Имя | Тип | Диапазон / По умолчанию | Описание |
 |---|---|---|---|
-| agent_state | Labeled | default: nothing | Awareness level of agents during stealth missions. **nothing** = unaware, **neutral** = briefly noticed, **cautious** = detected signs, **super_cautious** = actively searching, **alarmed** = located and alerted |
-| Alert Distance | Built-in: Distance | 0.0–10.0 | Distance at which mission alerts trigger relative to the player |
-| Armor Type | Continuous | 0.0–0.5, default: 0.0 | Armor worn by player/agent. **0.0–0.15** = Cloth, **0.15–0.25** = Leather, **0.25–0.35** = Chain mail, **0.35–0.5** = Plate mail |
-| ArmySize | Continuous | 0.0–20.0, default: 0.0 | Size of an army on the campaign map |
-| battle_size | Continuous | 0.0–4.0, default: 0.0 | Total troop count in a campaign map battle |
-| Crowd Size | Continuous | 0.0–1000.0, default: 0.0 | Number of troops gathered at a location |
-| Depth | Continuous | 0.0–1.0, default: 0.0 | Water depth |
-| Direction | Built-in: Direction | −180.0–180.0 | Angle between listener facing and line to emitter. **0** = in front, **±90** = to the side, **±180** = behind |
-| Distance Ambient 20 | Built-in: Distance | 0.0–50.0 | Distance of 3D ambient events within 50 m |
-| Distance Campaign Node | Built-in: Distance | 0.0–30.0 | Distance of 3D campaign node events within 30 m |
-| Distance Combat 500 | Built-in: Distance | 0.0–500.0 | Distance of combat sound events within 500 m |
-| Distance Gallop 500 | Built-in: Distance | 0.0–500.0 | Distance of mount gallop events within 500 m |
-| Distance Horse Walk 35 | Built-in: Distance | 0.0–35.0 | Distance of mount walking events within 35 m |
-| Distance Human Walk 150 | Built-in: Distance | 0.0–150.0 | Distance of human walking events within 150 m |
-| Distance Impact 75 | Built-in: Distance | 0.0–75.0 | Distance of impact events within 75 m |
-| Distance Siege 500 | Built-in: Distance | 0.0–500.0 | Distance of siege events within 500 m |
-| Distance Siege Med 250 | Built-in: Distance | 0.0–250.0 | Distance of siege events within 250 m |
-| Distance Tavern Music | Built-in: Distance | 0.0–100.0 | Distance of tavern/street music events within 100 m |
-| Distance Voice Long | Built-in: Distance | 0.0–500.0 | Distance of voice events within 500 m |
-| Distance | Built-in: Distance | 0.0–80.0 | Generic distance parameter (default 80 m) |
-| Event Cone Angle | Built-in: Event Cone Angle | 0.0–180.0 | How far the listener is from the emitter's forward direction. **0** = directly in front, **90** = to the side, **180** = directly behind |
-| Event Orientation | Built-in: Event Orientation | −180.0–180.0 | Difference in facing between listener and emitter. **0** = same direction, **±90** = perpendicular, **±180** = opposite |
-| Force | Continuous | 0.0–0.1, default: 0.57 | Instant physical force applied to an object |
-| ForceContinuous | Continuous | 0.0–1.0, default: 0.0 | Continuous physical force applied to an object |
-| impactModifier | Continuous | 0.0–0.6, default: 0.0 | Defensive block modifier. **0.0** = None, **0.1** = Active block, **0.2** = Chamber block, **0.3** = Crush through |
-| isMissile | Continuous | 0.0–1.0, default: 0.0 | Whether the object is a projectile |
-| isPlayer | Continuous | 0.0–1.0 | Whether the agent is the player. **0.0** = NPC, **1.0** = Player |
-| Loop | Continuous | 0.0–1.0, default: 0.0 | Whether an event loops (music/video) |
-| mpMusicSwitcher | Continuous | 0.0–1.0, default: 0.0 | Multiplayer state music. **0.0** = Main menu, **1.0** = Loading state |
-| Occlusion | Continuous | 0.0–1.0, default: 0.0 | Degree of sound occlusion. **0.0** = None, **1.0** = Full |
-| Size | Continuous | 0.0–1.0, default: 0.0 | Mass of an object (affects water collision sounds) |
-| Speed | Built-in: Speed (Relative) | 0.0–10.0 | Relative speed of a game object |
-| VibrationSend | Continuous | 0.0–1.0, default: 1.0 | Intensity of controller vibration |
+| agent_state | Labeled | по умолчанию: nothing | Уровень осведомлённости агентов во время скрытных миссий. **nothing** = не замечает, **neutral** = ненадолго заметил, **cautious** = обнаружил признаки, **super_cautious** = активно ищет, **alarmed** = обнаружил и поднял тревогу |
+| Alert Distance | Built-in: Distance | 0.0–10.0 | Расстояние, на котором срабатывают тревоги миссии относительно игрока |
+| Armor Type | Continuous | 0.0–0.5, по умолчанию: 0.0 | Доспехи, надетые на игрока/агента. **0.0–0.15** = Ткань, **0.15–0.25** = Кожа, **0.25–0.35** = Кольчуга, **0.35–0.5** = Латы |
+| ArmySize | Continuous | 0.0–20.0, по умолчанию: 0.0 | Размер армии на карте кампании |
+| battle_size | Continuous | 0.0–4.0, по умолчанию: 0.0 | Общее количество войск в сражении на карте кампании |
+| Crowd Size | Continuous | 0.0–1000.0, по умолчанию: 0.0 | Количество войск, собравшихся в определённом месте |
+| Depth | Continuous | 0.0–1.0, по умолчанию: 0.0 | Глубина воды |
+| Direction | Built-in: Direction | −180.0–180.0 | Угол между направлением взгляда слушателя и линией до источника звука. **0** = спереди, **±90** = сбоку, **±180** = сзади |
+| Distance Ambient 20 | Built-in: Distance | 0.0–50.0 | Расстояние 3D фоновых событий в пределах 50 м |
+| Distance Campaign Node | Built-in: Distance | 0.0–30.0 | Расстояние 3D событий узлов карты кампании в пределах 30 м |
+| Distance Combat 500 | Built-in: Distance | 0.0–500.0 | Расстояние боевых звуковых событий в пределах 500 м |
+| Distance Gallop 500 | Built-in: Distance | 0.0–500.0 | Расстояние событий галопа верхового животного в пределах 500 м |
+| Distance Horse Walk 35 | Built-in: Distance | 0.0–35.0 | Расстояние событий ходьбы верхового животного в пределах 35 м |
+| Distance Human Walk 150 | Built-in: Distance | 0.0–150.0 | Расстояние событий ходьбы человека в пределах 150 м |
+| Distance Impact 75 | Built-in: Distance | 0.0–75.0 | Расстояние событий удара в пределах 75 м |
+| Distance Siege 500 | Built-in: Distance | 0.0–500.0 | Расстояние осадных событий в пределах 500 м |
+| Distance Siege Med 250 | Built-in: Distance | 0.0–250.0 | Расстояние осадных событий в пределах 250 м |
+| Distance Tavern Music | Built-in: Distance | 0.0–100.0 | Расстояние событий музыки в таверне/на улице в пределах 100 м |
+| Distance Voice Long | Built-in: Distance | 0.0–500.0 | Расстояние голосовых событий в пределах 500 м |
+| Distance | Built-in: Distance | 0.0–80.0 | Общий параметр расстояния (по умолчанию 80 м) |
+| Event Cone Angle | Built-in: Event Cone Angle | 0.0–180.0 | Насколько далеко слушатель находится от направления взгляда источника звука. **0** = прямо впереди, **90** = сбоку, **180** = прямо позади |
+| Event Orientation | Built-in: Event Orientation | −180.0–180.0 | Разница в направлении между слушателем и источником звука. **0** = одно направление, **±90** = перпендикулярно, **±180** = противоположное направление |
+| Force | Continuous | 0.0–0.1, по умолчанию: 0.57 | Мгновенная физическая сила, приложенная к объекту |
+| ForceContinuous | Continuous | 0.0–1.0, по умолчанию: 0.0 | Постоянная физическая сила, приложенная к объекту |
+| impactModifier | Continuous | 0.0–0.6, по умолчанию: 0.0 | Модификатор защитного блока. **0.0** = Нет, **0.1** = Активный блок, **0.2** = Чамбер-блок (chamber block), **0.3** = Проламывающий удар (crush through) |
+| isMissile | Continuous | 0.0–1.0, по умолчанию: 0.0 | Является ли объект снарядом |
+| isPlayer | Continuous | 0.0–1.0 | Является ли агент игроком. **0.0** = NPC, **1.0** = Игрок |
+| Loop | Continuous | 0.0–1.0, по умолчанию: 0.0 | Зацикливается ли событие (музыка/видео) |
+| mpMusicSwitcher | Continuous | 0.0–1.0, по умолчанию: 0.0 | Музыка состояния мультиплеера. **0.0** = Главное меню, **1.0** = Состояние загрузки |
+| Occlusion | Continuous | 0.0–1.0, по умолчанию: 0.0 | Степень окклюзии звука. **0.0** = Нет, **1.0** = Полная |
+| Size | Continuous | 0.0–1.0, по умолчанию: 0.0 | Масса объекта (влияет на звуки столкновения с водой) |
+| Speed | Built-in: Speed (Relative) | 0.0–10.0 | Относительная скорость игрового объекта |
+| VibrationSend | Continuous | 0.0–1.0, по умолчанию: 1.0 | Интенсивность вибрации контроллера |
 
 ---
 
-### War Sails Parameters
+### Параметры War Sails (War Sails Parameters)
 
-These parameters only exist in the War Sails DLC module and are not available without it.
+Эти параметры существуют только в модуле дополнения War Sails и недоступны без него.
 
-| Name | Type | Range / Default | Description |
+| Имя | Тип | Диапазон / По умолчанию | Описание |
 |---|---|---|---|
-| Campaign Ship Damage | Continuous | 0.0–1.0, default: 0.0 | Damage sustained by the player's ship on the campaign map |
-| RowingPower | Continuous | 0.0–500.0, default: 0 | Collective force applied by oarsmen |
-| RudderStress | Continuous | 0.0–1.0, default: 0.0 | Stress applied to the ship's rudder during maneuvering |
-| SailRotation | Continuous | 0.0–1.0, default: 0.0 | Rotation speed of the ship's mast |
-| ShipScrapingStatus | Labeled | default: NotScraping | **Scraping** = Ship is scraping, **NotScraping** = No scraping |
-| ShipSpeed | Continuous | 0.0–1.0, default: 0.0 | Current speed of the ship |
-| StormIntensity | Continuous | 0.0–2.0, default: 0.0 | Storm intensity on the campaign map. **0.0** = Storm, **1.0** = Thunderstorm, **2.0** = Hurricane |
+| Campaign Ship Damage | Continuous | 0.0–1.0, по умолчанию: 0.0 | Повреждения, полученные кораблём игрока на карте кампании |
+| RowingPower | Continuous | 0.0–500.0, по умолчанию: 0 | Совокупная сила, прикладываемая гребцами |
+| RudderStress | Continuous | 0.0–1.0, по умолчанию: 0.0 | Нагрузка на руль корабля во время манёвров |
+| SailRotation | Continuous | 0.0–1.0, по умолчанию: 0.0 | Скорость вращения мачты корабля |
+| ShipScrapingStatus | Labeled | по умолчанию: NotScraping | **Scraping** = Корабль скребёт (о поверхность), **NotScraping** = Нет скрежета |
+| ShipSpeed | Continuous | 0.0–1.0, по умолчанию: 0.0 | Текущая скорость корабля |
+| StormIntensity | Continuous | 0.0–2.0, по умолчанию: 0.0 | Интенсивность шторма на карте кампании. **0.0** = Шторм, **1.0** = Гроза, **2.0** = Ураган |
 
 ---
 
-## Effects Presets
+## Пресеты эффектов (Effects Presets)
 
-Effect presets are pre-configured DSP setups that cover common use cases without manual configuration from scratch. Instead of building every effect chain yourself, you can apply a preset — such as a compressor, EQ, or reverb — that comes with sensible defaults designed for a specific purpose.
+Пресеты эффектов — это предварительно настроенные конфигурации DSP, которые охватывают типичные случаи использования без необходимости ручной настройки с нуля. Вместо того чтобы самостоятельно строить каждую цепочку эффектов, вы можете применить пресет — например, компрессор, эквалайзер или реверберацию — с разумными значениями по умолчанию, предназначенными для конкретной цели.
 
-Presets let you get immediate results and fine-tune from there. They speed up workflow, ensure consistency across the project, and give everyone a shared baseline for commonly used effects. You can also create your own custom presets, or modify the existing ones.
+Пресеты позволяют сразу получить результат и затем точно настроить его. Они ускоряют рабочий процесс, обеспечивают согласованность по всему проекту и дают всем общую базовую точку для часто используемых эффектов. Вы также можете создавать собственные пользовательские пресеты или изменять существующие.
 
-To browse presets, go to **Window > Effect Presets** or press **Ctrl+8**. In the Preset Browser, select the **Effects** tab to see all pre-configured presets currently used in **Mount & Blade II: Bannerlord**.
+Чтобы просмотреть пресеты, перейдите в **Window > Effect Presets** или нажмите **Ctrl+8**. В Preset Browser выберите вкладку **Effects**, чтобы увидеть все предварительно настроенные пресеты, используемые в настоящее время в **Mount & Blade II: Bannerlord**.
 
-When adding a new preset, you have these options:
+При добавлении нового пресета доступны следующие опции:
 
-| Option | Description |
+| Опция | Описание |
 |---|---|
-| **New Effect** | Add a single DSP effect and configure it |
-| **New Send** | Add and configure a bus send |
-| **New Sidechain** | Add and configure a sidechain input |
-| **New Effect Chain** | Build a chain of multiple DSP effects and configure them together |
+| **New Effect** | Добавить один DSP-эффект и настроить его |
+| **New Send** | Добавить и настроить отправку шины (bus send) |
+| **New Sidechain** | Добавить и настроить вход sidechain |
+| **New Effect Chain** | Построить цепочку из нескольких DSP-эффектов и настроить их вместе |
 
-Once a preset is created, give it a unique, self-explanatory name so it can be easily identified and reused across the project.
+После создания пресета дайте ему уникальное, понятное имя, чтобы его было легко идентифицировать и повторно использовать в проекте.
 
-### Effects Preset List
+### Список пресетов эффектов (Effects Preset List)
 
-| Name | Type | Driving Parameter(s) |
+| Имя | Тип | Управляющий(е) параметр(ы) |
 |---|---|---|
 | Alert Nod Spatializer | Spatializer | — |
 | Alert Spatializer | Spatializer | Alert Distance |
@@ -235,53 +236,53 @@ Once a preset is created, give it a unique, self-explanatory name so it can be e
 
 ---
 
-## Snapshots
+## Снапшоты (Snapshots)
 
-Snapshots let you control the overall mix dynamically based on game states. If you've ever seen a digital mixing console where pressing a button moves all the faders to new positions at once — that's exactly how FMOD snapshots work.
+Снапшоты позволяют динамически управлять общим миксом в зависимости от состояний игры. Если вы когда-нибудь видели цифровой микшерный пульт, где нажатие кнопки мгновенно перемещает все фейдеры в новые положения — именно так работают снапшоты FMOD.
 
-### Adding Snapshots
+### Добавление снапшотов (Adding Snapshots)
 
-To add a snapshot, open the Mixer window via **Window > Mixer** or press **Ctrl+2**. On the left side of the Mixer, switch to the **Snapshots** tab to see existing snapshots or create new ones.
+Чтобы добавить снапшот, откройте окно Mixer через **Window > Mixer** или нажмите **Ctrl+2**. В левой части Mixer переключитесь на вкладку **Snapshots**, чтобы увидеть существующие снапшоты или создать новые.
 
-Right-click on an empty space to create a new snapshot. You'll be asked to choose between two types:
+Щёлкните правой кнопкой мыши по пустому месту, чтобы создать новый снапшот. Вам будет предложено выбрать один из двух типов:
 
-| Type | Description |
+| Тип | Описание |
 |---|---|
-| **Overriding Snapshot** | Takes full control of the affected mix properties, replacing existing values until released |
-| **Blending Snapshot** | Layers its changes on top of the current mix, combining with other active snapshots for smoother transitions |
+| **Overriding Snapshot** | Полностью берёт под контроль затронутые свойства микса, заменяя существующие значения до момента освобождения |
+| **Blending Snapshot** | Накладывает свои изменения поверх текущего микса, комбинируясь с другими активными снапшотами для более плавных переходов |
 
-When multiple snapshots are active simultaneously, priority is determined by their position in the **Priority List**. Snapshots higher in the list take precedence over those below. For example, `GameMinimized` sits above `CampaignMap` in the priority list, meaning it overrides campaign map audio rules whenever the game is minimized.
+Когда одновременно активны несколько снапшотов, приоритет определяется их позицией в **Priority List**. Снапшоты выше в списке имеют приоритет над теми, что ниже. Например, `GameMinimized` находится выше `CampaignMap` в списке приоритетов, что означает, что он переопределяет правила звука карты кампании всякий раз, когда игра свёрнута.
 
-When a snapshot is selected, the faders in the Mixer change color — this signals that any fader you adjust will only apply when that snapshot is active, not in the normal mix. The same applies to DSP effects and bus sends — for example, you can add a single algorithmic reverb to a return bus and adjust its properties per snapshot.
+Когда снапшот выбран, фейдеры в Mixer меняют цвет — это означает, что любой фейдер, который вы настраиваете, будет применяться только тогда, когда этот снапшот активен, а не в обычном миксе. То же самое относится к DSP-эффектам и отправкам шин (bus sends) — например, вы можете добавить один алгоритмический ревербератор на возвратную шину (return bus) и настраивать его свойства для каждого снапшота отдельно.
 
-In the `GameMinimized` snapshot, all faders are set to −∞ dB, so that whenever the player minimizes the game window, every sound is muted. Once the snapshot goes out of scope, the faders automatically return to their original positions.
+В снапшоте `GameMinimized` все фейдеры установлены на −∞ дБ, поэтому всякий раз, когда игрок сворачивает окно игры, все звуки заглушаются. Как только снапшот выходит из области действия, фейдеры автоматически возвращаются в исходное положение.
 
-### Snapshot Events
+### События снапшотов (Snapshot Events)
 
-Snapshots can be triggered by code, but they can also be triggered by events — which is especially useful for reverb zones in a scene. For more on reverb zones, see the [Scene Audio]({{< ref "audio-modding-scene-audio.md" >}}) page.
+Снапшоты могут запускаться кодом, но также могут запускаться событиями — что особенно полезно для зон реверберации в сцене. Подробнее о зонах реверберации см. на странице [Звук сцены (Scene Audio)]({{< ref "audio-modding-scene-audio.md" >}}).
 
-To add a snapshot event, first create a **timeline event** (snapshot instruments cannot be placed in action events). Give the event a clear, descriptive name.
+Чтобы добавить событие снапшота, сначала создайте **событие временной шкалы (timeline event)** (инструменты снапшотов нельзя размещать в событиях действия (action events)). Дайте событию понятное, описательное имя.
 
-Right-click the track in the timeline where you want to place the snapshot instrument. If a snapshot already exists you'll see it listed; otherwise you can create a new one. For reverb control, always use **blending snapshots**.
+Щёлкните правой кнопкой мыши по дорожке на временной шкале, куда вы хотите поместить инструмент снапшота. Если снапшот уже существует, вы увидите его в списке; в противном случае вы можете создать новый. Для управления реверберацией всегда используйте **смешивающие снапшоты (blending snapshots)**.
 
-Once placed, the snapshot instrument appears on the track. You can drag the left and right edges of the instrument to add fade-in and fade-out handles, which smooth the transition into and out of the snapshot.
+После размещения инструмент снапшота появляется на дорожке. Вы можете перетаскивать левый и правый края инструмента, чтобы добавить маркеры нарастания и затухания (fade-in и fade-out), которые сглаживают переход в снапшот и из него.
 
 ---
 
-## User Properties
+## Пользовательские свойства (User Properties)
 
-Events in FMOD Studio can carry **User Properties** — custom variables you define to pass extra information to the game. These act as metadata markers, letting the game code check for them and apply special handling when needed.
+События в FMOD Studio могут иметь **пользовательские свойства (User Properties)** — пользовательские переменные, которые вы определяете, чтобы передавать дополнительную информацию в игру. Они действуют как метки метаданных, позволяя игровому коду проверять их наличие и применять специальную обработку при необходимости.
 
-Every User Property has a name and a value. The name is always a string (letters and/or numbers). The value is interpreted automatically: if it's purely numeric, it's treated as a floating-point number; if it contains any non-numeric characters, it's treated as a string.
+Каждое пользовательское свойство имеет имя и значение. Имя всегда является строкой (буквы и/или цифры). Значение интерпретируется автоматически: если оно состоит исключительно из цифр, оно рассматривается как число с плавающей точкой; если оно содержит любые нечисловые символы, оно рассматривается как строка.
 
-This system lets sound designers embed flexible, game-relevant data directly inside events, reducing the need for programmers to hard-code rules. User Properties are defined in the event's deck area in FMOD Studio — each row has a name field and a value field.
+Эта система позволяет звуковым дизайнерам встраивать гибкие, релевантные для игры данные непосредственно внутрь событий, снижая необходимость для программистов жёстко прописывать правила в коде. Пользовательские свойства определяются в области деки (deck area) события в FMOD Studio — каждая строка имеет поле имени и поле значения.
 
-| Property | Description |
+| Свойство | Описание |
 |---|---|
-| **isQuad** | Used for ambient sounds. When set to `True`, the system will use the quadraphonic version of the ambient instead of the stereo fallback. A matching quad setup must exist before enabling this. See [Quadraphonic Ambients]({{< ref "audio-modding-scene-audio.md#quadraphonic-ambients" >}}). |
-| **Pausable** | Used by the event-based pausing system. Default is `True`. Set to `False` for persistent events such as ambiences or music that should not be paused. |
-| **priorityMultiplier** | Adjusts the relative priority of an event within the priority system — raising or lowering its likelihood of being culled. See [Priority System]({{< ref "audio-modding-systems.md#priority-system" >}}). |
-| **maxLength** | Prevents build errors for timeline events without a timeline or instrument. Defines a duration so FMOD has the necessary length data without a timeline track. Not needed for Action events. |
-| **battle_ambient_group_id** | Assigns an event to a specific group in the Battle Ambient Sound System (BASS), allowing events to be managed and optimized collectively. See [Battle Ambient Sound System]({{< ref "audio-modding-systems.md#battle-ambient-sound-system" >}}). |
-| **customMaxDistance** | Overrides the default maximum audible distance of a 3D event. |
-| **ignoreMaxDistance** | Ignores the maximum distance restriction of a 3D event. Accepts `0` (False) or `1` (True). |
+| **isQuad** | Используется для фоновых звуков. Когда установлено в `True`, система будет использовать квадрофоническую версию фонового звука вместо стереофонического резервного варианта. Перед включением этой опции должна существовать соответствующая квадро-конфигурация. См. [Квадрофонические фоновые звуки (Quadraphonic Ambients)]({{< ref "audio-modding-scene-audio.md#quadraphonic-ambients" >}}). |
+| **Pausable** | Используется системой паузы на основе событий. По умолчанию `True`. Установите `False` для постоянных событий, таких как фоновые звуки или музыка, которые не должны ставиться на паузу. |
+| **priorityMultiplier** | Регулирует относительный приоритет события в системе приоритетов — повышая или понижая вероятность его отбрасывания (culled). См. [Система приоритетов (Priority System)]({{< ref "audio-modding-systems.md#priority-system" >}}). |
+| **maxLength** | Предотвращает ошибки сборки для событий временной шкалы без временной шкалы или инструмента. Определяет длительность, чтобы у FMOD были необходимые данные о длине без дорожки временной шкалы. Не требуется для событий действия (Action events). |
+| **battle_ambient_group_id** | Назначает событие определённой группе в системе Battle Ambient Sound System (BASS), позволяя управлять событиями и оптимизировать их совместно. См. [Battle Ambient Sound System]({{< ref "audio-modding-systems.md#battle-ambient-sound-system" >}}). |
+| **customMaxDistance** | Переопределяет максимальное расстояние слышимости по умолчанию для 3D-события. |
+| **ignoreMaxDistance** | Игнорирует ограничение максимального расстояния для 3D-события. Принимает значения `0` (False) или `1` (True). |

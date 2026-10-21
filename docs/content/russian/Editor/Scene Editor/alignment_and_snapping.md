@@ -1,78 +1,79 @@
 +++
-title = "Alignment and Snapping Tools"
+title = "Инструменты выравнивания и привязки"
+ai_translated = true
 
 [menu.main]
 identifier = "alignment_and_snapping"
 parent = "core_components"
 +++
 
-## Pivot Alignment Tool
-The <b>Pivot alignment tool</b> applies the chosen transform values of one entity to another entity. The tool makes it easier for users to create overlapping or precisely aligned entities. 
-If an entitity is selected in the editor, the user can set up the alignment tool by pressing <b>Alt + A.</b> This will register the currently selected entity as the input entity. Selecting a second entity with the <b>left mouse button</b>, will then open the interface screen of the alignment tool.  
+## Инструмент выравнивания по опорной точке (Pivot Alignment Tool)
+<b>Инструмент выравнивания по опорной точке (Pivot alignment tool)</b> применяет выбранные значения трансформации одного объекта к другому объекту. Этот инструмент облегчает пользователям создание перекрывающихся или точно выровненных объектов.
+Если объект выбран в редакторе, пользователь может настроить инструмент выравнивания, нажав <b>Alt + A.</b> Это зарегистрирует текущий выбранный объект в качестве входного объекта. Выбор второго объекта с помощью <b>левой кнопки мыши</b> затем откроет экран интерфейса инструмента выравнивания.
 
 ![](/img/alignment_and_snapping/pivot_alignment_ui.png)
-<center><b>(Pivot Alignment Tool User Interface)</b></center>
+<center><b>(Пользовательский интерфейс инструмента выравнивания по опорной точке)</b></center>
 
-* <b>Translation checkboxes</b> will translate first entity on the given axis/axes.
-* <b>Rotation checkboxes</b> will rotate the first entity without breaking the local scale. Up, side and forward vectors will be aligned depending on the checkboxes.
-* If the <b>scale checkboxes</b> are checked, first entity’s scale component of the selected axis or axes will be set as second entity’s scale value which is shown at the inspector.
-* If checkboxes are unchecked, first entity will be transformed to its initial frame.
-* <b>Align by Pivot</b> button will apply the alignment depending on the active checkboxes and close the interface.
-* <b>Revert and Close</b> button will transform the entity to its initial frame and revert any transform operation applied to pivot. 
+* <b>Флажки Translation (перемещение)</b> переместят первый объект по заданной оси/осям.
+* <b>Флажки Rotation (вращение)</b> повернут первый объект, не нарушая локальный масштаб. Векторы вверх, в сторону и вперёд будут выровнены в зависимости от установленных флажков.
+* Если установлены <b>флажки scale (масштаб)</b>, компонент масштаба первого объекта по выбранной оси или осям будет установлен равным значению масштаба второго объекта, которое отображается в инспекторе.
+* Если флажки сняты, первый объект будет преобразован в его исходный кадр (frame).
+* Кнопка <b>Align by Pivot (Выровнять по опорной точке)</b> применит выравнивание в зависимости от активных флажков и закроет интерфейс.
+* Кнопка <b>Revert and Close (Отменить и закрыть)</b> преобразует объект в его исходный кадр и отменит любую операцию трансформации, применённую к опорной точке.
 
-### Example Usage
+### Пример использования
 ![](/img/alignment_and_snapping/pivot_alignment_a.png)
-<center><b>(Initial position of bowl and candle)</b></center>
+<center><b>(Исходное положение миски и свечи)</b></center>
 ![](/img/alignment_and_snapping/pivot_alignment_b.png)
-<center><b>(Pivot alignment in only y-orientation)</b></center>
+<center><b>(Выравнивание по опорной точке только по оси Y)</b></center>
 ![](/img/alignment_and_snapping/pivot_alignment_c.png)
-<center><b>(Complete pivot alignment)</b></center>
+<center><b>(Полное выравнивание по опорной точке)</b></center>
 
-## Surface Snapping Feature
-The <b>Surface Snapping Feature</b> allows a user to snap an entity's pivot to the surface of another entity. Holding down the <b>I hot-key</b> continuously snaps the pivot of the currently selected entity to a surface that the mouse cursor intersects with. 
- <b>Control + Z</b> reverts the transformation. This feature aligns the entity’s local y vector with the intersection point’s normal map, so it won’t require the user to make additional adjustments to align the entity with the surface.
+## Функция привязки к поверхности (Surface Snapping Feature)
+<b>Функция привязки к поверхности (Surface Snapping Feature)</b> позволяет пользователю привязать опорную точку объекта к поверхности другого объекта. Удержание <b>горячей клавиши I</b> непрерывно привязывает опорную точку текущего выбранного объекта к поверхности, которую пересекает курсор мыши.
+<b>Control + Z</b> отменяет трансформацию. Эта функция выравнивает локальный вектор Y объекта с нормалью точки пересечения, поэтому пользователю не потребуется делать дополнительные корректировки для выравнивания объекта с поверхностью.
 
- Beware that this will lead to clipping, if the pivot of the entity that you seek to snap to a surface is not located on its own surface.
+Учтите, что это приведёт к наложению геометрии (clipping), если опорная точка объекта, который вы хотите привязать к поверхности, не находится на его собственной поверхности.
 
-### Example Usage
+### Пример использования
 ![](/img/alignment_and_snapping/surface_snap_a.png)
-<center><b>(Pot is snapped to the side surface of the box.)</b></center>
+<center><b>(Горшок привязан к боковой поверхности коробки.)</b></center>
 ![](/img/alignment_and_snapping/surface_snap_b.png)
-<center><b>(Pot is snapped to the upper surface of the box.)</b></center>
+<center><b>(Горшок привязан к верхней поверхности коробки.)</b></center>
 ![](/img/alignment_and_snapping/surface_snap_c.png)
-<center><b>(Pots are surface snapped to each other.)</b></center>
+<center><b>(Горшки привязаны друг к другу по поверхности.)</b></center>
 
-## Vertex Snapping Feature
-The <b>Vertex snapping feature</b> allows users to choose any vertex from a selected entity and place that vertex in the same position as any vertex from another entity of their choosing.
+## Функция привязки по вершинам (Vertex Snapping Feature)
+<b>Функция привязки по вершинам (Vertex snapping feature)</b> позволяет пользователям выбрать любую вершину выбранного объекта и разместить эту вершину в той же позиции, что и любая вершина другого объекта по их выбору.
 
 ![](/img/alignment_and_snapping/vertex_snap_fence.png)
-<center><b>(Two fence entities are vertex snapped to each other.)</b></center>
+<center><b>(Два объекта забора привязаны друг к другу по вершинам.)</b></center>
 
-<b>Alt + V</b> activates and deactivates the vertex snapping feature. It only becomes active if an entity has been selected in the editor. There is a button on the editor toolbar as well, which acts like the hot-key.  
+<b>Alt + V</b> активирует и деактивирует функцию привязки по вершинам. Она становится активной только если в редакторе выбран объект. На панели инструментов редактора также есть кнопка, которая действует так же, как горячая клавиша.
 
 ![](/img/alignment_and_snapping/vertex_snap_button.png)
-<center><b>(Toolbar button for activating/deactivating vertex snapping)</b></center>
+<center><b>(Кнопка панели инструментов для активации/деактивации привязки по вершинам)</b></center>
 
-After activating the tool and while the <b>left mouse button is in a “down” state</b>, the chosen entity’s selected vertex will continuously snap to the vertex of another, highlighted entity that is closest to the mouse ray’s intersection point. If the distance between the intersection point and the closest vertex is bigger than 2.0f or there is no second entity highlighted, nothing will happen. 
+После активации инструмента и пока <b>левая кнопка мыши находится в "нажатом" состоянии</b>, выбранная вершина выбранного объекта будет непрерывно привязываться к вершине другого, выделенного объекта, ближайшей к точке пересечения луча мыши. Если расстояние между точкой пересечения и ближайшей вершиной превышает 2.0f, или если не выделен второй объект, ничего не произойдёт.
 
-Also, a yellow sphere will be rendered on the vertex to provide head-up display. Thus, user can choose any vertex by moving the mouse. This will be the first vertex. Also, sphere is scaled with respect to camera position’s distance.
+Кроме того, на вершине будет отображена жёлтая сфера для наглядного отображения (head-up display). Таким образом, пользователь может выбрать любую вершину, перемещая мышь. Это будет первая вершина. Также сфера масштабируется в зависимости от расстояния до позиции камеры.
 
 ![](/img/alignment_and_snapping/vertex_snap_cur_vertex.png)
-<center><b>(Current vertex is shown with yellow sphere.)</b></center>
+<center><b>(Текущая вершина показана жёлтой сферой.)</b></center>
 
-After deciding on the first vertex, the snap operation can be done by <b>holding down the left mouse button</b> and moving the mouse. 
- 
-### Example Usage
+После выбора первой вершины операцию привязки можно выполнить, <b>удерживая левую кнопку мыши</b> и перемещая мышь.
+
+### Пример использования
 ![](/img/alignment_and_snapping/vertex_snap_a.png)
-<center><b>(First vertex is shown with yellow sphere.)</b></center>
+<center><b>(Первая вершина показана жёлтой сферой.)</b></center>
 ![](/img/alignment_and_snapping/vertex_snap_b.png)
-<center><b>(Snapping path is shown with a yellow line.)</b></center>
+<center><b>(Путь привязки показан жёлтой линией.)</b></center>
 ![](/img/alignment_and_snapping/vertex_snap_c.png)
-<center><b>(If snapping is successful line color becomes green.)</b></center>
+<center><b>(Если привязка успешна, цвет линии становится зелёным.)</b></center>
 ![](/img/alignment_and_snapping/vertex_snap_d.png)
-<center><b>(Two cubes are snapped to each other by vertex.)</b></center>
+<center><b>(Два куба привязаны друг к другу по вершине.)</b></center>
 
-If user releases the left mouse button when the line’s color is green, the snap will be successful. If user releases the left mouse button when the line’s color is yellow, there won’t be any snap and entity will be translated to its initial frame.
+Если пользователь отпускает левую кнопку мыши, когда цвет линии зелёный, привязка будет успешной. Если пользователь отпускает левую кнопку мыши, когда цвет линии жёлтый, привязки не произойдёт, и объект будет перемещён в исходный кадр.
 
-### Axis Constraints
-When snap tool is active, you will see a gizmo on top of the nearest vertex. You can use axes of this gizmo to constraint axial movement or drag from middle to snap freely.
+### Ограничения по осям (Axis Constraints)
+Когда инструмент привязки активен, вы увидите гизмо (gizmo) поверх ближайшей вершины. Вы можете использовать оси этого гизмо, чтобы ограничить перемещение по оси, или перетащить от центра для свободной привязки.

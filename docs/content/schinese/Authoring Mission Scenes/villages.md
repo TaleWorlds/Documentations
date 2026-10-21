@@ -1,205 +1,205 @@
 +++
-title = "What Makes a Village Scene"
+title = "村庄场景的构成要素"
 description = ""
-weight = 3
+weight = 15
+ai_translated = true
 +++
 
-#### Introduction
-This list of checkpoints should aid you in creation of village scenes and provide you with an insight into what we pay attention to when creating village scenes.
+#### 简介
+这份检查清单旨在帮助你制作村庄场景,并让你了解我们在制作村庄场景时所关注的要点。
 
-#### Navigation Mesh
+#### 导航网格 (Navigation Mesh)
 
-* Navigation mesh consists of triangles and quads. It is used by the AI for pathfinding. The global illumination system also uses it to find the visible locations of the scene.
-* Keep in mind that the navigation mesh faces should not be too far away from the physics below it. The distance should at 1.5m maximum.
-* The faces can be labeled to give cues to the agent spawning and the navigation inside the scene.
-* In order to make the agents follow roads, we label the faces on top of the roads with the ID 2. 
-* Note that all of the agent spawnpoints should be connected by navigation mesh faces with ID 2. 
-* For the animals, navigation mesh ID 3 can be used. Typically, these faces are kept within separate islands in structures like ditches. The animals will then roam inside those islands only. 
-* Change the ID's of all other faces to 1 (from 0).
-* Remember that the agents will use the navigation mesh ID's 2. In order to create realistic pathing (on roads), scene designers should place a Navigation Mesh Deactivator (prefab name is Navigation_Mesh_Deactivator). It can be placed anywhere in the scene. Its purpose is to disable the ID 1 faces in civilian modes. The DisableFaceWithID variable of the script should be 1.
-* For the animals, the variable "DisableFaceWithIDForAnimals" within the same script should be 3. 
-* Make sure the faces are fairly equal in size outside of the village area / where troops will maneuver.
-* Make sure there are no disconnected navmeshes.
-* The better the navmesh, the better will AI perform on it. Always think about that there might be big field battle inside the village. So try to avoid having many enclosed areas like a pig farm with only 1 entrance (for example: throw over some fences to create more entries)
-* Avoid having big areas accessible to the player but not AI. Player will be able to shoot AI from places without navmesh.
-* Use “_barrier_ai_x” to prevent AI from falling off from cliffs or getting stuck in tight areas (like a market booth) off the navmesh.
+* 导航网格由三角形和四边形组成,AI 使用它进行寻路。全局光照系统也使用它来查找场景中的可见位置。
+* 请注意,导航网格面不应离其下方的物理碰撞体太远。最大距离应为 1.5 米。
+* 可以对这些面进行标记,为单位的生成和场景内的导航提供线索。
+* 为了让单位沿道路行走,我们将道路上方的面标记为 ID 2。
+* 请注意,所有单位生成点都应通过 ID 为 2 的导航网格面相连接。
+* 对于动物,可以使用导航网格 ID 3。通常,这些面会被保持在诸如壕沟之类的独立结构区域内。这样动物就只会在这些区域内游荡。
+* 将所有其他面的 ID 改为 1(从 0 改起)。
+* 请记住,单位会使用导航网格 ID 2。为了创造逼真的路径行走效果(在道路上),场景设计师应放置一个导航网格禁用器(Navigation Mesh Deactivator,预制体名称为 Navigation_Mesh_Deactivator)。它可以放置在场景中的任何位置。其作用是在平民模式下禁用 ID 为 1 的面。该脚本的 DisableFaceWithID 变量应设置为 1。
+* 对于动物,同一脚本中的 "DisableFaceWithIDForAnimals" 变量应设置为 3。
+* 确保村庄区域之外(即部队机动的区域)的面大小大致相等。
+* 确保没有断开连接的导航网格。
+* 导航网格质量越好,AI 的表现就越好。请始终考虑到村庄内部可能会发生大规模的野战。因此应尽量避免出现许多只有一个入口的封闭区域,例如猪圈(可以例如拆掉一些栅栏以创造更多入口)。
+* 避免出现玩家可以进入但 AI 无法进入的大面积区域。玩家将能够从没有导航网格的地方向 AI 射击。
+* 使用 "_barrier_ai_x" 来防止 AI 从悬崖上跌落,或在导航网格之外的狭小区域(例如市场摊位)中卡住。
 
 ![](/img/village_scenes/navmesh.png)
 
-#### Spawn Points
+#### 生成点 (Spawn Points)
 
-As noted before, all spawn points need to be placed on top of navmesh (ID 2) and inside the soft borders. Remember that some prefabs (like chairs and benches) come with spawn points attached to them. If the spawn points aren't compatible with the village mission, they will most likely crash the game or cause errors. One example is "sp_blacksmith_with_smithing_machine". The most important thing about the entry points are their tags. They decide what type of NPC will spawn there. For your own sake, don't play around with those tags too much and keep them as they are from the prefabs.
+如前所述,所有生成点都需要放置在导航网格(ID 2)之上且位于软边界内。请记住,某些预制体(如椅子和长凳)自带附加的生成点。如果生成点与村庄任务不兼容,它们很可能会导致游戏崩溃或产生错误。一个例子是 "sp_blacksmith_with_smithing_machine"。关于入口点,最重要的是它们的标签(tags),这些标签决定了哪种类型的 NPC 会在此生成。为了你自己着想,不要过多地改动这些标签,保持它们与预制体中的原样一致。
 
 ![](/img/village_scenes/3. Entry Points.png)
 
-##### Player Spawnpoint
+##### 玩家生成点 (Player Spawnpoint)
 
-* Prefab: **sp_player**.
-* Make sure it's placed in a location where it can be seen from or at least has a clear path leading towards it. Do not place it too far away.
-* There should be a navigation mesh under the spawnpoint.
+* 预制体:**sp_player**。
+* 确保它放置在一个可以被看到、或者至少有一条清晰路径通往它的位置。不要放得太远。
+* 生成点下方应有导航网格。
 
-##### Battle Spawnpoints
+##### 战斗生成点 (Battle Spawnpoints)
  
-* Prefab: **Sp_battle_set**.
-* Make sure the attacker and defender spawns aren't too close to each other or at least don't have direct line of sight to each other.
-* Make sure to move the reinforcement point out of sight as best as possible while still not being too far from the front lines.
-* Make sure all spawnpoints have some empty space around for troops to properly spawn in.
+* 预制体:**Sp_battle_set**。
+* 确保进攻方和防守方的生成点彼此不要太近,或者至少彼此之间没有直接视线。
+* 确保尽可能将增援点移到视线之外,同时又不要离前线太远。
+* 确保所有生成点周围都有一些空地,以便部队能正常生成。
 
-##### Conversation Spawnpoints (civilian)
+##### 对话生成点(平民) (Conversation Spawnpoints (civilian))
 
-* Prefab: **sp_player_conversation**.
-* Conversation points define where the agent and the conversation partner spawn when the player enters the village via the "Talk to Notable" button from the World Map.
-* Make sure they have a nice vista but keep them relatively close to the village center.
+* 预制体:**sp_player_conversation**。
+* 对话点定义了当玩家通过世界地图上的"与名人交谈"按钮进入村庄时,角色与对话对象的生成位置。
+* 确保它们有不错的景观,但要让它们相对靠近村庄中心。
 
-##### Animation Points (civilian)
+##### 动画点(平民) (Animation Points (civilian))
 
-* Prefab: **sp_npc_x**.
-* These are used for normal villagers. You can use around 40 positions.
-* They define the positions in scenes where the villagers will spawn and walk to.
-* Make sure they are nicely spaced throughout the village and close surroundings.
-* Villagers will wonder along paths to get to them.
-* If the paths are too long you might find your villagers wondering around at all times with nobody actually doing anything. Try to avoid long distances and place points close to the main paths.
-* Placing more or less spawnpoints doesn't influence how many villagers will populate the scene.
+* 预制体:**sp_npc_x**。
+* 这些用于普通村民。你可以使用大约 40 个位置。
+* 它们定义了场景中村民会生成并走向的位置。
+* 确保它们在村庄及其周边区域内分布均匀。
+* 村民会沿着路径游荡到这些位置。
+* 如果路径过长,你可能会发现村民一直在四处游荡而没有真正做任何事情。尽量避免过长的距离,将这些点放置在靠近主路径的地方。
+* 放置更多或更少的生成点并不会影响场景中村民的数量。
 
-##### Rural Noteable Spawnpoints
+##### 乡村名人生成点 (Rural Noteable Spawnpoints)
 
-* Prefab: **sp_notable_x**.
-* The number of prefabs should be around 6.
-* These are the spawnpoints for the notables of the village (quest givers) and lords.
-* Make sure they are in a prominent location of the village or generally places where village elder / lords would hang around.
-* You can check the Debug Window (documentation will cover that) to make sure you have placed the correct notable positions.
-* Go to the “Scene Entity Check Tab” and tick the “NPCs” Box and count.
+* 预制体:**sp_notable_x**。
+* 预制体数量应约为 6 个。
+* 这些是村庄名人(任务发布者)和领主的生成点。
+* 确保它们位于村庄的显著位置,或者通常是村庄长者/领主会聚集的地方。
+* 你可以查看调试窗口(文档中会介绍)以确保正确放置了名人位置。
+* 转到 "场景实体检查标签页 (Scene Entity Check Tab)",勾选 "NPCs" 复选框并进行计数。
 
-##### Bandit Camps
+##### 强盗营地 (Bandit Camps)
 
-* Prefab: **common_area_x**.
-* Each village scene has 3 Bandit Camps outside the village (place 3 prefabs), used for scene quests.
-* Use the same spawns as for normal villagers (~15 per camp). Try to not have them do chores like farming.
-* You can also use patrol spawnpoints: **sp_guard_patrol_simple, sp_guard_patrol”.**
-* All spawn points in the radius will spawn bandits instead of villagers.
-* You can increase the radius by scaling the common area prefab.
-* Use civilian animation points as spawn points for bandits, some suggestions: “sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait”.
-* Make sure that there is some indication to where they could be so that the player has a chance of finding them (especially at night).
-* Don't place them too close to each other.
+* 预制体:**common_area_x**。
+* 每个村庄场景在村外有 3 个强盗营地(放置 3 个预制体),用于场景任务。
+* 使用与普通村民相同的生成点(每个营地约 15 个)。尽量不要让他们做诸如耕种之类的杂务。
+* 你也可以使用巡逻生成点:**sp_guard_patrol_simple, sp_guard_patrol**。
+* 半径范围内的所有生成点将生成强盗而非村民。
+* 你可以通过缩放公共区域预制体来增大半径。
+* 使用平民动画点作为强盗的生成点,一些建议:"sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait"。
+* 确保有一些线索表明他们可能在哪里,以便玩家有机会找到他们(尤其是在夜间)。
+* 不要把它们放得太靠近彼此。
 
 ![](/img/village_scenes/4. Bandit Camps.png)
 
-##### Animal Spawnpoints
+##### 动物生成点 (Animal Spawnpoints)
 
-* Prefab: **sp_animalName**.
-* Use “DisableWandering” in the AnimalSpawnSettings script, to stop animals from walking around your scene.
-* Overall its best to put it on all bigger animals like cows and pigs if they aren't there to wonder around.
+* 预制体:**sp_animalName**。
+* 在 AnimalSpawnSettings 脚本中使用 "DisableWandering",以阻止动物在你的场景中四处走动。
+* 总体而言,最好对所有不需要四处游荡的较大型动物(如牛和猪)启用此选项。
 
-##### Tactical Region
+##### 战术区域 (Tactical Region)
 
-* Prefab: **TacticalRegion**.
-* Used to tell the AI where there are relevant bigger regions (forests, hills etc.).
-* AI will position themselves inside the radius or avoid it.
-* Don't overuse it, stick to ~5 (make sure there is some variety).
+* 预制体:**TacticalRegion**。
+* 用于告知 AI 哪里存在相关的较大区域(森林、山丘等)。
+* AI 会在该半径范围内就位,或避开该区域。
+* 不要过度使用,保持在约 5 个左右(确保有一定的多样性)。
 
-##### Tactical Positions
+##### 战术位置 (Tactical Positions)
 
-* Prefab: **TacticalPosition**.
-* Used to tell the AI where there are relevant smaller positions (like choke points between buildings, cliffs for archers and so on).
-* AI will position themselves according to the rotation of the Prefab and in regards to the width given by the script.
-* You can use them quite often.
-* The higher the slope the “better” is the position.
+* 预制体:**TacticalPosition**。
+* 用于告知 AI 哪里存在相关的较小位置(例如建筑物之间的瓶颈、适合弓箭手的悬崖等)。
+* AI 会根据预制体的旋转方向以及脚本给定的宽度来确定自身位置。
+* 你可以相当频繁地使用它们。
+* 坡度越大,该位置就"越好"。
 
 ![](/img/village_scenes/5. Tactical Positions.png)
 
-##### Flee Positions
+##### 逃跑位置 (Flee Positions)
 
-* Positions to which fleeing troops and also horses will run away too.
-* Make sure they are inside the Soft Border and that there is a navmesh below them.
+* 溃逃的部队以及马匹会逃向的位置。
+* 确保它们位于软边界内,并且下方有导航网格。
 
 ![](/img/village_scenes/7. Flee Positions.png)
 
-#### Debug Window
+#### 调试窗口 (Debug Window)
 
-* Prefab: **SpawnPointDebugView**.
-* There is a built-in debug tool which can be enabled by adding the above prefab to the scene. Place the prefab anywhere in the scene and activate the window with the check box in its script.
-* This prefab opens a little debug window in the editor that helps you make sure you meet the requirements for the mission (like spawn points, navmesh).
-* In the “Scene Entity Check Tab” you can count your Entry Points and make sure you have placed enough of them (or too many).
-* In the “Navigation Mesh Check Tab” you can make sure all your Entry Points are connected to the navmesh properly.
+* 预制体:**SpawnPointDebugView**。
+* 有一个内置的调试工具,可以通过将上述预制体添加到场景中来启用。将预制体放置在场景中的任意位置,并通过其脚本中的复选框激活该窗口。
+* 该预制体会在编辑器中打开一个小型调试窗口,帮助你确保满足任务的各项要求(如生成点、导航网格)。
+* 在 "场景实体检查标签页" 中,你可以统计入口点的数量,确保放置了足够数量(或没有放置过多)。
+* 在 "导航网格检查标签页 (Navigation Mesh Check Tab)" 中,你可以确保所有入口点都正确连接到导航网格。
 
 ![](/img/village_scenes/2. Debug Window.png)
 
-#### Soft Border
+#### 软边界 (Soft Border)
 
-* Prefab: **border_soft**.
-* They define the red borders of the scene.
-* When placed they form a polygon where the 2 edges connect between the closest two border entities (but never more than two).
-* To check the current borders, go into the "Visibility Window" → "Visibility Masks" and enable "Borders".
-* After crossing them the player has a few seconds to return inside the map borders, make sure this can't be abused somehow.
+* 预制体:**border_soft**。
+* 它们定义了场景的红色边界。
+* 放置后,它们会在最接近的两个边界实体之间(但绝不会超过两个)形成一个多边形的两条边。
+* 要查看当前边界,进入 "可见性窗口 (Visibility Window)" → "可见性遮罩 (Visibility Masks)",并启用 "Borders"。
+* 玩家越过边界后会有几秒钟的时间返回地图边界内,请确保这一机制不会被以某种方式滥用。
 
 ![](/img/village_scenes/6. Borders.png)
 
-#### Sounds
+#### 声音 (Sounds)
 
-##### Master Ambient Sound
+##### 主环境音效 (Master Ambient Sound)
 
-* Prefab: **x_ambient_sound**.
-* Choose a mandatory master ambient sound.
-* You can place the prefab for the mandatory ambient sound anywhere.
-* Make sure it has the “Is Master Sound” enabled.
-* Make sure it doesn't have the “Is Triggered” enabled.
+* 预制体:**x_ambient_sound**。
+* 选择一个必需的主环境音效。
+* 你可以将必需环境音效的预制体放置在任意位置。
+* 确保已启用 "Is Master Sound"。
+* 确保未启用 "Is Triggered"。
 
-##### Additional Ambient sounds
+##### 附加环境音效 (Additional Ambient sounds)
 
-* Used for bigger areas (like forests).
-* Needs to have the “Is Triggered” bool.
-* To see how far it reaches, from the "Visibility Window" enable "Sound Entities" under the ""Visibility Masks" group.
-* To change their reach, you can scale them like you would do with other editor entities (using the “b” key or the gizmo).
+* 用于较大区域(如森林)。
+* 需要启用 "Is Triggered" 布尔值。
+* 要查看其覆盖范围,可在 "可见性窗口" 中的 "可见性遮罩 (Visibility Masks)" 分组下启用 "Sound Entities"。
+* 要更改其覆盖范围,可以像处理其他编辑器实体一样对其进行缩放(使用 "b" 键或变换操纵器)。
 
 ![](/img/village_scenes/8. Sounds.png)
 
-##### Reverb
+##### 混响 (Reverb)
 
-* There are different prefabs for each use case: **reverb_x**.
-* Adds reverb effect to any sound spawned inside its boundary. 
-* They are generally used for tight or underground areas.
-* You can place these in tight alleys between taller buildings, cliffs, in caves or in dense forests.
-* Needs to have the “Is Triggered” enabled.
+* 每种使用场景都有不同的预制体:**reverb_x**。
+* 为在其边界内生成的任何声音添加混响效果。
+* 它们通常用于狭窄或地下区域。
+* 你可以将它们放置在较高建筑之间的狭窄巷道、悬崖、洞穴或茂密的森林中。
+* 需要启用 "Is Triggered"。
 
-##### Detail
+##### 细节音效 (Detail)
 
-* Used for small details.
-* Make sure “Is Triggered” is disabled.
-* Place them where ever you want them to play.
+* 用于小型细节。
+* 确保禁用 "Is Triggered"。
+* 可以放置在你希望它们播放的任何地方。
 
-##### Moving sounds on paths (for rivers and such)
+##### 沿路径移动的声音(用于河流等) (Moving sounds on paths (for rivers and such))
 
-Sometimes it's useful to move sounds along a coast line or a river. The below technique is more performance-friendly and more precise than placing multiple sound entities along your river for example. 
+有时沿海岸线或河流移动声音会很有用。以下技术比沿河流放置多个声音实体更高效、更精确。
 
-* Place a path on the river. For more information, see <strong>[Path Editing]({{< ref "path_editing.md" >}})</strong>.
-* Add the sound to the scene.
-* Place any additional Ambient sound as explained above.
-* Add the “path_converger” script to your ambient sound's entity.
-* Enter the name of your path to the "path_converger".
-* The sound will now follow the path according to the camera position.
+* 在河流上放置一条路径。更多信息请参阅 <strong>[路径编辑]({{< ref "path_editing.md" >}})</strong>。
+* 将声音添加到场景中。
+* 按上文所述放置任何附加环境音效。
+* 将 "path_converger" 脚本添加到你的环境音效实体中。
+* 在 "path_converger" 中输入你的路径名称。
+* 现在声音将根据摄像机位置沿路径移动。
 
-##### Sounds in the Engine
+##### 引擎中的声音 (Sounds in the Engine)
 
-You can check the "MODDING_TOOLS_DIRECTORY/Sounds/GUIDs.txt" file for the list of the sounds in the game. These names can be used inside the script of the sound entities.
+你可以查看 "MODDING_TOOLS_DIRECTORY/Sounds/GUIDs.txt" 文件以获取游戏中声音的列表。这些名称可以在声音实体的脚本中使用。
 
-#### Lights
+#### 灯光 (Lights)
 
-* Have at least one “**envmap_prop**” in your scene.
-* For darker areas like caves use “**local_envmap_prop**”.
-* It will affect the lighting in an area depending on the values of its “ReflectionCapturer” script.
-* Make sure the village and bandit camps are nicely lit.
-* Take extra care for the conversation points.
-* Use torches and other entities.
-* Make sure torches inside buildings and other dark areas have “alwaysBurn” enabled in the LightCycle script.
-* Try to avoid placing “artificial lights” without an actual source.
-* You can bake the ambient lighting in your scene with the GI system. This will make the ambient lighting much more realistic. For more information, see <strong>[GI System]({{< ref "prt.md" >}})</strong>.
+* 场景中至少要有一个 "**envmap_prop**"。
+* 对于洞穴等较暗区域,使用 "**local_envmap_prop**"。
+* 它会根据其 "ReflectionCapturer" 脚本的值影响该区域的光照。
+* 确保村庄和强盗营地的照明充足美观。
+* 对对话点要格外留意。
+* 使用火把及其他实体。
+* 确保建筑物内部及其他黑暗区域的火把在 LightCycle 脚本中启用了 "alwaysBurn"。
+* 尽量避免放置没有实际光源的"人为光源"。
+* 你可以使用 GI 系统烘焙场景中的环境光照,这将使环境光照更加逼真。更多信息请参阅 <strong>[GI 系统]({{< ref "prt.md" >}})</strong>。
 
 ![](/img/village_scenes/9. Lights.png)
 
-#### Atmosphere
+#### 氛围 (Atmosphere)
 
-* Make sure your scene works and looks fine with all of the “**TOD_x**” atmospheres and in all seasons! (since it will be tested with those).
-* Choose a “Color Grade” that fits your scene (we suggest using the ones for the faction your scene is for, like: “color_grade_empire_soft”).
+* 确保你的场景在所有 "**TOD_x**" 氛围及所有季节下都能正常运作且外观良好!(因为将在这些条件下进行测试。)
+* 选择适合你场景的 "调色分级 (Color Grade)"(我们建议使用适合场景所属阵营的调色分级,例如:"color_grade_empire_soft")。
 
 ![](/img/village_scenes/10. Atmosphere.png)
-

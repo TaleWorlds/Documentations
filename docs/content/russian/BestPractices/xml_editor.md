@@ -1,17 +1,18 @@
 +++
-title = "Getting Started with XML Editor"
+title = "Начало работы с редактором XML"
+ai_translated = true
 
 [menu.main]
 identifier = "xml_editor"
 parent = "bestpractices"
 +++
 
-#### Module
-Bannerlord consists of different modules, which give it different functionality. You can think of them as game mods. This approach allows players to easily mod the game. The modules are inside the Mount & Blade II Bannerlord installation folder, called `Modules`.
+#### Модуль
+Bannerlord состоит из разных модулей, которые придают ему различную функциональность. Их можно рассматривать как игровые моды. Такой подход позволяет игрокам легко модифицировать игру. Модули находятся внутри папки установки Mount & Blade II Bannerlord, в каталоге с названием `Modules`.
 #### XML
-XML stands for E**x**tensible **M**arkup **L**anguage, which allows the storage of data related to the game. If we want to add some data to a Module, we would create an XML document within it, or add it to an existing XML document.
-#### XSD (Schema files)
-XSD stands for **X**ML **S**chema **D**efinition. It allows for a validation layer for data that is provided through XML files. Each XML file in Bannerlord has a related schema file. For example, schema files provide a schema for a culture object, and it looks something like this:
+XML расшифровывается как E**x**tensible **M**arkup **L**anguage (расширяемый язык разметки), который позволяет хранить данные, связанные с игрой. Если мы хотим добавить какие-то данные в модуль, мы создаём XML-документ внутри него или добавляем данные в существующий XML-документ.
+#### XSD (файлы схем)
+XSD расшифровывается как **X**ML **S**chema **D**efinition (определение схемы XML). Он обеспечивает уровень валидации для данных, предоставляемых через XML-файлы. Каждый XML-файл в Bannerlord имеет связанный файл схемы. Например, файлы схем определяют схему для объекта культуры, и она выглядит примерно так:
 
 - Culture
 	- Name
@@ -19,106 +20,106 @@ XSD stands for **X**ML **S**chema **D**efinition. It allows for a validation lay
 	- Description
 	- …
 
-As you can see, these files are schema for how we are going to structure our XML files. 99% of the time, the XML editor prevents you from making a change that is not allowed in the schema files. If, by any chance, you make a change that makes the XML file not fit the schema file, you are going to get an error while saving the file, thus allowing you to fix your mistake.
+Как видите, эти файлы являются схемой того, как мы будем структурировать наши XML-файлы. В 99% случаев редактор XML предотвращает внесение изменений, недопустимых в файлах схемы. Если вдруг вы внесёте изменение, из-за которого XML-файл перестанет соответствовать файлу схемы, при сохранении файла вы получите ошибку, что позволит вам исправить свою ошибку.
 #### XSLT
-XSLT stands for E**x**tensible **S**tylesheet **L**anguage **T**ransformations. It allows for the transformation of existing XML files into new ones, based on the defined rules. These rules get applied to the XML files when they are being loaded into the game.
+XSLT расшифровывается как E**x**tensible **S**tylesheet **L**anguage **T**ransformations (расширяемый язык преобразований таблиц стилей). Он позволяет преобразовывать существующие XML-файлы в новые на основе определённых правил. Эти правила применяются к XML-файлам при их загрузке в игру.
 
 <img src="/img/xml_editor/1.png" style="max-width:800px; height:auto;" />
 
-Example use case: Assume that we would like to make changes for some culture in the game, but they are defined in one of the official modules. We cannot directly open and edit the official module, as that change will no longer be part of our own module. 
+Пример использования: предположим, мы хотим внести изменения для какой-то культуры в игре, но она определена в одном из официальных модулей. Мы не можем напрямую открыть и отредактировать официальный модуль, поскольку это изменение больше не будет частью нашего собственного модуля.
 
-Therefore, instead of changing the XML file, we create rules with XSLT inside our own module, which transform the existing XML file in the related official module.
+Поэтому вместо изменения XML-файла мы создаём правила с помощью XSLT внутри нашего собственного модуля, которые преобразуют существующий XML-файл в соответствующем официальном модуле.
 
-#### Getting Started with XML Editor
-The XML Editor is a program that allows you to:
+#### Начало работы с редактором XML
+Редактор XML — это программа, которая позволяет вам:
 
-- Edit your module’s XML files with schema-aware validation that prevents invalid changes.
-- Safely modify official and other module data via XSLT, generating non-destructive transformation rules.
-	- Accomplish the above two steps through UI rather than text editors.
+- Редактировать XML-файлы вашего модуля с учётом схемы (schema-aware validation), что предотвращает недопустимые изменения.
+- Безопасно изменять данные официальных и других модулей с помощью XSLT, генерируя неразрушающие правила преобразования.
+	- Выполнять два вышеуказанных шага через UI, а не через текстовые редакторы.
 
-You can access the XML Editor through the `Mount & Blade II: Bannerlord Modding Kit` on Steam. After installing the Kit, you’ll find the XML Editor inside the `XMLEditor` folder in the game’s root directory.
+Вы можете получить доступ к редактору XML через `Mount & Blade II: Bannerlord Modding Kit` в Steam. После установки Kit вы найдёте редактор XML внутри папки `XMLEditor` в корневом каталоге игры.
 
-Starting the XML editor for the first time, you will be asked to adjust the settings for the editor. Choose yes, and you will see the settings window.
+При первом запуске редактора XML вам будет предложено настроить параметры редактора. Выберите "да", и вы увидите окно настроек.
 
 <img src="/img/xml_editor/2.png" style="max-width:800px; height:auto;" />
 
-First, you need to select your game folder. It defaults to the Steam version of the game. Other settings are optional, and you can leave them as they are.
+Сначала вам нужно выбрать папку с игрой. По умолчанию используется версия игры из Steam. Остальные настройки необязательны, и вы можете оставить их как есть.
 
-- **Game Folder**: The folder where your game is installed. If the path is not valid, you’ll get a red warning. The editor cannot function without the correct folder setup.
-- **Editor Theme**: Changes the overall color for the editor and editor windows.
-- **Use accent colors for windows**: Changes the window and title colors based on the accent color.
-- **Disable warnings showing in the inspector**: Disables any warnings that might be shown in the inspector. Generally not recommended unless you know what you are doing.
-- **Enable XSLT editing (experimental)**: Enables the XSLT editing functionality for the editor. XSLT editing works but is experimental and may not be very stable. Some features that exist on direct XML editing may not be available in the XSLT mode.
+- **Game Folder (Папка игры)**: папка, в которой установлена ваша игра. Если путь недействителен, вы получите красное предупреждение. Редактор не может работать без правильно настроенной папки.
+- **Editor Theme (Тема редактора)**: изменяет общую цветовую схему редактора и окон редактора.
+- **Use accent colors for windows (Использовать акцентные цвета для окон)**: изменяет цвета окон и заголовков на основе акцентного цвета.
+- **Disable warnings showing in the inspector (Отключить отображение предупреждений в инспекторе)**: отключает любые предупреждения, которые могут отображаться в инспекторе. Обычно не рекомендуется, если вы не уверены в том, что делаете.
+- **Enable XSLT editing (experimental) (Включить редактирование XSLT (экспериментально))**: включает функциональность редактирования XSLT для редактора. Редактирование XSLT работает, но является экспериментальным и может быть не очень стабильным. Некоторые функции, доступные при прямом редактировании XML, могут быть недоступны в режиме XSLT.
 
-The editor configuration file is saved directly next to the Bannerlord configuration file folder - `Documents\Mount and Blade II Bannerlord\Configs\xml_editor_config.json`. If any problem occurs with your settings, you can always delete the configuration file and restart the editor, which will recreate the settings file.
+Файл конфигурации редактора сохраняется прямо рядом с папкой конфигурационного файла Bannerlord — `Documents\Mount and Blade II Bannerlord\Configs\xml_editor_config.json`. Если с вашими настройками возникнет какая-либо проблема, вы всегда можете удалить файл конфигурации и перезапустить редактор, который заново создаст файл настроек.
 
-You can access settings from the main window toolbar, `File` -> `Settings`, or by choosing the `Change Settings` option inside the Module Selection Window.
+Вы можете получить доступ к настройкам из панели инструментов главного окна, `File` -> `Settings`, или выбрав опцию `Change Settings` в окне выбора модуля.
 
-After confirming your settings, click the `Save and Close` button. You’ll be navigated to the Module Selection window.
-##### What is an Active Module?
-An active module is used to describe your intent to the editor. It allows the editor to choose between directly editing the XML file or creating a rule by creating an XSLT file.
+После подтверждения настроек нажмите кнопку `Save and Close`. Вы перейдёте в окно выбора модуля.
+##### Что такое активный модуль?
+Активный модуль используется для описания редактору ваших намерений. Он позволяет редактору выбирать между прямым редактированием XML-файла или созданием правила путём создания файла XSLT.
 
 <img src="/img/xml_editor/3.png" style="max-width:800px; height:auto;" />
 
-In the module selection window, you are going to see modules that are located in the game folder that you have chosen. From here, you want to select the module that you want your work to be part of. XML Editor only supports direct editing of your or third-party modules. If you want to modify the values of the official modules, you’ll need to select your mod as active and use XSLT editing to edit official modules.
-#### Editor Interface and Editing XML Files
-After choosing the module that you want to work on, you are going to be greeted with the XML editor. In our case, we’ve chosen an empty mod that only has an `items.xml` file related to it.
+В окне выбора модуля вы увидите модули, расположенные в выбранной вами папке игры. Отсюда вы хотите выбрать модуль, частью которого должна быть ваша работа. Редактор XML поддерживает только прямое редактирование ваших собственных или сторонних модулей. Если вы хотите изменить значения официальных модулей, вам нужно выбрать свой мод как активный и использовать редактирование XSLT для редактирования официальных модулей.
+#### Интерфейс редактора и редактирование XML-файлов
+После выбора модуля, с которым вы хотите работать, перед вами откроется редактор XML. В нашем случае мы выбрали пустой мод, у которого есть только файл `items.xml`.
 
 <img src="/img/xml_editor/4.png" style="max-width:800px; width:100%; height:auto;" />
 
-To quickly go over the starting interface;
+Чтобы быстро пройтись по начальному интерфейсу:
 
-- At the top, you can see the editor toolbar. You can access some quick operations from here, like reloading the editor or opening some additional editor windows, like the dependency editor.
-- The center part is your main editor. Currently, it is displaying the schema files that are related to the game. Selecting any of the schemas will show you related XML files to that schema.
-- At the bottom, there is an active module selection button. It shows you which module is currently active, and if you want, you can click on it to change your active module. Changing the active module will reload the editor.
+- Вверху вы видите панель инструментов редактора. Отсюда вы можете получить доступ к некоторым быстрым операциям, например перезагрузке редактора или открытию дополнительных окон редактора, таких как редактор зависимостей.
+- Центральная часть — это ваш основной редактор. В настоящий момент он отображает файлы схем, связанные с игрой. Выбор любой из схем покажет вам связанные с этой схемой XML-файлы.
+- Внизу находится кнопка выбора активного модуля. Она показывает, какой модуль в данный момент активен, и при желании вы можете нажать на неё, чтобы изменить активный модуль. Изменение активного модуля перезагрузит редактор.
 
-Since our example mod only has an `items.xml` which is related to the Items schema, we will continue our guide by selecting the Items schema.
+Поскольку наш пример мода содержит только `items.xml`, связанный со схемой Items, мы продолжим наше руководство, выбрав схему Items.
 
 <img src="/img/xml_editor/5.png" style="max-width:800px; width:100%; height:auto;" />
 
-Selecting a schema opens us to the document explorer window. The document explorer shows us every XML file that is related to the selected schema. You can also create a new XML document for the selected module and schema. The names of these files are shown as `[Module Name].[Xml Name]`. Let’s continue with selecting the Example Mod.items file.
+Выбор схемы открывает окно обозревателя документов. Обозреватель документов показывает все XML-файлы, связанные с выбранной схемой. Вы также можете создать новый XML-документ для выбранного модуля и схемы. Названия этих файлов отображаются как `[Module Name].[Xml Name]`. Продолжим, выбрав файл Example Mod.items.
 
 <img src="/img/xml_editor/6.png" style="max-width:800px; width:100%; height:auto;" />
 
-Once we select the target document, we are greeted with the `Element Explorer` window, which shows us the top-level elements in our XML file. You can compare the Element Explorer with the exact same document screenshot we’ve added below to help you understand exactly what you are seeing. On the bottom, you can see a button to create new top-level elements and the save button for the file to save your changes.
+После выбора целевого документа перед нами открывается окно `Element Explorer` (Обозреватель элементов), которое показывает нам элементы верхнего уровня в нашем XML-файле. Вы можете сравнить обозреватель элементов с тем же самым скриншотом документа, который мы добавили ниже, чтобы помочь вам понять именно то, что вы видите. Внизу вы увидите кнопку для создания новых элементов верхнего уровня и кнопку сохранения файла для сохранения ваших изменений.
 
 <img src="/img/xml_editor/7.png" style="max-width:500px; height:auto;" />
 
-To edit one of these elements, you can click on the element in the Element Explorer window. This will open us to our final window, the `Inspector Window`. Inspector Window allows you to see all the attributes and child elements that are related to the selection in the Element Explorer window.
+Чтобы отредактировать один из этих элементов, вы можете нажать на элемент в окне обозревателя элементов. Это откроет наше последнее окно — `Inspector Window` (окно инспектора). Окно инспектора позволяет вам увидеть все атрибуты и дочерние элементы, связанные с выбором в окне обозревателя элементов.
 
 <img src="/img/xml_editor/8.png" style="max-width:800px; width:100%; height:auto;" />
 
-In the Inspector Window, every dropdown represents an XML element. You can do element-related changes by clicking on the cogwheel icon next to the element that you want to apply changes to. You can make changes like creating a child element or deleting the selected element.
+В окне инспектора каждый выпадающий список представляет собой XML-элемент. Вы можете выполнять изменения, связанные с элементами, нажимая на значок шестерёнки рядом с элементом, к которому вы хотите применить изменения. Вы можете вносить такие изменения, как создание дочернего элемента или удаление выбранного элемента.
 
-Under each dropdown, you can see fields being displayed. These fields are attributes of the XML element. `Undefined` means that the attribute does not exist. It’s marked this way to make sure we can differentiate between empty values and attributes that don’t have a value. Right-clicking on fields will also show you some options, like removing attributes from the element.
+Под каждым выпадающим списком вы увидите отображаемые поля. Эти поля являются атрибутами XML-элемента. `Undefined` означает, что атрибут не существует. Это отмечено таким образом, чтобы мы могли различать пустые значения и атрибуты, у которых нет значения. Щелчок правой кнопкой мыши по полям также покажет вам некоторые опции, например удаление атрибутов из элемента.
 
-The fields in the XML editor are smart. They try to show appropriate fields, like a checkbox for a boolean field, and fall back to a text field. They also check the requirements from the schema file and warn you if there are any problems. Fields with `Required` marked next to them are required by the schema file. If the new file is not compatible with the schema file, or a required field is missing, it will prevent you from saving the file. You’ll be displayed with appropriate errors so that you can fix them.
+Поля в редакторе XML являются интеллектуальными. Они стараются отображать подходящие поля, например флажок для булевого поля, и переключаются на текстовое поле, если это не подходит. Они также проверяют требования из файла схемы и предупреждают вас, если есть какие-либо проблемы. Поля, рядом с которыми отмечено `Required` (обязательно), требуются файлом схемы. Если новый файл несовместим с файлом схемы или отсутствует обязательное поле, это предотвратит сохранение файла. Вам будут показаны соответствующие ошибки, чтобы вы могли их исправить.
 
-After making changes, make sure to click the save button. It’s also important to note that there is no element-level save feature. Once you make changes, you need to save the entire document.
+После внесения изменений обязательно нажмите кнопку сохранения. Также важно отметить, что функции сохранения на уровне элемента не существует. После внесения изменений вам нужно сохранить весь документ.
 
-#### Editing Official Modules using XSLT
-To edit official modules, you need to enable the XSLT editing mode. Open the settings window from `File` -> `Settings`, and make sure the `Enable XSLT editing` box is checked. Once that is done, if we click on any schema file, we are also going to see related XML files from other modules. We can differentiate the XSLT editing by the yellow warning icon on the right side of the XML file.
+#### Редактирование официальных модулей с помощью XSLT
+Чтобы редактировать официальные модули, вам нужно включить режим редактирования XSLT. Откройте окно настроек через `File` -> `Settings` и убедитесь, что флажок `Enable XSLT editing` установлен. После этого, если мы нажмём на любой файл схемы, мы также увидим связанные XML-файлы из других модулей. Мы можем отличить редактирование XSLT по жёлтому значку предупреждения справа от XML-файла.
 
 <img src="/img/xml_editor/9.png" style="max-width:800px; width:100%; height:auto;" />
 
-For demo purposes, we will continue by selecting the `mpitems` file, which is part of the Native module of the game.
+В демонстрационных целях мы продолжим, выбрав файл `mpitems`, который является частью модуля Native игры.
 
 <img src="/img/xml_editor/10.png" style="max-width:800px; width:100%; height:auto;" />
 
-We can now see the elements that are part of the `Native.mpitems` file. One thing to note here is that XSLT editing does not support deleting an element. Instead, we can replace the element with an empty one. Let’s continue by choosing an element to edit.
+Теперь мы можем видеть элементы, являющиеся частью файла `Native.mpitems`. Здесь стоит отметить, что редактирование XSLT не поддерживает удаление элемента. Вместо этого мы можем заменить элемент на пустой. Продолжим, выбрав элемент для редактирования.
 
 <img src="/img/xml_editor/11.png" style="max-width:800px; width:100%; height:auto;" />
 
-We’ve chosen the `mp_pointed_skullcap_over_cloth_headwrap` item. You can see that there is an error in the inspector preventing us from making any edits. That is because to make XSLT edits, our module needs to be dependent on the target module, Native, in this case. We can quickly fix this error by heading over to the `Window` -> `Dependency Editor`.
+Мы выбрали предмет `mp_pointed_skullcap_over_cloth_headwrap`. Вы можете увидеть, что в инспекторе есть ошибка, препятствующая внесению каких-либо изменений. Это происходит потому, что для внесения изменений через XSLT наш модуль должен зависеть от целевого модуля, в данном случае Native. Мы можем быстро исправить эту ошибку, перейдя в `Window` -> `Dependency Editor`.
 
 <img src="/img/xml_editor/12.png" style="max-width:800px; width:100%; height:auto;" />
 
-`Dependency Editor` allows us to edit the dependencies of our module. On the left side, we see modules that we are not dependent upon. We can click on a module on the left and add it as a dependency. We will choose Native, since mpitems is part of the Native, and then choose `Add Dependency`. In the end, it will look like this:
+`Dependency Editor` (редактор зависимостей) позволяет нам редактировать зависимости нашего модуля. Слева мы видим модули, от которых мы не зависим. Мы можем нажать на модуль слева и добавить его как зависимость. Мы выберем Native, поскольку mpitems является частью Native, а затем выберем `Add Dependency`. В итоге это будет выглядеть так:
 
 <img src="/img/xml_editor/13.png" style="max-width:800px; width:100%; height:auto;" />
 
-We can now close the Dependency Editor and return to the Inspector. You’ll see that the error is gone, and there is only a warning, telling us that we are using XSLT and not direct XML editing. We can ignore this warning.
+Теперь мы можем закрыть редактор зависимостей и вернуться к инспектору. Вы увидите, что ошибка исчезла, и осталось только предупреждение, сообщающее нам, что мы используем XSLT, а не прямое редактирование XML. Это предупреждение можно игнорировать.
 
 <img src="/img/xml_editor/14.png" style="max-width:800px; width:100%; height:auto;" />
 
-Our setup is done, and we can continue editing the element just like we are editing some other XML element. On the backend, the editor will be translating these changes to XSLT. You can find the resulting XSLT files directly under your module’s `ModuleData` folder, in a folder called `XSLT`. Note that some functionality in the XML editing may not be available in the XSLT editing mode.
+Наша настройка завершена, и мы можем продолжать редактировать элемент так же, как мы редактировали бы любой другой XML-элемент. В фоновом режиме редактор будет переводить эти изменения в XSLT. Результирующие файлы XSLT вы можете найти непосредственно в папке `ModuleData` вашего модуля, в папке с названием `XSLT`. Обратите внимание, что некоторая функциональность, доступная при редактировании XML, может быть недоступна в режиме редактирования XSLT.

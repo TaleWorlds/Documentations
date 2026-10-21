@@ -1,142 +1,138 @@
 +++
-title = "Scene Spawn Point Guide"
+title = "Руководство по точкам появления на сцене"
+ai_translated = true
 
 [menu.main]
 identifier = "scene_spawn_point_guide"
 parent = "bannerlord_scenes"
 +++
 
-## How to design fully featured scenes in Bannerlord
+## Как создавать полнофункциональные сцены в Bannerlord
 
-Each scene has own basic necessities to run without crashing and has extras to give better experience to player. Designers can check these necessities with [Spawn Point Debug Tool]({{< ref "spawn_point_debug_tool.md" >}}) to be sure that their scene will not crash. 
+Каждая сцена имеет свои базовые необходимые элементы, чтобы работать без сбоев, а также дополнительные элементы для улучшения опыта игрока. Дизайнеры могут проверить эти необходимые элементы с помощью [инструмента отладки точек появления (Spawn Point Debug Tool)]({{< ref "spawn_point_debug_tool.md" >}}), чтобы убедиться, что их сцена не вызовет сбой. 
 
-## 1. Town Center Scene
+## 1. Сцена центра города
 
-Player will be spawned on the "sp_player_outside" prefab if he/she is entering the city for the first time, 
-because of this feature "sp_player_outside" must be placed far from city's entrance; otherwise player will be 
-spawned on "sp_player" and this spawnpoint can be next to the entrance gate. Town center scene has some 
-mandatory characters as follows:
+Игрок будет появляться в префабе «sp_player_outside», если он/она заходит в город впервые, из-за этой особенности «sp_player_outside» должен быть размещён далеко от входа в город; в противном случае игрок будет 
+появляться в «sp_player», и эта точка появления может находиться рядом с воротами входа. Сцена центра города имеет несколько 
+обязательных персонажей:
 
-|Player Spawn Point|
+|Точка появления игрока|
 |-----|
-|When player enters the town center from top right panel in the map scene, player and the conversation NPC will be spawned on "sp_player_conversation" prefab. Scene must have these prefabs more than 1 in order increase variation. {{% notice warning %}} The scale of the conversation prefab must not change.
+|Когда игрок входит в центр города через верхнюю правую панель на сцене карты, игрок и NPC для разговора будут созданы в префабе «sp_player_conversation». В сцене должно быть больше 1 такого префаба для увеличения вариативности. {{% notice warning %}} Масштаб префаба разговора не должен изменяться.
 {{% /notice %}}|
 
-|Traders|
+|Торговцы|
 |-----|
-|Traders such as armorers, blacksmiths and horse merchants are mandatory for town center scenes. If scene has more than one market place, it is ok to have more then one trader NPCs. Traders in market places may have their own sets. These sets can be considered as prefabs with some spawn points in it. For example, for weaponsmith there can be 3 points in weaponsmith set but there must be 1 spawned weaponsmith. This NPC will go to these points randomly, in a word NPC may go to his/her selling table and start trading or go to the backside of his/her shop and sit on a chair for some time. {{% notice tip %}} Designer may want to change these wait times between actions with "MinWaitInSeconds" and "MaxWaitInSeconds" parameters. (-1: forever).
+|Торговцы, такие как оружейники, кузнецы и торговцы лошадьми, обязательны для сцен центра города. Если в сцене несколько рыночных площадей, допустимо иметь более одного NPC-торговца. Торговцы на рыночных площадях могут иметь свои собственные наборы (сеты). Эти наборы можно рассматривать как префабы с несколькими точками появления внутри них. Например, для оружейника может быть 3 точки в наборе оружейника, но должен быть создан 1 оружейник. Этот NPC будет случайным образом перемещаться между этими точками, другими словами, NPC может подойти к своему торговому столу и начать торговлю, либо пойти в заднюю часть своего магазина и сесть на стул на некоторое время. {{% notice tip %}} Дизайнер может захотеть изменить время ожидания между действиями с помощью параметров «MinWaitInSeconds» и «MaxWaitInSeconds». (-1: вечно).
 {{% /notice %}}|
 
-|Notables|
+|Знатные персонажи (Notables)|
 |-----|
 
-## Notable Parent Prefab
+## Родительский префаб знатного персонажа (Notable Parent Prefab)
 
-Scene must have some notables. In order to find them easy, notable spawn points must be placed near center area of the city.
-Every notable have their own spawn point tag and every notable have their unique helper characters. 
+Сцена должна иметь несколько знатных персонажей. Чтобы было легко их найти, точки появления знатных персонажей должны размещаться рядом с центральной областью города.
+Каждый знатный персонаж имеет свой собственный тег точки появления, и у каждого знатного персонажа есть уникальные вспомогательные персонажи. 
 
-| Notable | Spawn Point Tag | Helper Character Tag |
+| Знатный персонаж | Тег точки появления | Тег вспомогательного персонажа |
 | ------ | ------ | ------ | 
-| **Preacher** | sp_notable_preacher | sp_preacher_notary |
-| **Gang Leader** | sp_notable_gangleader | sp_gangleader_bodyguard |
-| **Rural Notable** | sp_notable_rural_notable | sp_rural_notable_notary |
-| **Artisan** | sp_notable_artisan | sp_artisan_notary |
-| **Merchant** | sp_notable_merchant | sp_merchant_notary |
+| **Проповедник (Preacher)** | sp_notable_preacher | sp_preacher_notary |
+| **Главарь банды (Gang Leader)** | sp_notable_gangleader | sp_gangleader_bodyguard |
+| **Деревенский знатный персонаж (Rural Notable)** | sp_notable_rural_notable | sp_rural_notable_notary |
+| **Ремесленник (Artisan)** | sp_notable_artisan | sp_artisan_notary |
+| **Купец (Merchant)** | sp_notable_merchant | sp_merchant_notary |
 
-Notables have one parent prefab named **"sp_notables_parent"**. Each notable has 1 set as child so, parent prefab has 5 child notable sets. 
+Знатные персонажи имеют один родительский префаб с именем **«sp_notables_parent»**. У каждого знатного персонажа есть 1 набор (сет) в качестве дочернего элемента, поэтому родительский префаб имеет 5 дочерних наборов знатных персонажей. 
 
-Artists must place this parent prefab and put it in a prominent place of town center. Also prefab must be seen easily by player. After mission start, game logic will activate the notable set according to the notables in the town center.
+Художники должны разместить этот родительский префаб и расположить его на видном месте в центре города. Также префаб должен быть легко заметен игроком. После начала миссии игровая логика активирует набор знатного персонажа в соответствии со знатными персонажами в центре города.
 
-In the notable sets, every notable will have unique helper character and their spawn point as well. (bodyguards for gangleader, notary for merchant...). 
+В наборах знатных персонажей у каждого знатного персонажа будет уникальный вспомогательный персонаж и своя точка появления (телохранители для главаря банды, нотариус для купца...). 
 
-In the picture below. There were 2 parent prefabs in the scene. After mission start, one prefab is activated for **gangleader** and her bodyguards. Other prefab is activated for **merchant** and his notary.
+На картинке ниже было 2 родительских префаба в сцене. После начала миссии один префаб активируется для **главаря банды** и её телохранителей. Другой префаб активируется для **купца** и его нотариуса.
 
 {{% notice tip %}}
-Every settlement can have at most 6, every village can have at most 3 notables. So, artist must consider this and place at least 8 parent prefab for town center scenes and place at least 5 parent prefab for village scenes. And town center's have 3 workshop. Each worshop must have 1 parent prefab.
-So, for town center scenes 8 + 3 (from workshops) ~10 parent prefabs must be added.
+Каждое поселение может иметь не более 6, а каждая деревня — не более 3 знатных персонажей. Поэтому художник должен учесть это и разместить не менее 8 родительских префабов для сцен центра города и не менее 5 родительских префабов для сцен деревень. Также в центрах городов есть 3 мастерские. У каждой мастерской должен быть 1 родительский префаб.
+Таким образом, для сцен центра города необходимо добавить 8 + 3 (от мастерских) ~10 родительских префабов.
 {{% /notice %}}
 
 {{% notice warning %}}
-All points in the notable sets have rotations according to their motion capture animations, so don't rotate the points or animations will not syncronize.
+Все точки в наборах знатных персонажей имеют вращения в соответствии со своими анимациями захвата движения (motion capture), поэтому не вращайте точки — иначе анимации не синхронизируются.
 {{% /notice %}}
 
 ![](/img/notable_spawn_points/document1.png)
 
-|Guards|
+|Стражники|
 |-----|
-|There are some idle guards and patrolling guards. Patrolling guards are programmed as moving one point to another while activating the next point and deactivating the current one.|
+|Есть несколько бездействующих стражников и патрулирующих стражников. Патрулирующие стражники запрограммированы как перемещающиеся от одной точки к другой, активируя следующую точку и деактивируя текущую.|
 
-|Passages|
+|Проходы|
 |-----|
-|Town center scene must include all passages to other scenes such as Tavern, Arena, Lords hall...|
+|Сцена центра города должна включать все проходы к другим сценам, таким как таверна, арена, зал лордов...|
 
-|Battle Sets|
+|Боевые наборы (Battle Sets)|
 |-----|
-|For town scenes, battle sets are only used for common area clearing. so they should not be too far apart, and should be placed to represent a fight between gangs rather than a battle between armies.|,
+|Для городских сцен боевые наборы используются только для зачистки общих зон, поэтому они не должны быть расположены слишком далеко друг от друга, и должны размещаться так, чтобы представлять собой драку между бандами, а не битву между армиями.|,
 
-|Townsfolk|
+|Горожане|
 |-----|
-|NPCs are always moving around the city. In order to prettify the scene, designer may want to use some extra prefabs. If scene has "sp_npc_repair_set", one NPC will go to that point and start hammering away while other NPC complains about the situation or scene may have some beggars begging for townsfolk help.|
+|NPC всегда перемещаются по городу. Чтобы украсить сцену, дизайнер может захотеть использовать несколько дополнительных префабов. Если в сцене есть «sp_npc_repair_set», один NPC подойдёт к этой точке и начнёт стучать молотком, в то время как другой NPC будет жаловаться на ситуацию, либо в сцене могут быть нищие, просящие помощи у горожан.|
 
 
-## 2. Tavern Scene
+## 2. Сцена таверны
 
-|Player Spawn Point|
+|Точка появления игрока|
 |-----|
-|Spawnpoint for player, "sp_player",  must be placed nearby to the town center passage. Scene must include at least one "sp_player_conversation" prefab or more. {{% notice warning %}} The scale of the conversation prefab must not change.
+|Точка появления игрока «sp_player» должна быть размещена рядом с проходом в центр города. Сцена должна включать как минимум один префаб «sp_player_conversation» или более. {{% notice warning %}} Масштаб префаба разговора не должен изменяться.
 {{% /notice %}}|
 
-|Game Hosts (Gambler NPCs)|
+|Ведущие игр (NPC-игроки в азартные игры)|
 |-----|
-|Each tavern scene must have gambler (game host) NPC. The chair underneath NPC must have "gambler_npc" and "npc_wait" tags both. The chair which player will use to join game must have "gambler_player" and "reserved" tags both.|
+|Каждая сцена таверны должна иметь NPC-игрока в азартные игры (ведущего игры). Стул под NPC должен иметь оба тега: «gambler_npc» и «npc_wait». Стул, который игрок будет использовать для присоединения к игре, должен иметь оба тега: «gambler_player» и «reserved».|
 
-## 3. Lords Hall Scene
+## 3. Сцена зала лордов
 
-|Player Spawn Point|
+|Точка появления игрока|
 |-----|
-|Player spawn points for Lords Hall scene is as same as Tavern scene. Spawn point for player must be placed nearby to the town center passage.|
+|Точки появления игрока для сцены зала лордов такие же, как и для сцены таверны. Точка появления игрока должна быть размещена рядом с проходом в центр города.|
 
-## 4. Village Scene
+## 4. Сцена деревни
 
-|Player Spawn Point|
+|Точка появления игрока|
 |-----|
-|Village scene don't have "sp_player_outside" prefab. "sp_player" prefab must not be placed far from village center nor very near. When spawned, player must see the walking villagers from afar. When player enters the village from top right panel in the map scene, player and the conversation NPC will be spawned on "sp_player_conversation" prefab. Scene must have these prefabs more than one in order to increase variation. {{% notice warning %}} The scale of the conversation prefab must not change.
+|В сцене деревни нет префаба «sp_player_outside». Префаб «sp_player» не должен быть размещён ни далеко, ни слишком близко от центра деревни. При появлении игрок должен видеть гуляющих жителей деревни издалека. Когда игрок входит в деревню через верхнюю правую панель на сцене карты, игрок и NPC для разговора будут созданы в префабе «sp_player_conversation». В сцене должно быть больше одного такого префаба для увеличения вариативности. {{% notice warning %}} Масштаб префаба разговора не должен изменяться.
 {{% /notice %}}|
 
-|Notables|
+|Знатные персонажи|
 |-----|
-|Scene must have some notables. In order to find them easy, notable spawn points must be placed near center area of the city.|
+|Сцена должна иметь несколько знатных персонажей. Чтобы было легко их найти, точки появления знатных персонажей должны размещаться рядом с центральной областью города.|
 
-|Villagers|
+|Жители деревни|
 |-----|
-|Villagers have lots of extra activities in village center such as collecting grapes, repairing something or grooming horse. The activities must be balanced between physical and social activities. Villager NPC may go and clean walls then sit and chat with others.|
+|У жителей деревни есть множество дополнительных занятий в центре деревни, таких как сбор винограда, починка чего-либо или уход за лошадью. Деятельность должна быть сбалансирована между физической и социальной активностью. NPC-житель деревни может пойти и почистить стены, а затем сесть и поболтать с другими.|
 
-|Common areas|
+|Общие зоны|
 |-----|
-|Each village has 3 common areas which are not in the village center. Any type of spawn points can be used inside of the common area. "common_area_NUMBER" prefabs should be placed to specify the area. This prefabs has a script attached named "CommonAreaScript". The script has some parameters as follows:|
-|AreaRadius : Artist can change this parameter script to extend or reduce the area. |
-|AreaIndex : Already set in prefabs for three common areas|
-|Type : Type of the area should be set from the list below|
+|У каждой деревни есть 3 общие зоны, которые не находятся в центре деревни. Внутри общей зоны можно использовать любой тип точек появления. Префабы «common_area_NUMBER» должны быть размещены, чтобы обозначить зону. К этому префабу прикреплён скрипт с именем «CommonAreaScript». Скрипт имеет следующие параметры:|
+|AreaRadius: Художник может изменить этот параметр скрипта, чтобы расширить или уменьшить зону. |
+|AreaIndex: Уже установлен в префабах для трёх общих зон|
+|Type: Тип зоны следует задать из списка ниже|
 
-|Area Types|Scene|Explanation|
+|Типы зон|Сцена|Пояснение|
 |-----|-----|-----|
-Backstreet|Town Center|Back alley where thugs are spawned
-Clearing|Town Center|Open area
-Waterfront|Town Center|Near coast or port
-Pasture|Village|Pasture, forage (usually a heath or moor)
-Thicket|Village|Shrubbery
-Bog|Village|Swampy area
-Forest|Village|Lots of trees
-Ravine|Village|Valley or canyon
-Spring|Village|Puddle in desert
-Cove|Village|Bay
-Marsh|Village|Swampy area near river
-Wadi|Village|Valley, does not have rocks on both sides
+Backstreet|Центр города|Переулок, где появляются бандиты
+Clearing|Центр города|Открытая зона
+Waterfront|Центр города|Рядом с побережьем или портом
+Pasture|Деревня|Пастбище, выгон (обычно пустошь или болотистая местность)
+Thicket|Деревня|Заросли кустарника
+Bog|Деревня|Болотистая местность
+Forest|Деревня|Много деревьев
+Ravine|Деревня|Долина или каньон
+Spring|Деревня|Лужа в пустыне
+Cove|Деревня|Бухта
+Marsh|Деревня|Болотистая местность у реки
+Wadi|Деревня|Долина, не имеющая скал с обеих сторон
 
-|Battle Spawnpoints|
+|Точки появления для сражения|
 |-----|
-|If game is opening the scene with battle mode. Battle sets will be initiated and battle troops will be spawned on each. Battle sets must be placed far from each other, and with defender and attacker sides in mind.|
-
-
-
-
+|Если игра открывает сцену в боевом режиме, будут инициализированы боевые наборы, и боевые отряды будут появляться в каждом из них. Боевые наборы должны быть размещены далеко друг от друга, с учётом сторон атакующих и защищающихся.|

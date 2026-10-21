@@ -1,132 +1,133 @@
 +++
-title = "Implementing Flora"
+title = "植被实现"
 weight = 15
+ai_translated = true
 +++
 
-Flora is one of the most important rendering aspects in game engines. It takes up a large portion of the overall rendering task when it comes to performance. While creating a new flora mesh one should make sure that the mesh has a low amount of polygon overdraw.
+植被是游戏引擎中最重要的渲染方面之一。在性能方面,它占据了整体渲染任务的很大一部分。在创建新的植被网格时,应确保该网格具有较低的多边形过度绘制(overdraw)量。
 
-There is also a tradeoff between empty pixels in texture (which increases overdraw) and the triangle count of the mesh (which increases the polygon count cost). The optimum triangle count and the UV layout may change depending on the specific case.
+在纹理中的空白像素(会增加过度绘制)和网格的三角形数量(会增加多边形数量成本)之间也存在权衡。最佳三角形数量和 UV 布局可能因具体情况而异。
 
-Flora meshes are optimized render objects designed to be drawn in large scale view distances with large amounts of instances.
+植被网格是经过优化的渲染对象,设计用于在大范围的可视距离内以大量实例进行绘制。
 
-To be able to add, remove or fix flora assets, first you need to open the “Resource Browser”.
+要能够添加、移除或修复植被资源,首先需要打开"资源浏览器(Resource Browser)"。
 
 <img src="/img/implementing_flora/implementing_flora_1.jpg" width="900px"/>
 
-In the Assets folder, right-click on an empty space and create a new folder within the resource browser.
+在 Assets 文件夹中,在资源浏览器内的空白处右键单击并创建一个新文件夹。
 
 <img src="/img/implementing_flora/implementing_flora_2.jpg" width="900px"/>
 
-Open your newly created folder and Import all of your meshes and textures one at a time.
+打开你新创建的文件夹,逐个导入你的所有网格和纹理。
 
 <img src="/img/implementing_flora/implementing_flora_3.jpg" width="900px"/>
 
-Once imported, to be able to create SDF Alpha from the diffuse texture, you will need to check "Generate SDF Alpha" on the “Texture inspector” panel that opens up on the right side of the screen when a texture file is selected, and click save on the same panel.
+导入后,为了能够从漫反射纹理(diffuse texture)创建 SDF Alpha,你需要在选中纹理文件时屏幕右侧打开的"纹理检查器(Texture inspector)"面板中勾选"Generate SDF Alpha"(生成 SDF Alpha),然后在同一面板上点击保存。
 
 {{% notice tip %}}
-SDF Alpha is a technique that we use to improve vegetation alpha performance in our engine. If not applied, the embedded alpha channel of the texture will not be processed.
+SDF Alpha 是我们引擎中用于改善植被 Alpha 性能的一种技术。如果不应用此技术,纹理中嵌入的 Alpha 通道将不会被处理。
 {{% /notice %}}
 
 <img src="/img/implementing_flora/implementing_flora_4.jpg" width="900px"/>
 
-To create a Flora Material, right click on an empty area in the Resource Browser, then click  Create>Material and after that you can give a name to your material.
+要创建植被材质(Flora Material),在资源浏览器的空白区域右键单击,然后点击 Create > Material(创建 > 材质),之后你可以为你的材质命名。
 
 {{% notice tip %}}
-If you want to use materials that already exist or were created by you in the editor for your newly imported meshes, you can rename the materials of your meshes in the 3d modelling program after the existing materials that you want to use in the editor. After the import, the editor assigns those materials to your meshes automatically.
+如果你想为新导入的网格使用编辑器中已有的或你自己创建的材质,可以在 3D 建模软件中,将你网格的材质重命名为你想在编辑器中使用的现有材质的名称。导入后,编辑器会自动将这些材质分配给你的网格。
 {{% /notice %}}
 
 <img src="/img/implementing_flora/implementing_flora_5.jpg" width="900px"/>
 
 {{% notice tip %}}
-Before diving into “material settings”, please check [Material Editor]({{< ref "material_editor" >}}) for more information.
+在深入了解"材质设置(material settings)"之前,请查看[材质编辑器(Material Editor)]({{< ref "material_editor" >}})以获取更多信息。
 {{% /notice %}}
 
-Click on the newly created material and select the shader that you want to use on the shader panel on the right. It is important to discern the type of shader you want to use, e.g. if our flora is grass, we need to select the grass shader, for trees and shrubs we select the flora_leaf shader. For the purpose of this documentation we have created grass as a flora and selected the grass_shader.
+点击新创建的材质,并在右侧的着色器面板中选择你想使用的着色器。辨别你想使用的着色器类型很重要,例如,如果我们的植被是草,我们需要选择 grass 着色器;对于树木和灌木,我们选择 flora_leaf 着色器。在本文档中,我们创建的是草类植被,并选择了 grass_shader。
 
 <img src="/img/implementing_flora/implementing_flora_6.jpg" width="900px"/>
 
-After selecting the shader for flora we need to connect (define) our textures to the flora materials. To achieve this, you can search for the texture in the Textures Panel or just drag and drop it to the texture slots from the Resource Browser. The same procedure should be followed  for SDF Alphas.
+为植被选择好着色器后,我们需要将纹理连接(定义)到植被材质上。要实现这一点,你可以在纹理面板(Textures Panel)中搜索纹理,或者直接从资源浏览器将其拖放到纹理槽中。SDF Alpha 也应遵循相同的流程。
 
 {{% notice warning %}}
-Make sure to save your changes by pressing “save” at the bottom of the Material Inspector, otherwise materials return to their default settings.
+请确保通过点击材质检查器(Material Inspector)底部的"save"(保存)按钮来保存你的更改,否则材质将恢复为默认设置。
 {{% /notice %}}
 
 <img src="/img/implementing_flora/implementing_flora_7.jpg"/>
 
-Next we are going to check alpha_test and use_albedo_alpha flags. Do NOT check the use_specular flag for Grass shader in order not to adversely affect performance.
+接下来我们要检查 alpha_test 和 use_albedo_alpha 标志。为了不对性能造成不利影响,请勿为 Grass 着色器勾选 use_specular 标志。
 
 <img src="/img/implementing_flora/implementing_flora_8.jpg"/>
 
-Then we move on to the “Transparency” tab and choose “Factor” from the Alpha Blend Mode drop down list and give a value to be used as a cutoff value for the “Alpha Test”. For most cases, a value of 45 would be suitable. 
+然后我们转到"Transparency"(透明度)选项卡,从 Alpha Blend Mode(Alpha 混合模式)下拉列表中选择"Factor"(系数),并为"Alpha Test"(Alpha 测试)提供一个用作截止值的数值。在大多数情况下,45 的数值是合适的。
 
 <img src="/img/implementing_flora/implementing_flora_9.jpg"/>
 
-For the last step of our material settings we check the “Two Sided” box under the “Others” segment and then save.
+在材质设置的最后一步,我们勾选"Others"(其他)部分下的"Two Sided"(双面)框,然后保存。
 
 <img src="/img/implementing_flora/implementing_flora_10.jpg"/>,
 
-Now that the material settings are done, after selecting the related mesh, we can search for the name of the material on the right side of the screen and apply it to the selected mesh and save. Or we can also select/drag/drop. We can then doubleclick on the mesh in the mesh editor and see if the material has been applied or not.
+现在材质设置已经完成,选中相关网格后,我们可以在屏幕右侧搜索材质名称,并将其应用到选中的网格上然后保存。或者我们也可以选择/拖放来应用。然后我们可以在网格编辑器中双击该网格,查看材质是否已被应用。
 
 <img src="/img/implementing_flora/implementing_flora_11.jpg" width="900px"/>
 <img src="/img/implementing_flora/implementing_flora_12.jpg" width="900px"/>
 
-## Flora Kind Editor
+## 植被种类编辑器(Flora Kind Editor)
 
-The Flora Kind Editor is where we define and manage imported floras.
+植被种类编辑器(Flora Kind Editor)是我们定义和管理已导入植被的地方。
 
-### Adding Resources to the Flora Kind Editor
+### 向植被种类编辑器添加资源
 
-To be able to add the flora we created into scenes, we need to define it within the Flora Kind Editor. We can access it from Window>Module Data>Flora Editor.
+为了能够将我们创建的植被添加到场景中,我们需要在植被种类编辑器中定义它。我们可以从 Window > Module Data > Flora Editor 访问它。
 
 <img src="/img/implementing_flora/implementing_flora_13.jpg" width="900px"/>
 
-Through the Flora Kind Editor we can:
+通过植被种类编辑器,我们可以:
 
-1. Access a list of flora that exist/about to be added into the editor.
-2. Name/Rename flora items.
-3. Define parameters of flora.
-4. View Flora variations according to seasons.
-5. Add flora and variations.
-6. View mesh information along with viewing or changing body objects and materials.
+1. 访问已存在/即将添加到编辑器中的植被列表。
+2. 命名/重命名植被项目。
+3. 定义植被的参数。
+4. 查看按季节划分的植被变体。
+5. 添加植被及其变体。
+6. 查看网格信息,以及查看或更改物理体对象(body objects)和材质。
 
 <img src="/img/implementing_flora/implementing_flora_14.jpg" width="900px"/>
 
-To add new flora we can click “Add New Flora” on the top left side and then change its name in the Flora Kind Name text field on the right side of the screen.
+要添加新植被,我们可以点击左上方的"Add New Flora"(添加新植被),然后在屏幕右侧的 Flora Kind Name(植被种类名称)文本字段中更改其名称。
 
 <img src="/img/implementing_flora/implementing_flora_15.jpg" width="900px"/>
 
-We define properties of our flora in the properties section. We check the “grass” box if our flora acts as grass. For the flora to snap to flatland or slopes we check the “align with ground” and “align with slope” respectively. If we want our flora to disappear at a certain distance, we check the “fading out” box and fill the “view distance” field right above with the correct amount. In case of using grass, we check the “no shadow” box to maximise the performance. Otherwise we leave that box **unchecked** for evidently larger and more scarcely placed flora objects like trees and shrubbery. 
+我们在属性(properties)部分定义植被的属性。如果我们的植被是以草的形式存在,我们勾选"grass"(草)框。为了让植被贴合平地或斜坡,我们分别勾选"align with ground"(贴合地面)和"align with slope"(贴合斜坡)。如果我们希望植被在一定距离外消失,我们勾选"fading out"(淡出)框,并在其正上方的"view distance"(视距)字段中填入正确的数值。在使用草的情况下,我们勾选"no shadow"(无阴影)框以最大化性能。而对于明显更大且分布更稀疏的植被对象,如树木和灌木丛,则**不勾选**该框。
 
 <img src="/img/implementing_flora/implementing_flora_16.jpg" width="900px"/>
 
-Click on “Add Variation” that is placed under the Seasons thumbnails in order to add the flora mesh you prepared. Here you can add different flora versions for different seasons so that season-specific flora will be displayed automatically. You can also add multiple flora meshes and create more variety.
+点击位于 Seasons(季节)缩略图下方的"Add Variation"(添加变体),以添加你准备好的植被网格。在这里,你可以为不同季节添加不同的植被版本,以便特定季节的植被会自动显示。你还可以添加多个植被网格以创造更多样性。
 
 <img src="/img/implementing_flora/implementing_flora_17.jpg" width="900px"/>
 
-Now that we are done adding our flora to the “Flora Kind Editor” with the desired parameters, the creation can be saved by clicking “Save Flora” or, in case of addition of multiple flora kinds, “Save All”.
+现在我们已经完成了将植被及其所需参数添加到"植被种类编辑器"中的工作,可以通过点击"Save Flora"(保存植被)来保存该创建;如果添加了多个植被种类,则点击"Save All"(全部保存)。
 
-### Adding Flora to Scenes
+### 将植被添加到场景中
 
-After importing your mesh into the game and entering it into the Flora Kind Editor, we can use the “Flora Paint” to paint our flora into a scene. First we can generate a terrain in our scene. To do so, we can pick the “Select Terrain” tool from the top menu bar and then click “Generate Terrain” on the window that pops up on the right hand side and click ok on the next window to finally generate a terrain. We take these steps solely to create a terrain so that we can then use the Flora Paint tool.
+将你的网格导入游戏并输入到植被种类编辑器后,我们可以使用"Flora Paint"(植被绘制)工具将我们的植被绘制到场景中。首先我们可以在场景中生成地形。为此,我们可以从顶部菜单栏选择"Select Terrain"(选择地形)工具,然后在弹出的右侧窗口中点击"Generate Terrain"(生成地形),并在接下来的窗口中点击 ok,以最终生成地形。我们执行这些步骤仅仅是为了创建地形,以便我们随后可以使用植被绘制工具。
 
 <img src="/img/implementing_flora/implementing_flora_18.jpg" width="900px"/>
 
-After a terrain is created, we pick the “Flora Paint” tool from the top bar. We then type in the name of the flora that we previously defined within the Flora Kind Editor and apply it on the scene.
+地形创建完成后,我们从顶部栏选择"Flora Paint"(植被绘制)工具。然后我们输入之前在植被种类编辑器中定义的植被名称,并将其应用到场景中。
 
 <img src="/img/implementing_flora/implementing_flora_19.jpg" width="900px"/>
 <img src="/img/implementing_flora/implementing_flora_20.jpg" width="900px"/>
 
-Another way of adding our flora onto the scene is by putting it into one of the layers we created for terrain painting. To do this we can pick the “Paint Terrain Layer” tool from the top menu bar. Then we add a new layer from the new window that opens up on the right hand side.
+另一种向场景添加植被的方法是,将其放入我们为地形绘制创建的某个图层中。为此,我们可以从顶部菜单栏选择"Paint Terrain Layer"(绘制地形图层)工具。然后我们从右侧打开的新窗口中添加一个新图层。
 
 <img src="/img/implementing_flora/implementing_flora_21.jpg" width="900px"/>
 
-We double click on the new layer and open its properties menu. We then check the “Flora Layer” box and expand the “Flora Meshes” tab.
+我们双击新图层并打开其属性菜单。然后我们勾选"Flora Layer"(植被图层)框并展开"Flora Meshes"(植被网格)选项卡。
 
-Checking the Flora Layer box will deactivate the textures that are used to paint the terrain, however, the flora that we added will still be visible. If we want to view both flora and the textures that we added to the layers at the same time, this box should be left unchecked.
+勾选 Flora Layer(植被图层)框将停用用于绘制地形的纹理,但是我们添加的植被仍然可见。如果我们想同时查看植被和我们添加到图层中的纹理,则应保持该框不勾选。
 
 <img src="/img/implementing_flora/implementing_flora_22.jpg"/>
 
-Under the “Flora Meshes” section, click on the dropdown menu next to “Flora” and select the Flora you have prepared, then paint an area of your terrain.
+在"Flora Meshes"(植被网格)部分下,点击"Flora"(植被)旁边的下拉菜单,选择你准备好的植被,然后绘制你地形的某个区域。
 
 <img src="/img/implementing_flora/implementing_flora_23.jpg"/>
 <img src="/img/implementing_flora/implementing_flora_24.jpg" width="900px"/>

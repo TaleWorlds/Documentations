@@ -1,0 +1,5 @@
+{{ if .Params.ai_translated }}
+<div class="ai-translation-note" style="margin:2em 0 1em;padding:.75em 1em;border-left:4px solid #f0ad4e;background:#fcf8e3;font-size:.9em">
+	{{ if eq .Lang "ru" }}Эта страница переведена с помощью ИИ и может содержать неточности. Оригинал на английском языке является основным источником.{{ else if eq .Lang "zh_cn" }}本页面由 AI 翻译，可能存在不准确之处。请以英文原版为准。{{ else }}This page was translated with AI and may contain inaccuracies.{{ end }}
+</div>
+{{ end }}

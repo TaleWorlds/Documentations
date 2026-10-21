@@ -1,684 +1,685 @@
 +++
-title = "Ship Creation"
+title = "船只创建"
 description = ""
 weight = 1
+ai_translated = true
 +++
 
-## **1. Introduction**
+## **1. 简介**
 
-### **1.1. Purpose of the Documentation**
+### **1.1. 文档目的**
 
-This documentation is a comprehensive, end-to-end guide for creating and integrating custom ships into the game. It is written for mod authors who want to add fully functional ships to Bannerlord's naval system. You do not need to be a programmer to follow this guide, but you should be comfortable working inside the Bannerlord editor and understand the basic concepts of entities, prefabs, and scripts.  
+本文档是一份全面、端到端的指南,用于在游戏中创建并集成自定义船只。它是为想要向 Bannerlord 的海战系统添加完全可用船只的模组作者而编写的。你不需要是程序员也能跟随本指南,但你应当熟悉在 Bannerlord 编辑器中进行操作,并理解实体(entity)、预制体(prefab)和脚本的基本概念。
 
-The goal is to walk you through the entire technical pipeline — from setting up the initial Nested Prefab hierarchy all the way to final in-game implementation. By following the workflows outlined here, you will produce a ship that is fully compatible with the game's physics, AI navigation, boarding, crew interaction, and upgrade systems.
+本指南的目标是带你走完整个技术流程——从建立最初的嵌套预制体(Nested Prefab)层级结构,一直到最终的游戏内实现。按照这里概述的工作流程操作后,你将制作出一艘与游戏的物理系统、AI 导航、登船、船员交互和升级系统完全兼容的船只。
 
-### **1.2. Overview of the Ship Creation Pipeline**
+### **1.2. 船只创建流程概览**
 
-The ship creation process follows a structured, layered workflow. Each layer depends on the one before it, so it is important not to skip steps. The pipeline begins with establishing the correct Nested Prefab hierarchy — this is the backbone that every other system relies on.  
+船只创建过程遵循一个结构化、分层的工作流程。每一层都依赖于前一层,因此不要跳过步骤非常重要。整个流程从建立正确的嵌套预制体层级结构开始——这是其他所有系统所依赖的骨架。
 
-The workflow is divided into three main stages:
+工作流程分为三个主要阶段:
 
-> * **Core Setup (Essential):** Establishing the root entity, importing hull meshes, and configuring physics volumes (collision and buoyancy) to ensure the ship exists and floats correctly in the physics engine. Nothing else will work until this stage is complete.  
-> * **Gameplay Integration (Upgrades):** Implementing navigation systems (rudders, sails, oars), boarding mechanics, ballistas, and interaction points required for player control and combat. These components define how players and AI interact with the ship.  
-> * **Detailing & Polish (Cosmetic):** Finalizing the ship with visual upgrades, particle effects, water interactions, and decorative elements to enhance the atmosphere. These components are purely visual — removing them will not break the ship's functionality.
+> * **核心设置(必需):** 建立根实体、导入船体网格,并配置物理体积(碰撞体和浮力体),以确保船只能够存在并在物理引擎中正确漂浮。在完成此阶段之前,其他任何内容都无法正常工作。
+> * **玩法集成(升级):** 实现导航系统(舵、帆、桨)、登船机制、弩炮以及玩家控制和战斗所需的交互点。这些组件定义了玩家和 AI 与船只的交互方式。
+> * **细节与润色(装饰性):** 通过视觉升级、粒子效果、水面交互和装饰元素来完善船只,以增强氛围感。这些组件纯属视觉效果——移除它们不会破坏船只的功能。
 
-## **2. Ship Hierarchy & Component Breakdown**
+## **2. 船只层级结构与组件分解**
 
-In this section, ship components are categorized into three main groups: Essential (Critical for gameplay), Upgrades (Gameplay features), and Cosmetics (Visual details).  
+在本节中,船只组件被分为三个主要组:必需组件(对玩法至关重要)、升级组件(玩法功能)和装饰组件(视觉细节)。
 
-When building your ship, the full entity hierarchy should follow this general structure:
+在构建船只时,完整的实体层级结构应遵循以下通用结构:
 
-\[ShipName\]\_ship\_nested (Root Entity)  
-├── mesh\_holder  
-├── floater\_volume\_holder  
-├── control\_point\_holder  
-├── climbers\_holder  
-├── attachment\_machine\_holder  
-├── barrier\_holder  
-├── spawn\_point\_holder  
-├── rudders\_holder  
-├── hull\_group  
-├── shields\_group  
-├── oars\_holder  
-├── sail\_holder  
-├── ship\_ballista\_holder  
-├── wetness\_decals  
-├── ship\_water\_effects (visual only)  
-├── ship\_burning\_system  
-└── \[other cosmetic holders\]
+\[ShipName\]\_ship\_nested (根实体)
+├── mesh\_holder
+├── floater\_volume\_holder
+├── control\_point\_holder
+├── climbers\_holder
+├── attachment\_machine\_holder
+├── barrier\_holder
+├── spawn\_point\_holder
+├── rudders\_holder
+├── hull\_group
+├── shields\_group
+├── oars\_holder
+├── sail\_holder
+├── ship\_ballista\_holder
+├── wetness\_decals
+├── ship\_water\_effects (仅视觉)
+├── ship\_burning\_system
+└── \[其他装饰性容器\]
 
-Each of these children is described in detail in the sections below. Keep this hierarchy in mind as you work — placing a component under the wrong parent is one of the most common sources of errors.
+下面各节将详细描述每个子项。在工作过程中请牢记这个层级结构——将组件放在错误的父节点下是最常见的错误来源之一。
 
-### **2.1. Essential Components (Critical)**
+### **2.1. 必需组件(关键)**
 
-The objects in this group represent the **bare minimum** configuration required for the ship to exist in the game world, for physics to function correctly, and for basic operations to be performed. If any of these components are missing or misconfigured, the ship will either not load, not float, or behave incorrectly in-game.
+该组中的对象代表了船只存在于游戏世界、物理功能正常运行以及执行基本操作所需的**最低限度**配置。如果缺少或错误配置了其中任何一个组件,船只要么无法加载,要么无法漂浮,要么在游戏中行为异常。
 
-#### **2.1.1. Root Entity Setup (dromon\_ship\_nested)**
+#### **2.1.1. 根实体设置(dromon\_ship\_nested)**
 
-This entity is the parent container for the entire ship prefab. Every other component in this guide is placed as a child or descendant of this entity. Throughout this documentation, we will use the "Dromon" ship as the reference example.
+此实体是整个船只预制体的父容器。本指南中的所有其他组件都作为此实体的子项或后代放置。在本文档中,我们将使用"Dromon"船作为参考示例。
 
-> * **Naming Convention:** We recommend using the format \[ShipName\]\_ship\_nested (e.g., dromon\_ship\_nested). While not strictly enforced by the engine, following this convention ensures your ship is easy to identify and consistent with the existing ship assets in the game.
+> * **命名约定:** 我们建议使用 \[ShipName\]\_ship\_nested 格式(例如 dromon\_ship\_nested)。虽然引擎并未严格强制执行此约定,但遵循它可以确保你的船只易于识别,并与游戏中现有的船只资产保持一致。
 
-**Required Setup & Attributes:**  
+**所需设置与属性:**
 
-**Prefab Settings:**
+**预制体设置:**
 
-> * **Enable Nested Prefab:** \[Checked\]  
-  * *Reason:* This is critical for pipeline management. Enabling Nested Prefab allows the child prefabs within the hierarchy (sails, boarding machines, oars, etc.) to be opened and edited independently without having to open the entire ship. Without this, editing any sub-component will modify the whole ship file, making iterative work slow and error-prone.  
-> * **Enable Write Children to Separate XMLs:** \[Checked\]  
-  * *Reason:* This ensures each child prefab saves its data into its own XML file rather than embedding everything into a single large file. This is important for version control and for keeping the ship modular — changes to one component do not risk corrupting the rest of the ship's data.
+> * **启用嵌套预制体(Enable Nested Prefab):** \[已勾选\]
+  * *原因:* 这对于流程管理至关重要。启用嵌套预制体允许层级结构中的子预制体(帆、登船机、桨等)独立打开和编辑,而无需打开整艘船。如果不这样做,编辑任何子组件都会修改整个船只文件,使迭代工作变得缓慢且容易出错。
+> * **启用将子项写入单独的 XML(Enable Write Children to Separate XMLs):** \[已勾选\]
+  * *原因:* 这确保每个子预制体将其数据保存到自己的 XML 文件中,而不是将所有内容嵌入到一个大文件中。这对于版本控制以及保持船只模块化非常重要——对一个组件的更改不会有损坏船只其余数据的风险。
 
-**Transform & Workspace:**
+**变换(Transform)与工作空间:**
 
-> * **Identity Transform:** Ensure the root entity is created at the generic identity coordinates (**Pos:** 0,0,0 | **Rot:** 0,0,0 | **Scale:** 1,1,1).  
-  * *Reason:* The entire ship is positioned and rotated at runtime by the game's naval physics system. If the root entity has any offset or rotation baked into it, the ship will appear misaligned in-game and all child components will be offset as well.  
-> * **Local Space:** For all subsequent child components, perform all positioning and rotation operations using **Local Transform**.  
-  * *Reason:* Child entities inherit the world transform of their parent. Working in local space ensures that when the root entity moves (as it will constantly during gameplay), all children move with it correctly. Working in world space will cause children to appear in the correct editor position but drift to incorrect positions in-game.
+> * **恒等变换(Identity Transform):** 确保根实体是在通用的恒等坐标下创建的(**位置(Pos):** 0,0,0 | **旋转(Rot):** 0,0,0 | **缩放(Scale):** 1,1,1)。
+  * *原因:* 整艘船在运行时由游戏的海战物理系统进行定位和旋转。如果根实体内置了任何偏移或旋转,船只在游戏中将显得错位,所有子组件也会随之偏移。
+> * **局部空间(Local Space):** 对于所有后续的子组件,使用**局部变换(Local Transform)**执行所有定位和旋转操作。
+  * *原因:* 子实体继承其父级的世界变换。使用局部空间可以确保当根实体移动时(在游戏过程中会持续移动),所有子项都能随之正确移动。使用世界空间会导致子项在编辑器中的位置正确,但在游戏中漂移到不正确的位置。
 
-**Physics Configuration:**
+**物理配置:**
 
-> * **Physics Shape:** Assign a **Convex** physics shape that roughly encompasses the entire hull.  
-  * *Reason:* This convex shape serves two critical purposes. First, it is the primary collision body of the ship — it determines what the ship physically bumps into in the world. Second, and more importantly for ships, it is the primary driver for the buoyancy system. The game engine calculates how much of this convex volume is submerged to determine the upward buoyancy force. If this shape is too large, the ship will float too high. If it is too small, the ship will sit too low or sink. Always use a mesh that closely follows the outer hull below the waterline.  
-  * *Note:* If the provided mesh is not convex, the engine will attempt to approximate a convex hull automatically, but this approximation may not match the hull well. Providing a proper convex mesh is strongly recommended.  
-> * **Material:** Assign the wood\_ship physics material.  
-  * *Reason:* The wood\_ship material defines how the ship's physics body responds to collisions — its friction, restitution (bounciness), and damage thresholds. Using the wrong material (or none at all) will cause the ship to behave incorrectly when colliding with terrain, other ships, or projectiles.  
-> * **Mass:** Input the correct physical weight of the ship.  
-  * *Warning:* This value directly affects how the ship floats and reacts to water physics. A ship that is too light will bounce erratically on waves. A ship that is too heavy will sit too low in the water or sink entirely. Use the existing ships as reference points for appropriate mass values relative to their size.  
-> * **Body Flags:** Ensure the following flags are CHECKED:  
-  * ✅ **Dynamic** — Allows the physics engine to move this body in response to forces.  
-  * ✅ **Movable** — Required for the kinematic system that synchronizes ship movement with passengers and mounted objects.  
-  * ✅ **Use Convex Hull** — Tells the physics engine to use the convex shape for collision.  
-  * ✅ **Do Not Collide with Camera** — Prevents the camera from being blocked by the ship's physics body.  
-  * ✅ **Do Not Collide with Ray Cast** — Prevents gameplay raycasts (such as targeting) from being blocked by the hull physics body.
+> * **物理形状(Physics Shape):** 分配一个大致包裹整个船体的**凸形(Convex)**物理形状。
+  * *原因:* 这个凸形有两个关键作用。首先,它是船只的主要碰撞体——决定了船只在世界中物理上会碰到什么。其次,对船只来说更重要的是,它是浮力系统的主要驱动因素。游戏引擎会计算这个凸形体积有多少部分被淹没,以此确定向上的浮力。如果这个形状太大,船只会漂浮得过高。如果太小,船只会坐得过低或下沉。请始终使用紧贴水线以下船体外部的网格。
+  * *注意:* 如果提供的网格不是凸形,引擎会尝试自动近似计算一个凸包,但这种近似可能与船体不太匹配。强烈建议提供一个合适的凸形网格。
+> * **材质(Material):** 分配 wood\_ship 物理材质。
+  * *原因:* wood\_ship 材质定义了船只物理体对碰撞的响应方式——其摩擦力、恢复系数(弹性)和伤害阈值。使用错误的材质(或不使用任何材质)会导致船只在与地形、其他船只或抛射物碰撞时行为异常。
+> * **质量(Mass):** 输入船只正确的物理重量。
+  * *警告:* 此值直接影响船只的漂浮方式以及对水体物理的反应。过轻的船只会在波浪上不规则地弹跳。过重的船只会在水中坐得过低或完全下沉。请使用现有船只作为参考,根据其尺寸确定合适的质量值。
+> * **刚体标志(Body Flags):** 确保以下标志已被**勾选**:
+  * ✅ **动态(Dynamic)** —— 允许物理引擎根据受力移动此刚体。
+  * ✅ **可移动(Movable)** —— 运动学系统所需,用于同步船只运动与乘客及搭载物体。
+  * ✅ **使用凸包(Use Convex Hull)** —— 告知物理引擎使用凸形形状进行碰撞。
+  * ✅ **不与摄像机碰撞(Do Not Collide with Camera)** —— 防止摄像机被船只的物理体阻挡。
+  * ✅ **不与射线检测碰撞(Do Not Collide with Ray Cast)** —— 防止游戏玩法射线检测(例如瞄准)被船体物理体阻挡。
 
-<img src="/img/ship_creation/root_entity_physics_flags.png" style="max-width: 800px;"/> 
-  
-**Important:** Any physics body added to child entities of this root must also be marked as **Movable** in its flags. This is required because the root uses a kinematic physics system — child physics bodies that are not marked Movable will not move with the ship and will detach into incorrect world positions.
+<img src="/img/ship_creation/root_entity_physics_flags.png" style="max-width: 800px;"/>
 
-#### **2.1.2. Scripts**
+**重要:** 添加到此根实体的子实体上的任何物理体也必须在其标志中标记为**可移动(Movable)**。这是必需的,因为根实体使用的是运动学物理系统——未标记为可移动的子物理体不会随船只移动,而会脱离到错误的世界位置。
 
-The following scripts must be added directly to the root entity. The order in which you add them does not matter, but all of them must be present for the ship to function correctly.
+#### **2.1.2. 脚本**
 
-> * **MissionShip:** The core script that registers this entity as a ship within the game's mission system. Without this script, the game will not recognize the entity as a ship and none of the naval gameplay systems will activate.  
-  * **Important:** You must assign the NavMesh name to the NavMeshPrefabName field. The NavMesh is a separate asset that defines where AI agents can walk on your ship's deck. NavMesh baking is covered in detail in the attachment\_machine\_holder section (2.1.7).  
-> * **Volume\_generator:** Handles the generation of floating volume objects that the buoyancy system uses to keep the ship upright and stable on the water surface.  
-  * *Best Practice:* Perform this step after adding the hull mesh in mesh\_holder, since the generator needs the mesh to estimate correct volume placement.  
-  * Enable **Mock Generation** to preview where floaters will be placed before committing.  
-  * *Goal:* Keep the number of floatable objects to a minimum by adjusting **Current Volume Count** or **Floater Volume Width**. More volumes give more stable floating but cost more performance.  
-  * Ensure generated volumes match the ship's hull shape as closely as possible.  
-  * Click **Generate Volumes** to create the volume children under floater\_volume\_holder.  
-> * **ShipFloatsamManager:** Handles the spawning and behavior of debris and flotsam when the ship is destroyed. Ensures that broken planks, barrels, and other objects appear on the water surface after the ship sinks.  
-> * **ShipClothFixer:** Manages the cloth simulation systems on the ship (primarily sails and banners). Without this script, cloth objects on the ship may behave erratically or not simulate at all when the ship moves.  
-> * **ShipColorAssigner:** Controls faction-based color tinting across the ship.  
-  * Factor Color: Applied to Upgrade Pieces such as seats and oars, tinting them to match the owning faction's colors.  
-  * Ram Debris Color: Applied to collision damage decals that appear when the ship rams another vessel.  
-> * **EditorShipPhysics:** A utility script used only inside the editor. It lets you simulate and preview the ship's floating physics without having to launch the game, saving significant iteration time.  
-> * **NavalPhysics:** Handles the core swimming and buoyancy logic at runtime. This script works in conjunction with the floater volumes to keep the ship correctly oriented and moving on the water surface.  
-> * **EditorShipUpgradeViewer:** An editor utility that lets you preview how different upgrade pieces (sails, shields, figureheads, etc.) will appear on the ship without launching the game.  
-> * **ShipAttachmentMachineConnectionLogic:** Handles the connection logic between ships during boarding. It manages the state of boarding bridges — detecting when two ships are close enough, triggering the bridge deployment animation, and linking the two ships' NavMeshes.
+以下脚本必须直接添加到根实体上。添加它们的顺序无关紧要,但所有脚本都必须存在,船只才能正常运作。
+
+> * **MissionShip:** 核心脚本,将此实体注册为游戏任务系统中的一艘船。没有这个脚本,游戏将无法识别该实体是一艘船,所有海战玩法系统都不会被激活。
+  * **重要:** 你必须将 NavMesh 名称分配给 NavMeshPrefabName 字段。NavMesh 是一个单独的资产,定义了 AI 代理可以在你的船只甲板上行走的位置。NavMesh 烘焙(baking)将在 attachment\_machine\_holder 一节(2.1.7)中详细介绍。
+> * **Volume\_generator:** 处理浮力系统用来保持船只在水面上直立和稳定所使用的浮动体积对象的生成。
+  * *最佳实践:* 在 mesh\_holder 中添加船体网格之后执行此步骤,因为生成器需要该网格来估算正确的体积放置位置。
+  * 启用 **Mock Generation(模拟生成)**,以便在提交之前预览浮子的放置位置。
+  * *目标:* 通过调整 **Current Volume Count(当前体积数量)** 或 **Floater Volume Width(浮子体积宽度)**,将可浮动对象的数量保持在最低限度。更多的体积会带来更稳定的漂浮效果,但会消耗更多性能。
+  * 确保生成的体积尽可能贴合船体形状。
+  * 点击 **Generate Volumes(生成体积)**,在 floater\_volume\_holder 下创建体积子项。
+> * **ShipFloatsamManager:** 处理船只被摧毁时碎片和漂浮物的生成与行为。确保船只沉没后,破碎的木板、木桶和其他物体会出现在水面上。
+> * **ShipClothFixer:** 管理船上的布料模拟系统(主要是帆和旗帜)。如果没有这个脚本,船只移动时船上的布料对象可能会出现异常行为,或根本不进行模拟。
+> * **ShipColorAssigner:** 控制船只上基于阵营的颜色着色。
+  * Factor Color(阵营颜色): 应用于座椅和桨等升级部件,将它们染成所属阵营的颜色。
+  * Ram Debris Color(撞角碎片颜色): 应用于船只撞击另一艘船时出现的碰撞伤害贴花。
+> * **EditorShipPhysics:** 一个仅在编辑器内使用的实用脚本。它能让你在不启动游戏的情况下模拟和预览船只的漂浮物理效果,从而节省大量迭代时间。
+> * **NavalPhysics:** 处理运行时的核心游泳和浮力逻辑。此脚本与浮子体积共同作用,以保持船只在水面上正确定向和移动。
+> * **EditorShipUpgradeViewer:** 一个编辑器实用工具,可让你在不启动游戏的情况下预览不同升级部件(帆、盾牌、船首像等)在船上的外观。
+> * **ShipAttachmentMachineConnectionLogic:** 处理登船期间船只之间的连接逻辑。它管理登船跳板的状态——检测两艘船何时足够接近、触发跳板展开动画,并连接两艘船的 NavMesh。
 
 #### **2.1.3. mesh\_holder**
 
-This entity contains the ship's main visual mesh and all static physics objects that are part of the ship's structure — platforms, stairs, interior decoration, and any other geometry that does not change based on upgrades.
+该实体包含船只的主要视觉网格以及所有属于船只结构一部分的静态物理对象——平台、楼梯、内部装饰以及任何不会根据升级而变化的其他几何体。
 
-> * **Transform:** Must be kept at Identity (0,0,0 | 0,0,0 | 1,1,1). The mesh\_holder should never have any offset from the root entity. All positioning of individual meshes should be done on the child entities within this holder.  
-> * **Physics:** Any physics body added to a child of mesh\_holder must have the **Movable** flag enabled. See the note in section 2.1.1 for the reason.
+> * **变换:** 必须保持为恒等状态(0,0,0 | 0,0,0 | 1,1,1)。mesh\_holder 不应相对于根实体有任何偏移。单个网格的所有定位都应在该容器内的子实体上完成。
+> * **物理:** 添加到 mesh\_holder 子项的任何物理体都必须启用**可移动(Movable)**标志。原因见 2.1.1 节中的说明。
 
-<img src="/img/ship_creation/mesh_holder_tags.png" style="max-width: 800px;"/> 
+<img src="/img/ship_creation/mesh_holder_tags.png" style="max-width: 800px;"/>
 
-**Required Tags on the Main Hull Mesh:**
+**主船体网格所需的标签:**
 
-> * rope\_physics\_body — Marks this entity as the physics anchor point for dynamic rope simulations on the ship (rigging, tying lines, etc.). Ropes attached to the ship use this tagged entity as their root attachment.  
-> * body\_mesh — Identifies this entity as the primary visual hull. Multiple engine systems (including ShipWaterEffects) use this tag to perform raycasts against the hull to automatically compute particle positions, waterline height, and other visual parameters. This tag must exist and the entity must have a valid MetaMesh with an accurate bounding box.  
-> * hull\_water\_mesh — Marks the mesh used specifically by the in-hull water simulation system. This mesh defines the visual interior surface on which the simulated deck water is rendered.
+> * rope\_physics\_body —— 将此实体标记为船上动态绳索模拟(索具、系绳等)的物理锚点。附着在船上的绳索使用该标记实体作为其根附着点。
+> * body\_mesh —— 将此实体标识为主要的视觉船体。多个引擎系统(包括 ShipWaterEffects)使用此标签对船体执行射线检测,以自动计算粒子位置、水线高度和其他视觉参数。此标签必须存在,且该实体必须具有带有准确包围盒的有效 MetaMesh。
+> * hull\_water\_mesh —— 标记专门用于船体内部水体模拟系统的网格。该网格定义了模拟甲板积水所渲染的视觉内部表面。
 
-**Deckwater Setup:** Create a child object named deckwater inside mesh\_holder and assign it the tag render\_to\_depth.
+**甲板积水(Deckwater)设置:** 在 mesh\_holder 内创建一个名为 deckwater 的子对象,并为其分配 render\_to\_depth 标签。
 
-> * *Reason:* The render\_to\_depth tag tells the ship water effects system to include this mesh in the top-down depth render used to define where simulated water can accumulate on the deck. Any mesh with this tag (including oar seats and other deck furniture) contributes to the depth texture. After adding or modifying render\_to\_depth meshes, press **Re-render Depth Texture** in the ShipWaterEffects script to update the simulation.
+> * *原因:* render\_to\_depth 标签告诉船只水效果系统将此网格包含在用于定义甲板上模拟水体可以积聚位置的俯视深度渲染中。任何带有此标签的网格(包括桨座和其他甲板家具)都会对深度纹理做出贡献。添加或修改 render\_to\_depth 网格后,请在 ShipWaterEffects 脚本中点击 **Re-render Depth Texture(重新渲染深度纹理)** 以更新模拟。
 
 #### **2.1.4. floater\_volume\_holder**
 
-This entity is the container for the buoyancy volume objects automatically created by the Volume\_generator script on the root entity. You should not manually create or modify children here — always use the generator.
+该实体是根实体上 Volume\_generator 脚本自动创建的浮力体积对象的容器。你不应在此手动创建或修改子项——始终使用生成器。
 
-> * **Verification:** After generating volumes, visually inspect them in the editor to confirm they cover the submerged portion of the hull correctly. Volumes that extend too far above the waterline will make the ship sit unnaturally high. Volumes that do not reach far enough into the hull will cause instability.
+> * **验证:** 生成体积后,在编辑器中直观检查它们,以确认它们正确覆盖了船体的淹没部分。延伸到水线以上太远的体积会使船只显得异常地高。没有深入船体足够远的体积会导致不稳定。
 
-<img src="/img/ship_creation/floater_volume_coverage.png" style="max-width: 800px;"/> 
+<img src="/img/ship_creation/floater_volume_coverage.png" style="max-width: 800px;"/>
 
-> * **Visibility:** Disable the visibility of this entity in the Entity Inspector once you have verified the volumes. The volume objects are purely functional and should not be visible during normal editing, as they clutter the viewport.
+> * **可见性:** 一旦验证了体积,就在实体检查器(Entity Inspector)中禁用此实体的可见性。这些体积对象纯粹是功能性的,在正常编辑期间不应可见,因为它们会使视口变得杂乱。
 
 #### **2.1.5. control\_point\_holder**
 
-This entity contains the ship's steering mechanism. The type of steering prefab you use here depends on the physical design of the ship.
+该实体包含船只的转向机制。此处使用的转向预制体类型取决于船只的物理设计。
 
-> * **ShipControl\_nested:** Use this prefab for tall ships or any ship where the rudder does not physically reach the water surface, or where steering is not performed by a visible in-world rudder (e.g., the steering is abstracted). This prefab handles steering logic without requiring a physical rudder mesh interaction.  
-> * **ShipControlRudder\_nested:** Use this prefab for lower ships where the rudder physically extends into the water and is operated manually by an agent. This is the more physically immersive option.  
-  * *Config:* Assign the rudder mesh and physics body to the controller's child entity as a metamesh. The physics shape of the rudder should match its visual mesh closely, as agents will physically interact with it.
+> * **ShipControl\_nested:** 用于高大的船只,或者舵在物理上无法触及水面的船只,或者转向不是由可见的世界内舵来执行的船只(即转向是抽象的)。此预制体处理转向逻辑,而不需要物理舵网格交互。
+> * **ShipControlRudder\_nested:** 用于较低矮的船只,其舵在物理上延伸入水中,并由一个代理手动操作。这是更具物理沉浸感的选项。
+  * *配置:* 将舵网格和物理体作为 metamesh 分配给控制器的子实体。舵的物理形状应紧密匹配其视觉网格,因为代理会与其进行物理交互。
 
 #### **2.1.6. climbers\_holder**
 
-This entity contains the prefabs that allow agents (both AI and players) to climb from the water surface onto the ship's deck. This is essential for boarding sequences where agents swim to the ship.  
+该实体包含允许代理(AI 和玩家均可)从水面爬上船只甲板的预制体。这对于代理游到船边的登船序列是必不可少的。
 
-Use the prefabs: longboat\_rope\_climber\_small\_nested, longboat\_rope\_climber\_medium\_nested, or longboat\_rope\_climber\_large\_nested depending on the height of the ship's railing above the water.  
+根据船只栏杆高出水面的高度,使用预制体:longboat\_rope\_climber\_small\_nested、longboat\_rope\_climber\_medium\_nested 或 longboat\_rope\_climber\_large\_nested。
 
-Each climber prefab contains three key child entities:
+每个攀爬预制体包含三个关键子实体:
 
-> * climb\_point — The position on the deck where the agent lands after completing the climb animation. Place this on the deck surface, inboard of the railing.  
-> * end\_position — The top of the climbing animation. This should be at or just above the railing height.  
-> * standing\_point — The bottom of the climbing animation, at water level. This is where the agent begins the climb. You can adjust the precise starting position via the script on this entity.
+> * climb\_point —— 代理完成攀爬动画后落脚的甲板位置。将其放置在甲板表面,位于栏杆内侧。
+> * end\_position —— 攀爬动画的顶部。应位于栏杆高度处或略高于栏杆。
+> * standing\_point —— 攀爬动画的底部,位于水面处。这是代理开始攀爬的位置。你可以通过该实体上的脚本调整精确的起始位置。
 
-*Reason:* Without correctly placed climbers, agents that end up in the water near the ship will have no way to reboard, breaking the boarding gameplay loop.
+*原因:* 如果没有正确放置攀爬点,最终落水在船附近的代理将无法重新登船,从而破坏登船玩法循环。
 
-#### **2.1.7. attachment\_machine\_holder (Boarding System)**
+#### **2.1.7. attachment\_machine\_holder(登船系统)**
 
-This section contains the prefabs required for the boarding mechanics. This is one of the more complex parts of the ship setup. There are two main prefab types:
+本节包含登船机制所需的预制体。这是船只设置中较为复杂的部分之一。主要有两种预制体类型:
 
-> * **attachment\_machine\_nested:** Contains all entities required for both incoming and outgoing boarding — i.e., this handles our ship boarding an enemy and an enemy boarding our ship.  
-> * **attachment\_point\_machine\_nested:** Contains entities required only for an enemy ship to board our ship (the receiving side of a boarding action).
+> * **attachment\_machine\_nested:** 包含进出双向登船所需的所有实体——即处理我方船只登上敌船以及敌船登上我方船只两种情况。
+> * **attachment\_point\_machine\_nested:** 仅包含敌船登上我方船只(登船动作的接收方)所需的实体。
 
-<img src="/img/ship_creation/attachment_machine_hierarchy.png" style="max-width: 800px;"/> 
+<img src="/img/ship_creation/attachment_machine_hierarchy.png" style="max-width: 800px;"/>
 
-**a) attachment\_machine\_nested Structure:**
+**a) attachment\_machine\_nested 结构:**
 
-> * distance\_helper: A visual entity in the editor that shows the minimum required distance between two ships before a boarding bridge can be deployed. This prevents bridges from overlapping each other or clipping through geometry.  
-> * **attachment\_machine (Parent):**  
-  * hook: The visual representation of the grappling hook thrown by agents when initiating boarding. This should be a small mesh placed at the hook's resting position.  
-  * pilot: A non-physics entity placed on the deck directly above where the boarding bridge's NavMesh connection should begin. The game uses the position of this entity to stitch the bridge's NavMesh to the ship's deck NavMesh. See the NavMesh configuration section below.  
-  * focus\_object: The physics object that agents must hit with their hook throw for a successful boarding attempt. Place this at the ship's railing where the hook would realistically catch.  
-  * pile\_holder: A parent entity containing the visual ropes and hanging elements of the boarding setup. These are purely visual — they have no physics or interaction.
+> * distance\_helper: 编辑器中的一个可视化实体,显示在跳板可以展开之前两艘船之间所需的最小距离。这可以防止跳板相互重叠或穿透几何体。
+> * **attachment\_machine(父级):**
+  * hook: 代理发起登船时投掷的抓钩的视觉表现。这应该是一个放置在钩子静止位置的小网格。
+  * pilot: 一个非物理实体,放置在甲板上,正位于登船跳板 NavMesh 连接应开始的位置之上。游戏使用该实体的位置将跳板的 NavMesh 与船只甲板的 NavMesh 缝合起来。参见下方的 NavMesh 配置部分。
+  * focus\_object: 代理投掷抓钩时必须命中的物理对象,以使登船尝试成功。将其放置在船只栏杆上,钩子实际会钩住的位置。
+  * pile\_holder: 包含登船设置中可视绳索和悬挂元素的父实体。这些纯粹是视觉性的——它们没有物理或交互功能。
 
-**b) attachment\_point\_machine\_nested Structure:**
+**b) attachment\_point\_machine\_nested 结构:**
 
-> * hook\_attach\_point: A non-physics entity indicating where an enemy's grappling hook lands on our railing after a successful hook throw. Place this on the railing surface.  
-> * pilot: A non-physics entity requiring a NavMesh face underneath it for bridge NavMesh connection. Functions identically to the pilot in attachment\_machine\_nested.  
-> * **visual (Parent):**  
-  * bridge\_target\_point: Parent for the non-physics visual objects that appear on the railing and deck after the enemy sets up a bridge. Default visibility should be Off — the game activates these when a bridge is established.  
-  * bridge\_connection\_point: Defines the start or end point of the boarding bridge. Must be placed precisely on the railing, ensuring it is not buried inside the railing's physics mesh. If this point is inside geometry, the bridge will clip incorrectly.  
-  * bridge\_source\_point: Parent for non-physics visual objects that appear after the hook successfully catches and the bridge begins deploying. Default visibility should be Off.  
-  * focus\_object: The physics object that must be hit for a successful hook shot from an enemy ship.  
-  * capsule\_physics\_a: A physics capsule that allows agents to climb from the deck up to the railing height when a bridge is active. This object is inactive when no bridge is present — activating it when no bridge exists would let agents walk off the ship into the air.  
-    * *Snap Requirement:* The top of this capsule must snap exactly to the bridge\_connection\_point.  
-    * *Auto-Snap:* You can place it manually by enabling physics visuals, or use the **Auto Arrange Bridge Ramp Physics** button in the root entity's Volume\_generator script to automatically snap all capsule physics objects at once.
+> * hook\_attach\_point: 一个非物理实体,指示敌方的抓钩成功投掷后落在我方栏杆上的位置。将其放置在栏杆表面上。
+> * pilot: 一个非物理实体,下方需要有一个 NavMesh 面以供跳板 NavMesh 连接。功能与 attachment\_machine\_nested 中的 pilot 相同。
+> * **visual(父级):**
+  * bridge\_target\_point: 敌方成功架设跳板后出现在栏杆和甲板上的非物理视觉对象的父节点。默认可见性应为关闭——游戏会在建立跳板时激活它们。
+  * bridge\_connection\_point: 定义登船跳板的起点或终点。必须精确放置在栏杆上,确保它没有埋入栏杆的物理网格内部。如果该点位于几何体内部,跳板会发生错误的穿模。
+  * bridge\_source\_point: 钩子成功钩中且跳板开始展开后出现的非物理视觉对象的父节点。默认可见性应为关闭。
+  * focus\_object: 敌船成功投掷抓钩所必须命中的物理对象。
+  * capsule\_physics\_a: 一个物理胶囊体,允许代理在跳板激活时从甲板爬到栏杆高度。当没有跳板时,该对象处于非激活状态——如果在没有跳板的情况下激活它,会让代理走出船只、悬空在空中。
+    * *对齐要求:* 该胶囊体的顶部必须精确对齐到 bridge\_connection\_point。
+    * *自动对齐:* 你可以通过启用物理可视化来手动放置它,或者使用根实体 Volume\_generator 脚本中的 **Auto Arrange Bridge Ramp Physics(自动排列跳板斜坡物理体)** 按钮一次性自动对齐所有胶囊物理对象。
 
-<img src="/img/ship_creation/capsule_physics_snap.png" style="max-width: 800px;"/> 
+<img src="/img/ship_creation/capsule_physics_snap.png" style="max-width: 800px;"/>
 
-* \_barrier\_ai\_04x04m\_nested: An AI barrier that prevents agents from walking off the ship at the boarding connection point when no bridge is present. This barrier deactivates automatically when a bridge is established, allowing agents to cross.
+* \_barrier\_ai\_04x04m\_nested: 一个 AI 屏障,当没有跳板时,防止代理在登船连接点处走出船外。当跳板建立后,该屏障会自动失效,允许代理通过。
 
-**c) NavMesh Configuration & Baking:**  
-The NavMesh defines where AI agents can walk on your ship's deck. It must be baked correctly for boarding bridges to function. The bridge system connects two ships' NavMeshes dynamically at runtime, and the IDs below are how it knows which face to connect to.
+**c) NavMesh 配置与烘焙:**
+NavMesh 定义了 AI 代理可以在船只甲板上行走的位置。必须正确烘焙它,登船跳板才能正常工作。跳板系统在运行时动态连接两艘船的 NavMesh,下面的 ID 就是它用来识别要连接哪个面的方式。
 
-> * **Unique IDs:** In the ShipAttachmentPointMachine script (found in both machine prefabs), locate the RelatedShipNavmeshOffset field. Enter a unique integer ID here for each machine. No two machines on the same ship should share an ID.  
-> * **Face IDs:** In the ship's NavMesh, the face located directly beneath the pilot entity of each machine must have the same ID as entered in RelatedShipNavmeshOffset. The game uses this matching ID to know which NavMesh face is the connection point for each bridge.  
-> * **General Deck:** All other NavMesh faces on the ship's deck that are not bridge connection points should be assigned ID 0\.
+> * **唯一 ID:** 在 ShipAttachmentPointMachine 脚本中(两种机器预制体中均有),找到 RelatedShipNavmeshOffset 字段。为每台机器输入一个唯一的整数 ID。同一艘船上的两台机器不应共享相同的 ID。
+> * **面 ID:** 在船只的 NavMesh 中,位于每台机器 pilot 实体正下方的面必须具有与在 RelatedShipNavmeshOffset 中输入的相同 ID。游戏使用这个匹配的 ID 来识别哪个 NavMesh 面是每个跳板的连接点。
+> * **普通甲板:** 船只甲板上所有非跳板连接点的其他 NavMesh 面都应分配 ID 0。
 
-**Baking and Saving:**
+**烘焙与保存:**
 
-> 1. Select all NavMesh faces.  
-> 2. Go to the MissionShip script on the root entity.  
-> 3. Click **SaveNavMeshFromLocal**.  
-> 4. Enter a filename and save it to your mod's module folder.  
-> 5. Enter this filename into the NavMeshPrefabName field in the MissionShip script.
+> 1. 选择所有 NavMesh 面。
+> 2. 转到根实体上的 MissionShip 脚本。
+> 3. 点击 **SaveNavMeshFromLocal**。
+> 4. 输入文件名,并将其保存到你的模组模块文件夹中。
+> 5. 将此文件名输入到 MissionShip 脚本的 NavMeshPrefabName 字段中。
 
-<img src="/img/ship_creation/navmesh_face_ids.png" style="max-width: 800px;"/>  
+<img src="/img/ship_creation/navmesh_face_ids.png" style="max-width: 800px;"/>
 
 #### **2.1.8. barrier\_holder**
 
-This entity contains barrier physics objects that prevent AI agents from walking off the ship's edges or into areas they should not reach (below-deck openings, the end of a bowsprit, etc.).
+该实体包含物理屏障对象,防止 AI 代理走出船只边缘或进入不应到达的区域(甲板下开口、船首斜桅末端等)。
 
-Use prefabs: \_barrier\_ai\_04x04m\_nested or \_barrier\_ai\_04x08m\_nested. These are functionally identical — the only difference is their default size. Scale them as needed to cover the area. 
- 
-*Reason:* Without barriers, the AI NavMesh system may generate valid paths that lead agents off the edge of the ship. The barriers create invisible walls that the NavMesh system respects, keeping agents on the deck.
+使用预制体:\_barrier\_ai\_04x04m\_nested 或 \_barrier\_ai\_04x08m\_nested。它们在功能上是相同的——唯一的区别在于默认尺寸。根据需要缩放以覆盖该区域。
+
+*原因:* 如果没有屏障,AI 的 NavMesh 系统可能会生成导致代理走出船只边缘的有效路径。屏障会创建 NavMesh 系统所遵守的无形墙壁,从而将代理保持在甲板上。
 
 #### **2.1.9. ship\_target\_point**
 
-This entity holds the ShipTargetMissionObject script and must be present on every ship. It registers the ship as a **targetable object** within the game's combat system — without it, ranged weapons such as ballistas cannot lock onto the ship.  
+该实体持有 ShipTargetMissionObject 脚本,必须存在于每艘船上。它将船只注册为游戏战斗系统中的**可被瞄准对象**——没有它,诸如弩炮之类的远程武器将无法锁定该船只。
 
-**What it does:**
+**其功能:**
 
-> * Marks the ship as a valid target for ranged weapons (TargetFlags.IsShip | TargetFlags.IsMoving).  
-> * Reports the ship's current velocity so projectiles can lead their aim correctly against a moving ship.  
-> * Provides a target priority value that scales with the ship's remaining crew count and hull health. A heavily damaged or nearly crewless ship becomes a lower-priority target automatically.  
-> * When the ship is sinking, it adds the NotAThreat flag so AI ranged units stop targeting it and redirect fire elsewhere.
+> * 将船只标记为远程武器的有效目标(TargetFlags.IsShip | TargetFlags.IsMoving)。
+> * 报告船只当前的速度,以便抛射物能够正确地对移动中的船只进行提前量瞄准。
+> * 提供一个目标优先级数值,该数值根据船只剩余的船员数量和船体耐久度进行缩放。严重受损或几乎没有船员的船只会自动变为较低优先级的目标。
+> * 当船只正在下沉时,会添加 NotAThreat 标志,使 AI 远程单位停止瞄准它,并将火力转移到其他地方。
 
-**Setup:** Add the ship\_target\_point nested prefab as a direct child of the ship root. No additional configuration is required — the script reads the ship's state automatically at runtime via the MissionShip script on the root entity.
+**设置:** 将 ship\_target\_point 嵌套预制体添加为船只根节点的直接子项。不需要额外配置——该脚本会通过根实体上的 MissionShip 脚本在运行时自动读取船只的状态。
 
 #### **2.1.10. kinematic\_batch\_entity**
 
-The kinematic\_batch\_entity system handles physics optimization for the ship. Without it, every child entity on the ship with a physics body would be simulated individually, which becomes expensive quickly. This system merges all those physics shapes into a single batched body that moves with the ship root — at a fraction of the cost.  
+kinematic\_batch\_entity 系统处理船只的物理优化。如果没有它,船上每个带有物理体的子实体都会被单独模拟,这很快就会变得昂贵。该系统将所有这些物理形状合并为一个随船只根节点移动的单一批处理体——而成本只是一小部分。
 
-**How it works:** The ship root owns the main physics body (the convex hull). All the detailed collision shapes on child entities — hull planks, deck surfaces, structural parts — need to move with the ship but do not need their own simulation. The kinematic\_batch\_entity collects all of these into two batching containers:
+**工作原理:** 船只根节点拥有主要的物理体(凸包)。子实体上所有详细的碰撞形状——船体木板、甲板表面、结构部件——都需要随船只移动,但不需要各自进行模拟。kinematic\_batch\_entity 将这些全部收集到两个批处理容器中:
 
-> * simulated — Batches shapes used for full physics interaction (collision response, agents walking on deck, etc.)  
-> * ray\_cast — Batches shapes used only for raycasts (targeting, line-of-sight, etc.)
+> * simulated —— 批处理用于完整物理交互的形状(碰撞响应、代理在甲板上行走等)
+> * ray\_cast —— 批处理仅用于射线检测的形状(瞄准、视线检测等)
 
-**Required Setup:**  
-Add the kinematic\_batch\_entity as a nested prefab directly under the ship root. The prefab is located at: NavalDLC/NestedPrefabs/kinematic\_batch\_entity.xml
+**所需设置:**
+将 kinematic\_batch\_entity 作为嵌套预制体直接添加到船只根节点下。该预制体位于:NavalDLC/NestedPrefabs/kinematic\_batch\_entity.xml
 
-After placing it, verify the following in the entity inspector:
+放置后,在实体检查器中验证以下内容:
 
-> * Its transform is identity (position 0,0,0 — no rotation, no scale offset).  
-> * Its body flag includes Moveable.  
-> * It carries the tag batched\_physics\_entity.  
-> * Both the simulated and ray\_cast children must be present. The engine will warn if either is missing.
+> * 其变换为恒等状态(位置 0,0,0——无旋转,无缩放偏移)。
+> * 其刚体标志包含 Moveable。
+> * 它带有 batched\_physics\_entity 标签。
+> * simulated 和 ray\_cast 两个子项都必须存在。如果缺少任意一个,引擎将发出警告。
 
-**Marking entities for batching:** For each child entity whose physics shape should be merged into the batch, enable the **Move To Batched Kinematic** option in its physics properties.  
+**标记要批处理的实体:** 对于其物理形状应合并到批处理中的每个子实体,在其物理属性中启用 **Move To Batched Kinematic(移至批处理运动学)** 选项。
 
-In the entity's **Physics** panel:
+在该实体的**物理(Physics)**面板中:
 
-> 1. Assign a physics shape (a bo\_ body).  
-> 2. Enable the Moveable body flag.  
-> 3. Enable **Move To Batched Kinematic**.
+> 1. 分配一个物理形状(一个 bo\_ 体)。
+> 2. 启用 Moveable 刚体标志。
+> 3. 启用 **Move To Batched Kinematic**。
 
-**What to batch:** Hull mesh, deck structures, mast holders, hull plating variants, fixed structural geometry.  
-**What NOT to batch:** The ship root itself, the kinematic\_batch\_entity and its children, AI barrier entities, rope/cloth physics, and any entities that animate or detach independently at runtime.  
-**Upgrade variants:** If your ship has multiple hull variants under an upgrade slot, each variant can have **Move To Batched Kinematic** enabled. The engine only includes shapes that are active when the ship is initialized — ensure exactly one variant per slot is active at startup.  
+**应批处理的内容:** 船体网格、甲板结构、桅杆座、船体铺板变体、固定的结构几何体。
+**不应批处理的内容:** 船只根节点本身、kinematic\_batch\_entity 及其子项、AI 屏障实体、绳索/布料物理,以及任何在运行时独立动画或脱离的实体。
+**升级变体:** 如果你的船只在某个升级槽下有多个船体变体,每个变体都可以启用 **Move To Batched Kinematic**。引擎只会包含船只初始化时处于激活状态的形状——确保每个槽位在启动时只有一个变体处于激活状态。
 
-**Common validation errors:**
+**常见验证错误:**
 
-> * No entity tagged batched\_physics\_entity found → *"Ship Prefab must contain a root batched physics entity\!"*  
-> * kinematic\_batch\_entity does not have identity transform → *"Batched physics entity should have identity matrix frame\!"*  
-> * Missing simulated or ray\_cast child → *"Ships should have a 'kinematics'/'raycast' batch entity\!"*
+> * 未找到标记为 batched\_physics\_entity 的实体 → *"Ship Prefab must contain a root batched physics entity!"(船只预制体必须包含一个根批处理物理实体!)*
+> * kinematic\_batch\_entity 没有恒等变换 → *"Batched physics entity should have identity matrix frame!"(批处理物理实体应具有恒等矩阵坐标系!)*
+> * 缺少 simulated 或 ray\_cast 子项 → *"Ships should have a 'kinematics'/'raycast' batch entity!"(船只应具有一个 'kinematics'/'raycast' 批处理实体!)*
 
-If any of these warnings appear, physics batching is not working and the ship may have performance issues or missing collision.
+如果出现上述任何警告,则表示物理批处理未正常工作,船只可能存在性能问题或碰撞缺失。
 
 #### **2.1.11. spawn\_point\_holder**
 
-This entity defines all spawn locations for players and AI troops on the ship. The game's mission system reads these points to determine where to place agents at the start of a naval battle.
+该实体定义了船只上玩家和 AI 部队的所有生成位置。游戏的任务系统会读取这些点,以确定在海战开始时将代理放置在何处。
 
-> * sp\_troop\_inner\_deck\_nested: Spawn points for inner deck troops — agents positioned away from the ship's edges, typically in the center or below decks.  
-> * sp\_troop\_outer\_deck\_nested: Spawn points for outer deck troops — agents positioned near the railings and edges, such as archers and sailors.  
-> * sp\_troop\_captain\_nested: The spawn point for the ship's captain.  
-> * sp\_troop\_crew\_spawn\_nested: Spawn points used for reinforcement troops arriving during battle.
+> * sp\_troop\_inner\_deck\_nested: 内甲板部队的生成点——代理被放置在远离船只边缘的位置,通常位于中央或甲板下方。
+> * sp\_troop\_outer\_deck\_nested: 外甲板部队的生成点——代理被放置在靠近栏杆和边缘的位置,例如弓箭手和水手。
+> * sp\_troop\_captain\_nested: 船长的生成点。
+> * sp\_troop\_crew\_spawn\_nested: 用于战斗期间到达的增援部队的生成点。
 
-**rally\_point:** Create an empty entity and place it at the front of the ship, on the NavMesh surface.
+**rally\_point(集合点):** 创建一个空实体,并将其放置在船首,位于 NavMesh 表面上。
 
-> * Assign the tag rally\_point to this entity.  
-> * Rename the entity to rally\_point for clarity.  
-> * *Reason:* This is the gathering point AI agents move toward when given a rally order. Without a rally point, AI agents will have no defined gathering location and may behave erratically when ordered to regroup.
+> * 为该实体分配 rally\_point 标签。
+> * 将该实体重命名为 rally\_point 以便清晰识别。
+> * *原因:* 这是 AI 代理在收到集合命令时前往的集合点。如果没有集合点,AI 代理将没有明确的集合位置,在被命令重新集结时可能行为异常。
 
 #### **2.1.12. rudders\_holder**
 
-This entity defines the rudder's position for the swimming and buoyancy physics calculations — specifically, it tells the physics system where the ship's steering resistance is applied in the water.
+该实体为游泳和浮力物理计算定义舵的位置——具体来说,它告诉物理系统船只的转向阻力在水中的施加位置。
 
-> * **Placement:** Place this entity at the very rear of the ship, as close to the water surface as possible.  
-> * **Setup:** Add an empty entity as a child, name it rudder\_stock, and assign the tag rudder\_stock to it.  
-> * *Reason:* The physics system uses the rudder\_stock tag to locate the steering point of the ship. Placing this incorrectly (too far forward or too high) will cause the ship to handle unrealistically — it may turn too quickly, too slowly, or pivot around the wrong point.
+> * **放置:** 将此实体放置在船只的最尾部,尽可能靠近水面。
+> * **设置:** 添加一个空实体作为子项,将其命名为 rudder\_stock,并为其分配 rudder\_stock 标签。
+> * *原因:* 物理系统使用 rudder\_stock 标签来定位船只的转向点。如果放置不正确(太靠前或太高),会导致船只的操控表现不真实——它可能转向过快、过慢,或围绕错误的点旋转。
 
 #### **2.1.13.oars\_holder**
 
-*This holder contains the ship's oar systems. Oars are a gameplay upgrade — they determine the ship's speed when sailing without wind. The oar\_deck prefab handles both the visual oar meshes and the agent seating system for rowers.*
+*该容器包含船只的桨系统。桨是一种玩法升级——它们决定了船只在无风情况下航行的速度。oar\_deck 预制体同时处理视觉上的桨网格和划桨手的坐姿系统。*
 
-> * *Root Setup: Create an empty entity at Identity and name it oars\_holder.*  
-> * *Add the oar\_deck prefab as a child. Rename it based on its type:*  
-  * *oar\_deck\_upper: Rowers are seated on the open deck, visible to the player.*  
-  * *oar\_deck\_lower: Rowers are seated inside the hull, not directly visible.*
+> * *根设置:在恒等位置创建一个空实体,并将其命名为 oars\_holder。*
+> * *添加 oar\_deck 预制体作为子项。根据其类型重命名:*
+  * *oar\_deck\_upper: 划桨手坐在开放甲板上,玩家可见。*
+  * *oar\_deck\_lower: 划桨手坐在船体内部,不直接可见。*
 
-**a) oar\_deck\_upper (Visible Oarsmen):**
+**a) oar\_deck\_upper(可见划桨手):**
 
-<img src="/img/ship_creation/oar_manage_machines_ui.png" style="max-width: 800px;"/> 
+<img src="/img/ship_creation/oar_manage_machines_ui.png" style="max-width: 800px;"/>
 
-> * *Configuration:* Select the oar\_deck\_upper entity and click **ManageOarMachines** in the ShipOarDeck script.  
-> * *Initial Setup:* Do not check **Override Prefabs** when creating for the first time.  
-> * *Prefab Set:* Select the set that matches your ship's size (UpperDeck 4m, 6m, or 8m — the number refers to the spacing between oar positions).  
-> * *Positioning:* Use the **Count**, **Span**, and **Offset** values to align the oar positions with your hull. This requires iteration — adjust the values, click apply, and visually verify the positions. The oar tips should enter the water cleanly and the handles should sit naturally in the agents' hands.  
-> * *Seat Heights (Critical):* Use the **Adjust Seat Heights** feature after positioning. This is mandatory. The rowing animation is fixed, and the seats must be at the correct height for the animation to align with the benches. If seat heights are wrong, rowers will visually clip through or float above their seats.
+> * *配置:* 选择 oar\_deck\_upper 实体,并在 ShipOarDeck 脚本中点击 **ManageOarMachines**。
+> * *初始设置:* 首次创建时不要勾选 **Override Prefabs(覆盖预制体)**。
+> * *预制体集:* 选择与你船只尺寸匹配的预制体集(UpperDeck 4m、6m 或 8m——该数字指的是桨位之间的间距)。
+> * *定位:* 使用 **Count(数量)**、**Span(跨距)** 和 **Offset(偏移)** 值将桨位与船体对齐。这需要反复迭代——调整数值,点击应用,然后直观地验证位置。桨尖应干净利落地入水,手柄应自然地握在代理的手中。
+> * *座椅高度(关键):* 在定位之后使用 **Adjust Seat Heights(调整座椅高度)** 功能。这是强制性的。划桨动画是固定的,座椅必须处于正确的高度才能与动画对齐长凳。如果座椅高度不对,划桨手在视觉上会穿模或悬浮在座椅上方。
 
 <img src="/img/ship_creation/oar_seat_heights.png" style="max-width: 800px;"/>
 
-> * *Angles:* Adjust the active (in-water) and retracted (raised) angle of the oars to match your hull geometry.  
-> * *Mirroring:* Once one side is correctly configured, use the **Mirror** feature to copy all settings to the opposite side.
+> * *角度:* 调整桨的激活(入水)和收起(抬起)角度,以匹配你的船体几何形状。
+> * *镜像:* 一旦一侧配置正确,使用 **Mirror(镜像)** 功能将所有设置复制到另一侧。
 
-**b) oar\_deck\_lower (Internal Rowers):**
+**b) oar\_deck\_lower(内部划桨手):**
 
-> * *Setup:* Follows the same process as oar\_deck\_upper, but select the **Lower Deck** prefab set.  
-> * *No seat height adjustment is required for lower deck rowers.*  
-> * *Ensure the oars align with and exit cleanly through the oar ports in the hull mesh. Misaligned oars will visually clip through the hull.*  
-> * *Retracted State:* Ensure the retracted oar angle places the oars completely inside the hull. Oars that stick out when retracted will clip through the hull and look incorrect.
+> * *设置:* 遵循与 oar\_deck\_upper 相同的流程,但选择 **Lower Deck(下层甲板)** 预制体集。
+> * *下层甲板划桨手不需要调整座椅高度。*
+> * *确保桨与船体网格上的桨口对齐,并干净利落地穿出。错位的桨会在视觉上穿透船体。*
+> * *收起状态:* 确保收起的桨角度将桨完全置于船体内部。收起时伸出的桨会穿透船体,看起来不正确。*
 
-**c) Upgrade System Integration:**
+**c) 升级系统集成:**
 
-> * *Oars are treated as upgrade pieces by the game's upgrade system.*  
-> * *Different oar sets (bronze-tipped, fire-hardened, etc.) can be created by editing the ship\_upgrade\_pieces.xml and ship\_slots.xml files, using existing oar entries as a reference.*  
-> * *When adding new oar types, verify the prefab hierarchy structure matches existing types, or the upgrade system will not recognize the new piece.*
+> * *桨被游戏的升级系统视为升级部件。*
+> * *可以通过编辑 ship\_upgrade\_pieces.xml 和 ship\_slots.xml 文件,参考现有的桨条目来创建不同的桨套装(铜制桨尖、火硬化桨等)。*
+> * *添加新的桨类型时,请验证预制体层级结构是否与现有类型匹配,否则升级系统将无法识别新部件。*
 
-#### **2.1.14. sail\_holder (War Sails System)**
+#### **2.1.14. sail\_holder(War Sails 帆系统)**
 
-Sails are one of the most technically complex components of the ship. They use a combination of skeletal animation, blend shape morphs, and real-time cloth simulation to achieve realistic behavior in wind. Read this section carefully before beginning sail setup.  
+帆是船只中技术上最复杂的组件之一。它们结合使用骨骼动画、混合形变(blend shape)和实时布料模拟,以实现在风中逼真的表现。开始帆的设置之前,请仔细阅读本节。
 
-There are two sail types: **Square** (rectangular sails hung from a yard) and **Lateen** (triangular sails on an angled boom). Each type comes in three size variants (small, medium, large), giving six total sail prefabs.  
+有两种帆类型:**方形帆(Square)**(悬挂在帆桁上的矩形帆)和**三角帆(Lateen)**(安装在倾斜桁杆上的三角形帆)。每种类型都有三种尺寸变体(小、中、大),总共形成六种帆预制体。
 
-**a) Asset Preparation:**
+**a) 资产准备:**
 
-> * **Cloth Simulation Mesh:** The sail mesh used for cloth simulation must fit within **15m × 15m × 15m** dimensions in its default (fully open) state. The prefab entity can be scaled in-game, but the source mesh must stay within this limit.  
-> * **Topology:** The mesh's polygon density and edge flow control how the cloth deforms. Denser topology in areas that should billow will produce more detailed cloth movement.
+> * **布料模拟网格:** 用于布料模拟的帆网格在其默认(完全展开)状态下必须符合 **15m × 15m × 15m** 的尺寸限制。预制体实体可以在游戏中进行缩放,但源网格必须保持在此限制范围内。
+> * **拓扑结构:** 网格的多边形密度和边缘流向控制着布料的变形方式。在应该鼓起的区域使用更密集的拓扑结构,将产生更精细的布料运动效果。
 
-**Vertex Constraints (Critical — using Vertex Color channels):**
+**顶点约束(关键——使用顶点颜色通道):**
 
-> * **Alpha channel \= 0:** Vertices that must not move (attached to the mast or boom). Without this, the sail will detach from its mount during simulation.  
-> * **Red channel \= 0:** Vertices connected to the left control bone.  
-> * **Green channel \= 0:** Vertices connected to the right control bone.  
-> * **Blue channel \= 0:** Vertices in stitched areas (seams). These areas simulate tension between panels.  
-> * *In-Game:* Enable **Create Stitching Constraints** in the cloth settings for stitching to take effect.
+> * **Alpha 通道 = 0:** 不得移动的顶点(附着在桅杆或帆桁上的顶点)。如果没有这个设置,帆会在模拟过程中从其挂载点上脱离。
+> * **红色通道 = 0:** 连接到左侧控制骨骼的顶点。
+> * **绿色通道 = 0:** 连接到右侧控制骨骼的顶点。
+> * **蓝色通道 = 0:** 位于缝合区域(接缝)的顶点。这些区域模拟各面料板之间的张力。
+> * *在游戏中:* 在布料设置中启用 **Create Stitching Constraints(创建缝合约束)**,以使缝合效果生效。
 
-**b) Rigging & Skeleton:**
+**b) 索具与骨骼:**
 
-> * A skeleton drives the control bones that adjust sail tension and yard angle.  
-> * **Square Sail:** Uses 2 control bones (one for each end of the yard).  
-> * **Lateen Sail:** Uses 1 control bone (the tip of the boom).  
-> * Bone names must match the names shown in the reference hierarchy images exactly, even if the skeleton object itself has a different name.
+> * 骨骼驱动着调整帆张力和帆桁角度的控制骨。
+> * **方形帆:** 使用 2 个控制骨(帆桁两端各一个)。
+> * **三角帆:** 使用 1 个控制骨(桁杆尖端)。
+> * 骨骼名称必须与参考层级结构图中显示的名称完全匹配,即使骨骼对象本身有不同的名称。
 
-**c) Animation & States:**
+**c) 动画与状态:**
 
-> * **Morph Animation:** A 200-frame morph animation is required, representing the sail transitioning from fully open to fully closed. The same morph is played in reverse for the unfurling animation. This animation drives the furling and unfurling sequence players see when the sail order is given.  
-> * **Closed State:** When fully furled, the cloth mesh is swapped with a static mesh representing the bundled sail. The cloth simulation is inactive in this state.  
-> * **Burning State:** If the sail catches fire, it transitions to a free-hanging mesh that simulates a torn, burning sail. This mesh does not require a skeleton or morph keys — it is purely visual cloth with no control.
+> * **变形动画(Morph Animation):** 需要一个 200 帧的变形动画,表示帆从完全展开到完全收拢的过渡。同样的变形会反向播放以用于展开动画。这个动画驱动着玩家在下达收帆指令时看到的收帆和展帆序列。
+> * **收拢状态:** 完全收拢后,布料网格会被替换为代表捆扎好的帆的静态网格。在此状态下,布料模拟处于非激活状态。
+> * **燃烧状态:** 如果帆着火,它会转变为模拟撕裂、燃烧中的帆的自由悬挂网格。此网格不需要骨骼或变形关键帧——它纯粹是没有控制的视觉布料。
 
-**d) Prefab Setup (using sail\_square\_medium\_nested as example):**  
+**d) 预制体设置(以 sail\_square\_medium\_nested 为例):**
 
-Add the sail\_visual script to the topmost parent of the sail prefab and select the correct sail\_type enum value matching your sail variant.  
+将 sail\_visual 脚本添加到帆预制体的最顶层父节点,并选择与你的帆变体匹配的正确 sail\_type 枚举值。
 
-Main children:
+主要子项:
 
-> * pulley\_systems\_holder: Contains all rope visual systems.  
-  * stability\_ropes: Ropes connecting the control bones to the deck (stays and shrouds). Each rope entity's tag must match the name of the bone it connects to.  
-  * static\_ropes\_parent: Static decorative ropes. Tag attached\_to\_yard for ropes that connect to the yard; tag big\_rope for ropes that connect from the yard down to the hull.  
-  * sail\_fold\_pulley\_parent: Ropes that gather the sail when furling. Tag each rope's entity with the name of the bone it is controlled by.  
-  * sail\_rotate\_pulley\_parent: Ropes responsible for rotating the yard to catch the wind angle.  
-> * force\_center\_entity: Must have the tag force\_center\_entity. Defines the point at which wind force is applied to the sail for physics calculations. Position this at the center of the sail's surface area.  
-> * sail\_mast: Place all mast visual mesh entities under this child.  
-> * yaw\_rotation\_entity: Must have the tag yaw\_rotation\_entity. Place your prepared sail and yard assets under this entity. This entity rotates to simulate the yard turning to face the wind.  
-> * sail\_upgrade\_slot: The upgrade slot entity for sail-level upgrades.
+> * pulley\_systems\_holder: 包含所有绳索视觉系统。
+  * stability\_ropes: 连接控制骨到甲板的绳索(支索和护桅索)。每根绳索实体的标签必须与其所连接的骨骼名称相匹配。
+  * static\_ropes\_parent: 静态装饰性绳索。为连接到帆桁的绳索使用 attached\_to\_yard 标签;为从帆桁延伸至船体的绳索使用 big\_rope 标签。
+  * sail\_fold\_pulley\_parent: 收帆时聚拢帆面的绳索。为每根绳索实体标记其所受控制的骨骼名称。
+  * sail\_rotate\_pulley\_parent: 负责旋转帆桁以迎风的绳索。
+> * force\_center\_entity: 必须带有 force\_center\_entity 标签。定义了风力在物理计算中施加到帆上的点。将其定位在帆表面积的中心。
+> * sail\_mast: 将所有桅杆视觉网格实体放置在此子项下。
+> * yaw\_rotation\_entity: 必须带有 yaw\_rotation\_entity 标签。将你准备好的帆和帆桁资产放置在此实体下。该实体会旋转以模拟帆桁转向迎风。
+> * sail\_upgrade\_slot: 用于帆级升级的升级槽实体。
 
-### **2.2. Upgrade & Gameplay Components**
+### **2.2. 升级与玩法组件**
 
-These components extend the ship's capabilities, define its combat capacity, or change appearance and stats based on the ship's upgrade level. They are optional in the sense that the ship will exist and float without them, but no naval gameplay (sailing, combat, upgrades) will function correctly without them.  
+这些组件扩展了船只的能力,定义了其战斗容量,或根据船只的升级等级改变外观和属性。从某种意义上说它们是可选的——没有它们船只仍能存在并漂浮,但没有它们任何海战玩法(航行、战斗、升级)都无法正常运作。
 
-The upgrade system is driven by several XML files that you must edit to register your ship and its upgrade pieces with the game:
+升级系统由若干个 XML 文件驱动,你必须编辑这些文件才能将你的船只及其升级部件注册到游戏中:
 
-> * ship\_slots.xml: Defines all upgrade slot types available for ships. Every upgrade piece type your ship uses must have a corresponding entry here. The IDs defined in this file are referenced by the other XMLs below.  
-> * ship\_upgrade\_pieces.xml: Defines the individual upgrade pieces — their stats, visual effects, descriptions, and which slot ID they belong to.  
-> * mission\_ships.xml: Registers your ship as a usable ship in missions. Contains the ship's ID, prefab name, mass, and other mission-level properties.  
-> * ship\_hulls.xml: Defines the ship's mission statistics (health, speed, maneuverability, etc.) and specifies which upgrade slots are available on this hull type.
+> * ship\_slots.xml: 定义船只可用的所有升级槽类型。你的船只使用的每种升级部件类型都必须在此有对应的条目。该文件中定义的 ID 会被下面的其他 XML 引用。
+> * ship\_upgrade\_pieces.xml: 定义各个升级部件——它们的属性、视觉效果、描述,以及它们所属的槽位 ID。
+> * mission\_ships.xml: 将你的船只注册为任务中可用的船只。包含船只的 ID、预制体名称、质量和其他任务级属性。
+> * ship\_hulls.xml: 定义船只的任务统计数据(生命值、速度、机动性等),并指定该船体类型上可用的升级槽。
 
 #### **2.2.1. hull\_group**
 
-This nested prefab controls the visual appearance of the ship's hull at different upgrade levels.
+该嵌套预制体控制船只在不同升级等级下船体的视觉外观。
 
-> * **Placement:** Add the hull\_group nested prefab to the ship's root entity at Identity (0,0,0).  
-> * **Structure:** The prefab contains 5 child entities, each corresponding to a different hull material or upgrade level.  
-> * **Setup:** Add your prepared hull mesh as a MetaMesh to the child entity that corresponds to the correct material name.  
-> * **Tags:** The necessary tags for the upgrade system to recognize hull states are predefined on the prefab's children. If you are creating a new hull type, you can duplicate existing hull upgrade tags from the XMLs or remove ones that are not relevant to your ship.
+> * **放置:** 将 hull\_group 嵌套预制体添加到船只根实体的恒等位置(0,0,0)。
+> * **结构:** 该预制体包含 5 个子实体,分别对应不同的船体材质或升级等级。
+> * **设置:** 将你准备好的船体网格作为 MetaMesh 添加到对应正确材质名称的子实体中。
+> * **标签:** 升级系统识别船体状态所需的标签已预定义在预制体的子项上。如果你正在创建一种新的船体类型,可以从 XML 中复制现有的船体升级标签,或移除与你的船只无关的标签。
 
 #### **2.2.2. shields\_group**
 
-This nested prefab adds shield decorations along the ship's railings, which also serve to protect troops on deck from incoming ranged attacks.
+该嵌套预制体沿船只的栏杆添加盾牌装饰,这些装饰同时也能保护甲板上的部队免受来袭远程攻击。
 
-> * **Placement:** Add the shields\_holder nested prefab at the ship's root Identity (0,0,0).  
-> * **Customization:** The number of shields displayed can be increased or decreased by editing the relevant ship XML, or by changing the MetaMeshes on the child entities.  
-> * **Faction Colors (Crucial):** Every shield child entity has the banner\_with\_faction\_color tag. This tag is what causes the game to apply the owning faction's sigil and colors to the shields at runtime.  
-  * **Important:** You must also assign the banner\_with\_faction\_color tag to the MetaMesh asset itself and to all of its LOD variants in the Resource Browser. If the tag is on the entity but not the mesh asset, the faction colors will not appear.
+> * **放置:** 将 shields\_holder 嵌套预制体添加到船只根实体的恒等位置(0,0,0)。
+> * **自定义:** 可以通过编辑相关的船只 XML,或更改子实体上的 MetaMesh,来增加或减少显示的盾牌数量。
+> * **阵营颜色(至关重要):** 每个盾牌子实体都带有 banner\_with\_faction\_color 标签。正是这个标签使得游戏在运行时将所属阵营的徽记和颜色应用到盾牌上。
+  * **重要:** 你还必须在资源浏览器(Resource Browser)中将 banner\_with\_faction\_color 标签分配给 MetaMesh 资产本身以及其所有 LOD 变体。如果标签只在实体上而不在网格资产上,阵营颜色将不会显示。
 
 #### **2.2.3. cam\_holder\_nested**
 
-This prefab ensures that ship upgrade pieces are displayed correctly in the City Port UI, where players purchase and preview upgrades.
+该预制体确保船只升级部件在玩家购买和预览升级的城市港口 UI 中正确显示。
 
-> * **Placement:** Add the cam\_holder\_nested prefab at the ship's Identity. Best practice is to add this after all upgrade pieces have been placed, so the camera can be positioned to see the complete ship.  
-> * **Setup:** The holder contains one child entity for every upgrade piece type, associated via tags that the UI system reads. Move each child entity to position it over its corresponding upgrade piece on the ship.  
-> * **Camera Instance:** Move the Camera\_Instance child to a position that gives a wide, clear view of the entire ship from a flattering angle.  
-  * *Tip:* Set your editor viewport to the desired camera angle, then right-click Camera\_Instance and select **Assign Frame From Camera**. Fine adjustments (field of view, near/far clip) can be made via the script on the camera instance child.
+> * **放置:** 将 cam\_holder\_nested 预制体添加到船只的恒等位置。最佳实践是在放置完所有升级部件之后再添加此预制体,这样摄像机就能被定位到看到完整船只的位置。
+> * **设置:** 该容器为每种升级部件类型包含一个子实体,通过 UI 系统读取的标签进行关联。移动每个子实体以将其定位在船上对应的升级部件之上。
+> * **摄像机实例:** 将 Camera\_Instance 子项移动到一个能够以讨喜的角度宽广、清晰地展示整艘船的位置。
+  * *提示:* 将你的编辑器视口设置为所需的摄像机角度,然后右键单击 Camera\_Instance 并选择 **Assign Frame From Camera(从摄像机分配帧)**。可以通过摄像机实例子项上的脚本进行微调(视野、远近裁剪面)。
 
 #### **2.2.4. roof\_group**
 
-This prefab adds a roof structure over the aftercastle — the raised rear portion of the ship — and any forward castle if the ship design requires it.
+该预制体在后甲板楼(aftercastle,船只抬高的后部)以及船只设计需要的话前甲板楼之上添加屋顶结构。
 
-> * **Placement:** Add the roof\_group prefab at the ship's root Identity (0,0,0).  
-> * **Structure:** The prefab contains 15 different roof variants and platform options. Add the platform mesh appropriate for your ship as a MetaMesh to the platform child entity, then position the roof variants to fit your geometry.
+> * **放置:** 将 roof\_group 预制体添加到船只根实体的恒等位置(0,0,0)。
+> * **结构:** 该预制体包含 15 种不同的屋顶变体和平台选项。将适合你船只的平台网格作为 MetaMesh 添加到平台子实体,然后定位屋顶变体以适应你的几何形状。
 
-**Coloring & Tags:**
+**着色与标签:**
 
-> * Cloth elements (canvas roofing, awnings): Assign the sail\_mesh\_entity tag. This causes the cloth to be tinted to match the faction's sail color.  
-> * Wooden structural elements: Assign the auto\_factor\_color tag to the relevant wood material in the Resource Browser. This causes the wood to match the hull color defined in ShipColorAssigner on the root entity.  
-> * Other cloth elements: Assign the faction\_color tag in the Resource Browser (apply to all LODs). This applies a general faction color tint.
+> * 布料元素(帆布屋顶、遮阳篷): 分配 sail\_mesh\_entity 标签。这会使布料被染成与阵营帆色相匹配的颜色。
+> * 木质结构元素: 在资源浏览器中为相关木材材质分配 auto\_factor\_color 标签。这会使木材的颜色与根实体上 ShipColorAssigner 中定义的船体颜色相匹配。
+> * 其他布料元素: 在资源浏览器中分配 faction\_color 标签(应用于所有 LOD)。这会施加一种通用的阵营颜色色调。
 
 #### **2.2.5. figurehead\_group**
 
-The figurehead is the decorative carved element at the bow of the ship. In gameplay terms it also provides stat bonuses (increased ram damage, morale bonuses, etc.), making it both a cosmetic and an upgrade piece.
+船首像(figurehead)是船首处雕刻的装饰元素。在玩法方面,它还提供属性加成(增加撞击伤害、士气加成等),使其既是装饰品又是升级部件。
 
-> * **Placement:** Add the figurehead\_group prefab at the ship's Identity coordinates.  
-> * **Structure:** The prefab contains 17 default figurehead variants, plus a base and a platform child for the ship's default (no upgrade) state. Assign the appropriate mesh as a MetaMesh to the base and platform children if you want a default figurehead visible before any upgrades are applied.  
-> * **Adding New Types:** New figurehead variants must be added as children to the main prefab, and their stats and descriptions must be registered in ship\_upgrade\_pieces.xml and ship\_slots.xml.  
-> * **Visibility:** Unlike most other upgrade pieces, figureheads are discovered through exploration in the game world rather than purchased at port. However, they still appear in the editor's upgrade preview when using EditorShipUpgradeViewer.
+> * **放置:** 将 figurehead\_group 预制体添加到船只的恒等坐标处。
+> * **结构:** 该预制体包含 17 种默认船首像变体,以及用于船只默认(未升级)状态的基座(base)和平台(platform)子项。如果你希望在应用任何升级之前就有默认船首像可见,请将适当的网格作为 MetaMesh 分配给基座和平台子项。
+> * **添加新类型:** 新的船首像变体必须作为子项添加到主预制体中,其属性和描述必须在 ship\_upgrade\_pieces.xml 和 ship\_slots.xml 中注册。
+> * **可见性:** 与大多数其他升级部件不同,船首像是通过在游戏世界中探索发现的,而不是在港口购买的。不过,在使用 EditorShipUpgradeViewer 时,它们仍会出现在编辑器的升级预览中。
 
 #### **2.2.6. battlements\_holder\_aft**
 
-Defensive battle shields mounted on the aftercastle to protect troops on the rear of the ship. Typically used on heavier warships.
+安装在后甲板楼上的防御战盾,用于保护船尾部队。通常用于较重型的战舰。
 
-> * **Setup:** Create an empty entity named battlements\_holder\_aft at Identity under the ship root.  
-> * Add the battlement\_shield\_group\_aft nested prefab as a child.  
-> * **Configuration:** Multiple instances can be added. Each instance of the battlement prefab contains different visual states for different upgrade levels and destruction states. Destruction particles can be added as additional children within each instance, following the same structure used in the main ship burning system.
+> * **设置:** 在船只根节点下的恒等位置创建一个名为 battlements\_holder\_aft 的空实体。
+> * 添加 battlement\_shield\_group\_aft 嵌套预制体作为子项。
+> * **配置:** 可以添加多个实例。战盾预制体的每个实例都包含针对不同升级等级和损毁状态的不同视觉状态。可以在每个实例中添加额外的子项作为损毁粒子效果,遵循船只主燃烧系统中使用的相同结构。
 
 #### **2.2.7. deck\_upgrade\_holder**
 
-This entity contains the deck\_upgrade\_assets\_nested prefab, which handles interactive and passive assets that appear on the deck at higher upgrade levels.
+该实体包含 deck\_upgrade\_assets\_nested 预制体,处理在更高升级等级下出现在甲板上的交互式和被动资产。
 
-> * **Placement:** Add the deck\_upgrade\_assets\_nested prefab as a child under this holder. Multiple instances can be placed at different locations on the deck.  
-> * **NavMesh Constraint:** Because these assets have physics bodies, there must not be a NavMesh baked beneath them. Baking NavMesh under physics objects causes AI path-finding errors.
+> * **放置:** 将 deck\_upgrade\_assets\_nested 预制体添加为该容器下的子项。可以在甲板上的不同位置放置多个实例。
+> * **NavMesh 约束:** 由于这些资产具有物理体,其下方不能烘焙 NavMesh。在物理对象下方烘焙 NavMesh 会导致 AI 寻路错误。
 
-**Component Breakdown:**
+**组件分解:**
 
-> * **Interactable Assets:** The children named deck\_ammo\_1, deck\_ammo\_2, deck\_ammo\_3, deck\_javelin\_2, and deck\_javelin\_3 are interactive objects. Players and AI agents can interact with these to replenish arrows and throwable weapons during combat.  
-> * **Passive Assets:** All other children within the prefab are purely visual upgrade decorations with no interaction.
+> * **可交互资产:** 名为 deck\_ammo\_1、deck\_ammo\_2、deck\_ammo\_3、deck\_javelin\_2 和 deck\_javelin\_3 的子项是可交互对象。玩家和 AI 代理可以与这些对象交互,在战斗期间补充箭矢和投掷武器。
+> * **被动资产:** 该预制体中的所有其他子项纯粹是没有交互功能的视觉升级装饰。
 
 #### **2.2.8. ship\_ballista\_holder**
 
-A nested prefab that contains the complete ballista upgrade — the weapon itself, all ammo type variants, interaction points for agents, and the deck platform it sits on.
+一个包含完整弩炮升级的嵌套预制体——武器本身、所有弹药类型变体、代理交互点以及它所在的甲板平台。
 
-> * **Placement:** Add this prefab directly under the root entity.  
-> * **Tags:** Assign both the upgrade\_slot tag and the fore tag to the main holder entity. The upgrade\_slot tag registers it with the upgrade system; the fore tag identifies it as a forward-facing weapon and makes it mutually exclusive with battlements\_holder\_fore (a ship cannot have both a ballista and fore battlements at the same time).
+> * **放置:** 将此预制体直接添加到根实体下。
+> * **标签:** 为主容器实体分配 upgrade\_slot 标签和 fore 标签。upgrade\_slot 标签将其注册到升级系统;fore 标签将其标识为前向武器,并使其与 battlements\_holder\_fore 互斥(一艘船不能同时拥有弩炮和前甲板战盾)。
 
-**Child Breakdown:**
+**子项分解:**
 
-> * **ballista\_platform:** A raised deck platform that gives the ballista operator a better field of fire. This platform is only active when the ballista upgrade is equipped.  
-  * **Tag:** Assign the platform tag to this child.  
-  * **NavMesh Constraint:** This platform must not be higher than 1.5 metres above the baked deck NavMesh. The game does not generate a separate elevated NavMesh for this platform, so agents must be able to step onto it from the existing deck NavMesh. If it is too high, agents cannot reach the ballista.  
-> * **Ammo Type Children:** Each remaining child represents a different ammo type (standard bolts, fire bolts, etc.). All ammo children must be placed at the exact same coordinates — the game swaps between them by toggling visibility based on which ammo type is loaded. Each child must have a unique tag identifying its ammo type.
+> * **ballista\_platform:** 一个抬高的甲板平台,为弩炮操作者提供更好的射界。该平台仅在装备弩炮升级时才处于激活状态。
+  * **标签:** 为该子项分配 platform 标签。
+  * **NavMesh 约束:** 该平台不得高于已烘焙甲板 NavMesh 1.5 米以上。游戏不会为此平台生成单独的抬高 NavMesh,因此代理必须能够从现有甲板 NavMesh 踏上该平台。如果它太高,代理将无法到达弩炮。
+> * **弹药类型子项:** 其余每个子项代表一种不同的弹药类型(标准弩箭、火焰弩箭等)。所有弹药子项必须放置在完全相同的坐标处——游戏通过根据加载的弹药类型切换可见性来在它们之间进行切换。每个子项必须有一个唯一的标签来标识其弹药类型。
 
 #### **2.2.9. battlements\_holder\_fore**
 
-Defensive shields on the forecastle — the raised front section of the ship.
+安装在前甲板楼(forecastle,船只抬高的前部)上的防御盾牌。
 
-> * **Setup:** Create an empty entity named battlements\_holder\_fore at Identity.  
-> * Add the battlement\_shield\_group\_fore nested prefab as a child.  
-> * **Mutual Exclusivity:** This component is mutually exclusive with ship\_ballista\_holder. A ship cannot have both fore battlements and a ballista. Ensure the tags on this holder use the fore designation so the upgrade system enforces this exclusivity correctly.
+> * **设置:** 在恒等位置创建一个名为 battlements\_holder\_fore 的空实体。
+> * 添加 battlement\_shield\_group\_fore 嵌套预制体作为子项。
+> * **互斥性:** 该组件与 ship\_ballista\_holder 互斥。一艘船不能同时拥有前甲板战盾和弩炮。确保此容器上的标签使用 fore 标识,以便升级系统正确强制执行这种互斥性。
 
 #### **2.2.10. ram\_group**
 
-The ram is the reinforced prow extension used for ramming enemy ships, dealing hull damage on collision.
+撞角(ram)是用于撞击敌船、在碰撞时造成船体伤害的加固船首延伸部分。
 
-> * **Placement:** Add the ram\_group nested prefab at the ship's Identity.  
-> * **Structure:** The prefab contains 8 predefined ram variants and 1 adapter mesh. Place and orient the 8 ram variants to fit your ship's bow shape, then add the appropriate deck extension or prow platform mesh as a MetaMesh to the adapter entity.  
-> * **Tags:** All required tags for the upgrade and damage systems are predefined on the ram prefab's children. New ram variants can be added to the prefab and registered in the relevant XML files following the existing patterns.
+> * **放置:** 将 ram\_group 嵌套预制体添加到船只的恒等位置。
+> * **结构:** 该预制体包含 8 种预定义的撞角变体和 1 个适配器网格。放置并调整这 8 种撞角变体的朝向以适应你船只的船首形状,然后将适当的甲板延伸或船首平台网格作为 MetaMesh 添加到适配器实体。
+> * **标签:** 升级和伤害系统所需的所有标签都已预定义在撞角预制体的子项上。可以按照现有模式向该预制体添加新的撞角变体,并在相关的 XML 文件中注册。
 
-### **2.3. Cosmetic & VFX Components**
+### **2.3. 装饰与 VFX 组件**
 
-This group contains purely visual elements. Their absence does not break the ship's functionality or gameplay, but they are essential for the ship to look and feel correct in-game.
+该组包含纯视觉元素。它们的缺失不会破坏船只的功能或玩法,但对于船只在游戏中看起来和感觉正确至关重要。
 
 #### **2.3.1. wetness\_decals**
 
-*These decals simulate water splash marks on the outer hull, showing wet patches where waves hit the ship's sides.*
+*这些贴花模拟外部船体上的水花痕迹,显示波浪拍打船侧时留下的湿润痕迹。*
 
-> * *Setup: Create an empty entity as a direct child of the ship root (not inside mesh\_holder or ship\_water\_effects). Name it wetness\_decals and assign the tag wetness\_decals to it.*  
-> * *Add child entities under it. Each child must have a Decal component with the desired wetness material assigned.*  
-> * *Position and orient each decal against the hull surface. The decal's local up axis is used as its surface normal — ensure it points outward away from the hull surface, otherwise the system cannot correctly determine whether a splash particle is near enough to activate the decal.*  
-> * *Behavior: Decals fade in when active splash particles are nearby on the same side of the hull, then gradually fade out over approximately 6 seconds of inactivity.*
+> * *设置:在船只根节点下创建一个空实体作为直接子项(不要放在 mesh\_holder 或 ship\_water\_effects 内部)。将其命名为 wetness\_decals,并为其分配 wetness\_decals 标签。*
+> * *在其下添加子实体。每个子项必须拥有一个 Decal(贴花)组件,并分配所需的湿润材质。*
+> * *将每个贴花相对于船体表面进行定位和定向。贴花的局部向上轴被用作其表面法线——确保它指向远离船体表面的方向,否则系统无法正确判断水花粒子是否足够靠近以激活该贴花。*
+> * *行为:当船体同侧附近有活跃的水花粒子时,贴花会淡入显现,然后在大约 6 秒的非活动状态后逐渐淡出。*
 
 #### **2.3.2. rudder\_objects**
 
-Used when you want a visible physical rudder on the ship that rotates in response to the ship's steering, even when the steering is not controlled by a ShipControlRudder (i.e., the rudder is visual only, not interactive).
+当你希望在船上有一个可见的物理舵,它能够响应船只转向而旋转,即使该转向并非由 ShipControlRudder 控制时使用(即该舵仅是视觉效果,不具备交互性)。
 
-> * **Setup:** Add the appropriate rudder mesh as a MetaMesh to a child entity of this holder.  
-> * **Tag:** Assign the tag rudder\_rotation\_entity to the entity containing the mesh. The game reads this tag to find the visual rudder and synchronize its rotation angle with the ship's current steering input.
+> * **设置:** 将适当的舵网格作为 MetaMesh 添加到该容器的子实体。
+> * **标签:** 为包含该网格的实体分配 rudder\_rotation\_entity 标签。游戏会读取此标签来查找视觉舵,并将其旋转角度与船只当前的转向输入同步。
 
 #### **2.3.3. ship\_water\_effects**
 
-ShipWaterEffects (ship\_water\_effects) is a script component that adds all water-related visual effects to the ship. It is purely visual and has no effect on physics or gameplay logic.  
+ShipWaterEffects(ship\_water\_effects)是一个脚本组件,为船只添加所有与水相关的视觉效果。它纯粹是视觉性的,对物理或玩法逻辑没有影响。
 
-**Prerequisite:** The ship's buoyancy (floater volumes) must be fully set up before adding this script. ShipWaterEffects reads the floater configuration to determine the waterline position used for particle placement.  
+**前提条件:** 在添加此脚本之前,船只的浮力(浮子体积)必须已完全设置好。ShipWaterEffects 会读取浮子配置,以确定用于粒子放置的水线位置。
 
-The script is attached to a **child entity** of the ship root — not the root itself. Create a child entity named ship\_visual\_only and add the ship\_water\_effects script to it. The ship\_visual\_only tag scopes this script to visual-only entities, keeping it separate from physics and gameplay logic.
+该脚本附加在船只根节点的**子实体**上——而不是根节点本身。创建一个名为 ship\_visual\_only 的子实体,并将 ship\_water\_effects 脚本添加到其中。ship\_visual\_only 标签将此脚本的范围限定在仅视觉实体内,使其与物理和玩法逻辑分离。
 
-\[ship\_root\]  
-  └─ \[ship\_visual\_only\] ← ShipWaterEffects script lives here
+\[ship\_root\]
+  └─ \[ship\_visual\_only\] ← ShipWaterEffects 脚本位于此处
 
-**Overview of Features:**
+**功能概览:**
 
-| Feature | Description |
+| 功能 | 描述 |
 | :---- | :---- |
-| **Wake** | A trail on the water surface behind the moving ship. Shape and size are derived automatically from the hull mesh. |
-| **Movement Particles** | Continuous water spray along both sides of the hull while the ship is underway. |
-| **Splash Particles** | Velocity-triggered burst particles at the waterline. Thresholds: small at ≥2 m/s, medium at ≥5 m/s, large at ≥8 m/s. |
-| **In-Hull Water Simulation** | A simulated water surface rendered inside the hull interior. Reacts to wave entry events and rain automatically. |
-| **Foam Trail Decals** | Foam patches spawned at the bow as the ship moves, which drift and fade over time. Requires a decal renderer in the scene. |
-| **Wetness Decals** | Hull decals that become visibly wet near active splash particles and dry out over time. See section 2.3.1 for setup. |
-| **Rain Interaction** | The in-hull water surface reacts to scene rain density automatically. |
+| **航迹(Wake)** | 移动船只身后水面上留下的尾迹。形状和大小根据船体网格自动推导。 |
+| **移动粒子(Movement Particles)** | 船只航行时沿船体两侧持续产生的水花喷溅。 |
+| **水花粒子(Splash Particles)** | 在水线处由速度触发的爆发式粒子。阈值:小≥2 m/s,中≥5 m/s,大≥8 m/s。 |
+| **船体内部水体模拟(In-Hull Water Simulation)** | 在船体内部渲染的模拟水面。会自动对波浪进入事件和降雨做出反应。 |
+| **泡沫尾迹贴花(Foam Trail Decals)** | 船只移动时在船首生成的泡沫斑块,会随时间漂移和淡出。需要场景中有贴花渲染器。 |
+| **湿润贴花(Wetness Decals)** | 在活跃水花粒子附近显得明显湿润、并随时间变干的船体贴花。设置方法见 2.3.1 节。 |
+| **降雨交互(Rain Interaction)** | 船体内部水面会自动对场景降雨密度做出反应。 |
 
-**Note:** You do not need to manually place any particle entities. All particle positions are computed automatically at startup using raycasts against the body\_mesh entity. Ensure body\_mesh exists and has a valid MetaMesh with an accurate bounding box. If the ship has a ram, the bow particle strip extends automatically to cover the ram tip — no extra setup is needed.  
+**注意:** 你不需要手动放置任何粒子实体。所有粒子位置都会在启动时通过对 body\_mesh 实体进行射线检测自动计算。确保 body\_mesh 存在,并具有带有准确包围盒的有效 MetaMesh。如果船只带有撞角,船首粒子条带会自动延伸以覆盖撞角尖端——不需要额外设置。
 
-**Configurable Parameters:**  
+**可配置参数:**
 
-*In-Hull Water Simulation:*
+*船体内部水体模拟:*
 
-> * Water Simulation Bounding Box (default: 1,1,1) — XYZ extents of the bounding volume. Use **Reset Water Simulation Bounding Box** to auto-compute from render\_to\_depth meshes.  
-> * Hull Water Simulation Resolution Scale (default: half) — Options: one, half, quarter, one\_eight, one\_sixteenth. Lower values improve performance.  
-> * Hull Water Splash Water Multiplier (default: 1.75) — Scales wave displacement intensity inside the hull on splash events.  
-> * Ship Hull Height Type (default: Small) — Use Large for tall-sided vessels. Options: Small, Medium, Large.
+> * Water Simulation Bounding Box(水体模拟包围盒,默认: 1,1,1)—— 包围体积的 XYZ 范围。使用 **Reset Water Simulation Bounding Box(重置水体模拟包围盒)** 可根据 render\_to\_depth 网格自动计算。
+> * Hull Water Simulation Resolution Scale(船体水体模拟分辨率比例,默认: half)—— 选项: one、half、quarter、one\_eight、one\_sixteenth。数值越低性能越好。
+> * Hull Water Splash Water Multiplier(船体水花水量倍增器,默认: 1.75)—— 在水花事件发生时,缩放船体内部的波浪位移强度。
+> * Ship Hull Height Type(船体高度类型,默认: Small)—— 高舷船只请使用 Large。选项: Small、Medium、Large。
 
-*Movement Particles:*
+*移动粒子:*
 
-> * Movement Particle Type (default: Small) — Use Small for small boats, Medium or Large for bigger ships.  
-> * Movement Particle Height Offset (default: 0.34) — Vertical offset in metres from the computed waterline.  
-> * Movement Particle Surface Distance Offset (default: 0.7) — Distance from the hull surface for particle origins.
+> * Movement Particle Type(移动粒子类型,默认: Small)—— 小型船只使用 Small,较大船只使用 Medium 或 Large。
+> * Movement Particle Height Offset(移动粒子高度偏移,默认: 0.34)—— 相对于计算出的水线的垂直偏移量(米)。
+> * Movement Particle Surface Distance Offset(移动粒子表面距离偏移,默认: 0.7)—— 粒子起点距船体表面的距离。
 
-*Splash Particles:*
+*水花粒子:*
 
-> * Splash Particle Height Offset (default: 0.4) — Vertical offset from waterline for splash particle placement.  
-> * Splash Particle Surface Distance Offset (default: 0.7) — Distance from hull surface for splash particle origins.
+> * Splash Particle Height Offset(水花粒子高度偏移,默认: 0.4)—— 水花粒子放置相对于水线的垂直偏移。
+> * Splash Particle Surface Distance Offset(水花粒子表面距离偏移,默认: 0.7)—— 水花粒子起点距船体表面的距离。
 
-**Editor Debug Tools** *(editor only, no effect in shipped builds):*
+**编辑器调试工具**(*仅限编辑器,出货构建中无效果*):
 
-> * **Reset Water Simulation Bounding Box** — Auto-computes bounding box from render\_to\_depth meshes.  
-> * **Re-render Depth Texture** — Forces the depth texture to re-render after modifying render\_to\_depth meshes.  
-> * **Reset In-Hull Water** — Resets the hull water simulation to its initial state.  
-> * **Show Water Simulation Bounding Box** — Draws the bounding box in the viewport.  
-> * **Show Movement Particles / Show Splash Particles** — Draws debug markers at each particle origin.  
-> * **Show Water Balance Plane** — Visualizes the computed waterline as a red plane.  
-> * **Show Wetness Decal Values / Force Wetness Decal To Full** — Tools for inspecting wetness decal placement and opacity.
+> * **Reset Water Simulation Bounding Box(重置水体模拟包围盒)** —— 根据 render\_to\_depth 网格自动计算包围盒。
+> * **Re-render Depth Texture(重新渲染深度纹理)** —— 在修改 render\_to\_depth 网格后强制重新渲染深度纹理。
+> * **Reset In-Hull Water(重置船体内部水体)** —— 将船体水体模拟重置为初始状态。
+> * **Show Water Simulation Bounding Box(显示水体模拟包围盒)** —— 在视口中绘制包围盒。
+> * **Show Movement Particles / Show Splash Particles(显示移动粒子/显示水花粒子)** —— 在每个粒子起点绘制调试标记。
+> * **Show Water Balance Plane(显示水平衡平面)** —— 将计算出的水线可视化为一个红色平面。
+> * **Show Wetness Decal Values / Force Wetness Decal To Full(显示湿润贴花数值/强制湿润贴花至最大)** —— 用于检查湿润贴花放置和不透明度的工具。
 
-**Campaign Map Behavior:** On the campaign map (Main\_map scene), this script automatically disables all particle and simulation logic. No visual overhead is incurred on the campaign map — the entity structure simply needs to be present.
+**战役地图行为:** 在战役地图(Main\_map 场景)上,此脚本会自动禁用所有粒子和模拟逻辑。战役地图上不会产生视觉开销——只需要实体结构存在即可。
 
 #### **2.3.4. ship\_burning\_system**
 
-This entity contains all visual and audio content related to the ship's burning mechanics — fire particles, light sources, and sound nodes. The system is designed to spread fire progressively across the ship in a controlled sequence.  
+该实体包含与船只燃烧机制相关的所有视觉和音频内容——火焰粒子、光源和声音节点。该系统旨在以受控的顺序逐步在船上蔓延火焰。
 
-**a) Particle Placement Hierarchy:**  
+**a) 粒子放置层级结构:**
 
-The ship\_burning\_node prefabs are sorted into specific parent entities to define where fire can appear. These parents must exist inside the ship\_burning\_system entity:
+ship\_burning\_node 预制体被归类到特定的父实体中,以定义火焰可以出现的位置。这些父节点必须存在于 ship\_burning\_system 实体内部:
 
-> * railing\_parent: Place burning nodes along the railings.  
-> * ship\_deck\_parent: Place burning nodes at random positions across the open deck.  
-> * deck\_upgrade\_parent: Place burning nodes on and around deck upgrade assets.  
-> * mast\_parent: Place burning nodes on the deck in the area beneath each mast.
+> * railing\_parent: 沿栏杆放置燃烧节点。
+> * ship\_deck\_parent: 在开放甲板上的随机位置放置燃烧节点。
+> * deck\_upgrade\_parent: 在甲板升级资产上及其周围放置燃烧节点。
+> * mast\_parent: 在每根桅杆下方的甲板区域放置燃烧节点。
 
-**b) BurningNode Configuration:**  
+**b) BurningNode 配置:**
 
-Each ship\_burning\_node prefab contains the BurningNode script and a particle system child.
+每个 ship\_burning\_node 预制体都包含 BurningNode 脚本和一个粒子系统子项。
 
-> * **Node Index (Critical):** The Node Index value in the BurningNode script controls the order in which fire spreads. Assign sequential, unique integers (0, 1, 2, 3...) to adjacent nodes along a logical spread path — for example, numbering railing nodes from stern to bow causes fire to visibly travel along the railing in sequence.  
-> * **Audio Restriction (Important):** Remove all sound file paths from the particle systems used inside burning nodes. The burning system has its own dedicated sound management through sound\_parent. Leaving sounds on individual particles causes multiple overlapping audio sources and a loud, incorrect soundscape.
+> * **Node Index(节点索引,关键):** BurningNode 脚本中的 Node Index 值控制火焰蔓延的顺序。为沿逻辑蔓延路径相邻的节点分配连续、唯一的整数(0、1、2、3……)——例如,从船尾到船首对栏杆节点进行编号,会使火焰可见地沿栏杆按顺序蔓延。
+> * **音频限制(重要):** 移除燃烧节点内部所使用粒子系统中的所有声音文件路径。燃烧系统通过 sound\_parent 拥有自己专门的声音管理。如果在单个粒子上保留声音,会导致多个重叠的音频源和响亮、错误的声景。
 
-**c) Lighting & Sound:**
+**c) 灯光与声音:**
 
-> * light\_parent: Contains point light entities. Position these near clusters of burning nodes to create convincing firelight illumination. Lights fade in and out automatically based on fire progress values in the ShipBurningSystem script.  
-> * sound\_parent: Contains burning\_sound\_node prefabs. Place 2 to 6 of these around the ship depending on its size. These nodes trigger fire sounds only when fire particles in their immediate vicinity are active.
+> * light\_parent: 包含点光源实体。将这些灯光放置在燃烧节点集群附近,以营造逼真的火光照明效果。灯光会根据 ShipBurningSystem 脚本中的火焰进度值自动淡入淡出。
+> * sound\_parent: 包含 burning\_sound\_node 预制体。根据船只大小,在船周围放置 2 到 6 个这样的节点。这些节点仅在其附近的火焰粒子处于活跃状态时才会触发燃烧声音。
 
-**d) ShipBurningSystem Script (Root Settings):**
+**d) ShipBurningSystem 脚本(根设置):**
 
-> * **Start Fire / Stop Fire:** Editor buttons to preview the full burning sequence without launching the game.  
-> * **Spread Rate:** Controls how quickly fire spreads across the ship. Higher values cause faster, more aggressive burning.  
-> * **All Fire Mode:** Activates all fire particles simultaneously, useful for visually checking node placement.  
-> * **Small Hit Debug:** With this enabled, aim at the ship and press middle-click to simulate a small localized fire hit.  
-> * **Min/Max Fire Progress For Light:** Controls the timeline for light activation.  
-  * *Min:* The fire progress value (0–1) at which the point lights begin to fade in.  
-  * *Max:* The fire progress value at which lights reach their peak intensity.  
-> * **Max Light Intensity:** The maximum brightness value the lights under light\_parent will reach at peak fire intensity.
+> * **Start Fire / Stop Fire(开始燃烧/停止燃烧):** 编辑器按钮,用于在不启动游戏的情况下预览完整的燃烧序列。
+> * **Spread Rate(蔓延速率):** 控制火焰在船上蔓延的速度。数值越高,燃烧越快、越猛烈。
+> * **All Fire Mode(全部点燃模式):** 同时激活所有火焰粒子,便于直观检查节点放置情况。
+> * **Small Hit Debug(小型命中调试):** 启用此项后,瞄准船只并按鼠标中键可以模拟一次小型局部火焰命中。
+> * **Min/Max Fire Progress For Light(灯光的最小/最大火焰进度):** 控制灯光激活的时间线。
+  * *Min(最小值):* 点光源开始淡入时的火焰进度值(0–1)。
+  * *Max(最大值):* 灯光达到峰值强度时的火焰进度值。
+> * **Max Light Intensity(最大灯光强度):** light\_parent 下的灯光在火焰强度达到峰值时所能达到的最大亮度值。
 
 #### **2.3.5. rope\_cosmetics\_holder**
 
-This holder contains decorative ropes that are tied between points on the ship — rigging lines, mooring ropes, and other atmospheric rope details.
+该容器包含在船只各点之间系挂的装饰性绳索——索具线、系泊绳以及其他增添氛围的绳索细节。
 
-> * **Prefab:** Use simple\_rope\_nested for each rope. Place the start and end child entities of each rope at the desired anchor points on the ship.  
-> * **Configuration:** Adjust the following via the script on the start child entity:  
-  * fixed size: Whether the rope has a fixed length or sags based on the distance between endpoints.  
-  * loose amount: How much the rope sags between its endpoints (catenary curve depth).  
-  * default length: The rope's natural unstretched length.  
-> * **Visual Properties:** Rope thickness, length-based texture tiling, and other visual parameters are controlled via the material's **custom mesh parameters** on the rope entity.
+> * **预制体:** 对每根绳索使用 simple\_rope\_nested。将每根绳索的起点和终点子实体放置在船上所需的锚定点上。
+> * **配置:** 通过起点子实体上的脚本调整以下内容:
+  * fixed size(固定长度): 绳索是具有固定长度,还是根据端点之间的距离下垂。
+  * loose amount(松弛量): 绳索在两端点之间下垂的程度(悬链线曲线深度)。
+  * default length(默认长度): 绳索自然未拉伸时的长度。
+> * **视觉属性:** 绳索粗细、基于长度的纹理平铺以及其他视觉参数,通过绳索实体上材质的**自定义网格参数(custom mesh parameters)**进行控制。
 
 #### **2.3.6. brazier\_holder**
 
-Braziers provide the lit coal pots from which archers can ignite fire arrows. This component works interchangeably — or mutually exclusively, depending on ship design — with some shield upgrade configurations.
+火盆(Braziers)提供了燃烧的煤炭盆,弓箭手可以用它点燃火箭。根据船只设计,该组件与某些盾牌升级配置可以互换使用——或互斥使用。
 
-> * **Placement:** Place brazier\_b or brazier\_d prefabs as children under this holder at suitable positions along the ship's edges or deck. Tags are predefined on the prefab — no additional tag setup is required.  
-> * Multiple braziers can be placed, and their positions should be accessible to standing agents without requiring them to move far from their combat positions.
+> * **放置:** 将 brazier\_b 或 brazier\_d 预制体作为子项放置在此容器下,位于船只边缘或甲板上合适的位置。标签已在预制体上预定义——无需额外的标签设置。
+> * 可以放置多个火盆,它们的位置应便于站立的代理使用,而无需离开其战斗位置太远。
 
-#### **2.3.7. ship\_water\_clip (SDF System)**
+#### **2.3.7. ship\_water\_clip(SDF 系统)**
 
-The SDF (Signed Distance Field) system prevents ocean water from visually appearing inside the ship's hull — without it, the sea surface would clip through the hull geometry, which looks incorrect.
+SDF(带符号距离场,Signed Distance Field)系统防止海水在视觉上出现在船体内部——如果没有它,海面会穿透船体几何体,看起来会不正确。
 
-> * **Model Preparation:** Create a custom 3D mesh that closely follows the outer shape of the ship's hull below the deck line, extending slightly above deck level to create a sealed volume. This mesh defines the "dry" interior zone.  
-> * **Naming Convention:** The mesh name must begin with the prefix sdf\_ (e.g., sdf\_dromon). The engine automatically processes any mesh with this prefix as SDF data when it is imported.
+> * **模型准备:** 创建一个自定义 3D 网格,紧密贴合甲板线以下船体的外部形状,并略微延伸至甲板水平线以上,以形成一个密封的体积。此网格定义了"干燥"的内部区域。
+> * **命名约定:** 网格名称必须以前缀 sdf\_ 开头(例如 sdf\_dromon)。引擎在导入时会自动将带有此前缀的任何网格处理为 SDF 数据。
 
-**Setup:**
+**设置:**
 
-> 1. Add the ship\_water\_clip prefab to the ship hierarchy.  
-> 2. Find the signed\_distance\_field script inside this prefab.  
-> 3. Assign your prepared SDF mesh asset to the script.
+> 1. 将 ship\_water\_clip 预制体添加到船只层级结构中。
+> 2. 在此预制体内找到 signed\_distance\_field 脚本。
+> 3. 将你准备好的 SDF 网格资产分配给该脚本。
 
-**Verification:** Enable the **Visualize SDF** checkbox in the script to see the field rendered in the editor viewport as a colored volume. Verify that the volume completely encloses the hull interior below deck.
+**验证:** 在脚本中启用 **Visualize SDF(可视化 SDF)** 复选框,以在编辑器视口中将场渲染为彩色体积。验证该体积完全包围了甲板以下的船体内部。
 
 <img src="/img/ship_creation/sdf_volume_visualization.png" style="max-width: 800px;"/>
 
-#### **2.3.8. deckwater (Heightmap Simulation)**
+#### **2.3.8. deckwater(高度图模拟)**
 
-This system simulates water pooling and sloshing on the ship's deck — the visible water that accumulates from waves washing over the sides.
+该系统模拟船只甲板上的积水和晃动的水——即波浪冲过船舷时积聚的可见水体。
 
-> * **Asset:** A simplified "fake deck" mesh is required. This mesh is used to generate the top-down depth texture (heightmap) that the simulation reads.  
-> * **Setup:**  
-  1. Add this fake deck mesh as a child entity under mesh\_holder.  
-  2. Assign the render\_to\_depth tag to this entity. The water effects system will include it (along with all other render\_to\_depth tagged objects such as oar\_seats and deck furniture) in the depth render.  
-  3. After setup, navigate to the ship\_water\_effects child entity and click **Re-render Depth Texture** in the ShipWaterEffects script to bake the depth texture.  
-> * **Debug:** Increase the **Water Strength** value in the Scene Options window and enable **Enable Physics** in the Visibility window to observe the deck water simulation behavior in the editor.
+> * **资产:** 需要一个简化的"假甲板"网格。该网格用于生成模拟所读取的俯视深度纹理(高度图)。
+> * **设置:**
+  1. 在 mesh\_holder 下添加该假甲板网格作为子实体。
+  2. 为该实体分配 render\_to\_depth 标签。水效果系统会将其(连同所有其他带有 render\_to\_depth 标签的对象,如 oar\_seats 和甲板家具)包含在深度渲染中。
+  3. 设置完成后,导航到 ship\_water\_effects 子实体,并在 ShipWaterEffects 脚本中点击 **Re-render Depth Texture(重新渲染深度纹理)** 来烘焙深度纹理。
+> * **调试:** 在场景选项(Scene Options)窗口中增大 **Water Strength(水体强度)** 值,并在可见性(Visibility)窗口中启用 **Enable Physics(启用物理)**,以便在编辑器中观察甲板积水模拟行为。
 
 <img src="/img/ship_creation/deckwater_simulation.png" style="max-width: 800px;"/>
 
 #### **2.3.9. torch\_holder**
 
-This holder contains lanterns and torches that provide ambient lighting on the ship at night and in dark scenes.
+该容器包含灯笼和火炬,为船只在夜晚和黑暗场景中提供环境照明。
 
-> * **Prefab:** Add nord\_lantern\_nested as a child for each light source position.  
-> * Each lantern prefab contains:  
-  * collision\_sphere: A small physics sphere used for collision interactions (e.g., agents brushing past the lantern).  
-  * swinging\_object: The part of the lantern that physically swings in response to ship movement. Assign the tag swinging\_entity to this child. This child contains both the light source entity and the lantern mesh that visually sways.  
-  * nord\_lantern\_part\_02: The static mounting bracket or chain that does not swing. This part stays fixed relative to the ship.
+> * **预制体:** 为每个光源位置添加 nord\_lantern\_nested 作为子项。
+> * 每个灯笼预制体包含:
+  * collision\_sphere: 一个用于碰撞交互的小型物理球体(例如代理擦过灯笼)。
+  * swinging\_object: 灯笼中随船只运动而物理摆动的部分。为该子项分配 swinging\_entity 标签。该子项包含光源实体和在视觉上摆动的灯笼网格。
+  * nord\_lantern\_part\_02: 不摆动的静态安装支架或链条。该部分相对于船只保持固定。
 
 #### **2.3.10. knobs\_holder**
 
-This holder contains the deck-level anchor points where ropes from the sails tie off. They are the cleats, bollards, and belaying pin racks that sailors use to secure running rigging.
+该容器包含帆上绳索系挂的甲板级锚点。它们是水手用来固定索具绳索的系缆桩、系柱和系索栓架。
 
-> * **Parent Tag:** Assign the tag knob\_points\_parent to the knobs\_holder entity itself. The sail system uses this tag to locate all available rope anchor points on the ship.
+> * **父标签:** 为 knobs\_holder 实体本身分配 knob\_points\_parent 标签。帆系统使用此标签来定位船上所有可用的绳索锚点。
 
-**Available prefabs:**
+**可用预制体:**
 
-> * bollard\_a  
-> * cleat\_a  
-> * belaying\_pins\_a  
-> * belaying\_pins\_b  
-> * **Setup:** Inside each prefab are child entities that serve as the precise rope endpoint anchors. Assign the tag knot\_point to each of these child entities. You can duplicate and place as many anchor prefabs as your rigging design requires. The sail system will automatically use the nearest knot\_point to route rope visuals from each sail's control bone.
+> * bollard\_a
+> * cleat\_a
+> * belaying\_pins\_a
+> * belaying\_pins\_b
+> * **设置:** 每个预制体内部都有作为精确绳索端点锚定的子实体。为这些子实体中的每一个分配 knot\_point 标签。你可以根据索具设计的需要复制并放置任意数量的锚点预制体。帆系统会自动使用最近的 knot\_point 来从每个帆的控制骨布线绳索视觉效果。

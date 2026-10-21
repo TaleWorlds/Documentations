@@ -1,5 +1,5 @@
 +++
-title="War Sails"
+title="War Sails（海战）"
 weight = 100
 +++
 

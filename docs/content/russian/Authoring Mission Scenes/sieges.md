@@ -1,63 +1,65 @@
 +++
-title = "Как создать сцену осады"
+title = "Что делает сцену сценой осады"
 description = ""
-weight = 1
+weight = 10
+ai_translated = true
 +++
 
 #### Введение
-Этот перечень особенностей осады поможет вам при создании городов и замков, подходящих для осады.
+Этот список особенностей, специфичных для осады, поможет вам при создании городов и замков, подходящих для осад.
 
 ___
 
-#### Осаждаемые сцены
+#### Осаждаемые стены
 
-*Осадные стены - это позиции стен, которые поддерживают функцию пробитых стен в сценах осады. Нам нужно будет указать твердые и сломанные этапы и их важные позиции, а также изменения сетки навигации AI, как если бы произошел разрыв.*
+*Осаждаемые стены — это позиции стен, которые поддерживают функцию пробитых стен в сценах осады. Нам нужно будет указать целые и разрушенные состояния и их важные позиции, а также изменения навигационной сетки ИИ, если образуется пролом.*
 
-* Add a tag to the parent entity, that will later be used on siege ladders and siege towers (ex:wall_segment_left, wall_segment_right). This tag will identify which siege machines are related to which lanes, and will be used for “target wall segment” variable on siege machines.
-* Add the tag “broken_child” to the broken wall, and add the tag “solid_child” to the solid wall.
-* Add two entities as child entities to the solid wall. First one for where defender troops will wait as attackers approach the castle, and second for where they should stand for defending position. These entities should have the tags “wait_pos” and “middle_pos'' respectively. 
+* Добавьте тег родительской сущности, который впоследствии будет использоваться на осадных лестницах и осадных башнях (например: wall_segment_left, wall_segment_right). Этот тег будет определять, какие осадные машины относятся к каким полосам, и будет использоваться для переменной «target wall segment» на осадных машинах.
+* Добавьте тег «broken_child» к разрушенной стене и тег «solid_child» к целой стене.
+* Добавьте две дочерние сущности к целой стене. Первая — для места, где защитники будут ждать приближения атакующих к замку, вторая — для места, где они должны стоять в оборонительной позиции. Эти сущности должны иметь теги «wait_pos» и «middle_pos» соответственно.
 
-![](/img/siege_scenes/Show_middle_pos_and_wait_pos.png)
+<img src="/img/siege_scenes/Show_middle_pos_and_wait_pos.png" width="1200px" />
 
-* For the broken wall, add three child entities. They should have the tags “wait_pos”, “middle_pos” and “attacker_wait_pos”. First two are the same as solid wall and attacker wait pos is where Attacker troops will wait (preferably behind covers) while other siege engines get into position.
-* **WallSegment script**
-    * Enter the side of the siegeable wall (it should be either left or right, middle is reserved for the gatehouse regardless of its position).
-    * Enter the navigation mesh ids you will use for that siegeable wall.
-    * Remake and id the navigation mesh accordingly.
-    * Make sure that new navigation mesh faces have correct levels.
+* Для разрушенной стены добавьте три дочерние сущности. Они должны иметь теги «wait_pos», «middle_pos» и «attacker_wait_pos». Первые два аналогичны целой стене, а attacker_wait_pos — это место, где атакующие войска будут ждать (предпочтительно за укрытиями), пока другие осадные орудия занимают позицию.
+* Добавьте скрипты WallSegment со значениями по умолчанию к разрушенной и к целой стене.
+* **Скрипт WallSegment** (родительская сущность)
+    * Укажите сторону осаждаемой стены (она должна быть либо левой, либо правой; средняя зарезервирована для надвратной башни независимо от её положения).
+    * Введите идентификаторы навигационной сетки, которые вы будете использовать для этой осаждаемой стены.
+    * Пересоздайте и промаркируйте навигационную сетку соответствующим образом.
+    * Убедитесь, что новые грани навигационной сетки имеют правильные уровни.
 
-![](/img/siege_scenes/wallsegment.png)
+<img src="/img/siege_scenes/wallsegment.png"/>
 
-| Solid Wall Navmesh | Broken Wall Navmesh |
+| Навигационная сетка целой стены | Навигационная сетка разрушенной стены |
 | ------ | ----------- |
-| ![](/img/siege_scenes/siegable_walls_1.png) | ![](/img/siege_scenes/siegable_walls_2.png) |
+| <img src="/img/siege_scenes/siegable_walls_1.png"/> | <img src="/img/siege_scenes/siegable_walls_2.png"/> |
 
-* If you are not going to use under debris navmesh ids you can enter “-1” to corresponding ID’s on the wall segment script.
-* In this example when the wall is not broken, 328 will connect to 342, 331 will connect to 391, 341 will be active, and 351 will be active.
-* When the wall is broken and there is a breach, 328 will connect to 371 and 381 will connect to 391, and 361 will be active.
-* This way if we have a lot of debris around the siegeable wall, we will have much fewer agents getting stuck for lack of navigation mesh.
-* In this image, empty spaces between navmeshes were exaggerated for sake of clarity.
+* Если вы не собираетесь использовать идентификаторы навигационной сетки под обломками, вы можете ввести «-1» в соответствующие ID в скрипте wall segment.
+* В этом примере, когда стена не разрушена, 328 будет соединяться с 342, 331 будет соединяться с 391, 341 будет активен, а 351 будет активен.
+* Когда стена разрушена и образован пролом, 328 будет соединяться с 371, а 381 будет соединяться с 391, и 361 будет активен.
+* Таким образом, если вокруг осаждаемой стены много обломков, гораздо меньше агентов будут застревать из-за отсутствия навигационной сетки.
+* На этом изображении пустые пространства между навигационными сетками были преувеличены для наглядности.
 
 ___
 
 #### Ворота замка
 
-*The castle gate is the location and prefabs that interact with the battering ram. We will have to use 2 of them, 1 outer gate which will be broken down by the battering ram and an inner one which will be broken down by normal troop attacks.*
+*Ворота замка — это место и префабы, которые взаимодействуют с тараном. Нам нужно будет использовать 2 ворот: 1 внешние, которые будут разбиты тараном, и внутренние, которые будут разбиты обычными атаками войск.*
 
-* Place the outer and inner gates.
-* Outer gate should have an “outer_gate” tag, and the inner gate should have an “inner_gate” tag.
-* **CastleGate script**
-    * Enter the navigation mesh id you will use for the gate.
-    * Make the side variable “middle”.
-    * Change the HP of the gate according to its position and level (For outer gates HP’s should be: 12000 on level 1, 15000 on level 2 and 18000 on level 3. Inner gates HP’s should be 1000 for all levels.)
-    * Remake and id the navigation mesh accordingly.
-    * Make sure that new navigation mesh faces have correct levels.
-* Adjust the position of “middle_position” of the outer gate. It should be really close to the inner side of the inner gate.
-* You can turn off the navmeshes, for open state of the gate using [navigationmeshidtodisableonopen] navmesh id.
+* Разместите внешние и внутренние ворота.
+* Внешние ворота должны иметь тег «outer_gate», а внутренние — тег «inner_gate».
+* **Скрипт CastleGate**
+    * Введите идентификатор навигационной сетки, который вы будете использовать для ворот.
+    * Установите переменную стороны (side) как «middle».
+    * Измените HP ворот в соответствии с их положением и уровнем (для внешних ворот HP должно быть: 12000 на уровне 1, 15000 на уровне 2 и 18000 на уровне 3. HP внутренних ворот должно быть 1000 для всех уровней.)
+    * Пересоздайте и промаркируйте навигационную сетку соответствующим образом.
+    * Убедитесь, что новые грани навигационной сетки имеют правильные уровни.
+* Отрегулируйте позицию «middle_position» внешних ворот. Она должна быть очень близко к внутренней стороне внутренних ворот.
+* Вы можете отключать навигационные сетки для открытого состояния ворот, используя идентификатор навигационной сетки [navigationmeshidtodisableonopen].
 
-![](/img/siege_scenes/navigationmeshidtodisableonopen.png)
+<img src="/img/siege_scenes/navigationmeshidtodisableonopen.png" width="1200px" />
 
-* **Related prefabs**
+* **Связанные префабы**
     * Aserai_castle_gate_inner_l1
     * Aserai_castle_gate_outer_l1
     * Battania_castle_gate_inner_l3
@@ -74,33 +76,33 @@ ___
 
 ___
 
-#### Deployment Points
+#### Точки развёртывания
 
-*All siege machines are placed under deployment points. These points later in the mission become the selectable positions, in which players can place their siege equipment, like ballistas, battering ram or the siege towers.*
+*Все осадные машины размещаются под точками развёртывания. Эти точки впоследствии в миссии становятся выбираемыми позициями, в которых игроки могут размещать своё осадное снаряжение, такое как баллисты, таран или осадные башни.*
 
-* There needs to be 4 of those for the defender siege machines. 4 for the attacker siege machines. 2 for each siege tower. And one for the battering ram.
-* The siege machines can be connected to these deployment points, by either placing them in their radius, or by tags.
+* Должно быть 4 таких точки для осадных машин защитника. 4 для осадных машин атакующего. 2 для каждой осадной башни. И одна для тарана.
+* Осадные машины могут быть связаны с этими точками развёртывания либо путём размещения их в радиусе действия точки, либо с помощью тегов.
 
-![](/img/siege_scenes/Deploymentpoint.png)
+<img src="/img/siege_scenes/Deploymentpoint.png" width="1200px" />
 
-* Best practices
-    * Make sure the radiuses of the Deployment Points don't overlap.
-    * You'll need to have different Deployment Points for each layer, for example:
-        * Since the walls change with each layer, the defender siege machines naturally have to be in different positions on top of them.
-        * Since the gate house position changes, the battering ram needs to take a different path. The same goes for siege towers.
+* Лучшие практики
+    * Убедитесь, что радиусы точек развёртывания не перекрываются.
+    * Вам нужны разные точки развёртывания для каждого слоя (layer), например:
+        * Поскольку стены меняются с каждым слоем, осадные машины защитника естественным образом должны находиться в разных позициях на их вершине.
+    	* Поскольку положение надвратной башни меняется, тарану нужен другой путь. То же самое касается осадных башен.
 
 ___
 
-#### Secondary Siege Machines
+#### Второстепенные осадные машины
 
-*Secondary siege machines are ranged siege machines that support the assault or try to fend off attackers. They include ballistas and mangonels for both sides and trebuchets for the attacker.*
+*Второстепенные осадные машины — это дальнобойные осадные машины, которые поддерживают штурм или пытаются отразить атакующих. К ним относятся баллисты и манганели для обеих сторон и требушеты для атакующего.*
  
-* Mangonel and ballista entities should be included for each defender position, and mangonel ballista and trebuchet prefab should be included for each attacker position.
-* There should be 4 “Deployment Point” positions for defenders and 4 for attackers.
-* Both siege machines and deployment points have a “side” variable, make sure those variables are correct.
-* No siege machine should be under control of more than one deployment point.
+* Сущности манганели и баллисты должны быть включены для каждой позиции защитника, а префабы манганели, баллисты и требушета должны быть включены для каждой позиции атакующего.
+* Должно быть 4 позиции «точки развёртывания» для защитников и 4 для атакующих.
+* И осадные машины, и точки развёртывания имеют переменную «side» (сторона), убедитесь, что эти переменные корректны.
+* Ни одна осадная машина не должна находиться под управлением более чем одной точки развёртывания.
 <br><br>
-* **Related prefabs**
+* **Связанные префабы**
     * Ballista_a_spawner
     * Ballista_b_spawner
     * Mangonel_a_spawner
@@ -109,89 +111,89 @@ ___
 
 ___
 
-#### Siege Tower
+#### Осадная башня
 
-*Siege towers are the prefabs that support the situation when siegers build a siege tower in the campaign map. They replace one of the wall lanes. If a siege tower is deployed they will override the siege ladder on that “side”. If there is a breach on a lane, the siege tower can not be deployed to that lane.*
+*Осадные башни — это префабы, которые поддерживают ситуацию, когда осаждающие строят осадную башню на карте кампании. Они заменяют одну из полос стены. Если осадная башня развёрнута, она заменит осадную лестницу на этой «стороне». Если на полосе есть пролом, осадную башню нельзя развернуть на этой полосе.*
 
-* Place the suitable siege tower to the scene.
-* Adjust the angle of the deployable exit ramp of the either by selecting the ramp and rotating it or using the “RampRotationDegree” parameter within the “SiegeTowerSpawner” script 
-* If your exit ramp has a large slope angle either upwards or downwards, make sure that the navigation mesh prefab fits the ramp, otherwise make one.
-* [Build the path for the siege tower]({{< ref "path_editing.md" >}}), using the path tool.
-* **SiegeTowerSpawner script**
-    * Enter the path name.
-    * Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The siege tower will search for that tag and then search for its child entities to direct AI troops accordingly.
-    * Enter the side tag.
-    * Once the tower is connected to its path, place the deployment point at the beginning of the path in connection to the siege tower.
-* You can mark the merlons on the way of the siege tower with the tag `tower_merlon`. These merlons will be removed once a siege tower is deployed to the scene. Make sure that they have a “DestructableComponent” script and “CanBeDestroyedInitially” tag is selected.
-* Place a “_barrier_ai_04x04m” prefab on the wall where the siege tower will approach. Give the barrier a unique tag like “tower_barrier_lvl3”. Now insert this tag within the “BarrierTagToRemove” parameter under the SiegeTowerSpawner script. The tagged barrier will be removed once the ramp of the siege tower is open.
+* Разместите подходящую осадную башню в сцене.
+* Отрегулируйте угол выдвижной рампы, либо выбрав рампу и повернув её, либо используя параметр «RampRotationDegree» в скрипте «SiegeTowerSpawner».
+* Если у вашей выходной рампы большой угол наклона вверх или вниз, убедитесь, что префаб навигационной сетки подходит к рампе, иначе создайте новый.
+* [Постройте путь для осадной башни]({{< ref "path_editing.md" >}}), используя инструмент путей.
+* **Скрипт SiegeTowerSpawner**
+    * Введите название пути.
+    * Введите целевой сегмент стены (target wall segment). Это тег, который мы добавили к стене, имеющей позиции middle и wait. Осадная башня будет искать этот тег, а затем искать его дочерние сущности, чтобы направлять войска ИИ соответствующим образом.
+    * Введите тег стороны (side tag).
+    * После того как башня подключена к своему пути, разместите точку развёртывания в начале пути, в связи с осадной башней.
+* Вы можете пометить зубцы (мерлоны) на пути осадной башни тегом `tower_merlon`. Эти зубцы будут удалены, как только осадная башня развернётся в сцене. Убедитесь, что у них есть скрипт «DestructableComponent» и выбран тег «CanBeDestroyedInitially».
+* Разместите префаб «_barrier_ai_04x04m» на стене там, где будет приближаться осадная башня. Дайте барьеру уникальный тег, например «tower_barrier_lvl3». Теперь вставьте этот тег в параметр «BarrierTagToRemove» в скрипте SiegeTowerSpawner. Помеченный барьер будет удалён, как только откроется рампа осадной башни.
 <br><br>
-* **Related prefabs**
+* **Связанные префабы**
     * Siege_tower_5m_spawner
     * Siege_tower_9m_spawner
     * siege_tower_12m_spawner
 
 ___
 
-#### Battering Ram
+#### Таран
 
-*Battering ram is the prefab that supports the situation when siegers build a battering ram in the campaign. The battering ram will be connected to the side tag and will damage the outer gate once it reaches the gates and troops swing the ram.*
+*Таран — это префаб, который поддерживает ситуацию, когда осаждающие строят таран во время кампании. Таран будет связан с тегом стороны и будет наносить урон внешним воротам, как только он достигнет ворот и войска начнут раскачивать таран.*
 
-* [Build the path using the path tool]({{< ref "path_editing.md" >}}). The crash indicator on the ghost entity of the battering ram prefab should make contact with the gate to match animations and visuals.
+* [Постройте путь с помощью инструмента путей]({{< ref "path_editing.md" >}}). Индикатор столкновения на сущности-призраке префаба тарана должен соприкасаться с воротами, чтобы соответствовать анимациям и визуальным эффектам.
 
-![](/img/siege_scenes/crashindicator.png)
+<img src="/img/siege_scenes/crashindicator.png" width="1200px" />
 
-* **BatteringRamSpawner script**
-    * Enter Side Tag 
+* **Скрипт BatteringRamSpawner**
+    * Введите тег стороны (Side Tag).
     * GateTag: outer_gate
-    * Enter the path name to the script.
-    * Once the battering ram is connected to its path, place the deployment point at the beginning of the path in connection to the battering ram.
+    * Введите название пути в скрипт.
+    * После того как таран подключён к своему пути, разместите точку развёртывания в начале пути, в связи с тараном.
 <br><br>
-* **Related prefabs**
+* **Связанные префабы**
     * Batteringram_a_spawner
 
 ___
 
-#### Ditch Fillers
+#### Заполнители рва
 
-*If the scene has ditches and a moat around the castle, we have a ditch filler system which allows the siege towers and battering rams to work properly. Ditch fillers will spawn if the player deploys the connected siege engines. We will have to arrange and ID various navigation mesh faces for AI to use pathfinding properly around the ditch filler.*
+*Если сцена имеет рвы и ров вокруг замка, у нас есть система заполнителей рва, которая позволяет осадным башням и таранам работать правильно. Заполнители рва будут появляться, если игрок развернёт связанные осадные орудия. Нам нужно будет организовать и промаркировать различные грани навигационной сетки, чтобы ИИ мог правильно прокладывать путь вокруг заполнителя рва.*
 
-* After placing the proper entity to fill the moat, [collect all of them under a single parent entity]({{< ref "creating_entity.md#entity-hierarchies" >}}).
-* Add the tag “ditch_filler” and the appropriate side tag (left, right, or middle) to the connected siege engine.
-* Once a siege tower or a battering ram is deployed, the ditch filler will be deployed with it too.
-* We manipulate the navigation mesh in a similar manner to the wall breaches.
-* The navmesh ids are on the siege tower and battering ram scripts.
-* Enter the navigation mesh ids you will use for that ditch filler.
-* Remake and id the navigation mesh accordingly.
-* Make sure new navigation mesh faces have correct levels.
+* После размещения подходящей сущности для заполнения рва [соберите все их под одной родительской сущностью]({{< ref "creating_entity.md#entity-hierarchies" >}}).
+* Добавьте тег «ditch_filler» и соответствующий тег стороны (левая, правая или средняя) к связанному осадному орудию.
+* Как только осадная башня или таран развёрнуты, заполнитель рва также будет развёрнут вместе с ними.
+* Мы манипулируем навигационной сеткой подобно тому, как это делается для проломов в стенах.
+* Идентификаторы навигационной сетки находятся в скриптах осадной башни и тарана.
+* Введите идентификаторы навигационной сетки, которые вы будете использовать для этого заполнителя рва.
+* Пересоздайте и промаркируйте навигационную сетку соответствующим образом.
+* Убедитесь, что новые грани навигационной сетки имеют правильные уровни.
 
-| SiegeTowerSpawner Script | Ditch Filler |
+| Скрипт SiegeTowerSpawner | Заполнитель рва |
 | ------ | ----------- |
-| ![](/img/siege_scenes/Ditchfiller.png) | ![](/img/siege_scenes/Ditchfiller_numbers.png) |
+| <img src="/img/siege_scenes/Ditchfiller.png" /> | <img src="/img/siege_scenes/Ditchfiller_numbers.png"/> |
 
-* In this example, when there is no ditch filler, 423, 426, and 424 will be deactivated. 422 and 433 will stay connected 427 will be active, 432 and 425 will be connected.
-* When there is a ditch filler, 422 will disconnect from 433 and connect to 423, 426 will be active, 425 will be disconnected from 432 and connect to 424, and 427 will be deactivated.
+* В этом примере, когда нет заполнителя рва, 423, 426 и 424 будут деактивированы. 422 и 433 останутся соединёнными, 427 будет активен, 432 и 425 будут соединены.
+* Когда есть заполнитель рва, 422 отсоединится от 433 и соединится с 423, 426 будет активен, 425 отсоединится от 432 и соединится с 424, а 427 будет деактивирован.
 
 ___
 
-#### Siege Ladders
+#### Осадные лестницы
 
-*Siege ladders are deployed by default to both siegeable walls unless there is a siege tower or a breach.*
+*Осадные лестницы по умолчанию развёртываются на обеих осаждаемых стенах, если только не присутствует осадная башня или пролом.*
 
-* Choose the correct size of the ladder spawner, never resize the ladder spawners height.
-* **SiegeLadderSpawner script**
-    * Enter the target wall segment. This is the tag we added to the wall that has the middle and wait positions. The ladder will search for that tag and then search for its child entities to direct AI troops accordingly.
-    * Enter the id of the navigation mesh you will use.
-    * Enter the SideTag.
-    * "merlon_solid_left" or "merlon_solid_right" tag have to add both ladder merlons according to walls right or left position. These tags are added to make sure tagged merlons do not break and cause physics problems with AI troops movements.
-* Remake and id the navmesh accordingly.
-* Nav mesh face on the siege ladder should be one directional towards the wall.
+* Выберите правильный размер спавнера лестницы, никогда не изменяйте высоту спавнеров лестницы.
+* **Скрипт SiegeLadderSpawner**
+    * Введите целевой сегмент стены (target wall segment). Это тег, который мы добавили к стене, имеющей позиции middle и wait. Лестница будет искать этот тег, а затем искать его дочерние сущности, чтобы направлять войска ИИ соответствующим образом.
+    * Введите идентификатор навигационной сетки, который вы будете использовать.
+    * Введите SideTag.
+    * Теги «merlon_solid_left» или «merlon_solid_right» необходимо добавить к обоим зубцам лестницы в соответствии с правым или левым положением стен. Эти теги добавляются для того, чтобы помеченные зубцы не ломались и не вызывали проблем с физикой при движении войск ИИ.
+* Пересоздайте и промаркируйте навигационную сетку соответствующим образом.
+* Грань навигационной сетки на осадной лестнице должна быть однонаправленной в сторону стены.
 
-![](/img/siege_scenes/directionalladdernavmesh.png)
+<img src="/img/siege_scenes/directionalladdernavmesh.png" width="1200px" />
 
-* Adjust the standing and fork holder positions using the “UpperStateRotationDegree” and “DownStateRotationDegree” to match the terrain and the walls.
-* Place a “_barrier_ai_04x04m” prefab on the wall where the ladder will land. Give the barrier a unique tag like “left_ladder_barrier_a”. Now insert this tag to the ladder's “BarrierTagToRemove” parameter. The tagged barrier will be removed once the siege ladder is lifted up to the walls.
+* Отрегулируйте позиции стояния и держателя вил, используя «UpperStateRotationDegree» и «DownStateRotationDegree», чтобы соответствовать местности и стенам.
+* Разместите префаб «_barrier_ai_04x04m» на стене там, где приземлится лестница. Дайте барьеру уникальный тег, например «left_ladder_barrier_a». Теперь вставьте этот тег в параметр «BarrierTagToRemove» лестницы. Помеченный барьер будет удалён, как только осадная лестница будет поднята к стенам.
 <br><br>
-* **Related prefabs**
+* **Связанные префабы**
     * Siege_ladder_6m_spawner
     * Siege_ladder_7m_spawner
     * Siege_ladder_8m_spawner
@@ -200,24 +202,24 @@ ___
 
 ___
 
-#### Archer Positions
+#### Позиции лучников
 
-*Archer positions are AI direction locations with which scene designers can define locations where archers can shoot from. There are 2 types of archer positions.*
+*Позиции лучников — это места направления ИИ, с помощью которых дизайнеры сцен могут определять места, откуда лучники могут стрелять. Существует 2 типа позиций лучников.*
 
-* **Big archer positions**
-    * Positions used by archer formations.
-    * With prefab names “defender_archer_position” and “attacker_archer_position”.
-    * They have the tags “archer_position” and “archer_position_attacker”.
+* **Большие позиции лучников**
+    * Позиции, используемые формированиями лучников.
+    * С названиями префабов «defender_archer_position» и «attacker_archer_position».
+    * Они имеют теги «archer_position» и «archer_position_attacker».
 <br><br>
-* **Small archer positions**
-    * Positions used by archer agents.
-    * With prefab names “strategic_archer_point” and “strategic_attacker_archer_position”.
-    * They have the script “strategicarea”. The script has variables for:
-        * Attacker or defender side.
-        * Range (an archer position should be in their range for them to be used). There must be a big archer position inside this range for the small archer position to be active. The default range is 40m for defender and 60m for attacker.
-        * Depth and width: Both represent the size of the area usable by troops. 1x1 is suitable for one troop in a 1m x 1m area. 4x2 is suitable for 8 troops in a 4m x 2m area.
-<br><br>
-* **Related prefabs**
+* **Малые позиции лучников**
+    * Позиции, используемые отдельными агентами-лучниками.
+    * С названиями префабов «strategic_archer_point» и «strategic_attacker_archer_position».
+    * Они имеют скрипт «strategicarea». У скрипта есть переменные для:
+        * Стороны атакующего или защитника.
+        * Радиуса (большая позиция лучника должна быть в их радиусе, чтобы они использовались). Внутри этого радиуса должна быть большая позиция лучника, чтобы малая позиция лучника была активна. Радиус по умолчанию составляет 40 м для защитника и 60 м для атакующего.
+        * Глубины и ширины: оба параметра представляют размер области, используемой войсками. 1x1 подходит для одного бойца в области 1м x 1м. 4x2 подходит для 8 бойцов в области 4м x 2м.
+<br><br>	
+* **Связанные префабы**
     * Defender_archer_position
     * Attacker_archer_position
     * Strategic_archer_point
@@ -225,110 +227,111 @@ ___
 
 ___
 
-#### Deployment Boundaries
+#### Границы развёртывания
 
-*We place boundary entities to the scene to specify where attackers and defenders can deploy their troops. They work pretty much like soft borders.*
+*Мы размещаем сущности границ в сцене, чтобы указать, где атакующие и защитники могут разворачивать свои войска. Они работают примерно как мягкие границы.*
 
-* All boundary entities should have these 3 tags:
+* Все сущности границ должны иметь эти 3 тега:
     * walk_area_vertex
-    * defender or attacker
-    * deployment_castle_boundary_[insert number]
-* deployment_castle_boundary_[insert number] tag with the same number in [insert number] are connected to each other to create a convex area. For example 5 entities with deployment_castle_boundary_3 tag will create a pentagon, defining a border area.
-* You can use prefabs “attacker_boundry“, “defender_boundry“  and edit them to your needs.
-* If you add an “out” tag to one of those boundary sets it acts like a negative space, subtracting from the deployment zone instead of adding to it. With this method you can create concave deployment zones.
+    * defender или attacker
+    * deployment_castle_boundary_[вставьте номер]
+* Теги deployment_castle_boundary_[вставьте номер] с одинаковым номером в [вставьте номер] соединены друг с другом, чтобы создать выпуклую область. Например, 5 сущностей с тегом deployment_castle_boundary_3 создадут пятиугольник, определяя область границы.
+* Вы можете использовать префабы «attacker_boundry», «defender_boundry» и редактировать их по своему усмотрению.
+* Если вы добавите тег «out» к одному из этих наборов границ, он будет действовать как отрицательное пространство, вычитаясь из зоны развёртывания, а не добавляясь к ней. С помощью этого метода можно создавать вогнутые зоны развёртывания.
 <br><br>
-* **Related prefabs**
+* **Связанные префабы**
     * Attacker_boundry
     * Defender_boundry
 
 ___
 
-#### Camera
+#### Камера
 
-*The camera position and angle specify the viewpoint that will be used during the deployment phase.*
+*Положение и угол камеры определяют точку обзора, которая будет использоваться во время фазы развёртывания.*
 
-* Create an empty entity.
-* Camera for the attacker should have the tag “strategycameraattacker”.
-* Camera for the defender should have the tag “strategycameradefender”.
-* Make sure that the camera positions are inside the deployment boundaries.
-
-___
-
-#### Spawn Points
-
-*Spawn points are the locations where NPC troops and the player will spawn in the scene at the start of the battle.*
-
-* Use the standard “sp_battle_set” prefab for troop spawning and reinforcements. The prefab includes 16 entities, for each type of troops, attacker and defender, starting or reinforcement. Normal spawn designates the spawn location at the start of the battle, while reinforcements define where the reinforcements will spawn.
-* Make sure to set the proper level visibility, since another “sp_battle_set” prefab is used within the civilian level for common area fight missions.
+* Создайте пустую сущность.
+* Камера для атакующего должна иметь тег «strategycameraattacker».
+* Камера для защитника должна иметь тег «strategycameradefender».
+* Убедитесь, что позиции камеры находятся внутри границ развёртывания.
 
 ___
 
-#### Flee Lines
+#### Точки появления
 
-*There are flee lines both for attackers and defenders. If placed in siege scenes, the AI should prefer to run away using the flee lines rather then to the closest soft border edge.*
+*Точки появления (spawn points) — это места, где войска NPC и игрок будут появляться в сцене в начале сражения.*
 
-* Defenders should run to the keep.
-* To be active, the Flee lines must be covered by navigation mesh.
+* Используйте стандартный префаб «sp_battle_set» для появления войск и подкреплений. Префаб включает 16 сущностей для каждого типа войск, атакующих и защитников, начальных или подкрепления. Обычное появление обозначает место появления в начале сражения, а подкрепления определяют, где будут появляться подкрепления.
+* Убедитесь, что установлена правильная видимость уровня (level visibility), поскольку другой префаб «sp_battle_set» используется в гражданском уровне для миссий боя в общей зоне.
+
+___
+
+#### Линии бегства
+
+*Существуют линии бегства как для атакующих, так и для защитников. Если они размещены в сценах осады, ИИ должен предпочитать убегать по линиям бегства, а не к ближайшему краю мягкой границы.*
+
+* Защитники должны бежать в донжон (keep).
+* Чтобы быть активными, линии бегства должны быть покрыты навигационной сеткой.
 <br><br>
-* **Related prefabs**
+* **Связанные префабы**
     * Flee_line_attacker
     * Flee_line_defender
 
 ___
 
-#### Tactical Position Script
+#### Скрипт тактической позиции
 
-*The script [tacticalposition] enables us to modify the width of various AI positions.*
+*Скрипт [tacticalposition] позволяет нам изменять ширину различных позиций ИИ.*
 
-* Once added to an entity you can change many parameters within it. For siege purposes, the only important one is _width. Value entered here is equal to the width of the formation in meters.
-* You can use this script in [wait_pos], [middle_pos], [attacker_wait_pos], archer positions and siege ladder wait positions.
+* После добавления к сущности вы можете изменить множество параметров внутри него. Для целей осады важен только _width. Введённое здесь значение равно ширине формирования в метрах.
+* Вы можете использовать этот скрипт в [wait_pos], [middle_pos], [attacker_wait_pos], позициях лучников и позициях ожидания осадных лестниц.
 
-| Tactical Position | Deployment |
+| Тактическая позиция | Развёртывание |
 | ------ | ----------- |
-| ![](/img/siege_scenes/tactical_position_1.png) | ![](/img/siege_scenes/tactical_position_2.png) |
+| <img src="/img/siege_scenes/tactical_position_1.png"/> | <img src="/img/siege_scenes/tactical_position_2.png"/> |
 ___
 
-#### AI Barrier
+#### Барьер ИИ
 
-*The AI barrier should be added to all locations where the AI troops might fall from unacceptable heights.*
+*Барьер ИИ следует добавлять во всех местах, где войска ИИ могут упасть с недопустимой высоты.*
 
-* With the path tool, first draw the path line then check the “Enable Barrier Build” checkbox. After the barrier is built, click “Go to entity” and check the scripts of the prefab. The following “barrier_builder” script parameters should be checked:
+* С помощью инструмента путей сначала нарисуйте линию пути, затем отметьте флажок «Enable Barrier Build». После того как барьер построен, нажмите «Go to entity» и проверьте скрипты префаба. Следующие параметры скрипта «barrier_builder» должны быть проверены:
     * AI Limiter
     * Agent Only
-    * If necessary, Flip can be checked according to the side of the wall.
+    * При необходимости можно включить Flip в соответствии со стороной стены.
 
 ___
 
-#### Throwable Rock Pile
+#### Куча метательных камней
 
-*We can place usable rock piles to siege scenes.*
+*Мы можем размещать используемые кучи камней в сценах осады.*
 
-* The prefab [throwable_rock_pile] has three components:
-    * Stone pile: With 8 interactable points for AI to pick up the rocks.
-    * throw_pos: Where the agent will move to throw the rock.
-    * volume_box: Designates the area to which the AI can throw the rock.
-* When an enemy AI moves into the volume_box the prefab will call an agent, that agent will pick up a rock and try to throw it to an enemy in the volume_box that it can target.
-* You can have multiple throw_pos per volume_box. Just duplicate the throw_pos entity.
-* You connect throw_pos entities to a volume_box by adding a tag to the volume_box and entering that tag name to the script of throw_pos.
+* Префаб [throwable_rock_pile] имеет три компонента:
+    * Stone pile (куча камней): с 8 интерактивными точками для того, чтобы ИИ подбирал камни.
+    * throw_pos: место, куда агент переместится, чтобы бросить камень.
+    * volume_box: обозначает область, в которую ИИ может бросить камень.
+* Когда вражеский ИИ входит в volume_box, префаб вызовет агента, этот агент подберёт камень и попытается бросить его во врага в volume_box, которого он может выбрать целью.
+* Вы можете иметь несколько throw_pos на один volume_box. Просто продублируйте сущность throw_pos.
+* Вы соединяете сущности throw_pos с volume_box, добавляя тег к volume_box и вводя это имя тега в скрипт throw_pos.
 
-![](/img/siege_scenes/stone_throw.png)
+<img src="/img/siege_scenes/stone_throw.png" width="1200px" />
 
 ___
 
-#### Using Throwable rock piles and Archer position (and pretty much everything else) under Broken and Solid walls
+#### Использование куч метательных камней и позиций лучников (и почти всего остального) под целыми и разрушенными стенами
 
-* throwable_rock_pile’s and archer positions do work when they are child entities.
-* So you can separately place these entities as well as any other entity you want under solid or broken walls as child entities. This way you can create archer positions covering a breach, or utilize the solid wall when there is no breach.
+* throwable_rock_pile и позиции лучников работают, когда они являются дочерними сущностями.
+* Поэтому вы можете отдельно размещать эти сущности, а также любые другие сущности, которые вы хотите, под целыми или разрушенными стенами в качестве дочерних сущностей. Таким образом вы можете создать позиции лучников, покрывающие пролом, или использовать целую стену, когда пролома нет.
 
-| Example of Solid Walls | Example of Broken Walls |
+| Пример целых стен | Пример разрушенных стен |
 | ------ | ----------- |
-| ![](/img/siege_scenes/solid.png) | ![](/img/siege_scenes/broken.png) |
+| <img src="/img/siege_scenes/solid.png"/> | <img src="/img/siege_scenes/broken.png"/> |
 
 ___
 
-#### Merlons and other Destructible components
+#### Зубцы и другие разрушаемые компоненты
 
-*According to the wall HP of the settlement we create wall breaches but we also destroy some the entities containing the destructable_component script. This feature was intended for merlons but it does not specifically check for merlons but rather for the script itself.*
+*В зависимости от HP стены поселения мы создаём проломы в стенах, но также разрушаем некоторые сущности, содержащие скрипт destructable_component. Эта функция была задумана для зубцов (мерлонов), но она не проверяет конкретно зубцы, а скорее сам скрипт.*
 
-* A parameter called “CanBeDestroyedInnıtially” is present in the “destructable_component” script. If it is checked, that entity has a chance to be destroyed on mission start, depending on the castle hit points (that are brought down during the siege progression on the campaign map).
-* By default it is on for merlons and off for pretty much everything else. If you make any scene specific destructible entities, make sure to set the aforementioned parameter properly. 
+* В скрипте «destructable_component» присутствует параметр «CanBeDestroyedInnıtially». Если он отмечен, у этой сущности есть шанс быть разрушенной в начале миссии, в зависимости от очков прочности замка (которые снижаются во время осадной прогрессии на карте кампании).
+* По умолчанию он включён для зубцов и выключен практически для всего остального. Если вы создаёте какие-либо специфичные для сцены разрушаемые сущности, обязательно правильно настройте указанный параметр.
+</content>

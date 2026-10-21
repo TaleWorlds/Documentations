@@ -1,21 +1,22 @@
 +++
-title = "Scene Level System"
+title = "Система уровней сцены"
+ai_translated = true
 
 [menu.main]
 identifier = "level_system"
 parent = "core_components"
 +++
 
-## Level System
-New level system replaces the old, hardcoded system with a much more extandable and unified system. \\
-<b><span style="color: #7f7f00">Adding</span></b> a new level (or <b><span style="color: #7f0000">deleting</span></b> an existing one) to a scene can be done in <b><span style="color: #007f00">Levels</span></b> panel under <b>SceneOptions</b> inspector.
+## Система уровней
+Новая система уровней заменяет старую, жёстко закодированную систему гораздо более расширяемой и унифицированной системой. \\
+<b><span style="color: #7f7f00">Добавление</span></b> нового уровня (или <b><span style="color: #7f0000">удаление</span></b> существующего) на сцену можно выполнить на панели <b><span style="color: #007f00">Levels</span></b> в инспекторе <b>SceneOptions</b>.
 
 ![](/img/level_system/level_system_panel.png)
 
-## Levels in Game
+## Уровни в игре
 #### - Bannerlord -
-Currently, Bannerlord recognizes a few levels that has a meaning in-game. \\
-Which are: \\
+В настоящее время Bannerlord распознаёт несколько уровней, имеющих значение в игре. \\
+А именно: \\
 1) level_1 \\
 2) level_2 \\
 3) level_3 \\
@@ -23,39 +24,39 @@ Which are: \\
 5) civilian
 
 
-## Setting Entity visibilities
-Making an entity only visible in a certain level combinations can be done with selecting an entity then going in <b>Scene Level Visibilities</b> panel under <b>Entity Inspector</b>.
+## Настройка видимости объектов
+Сделать объект видимым только при определённых комбинациях уровней можно, выбрав объект, а затем перейдя на панель <b>Scene Level Visibilities</b> в <b>Entity Inspector</b>.
 ![](/img/level_system/level_system_entity_visibility.png)
 
-Select the levels you want this entity to be visible.
-<b>Entity levels in missions are checked as a whole.</b>
-### Example
-If you select both level_1 and siege, and if you open a mission that has _level\_2_ and siege, this entity will NOT be visible since it does not has "level_2". \\
-If you select both level_1 and siege, and if you open a mission that has level_1 and _civilian_, this entity will NOT be visible since it does not has "siege". \\
-It will only and only be visible if you open a mission that has level_1 and siege.
+Выберите уровни, на которых вы хотите, чтобы этот объект был видим.
+<b>Уровни объекта в миссиях проверяются как единое целое.</b>
+### Пример
+Если вы выбрали и level_1, и siege, и вы открываете миссию, в которой есть _level\_2_ и siege, этот объект НЕ будет видим, поскольку в ней отсутствует "level_2". \\
+Если вы выбрали и level_1, и siege, и вы открываете миссию, в которой есть level_1 и _civilian_, этот объект НЕ будет видим, поскольку в ней отсутствует "siege". \\
+Он будет видим только и исключительно в том случае, если вы откроете миссию, в которой есть и level_1, и siege.
 
 
-So if you want an entity to be visible in both level_1 and level_2 and only in civilian mission, select level_1, level_2, and civilian; \\
- so this entity will not be visible in ANY siege missions, and will not be visible in ANY mission as level_3.
+Так что если вы хотите, чтобы объект был видим и на level_1, и на level_2, но только в режиме civilian, выберите level_1, level_2 и civilian; \\
+ таким образом этот объект не будет видим НИ В ОДНОЙ миссии осады (siege), и не будет видим ни в одной миссии как level_3.
 
-## Testing visibility in editor
+## Проверка видимости в редакторе
 
 ![](/img/level_system/level_system_visibility_panel.png)
 
-There are two options to see entities with different level visibilities.
+Есть два варианта, чтобы увидеть объекты с разной видимостью уровней.
 
-__1) Require all levels (Same as missions)__ \\
-__2) Require at least one level (Editor only, to see all entities at once)__
+__1) Require all levels (Требовать все уровни) (так же, как в миссиях)__ \\
+__2) Require at least one level (Требовать хотя бы один уровень) (только в редакторе, чтобы увидеть все объекты сразу)__
 
-### Require all levels
-In this mode, visibility system will work as same as the missions, you can use this mode to test what entities will be visible in what combinations. \\
-If you select level_1 and siege, you will only see entities that has __both__ level_1 and siege, not the others.
+### Require all levels (Требовать все уровни)
+В этом режиме система видимости будет работать так же, как и в миссиях, вы можете использовать этот режим, чтобы проверить, какие объекты будут видимы при каких комбинациях. \\
+Если вы выберете level_1 и siege, вы увидите только те объекты, у которых есть __и__ level_1, __и__ siege, но не остальные.
 
-### Require at least one level
-This is an editor only mode, if you select a level, it will be visible, no matter what combinations that entity has; if entity has that level, it will be visible. \\
-Can be useful if you want to see all _civilian_ entities no matter what level they are, or you can see _level\_1_ entites no matter if they are siege or civilian.
+### Require at least one level (Требовать хотя бы один уровень)
+Это режим, доступный только в редакторе: если вы выберете уровень, объект будет видим независимо от того, какие комбинации уровней у него есть; если у объекта есть этот уровень, он будет видим. \\
+Это может быть полезно, если вы хотите увидеть все объекты _civilian_ независимо от того, на каком они уровне, или вы можете увидеть объекты _level\_1_ независимо от того, относятся ли они к siege или civilian.
 
-## Testing a scene
+## Тестирование сцены
 ![](/img/level_system/level_system_start_mission_as.png)
-For this purpose, __Start mission as__ window modified in a way that allows you to select level combinations.
-If you want to test a castle scene with level_1 and siege mode, Select these leves and press OK. The mission will start in Level 1 Siege mode.
+Для этой цели окно __Start mission as__ было изменено таким образом, чтобы позволить вам выбирать комбинации уровней.
+Если вы хотите протестировать сцену замка в режиме level_1 и siege, выберите эти уровни и нажмите OK. Миссия запустится в режиме Level 1 Siege.

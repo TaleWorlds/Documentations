@@ -1,115 +1,116 @@
 +++
-title = "Navmesh"
-description = "Navigation Mesh Modeling Creation Guides and Examples"
+title = "Навмеш"
+description = "Руководства и примеры по созданию навигационной сетки"
 weight = 1
+ai_translated = true
 +++
 
 ------------------
-### What is the Navigation Mesh? ###
-<strong>Navigation Mesh is a compilation of models created by the scene designer for the use of AI to make sure they can move around without colliding with the physic objects in the scene.</strong>
+### Что такое навигационная сетка (Navigation Mesh)? ###
+<strong>Навигационная сетка — это набор моделей, созданных дизайнером сцены для использования ИИ, чтобы гарантировать, что он может перемещаться, не сталкиваясь с физическими объектами на сцене.</strong>
 
 ------------------
-### What are the important rules for Navigation Mesh? ###
-<strong>a. 1,5 Meter Rule: </strong>Designers needs to arrange the navigation mesh in a 1.5-meter diameter when creating on terrain or other objects that can be walked on or can stand on (Rooftops, castle walls etc.) This diameter needs to be in 1.5 meters on a vertical axis. If this 1.5 rule is not applied, AI won’t be able to find the way when walking.
+### Какие важные правила существуют для навигационной сетки? ###
+<strong>a. Правило 1,5 метра: </strong>При создании сетки на местности или других объектах, по которым можно ходить или на которых можно стоять (крыши, стены замка и т. д.), дизайнерам необходимо располагать навигационную сетку с учётом диаметра 1,5 метра. Этот диаметр должен соблюдаться по вертикальной оси на 1,5 метра. Если это правило 1,5 метра не соблюдается, ИИ не сможет найти путь при ходьбе.
 
-<strong>b. Spawn Point Pivot Points:</strong> Each spawn point in a scene has pivot points. Navmesh polygon faces have to include these spawn point pivot points. Otherwise, spawn points will not work.
+<strong>b. Опорные точки (Pivot Points) точек спавна:</strong> У каждой точки спавна на сцене есть опорные точки. Грани полигонов навмеша должны включать эти опорные точки точек спавна. В противном случае точки спавна не будут работать.
 
-<strong>c. Existing Trees:</strong> Each tree in a scene has a physical object which we call ‘capsules’. AI will see these capsules automatically when in a battle. Because of this, AI won’t walk into trees. Navmesh can be applied under trees.
+<strong>c. Существующие деревья:</strong> У каждого дерева на сцене есть физический объект, который мы называем «капсулой» (capsule). ИИ автоматически видит эти капсулы во время боя. Из-за этого ИИ не будет врезаться в деревья. Навмеш можно наносить под деревьями.
 
-<strong>d. Terrain Angle:</strong> There are some areas that won’t be traversable because of their steep angle. These areas can be enabled with: Shaded > Debug - Terrain Angle. On the opened Angel Limit window, designers can input "50" to enable these. You can see two areas which are green and red. Green areas are traversable and red areas aren't.
+<strong>d. Угол местности (Terrain Angle):</strong> Есть некоторые области, которые будут непроходимыми из-за их крутого угла наклона. Эти области можно включить через: Shaded > Debug - Terrain Angle. В открывшемся окне Angle Limit дизайнеры могут ввести «50», чтобы включить их отображение. Вы увидите две области, зелёную и красную. Зелёные области проходимы, а красные — нет.
 
-<strong>e. Where to apply Navemesh:</strong> Navigation Mesh should be applied to every surface upon which players can walk. Navigation mesh should not be applied under the physical objects. Since the AI can’t jump, areas which can be accessible with jumping should not contain the navigation mesh.</strong>
+<strong>e. Где применять навмеш:</strong> Навигационную сетку следует наносить на каждую поверхность, по которой могут ходить игроки. Навигационную сетку не следует наносить под физическими объектами. Поскольку ИИ не умеет прыгать, в областях, доступных только посредством прыжка, не должно быть навигационной сетки.</strong>
 
-**There is no "Undo" operation in the Navigation Mesh. If you press CTRL + Z, the last scene change will be reverted. Do not try to undo when applying Navigation Mesh**
-
-------------------
-### How many types of Navigation Mesh need to be applied? ###
-There are three types of Navigation Mesh:
-
-1.<strong>Basic navigation mesh areas</strong> (without an ID, ID:0), for example, battle_terrain, hideout or lords hall.
-2.<strong>Village Scenes</strong>. Scenes like villages have multiple navigation mesh ID’s.
-3.<strong>Siege-Town scenes</strong>. In these kind of scenes, there are two main visibility modes for Civilian and Siege. The town scene in civilian mode can be seen as a big village scene. But on Siege mode, there are some places and cases that demand Navigation Mesh faces to have special ID’s.</strong>
+**В навигационной сетке нет операции «Undo» (отмены). Если вы нажмёте CTRL + Z, последнее изменение сцены будет отменено. Не пытайтесь использовать отмену при работе с навигационной сеткой**
 
 ------------------
-### Navigation Mesh Modeling Foreknowledge ###
+### Сколько типов навигационной сетки нужно применять? ###
+Существует три типа навигационной сетки:
 
-**When opening the editor you will see a toolbar as shown in the photo below.**
+1.<strong>Базовые области навигационной сетки</strong> (без ID, ID:0), например battle_terrain, hideout или lords hall.
+2.<strong>Сцены деревень</strong>. У таких сцен, как деревни, есть несколько ID навигационной сетки.
+3.<strong>Сцены осады города (Siege-Town)</strong>. В таких сценах есть два основных режима видимости: гражданский (Civilian) и осадный (Siege). Сцену города в гражданском режиме можно рассматривать как большую деревенскую сцену. Но в режиме осады есть места и случаи, требующие, чтобы грани навигационной сетки имели специальные ID.</strong>
+
+------------------
+### Предварительные знания о моделировании навигационной сетки ###
+
+**При открытии редактора вы увидите панель инструментов, как показано на фото ниже.**
 
 ![](/img/navmesh/toolbarnav.png)
 
-**The icon in the red square is for the Navigation Mesh. When you click on it, you will see that the “NavigationMeshInspector” is opened in the inspector.**
+**Иконка в красном квадрате предназначена для навигационной сетки. Когда вы нажмёте на неё, вы увидите, что в инспекторе откроется «NavigationMeshInspector».**
 
 ![](/img/navmesh/navmeshinspector.png)
 
-**After the Navigation Mesh Inspector is opened you will see ‘Editor Mode: Navigation Mesh Select’ in the UI.**
+**После открытия инспектора навигационной сетки вы увидите в интерфейсе надпись «Editor Mode: Navigation Mesh Select».**
 
 ![](/img/navmesh/editormode.png)
 
-**All the dropdown menu functions in the Navigation Mesh Inspector can be used in the Navigation Mesh Select mode. Hitting 1,2 or 3 on the keyboard will select these faces:**
-**1: Vertices 2: Edges 3: Faces.**
+**Все функции выпадающего меню в инспекторе навигационной сетки можно использовать в режиме Navigation Mesh Select. Нажатие клавиш 1, 2 или 3 на клавиатуре выберет следующие элементы:**
+**1: Вершины (Vertices) 2: Рёбра (Edges) 3: Грани (Faces).**
 
 ------------------
-### Navigation Mesh Modeling ###
+### Моделирование навигационной сетки ###
 
-**Until now we spoke about the **Navigation Mesh Select Tool mode. Another editor mode for Navigation Mesh is Navigtation Mesh Add mode.**
+**До сих пор мы говорили о режиме инструмента Navigation Mesh Select. Другой режим редактора для навигационной сетки — это режим Navigation Mesh Add.**
 
 ![](/img/navmesh/editormode2.png)
 
 ![](/img/navmesh/navmeshadd.png)
 
-**To open this mode you can press the ‘Spacebar’ key. You will see a vertex preview in the mouse pointer.**
+**Чтобы открыть этот режим, нажмите клавишу «Spacebar» (пробел). Вы увидите предпросмотр вершины на указателе мыши.**
 
-**After pointing out 4 different points in the map, press CTRL+Space to create the Navigation Mesh polygon.**
+**После указания 4 разных точек на карте нажмите CTRL+Space, чтобы создать полигон навигационной сетки.**
 
  | 
 ---- | ----
 ![](/img/navmesh/fourverts.png) | ![](/img/navmesh/buildface.png)
 
 
-**The shortcut table below can be helpful after the polygon creation phase. Below that, you also have the explanation of the tools available under the Generation Tools tab in the Navigation Mesh Inspector.**
+**Таблица сочетаний клавиш ниже может быть полезна после этапа создания полигона. Под ней также приведено объяснение инструментов, доступных на вкладке Generation Tools в инспекторе навигационной сетки.**
 
-Navmesh hotkeys | Shortcut | Editor State
+Горячие клавиши навмеша | Сочетание клавиш | Состояние редактора
 ------- | ------- | --------
-Fill in closest 4 vertices (creates a quad) | Shift + Click | Navigation Mesh Add
-Fill in the last 4 vertices (creates a quad) | Ctrl + Space | Navigation Mesh Add
-Move vertex without selecting | Ctrl + Drag | Navigation Mesh Add
-Delete face with mouse over (leaves vertices) | Alt + Click | Navigation Mesh Add
-Delete face and remove all vertices  | Alt + X + Click | Navigation Mesh Add
-Selection mode - vertex | 1 | Navigation Mesh Select
-Selection mode - edge | 2 | Navigation Mesh Select
-Selection mode - face | 3 | Navigation Mesh Select
-Select all vertices, edges or face (depends on the current selection) | Ctrl + A | Navigation Mesh Select
-Delete selected vertices, edges or face  | Delete | Navigation Mesh Select
+Заполнить ближайшие 4 вершины (создаёт квад) | Shift + клик | Navigation Mesh Add
+Заполнить последние 4 вершины (создаёт квад) | Ctrl + Space | Navigation Mesh Add
+Переместить вершину без выделения | Ctrl + перетаскивание | Navigation Mesh Add
+Удалить грань под курсором (вершины остаются) | Alt + клик | Navigation Mesh Add
+Удалить грань и все вершины | Alt + X + клик | Navigation Mesh Add
+Режим выделения — вершина | 1 | Navigation Mesh Select
+Режим выделения — ребро | 2 | Navigation Mesh Select
+Режим выделения — грань | 3 | Navigation Mesh Select
+Выделить все вершины, рёбра или грани (в зависимости от текущего режима выделения) | Ctrl + A | Navigation Mesh Select
+Удалить выделенные вершины, рёбра или грани | Delete | Navigation Mesh Select
 
 
-### Generation Tools
+### Инструменты генерации
 
-The most useful and used tools are:
+Самые полезные и часто используемые инструменты:
 
-* Extrude: Extrusion along the selected edge's (or edges') axis.
-* Fill: Fills between the selected navigation mesh vertices (or edges) and forms a face.
-* Grow Selection: Grows the selection by selecting the adjacent elements to the selected elements (works for all vertex, edge and face structures).
-* Connect: Connects the selected two navigation mesh vertices by drawing an edge between them.
-* Weld: Removes vertices forming the edge and makes the edge one single vertex. It connects the old adjacent vertices to the newly generated vertex.
+* Extrude (Выдавливание): выдавливание вдоль оси выбранного ребра (или рёбер).
+* Fill (Заполнение): заполняет пространство между выбранными вершинами (или рёбрами) навигационной сетки и образует грань.
+* Grow Selection (Расширение выделения): расширяет выделение, добавляя соседние элементы к выбранным элементам (работает для всех структур — вершин, рёбер и граней).
+* Connect (Соединение): соединяет две выбранные вершины навигационной сетки, проводя между ними ребро.
+* Weld (Сварка): удаляет вершины, образующие ребро, и превращает ребро в одну единственную вершину. Соединяет старые соседние вершины с новой созданной вершиной.
 
 ------------------
-### Navigation Mesh Modeling on Scene Types ###
+### Моделирование навигационной сетки для разных типов сцен ###
 
-**We discussed briefly how to create and apply the Navigation Mesh. Let’s consolidate this information by creating a Navigation Mesh for a village scene with the help of some screenshots along the way.**
+**Мы кратко обсудили, как создавать и применять навигационную сетку. Давайте закрепим эту информацию, создав навигационную сетку для сцены деревни с помощью нескольких скриншотов.**
 
-#### <strong> 1.Village Scene </strong> ####
+#### <strong> 1. Сцена деревни </strong> ####
 
-**After opening a village scene, let’s navigate to the Visibility tab and change it as seen in the screenshot below to work more comfortably. Visibility Masks > Game Entities (Uchecked), Particle Systems (Unchecked), Layer Flora (Unchecked), Show Paths (Unchecked) Physics Options > Show Entity Physics (Checked).**
+**После открытия сцены деревни перейдём на вкладку Visibility и изменим настройки, как показано на скриншоте ниже, чтобы работать удобнее. Visibility Masks > Game Entities (не отмечено), Particle Systems (не отмечено), Layer Flora (не отмечено), Show Paths (не отмечено). Physics Options > Show Entity Physics (отмечено).**
 
  | 
 ---- | ----
 ![](/img/navmesh/1.png) | ![](/img/navmesh/2.png)
 
-**Click on the Navigation Mesh Icon on the toolbar and open the Navigation Mesh Inspector tab on the right side. After that, press 3 on your keyboard to open the Face mode. Change the ID part from 0 to 2.**
+**Нажмите на иконку навигационной сетки на панели инструментов и откройте вкладку Navigation Mesh Inspector справа. После этого нажмите 3 на клавиатуре, чтобы открыть режим Face (грани). Измените часть ID с 0 на 2.**
 
 ![](/img/navmesh/3.png)
 
-**Let’s create our first face. As seen in the screenshot below, place the vertices on top of the road and click CTRL+Space. You will see a Navigation Mesh Polygon created. We can place 2 more vertices near the existing polygon and press Shift+Left Mouse Button to create additional Polygons.**
+**Давайте создадим нашу первую грань. Как показано на скриншоте ниже, разместите вершины поверх дороги и нажмите CTRL+Space. Вы увидите созданный полигон навигационной сетки. Мы можем разместить ещё 2 вершины рядом с существующим полигоном и нажать Shift+левая кнопка мыши, чтобы создать дополнительные полигоны.**
 
 
  || 
@@ -125,25 +126,25 @@ The most useful and used tools are:
 
 ------------------
 
-**By holding CTRL while navigating the mouse to the vertices we can see the yellow previews. Holding these vertices with Left Mouse Button will allow us to move the vertex freely.**
+**Удерживая CTRL и наводя курсор мыши на вершины, мы увидим жёлтый предпросмотр. Удержание этих вершин левой кнопкой мыши позволит свободно их перемещать.**
 
 ![](/img/navmesh/vertmove.gif)
 
-**In the  Navigation Mesh Select mode, select what mode you want to use (1 (Vertex) 2 (Edge) 3 (Face)) and use Alt+Delete to remove. This will leave the vertices in the scene (If Edge 2 ((Edge)) and 3 ((Face)) are selected). If you want the vertices to be inactive you can press Alt+X+Delete keys.** 
-**The other remove method is in the Navigation Mesh Add mode. If we hover over the vertex, edge or faces with ALT button pressed we can see a red preview. We can remove them by clicking the Left Mouse Button.**
+**В режиме Navigation Mesh Select выберите нужный режим (1 (вершина) 2 (ребро) 3 (грань)) и используйте Alt+Delete для удаления. Это оставит вершины на сцене (если выбраны режимы Edge 2 (ребро) и 3 (грань)). Если вы хотите, чтобы вершины стали неактивными, вы можете нажать клавиши Alt+X+Delete.** 
+**Другой способ удаления находится в режиме Navigation Mesh Add. Если мы наведём курсор на вершину, ребро или грань с зажатой клавишей ALT, мы увидим красный предпросмотр. Мы можем удалить их, щёлкнув левой кнопкой мыши.**
 
-Navigation Mesh Select Mode-NavDelete | Navigation Mesh Add Mode-NavDelete
+Режим Navigation Mesh Select — удаление | Режим Navigation Mesh Add — удаление
 ---- | ----
 ![](/img/navmesh/nmselectsilme.gif) | ![](/img/navmesh/nmaddsilme.gif)
 
 ------------------
-##### EASY AND FASTER NAVMESH CREATION TIP #####
+##### СОВЕТ ДЛЯ БОЛЕЕ ЛЁГКОГО И БЫСТРОГО СОЗДАНИЯ НАВМЕША #####
 
 ![](/img/navmesh/navbuildtipstricks.gif) 
 
 ------------------
 
-**Navigation Mesh needs to contain the spawn point pivot points. Let’s apply the navigation mesh as they are connected with all the roads and navigation mesh face on spawn points.**
+**Навигационная сетка должна содержать опорные точки точек спавна. Давайте применим навигационную сетку так, чтобы она была соединена со всеми дорогами и гранями навигационной сетки в точках спавна.**
 
  | 
 ---- | ----
@@ -153,7 +154,7 @@ Navigation Mesh Select Mode-NavDelete | Navigation Mesh Add Mode-NavDelete
 
 ------------------
 
-**Let’s press the Spacebar after creating a navigation mesh face to check that the ID is set to 2 and change the Editor mode to Navigation Mesh Select mode and press the "3" key on the keyboard. This process will ensure that we chose the navigation mesh face. After this, let’s select the face and make sure that the ID is 2 on the Navigation Mesh Inspector. We already saw it was 2 when we started but we are now sure it is 2. We can deselect what we chose by clicking on an empty space on Viewport. Now, we can press the Spacebar to change the Editor mode to the Navigation Mesh add and continue.**
+**Нажмём Spacebar после создания грани навигационной сетки, чтобы проверить, что ID установлен на 2, и переключим режим редактора на Navigation Mesh Select, затем нажмём клавишу «3» на клавиатуре. Этот процесс гарантирует, что мы выбрали грань навигационной сетки. После этого выделим грань и убедимся, что ID равен 2 в инспекторе навигационной сетки. Мы уже видели, что он был равен 2 в начале, но теперь мы в этом окончательно убедились. Мы можем снять выделение, щёлкнув по пустому месту в видовом окне. Теперь мы можем нажать Spacebar, чтобы переключить режим редактора обратно на Navigation Mesh Add, и продолжить.**
 
 ![](/img/navmesh/7.png)
 
@@ -161,61 +162,61 @@ Navigation Mesh Select Mode-NavDelete | Navigation Mesh Add Mode-NavDelete
 
 
 
-**Please make sure your navigation mesh areas don't contain any physical objects.**
+**Пожалуйста, убедитесь, что ваши области навигационной сетки не содержат физических объектов.**
 
  | 
 ---- | ----
 ![](/img/navmesh/11.png) | ![](/img/navmesh/12.png)
 
-**The animal spawn points can be seen in the screenshot below. To make sure the scene has animal spawn points you can click on the entity in the scene and check the text located on the bottom left of the screen.**
+**Точки спавна животных можно увидеть на скриншоте ниже. Чтобы убедиться, что на сцене есть точки спавна животных, вы можете щёлкнуть по объекту на сцене и проверить текст, расположенный в нижнем левом углу экрана.**
 
 ![](/img/navmesh/9.png)
 
-**To prevent animals from escaping let's apply navigation mesh like an island and use the mesh ID 2. After that, let’s change the ID of the surrounding mesh faces to 3. That way, the animals won't be connected with the rode and won't be able to escape.**
+**Чтобы предотвратить побег животных, давайте применим навигационную сетку в виде острова и используем ID сетки 2. После этого изменим ID окружающих граней сетки на 3. Таким образом, животные не будут соединены с дорогой и не смогут сбежать.**
 
  | 
 ---- | ----
 ![](/img/navmesh/10.png) | ![](/img/navmesh/10b.png)
 
-**There are special fields in the scenes that we call ‘common areas’. You can see these areas in the scene with a sphere. Let’s fill in this sphere with the navigation mesh faces that has the ID 2, while making sure there are no physical objects inside of them.**
+**На сценах есть специальные поля, которые мы называем «общими зонами» (common areas). Вы можете увидеть эти зоны на сцене в виде сферы. Давайте заполним эту сферу гранями навигационной сетки с ID 2, убедившись, что внутри них нет физических объектов.**
 
  | 
 ---- | ----
 ![](/img/navmesh/13.png) | ![](/img/navmesh/14.png)
 
-**After making sure all the roads and spawn points are applied and connected to each other we have finished the phase one.**
+**После того как мы убедились, что все дороги и точки спавна применены и соединены друг с другом, мы завершили первый этап.**
 
 ![](/img/navmesh/15.png)
 
-**If there are any unwalkable terrain fields, you can click on the “Shaded” option in the dropdown menu located in the top bar. Choose the Terrain Angle in the “Debug” field and change the Angle Limit to 50. Now, we can see the red areas and apply navigation mesh according to this information.**
+**Если есть какие-либо непроходимые участки местности, вы можете нажать на опцию «Shaded» в выпадающем меню в верхней панели. Выберите Terrain Angle в поле «Debug» и измените Angle Limit на 50. Теперь мы можем увидеть красные зоны и применить навигационную сетку с учётом этой информации.**
 
 ![](/img/navmesh/terrain_angle.gif)
 
-**Let’s change the ID to 1 in the Navigation Mesh Inspector while making sure there are no selected navigation mesh faces. Let’s continue to apply navigation mesh while making sure there are no physical objects inside of them.**
+**Изменим ID на 1 в инспекторе навигационной сетки, убедившись, что ни одна грань навигационной сетки не выбрана. Продолжим применять навигационную сетку, убедившись, что внутри неё нет физических объектов.**
 
 ![](/img/navmesh/physicsmesh.png)
 
-**Let’s complete the navigation mesh of the scene after we make sure every surface on the scene is inside of the borders (you can toggle the Border view with Visibility > Visibility Masks).**
+**Завершим навигационную сетку сцены после того, как убедимся, что каждая поверхность на сцене находится внутри границ (вы можете переключить отображение границ через Visibility > Visibility Masks).**
 
 ![](/img/navmesh/16.png)
 
-**The navigation mesh of this village scene is complete.**
+**Навигационная сетка этой сцены деревни завершена.**
 
 ![](/img/navmesh/sahnebittigeneldurum.png)
 
 
-**Now, let’s take a look at the scripting of the Navigation Mesh IDs. Navigate to the Prefabs tab and search for “navigation_mesh_deactivator” in the filter field. Let’s put that into the scene. Select the Navigation_Mesh_Deactivator entity in the scene tab. Let’s open the dropdown menus in the Entity Inspector > Scripts > NavigationMeshDeactivator. Set the DisableFaceWithId to 1 and DisableFaceWithIdForAnimals to 3.**
+**Теперь давайте посмотрим на скриптинг ID навигационной сетки. Перейдите на вкладку Prefabs и найдите «navigation_mesh_deactivator» в поле фильтра. Поместим его на сцену. Выберем объект Navigation_Mesh_Deactivator на вкладке Scene. Откроем выпадающие меню в Entity Inspector > Scripts > NavigationMeshDeactivator. Установим DisableFaceWithId на 1, а DisableFaceWithIdForAnimals на 3.**
 
  | 
 ---- | ----
 ![](/img/navmesh/19.png) | ![](/img/navmesh/20.png)
 
-Save the scene. **The navigation mesh process for our village scene is completed.**
+Сохраните сцену. **Процесс создания навигационной сетки для нашей сцены деревни завершён.**
 
 ------------------
-### The Logic of Navigation Mesh IDs ###
-**The navigation mesh faces with the ID of 2, are the navigation mesh faces that the AI sees while we take a walk in a scene. These faces needs to be connected to each other. The faces which include the animal spawn points need to have the ID of 2, as well. The reason why these faces are not connected is because we don’t want the animals to walk on the roads as the human NPCs. To make sure that the animal spawn points are active their navigation mesh face ID has to be 2. To disconnect their connection with the road, we apply navigation mesh that surrounds the animal spawn point faces with the ID of 2 and give the new navigation mesh faces the ID of 3. After this we also include this to the navigation_mesh_deactivator script. The faces with the ID of 1 are the faces that are not active in the walk mode, but they have to be applied. When a village is raided all the navigation meshes are active, without looking out for the IDs. Those are activated when we take a walk in the scene.**
+### Логика ID навигационной сетки ###
+**Грани навигационной сетки с ID 2 — это грани навигационной сетки, которые видит ИИ, когда мы гуляем по сцене. Эти грани должны быть соединены друг с другом. Грани, включающие точки спавна животных, также должны иметь ID 2. Причина, по которой эти грани не соединены, заключается в том, что мы не хотим, чтобы животные ходили по дорогам, как человеческие NPC. Чтобы точки спавна животных были активны, ID их грани навигационной сетки должен быть равен 2. Чтобы разорвать их связь с дорогой, мы наносим навигационную сетку, окружающую грани точек спавна животных, с ID 2, и присваиваем новым граням навигационной сетки ID 3. После этого мы также добавляем это в скрипт navigation_mesh_deactivator. Грани с ID 1 — это грани, которые неактивны в режиме прогулки, но их всё равно нужно применить. Когда деревню штурмуют, все навигационные сетки становятся активными, независимо от ID. Они активируются, когда мы гуляем по сцене.**
 
-Navigation Meshes with the ID of 2 are active | All the navigation meshes are active
+Навигационные сетки с ID 2 активны | Все навигационные сетки активны
 ---- | ----
 ![](/img/navmesh/17.png) | ![](/img/navmesh/18.png)

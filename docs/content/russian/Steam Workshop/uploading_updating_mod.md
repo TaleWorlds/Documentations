@@ -1,48 +1,49 @@
 +++
-title = "Uploading/Updating a Mod"
+title = "Загрузка/обновление мода"
 description = ""
 weight = 5
+ai_translated = true
 +++
 
-## Preparing Your Module For Publishing
+## Подготовка вашего модуля к публикации
 
-You need to Publish your module via the modding toolkit in order to allow/enable other players to use your module. You can deploy it for the end user, dedicated servers or other modders, all of which is explained below.
+Вам нужно опубликовать свой модуль через набор инструментов моддинга, чтобы другие игроки могли использовать ваш модуль. Вы можете развернуть его для конечного пользователя, выделенных серверов или других моддеров — всё это объясняется ниже.
 
-### Exporting the Module via the Modding Tools
+### Экспорт модуля с помощью инструментов моддинга
 
-* Open the Modding Kit via the Launcher after checking your mod in the Launcher’s module list
-* Open the Editor from the Main Menu UI
-* From the File menu on the top, select Publish Module
+* Откройте Modding Kit через Launcher, предварительно отметив свой мод в списке модулей Launcher'а
+* Откройте редактор (Editor) из главного меню UI
+* В меню File вверху выберите Publish Module
 
 <img src="/img/uploading_updating_mod/1.png"/>
 
-In the Publishing pop-up window, the following options are available:
+В всплывающем окне публикации доступны следующие параметры:
 
 |  |  |
 | ------ | ----------- |
 | <img src="/img/uploading_updating_mod/2.png"/> | <img src="/img/uploading_updating_mod/3.png"/> |
 
-* `Client`: Your module will be packed for client use. Which means that players will need to have these packages in order to play the game. This is the least you need to do if you want your module to be played via Steam Workshop.
-* `Dedicated Server`: Your module can be run on a server too. If you’d like your mod to be available on multiplayer too, you need to check it.
-* `Editor`: Other players can open your module via the Editor and modify it. If you don’t pack for the editor, players will not be able to open your module via the Editor.
+* `Client`: Ваш модуль будет упакован для клиентского использования. Это означает, что игрокам потребуются эти пакеты, чтобы играть в игру. Это минимум, который вам нужно сделать, если вы хотите, чтобы ваш модуль можно было загрузить через Steam Workshop.
+* `Dedicated Server`: Ваш модуль также может быть запущен на сервере. Если вы хотите, чтобы ваш мод был доступен и в мультиплеере, отметьте этот пункт.
+* `Editor`: Другие игроки смогут открыть ваш модуль в редакторе (Editor) и изменять его. Если вы не упакуете его для редактора, игроки не смогут открыть ваш модуль через редактор.
 
 {{% notice warning %}}
-Do not forget to select your module in the “Module” dropdown list. Otherwise, you will most likely publish the Native module by accident which will take a significant amount of time.
+Не забудьте выбрать свой модуль в выпадающем списке «Module». В противном случае вы, скорее всего, случайно опубликуете нативный модуль (Native), что займёт значительное количество времени.
 {{% /notice %}}
 
-* After selecting these options and your module from the Modules dropdown list, proceed with the Publish button.
-* After clicking the Publish button, a pop-up window for selecting a destination directory will appear. Select the destination directory, which is a writable location on your computer, and the module will be copied there as a ready-to-upload version.
-* Then just upload the mod folder in the destination directory to the Steam Workshop, following the instructions mentioned in “**Creating a new Steam Workshop Item**” and “**Updating a Steam Workshop Item**” sections.
+* После выбора этих опций и своего модуля в выпадающем списке Modules нажмите кнопку Publish.
+* После нажатия кнопки Publish появится всплывающее окно для выбора целевой директории. Выберите целевую директорию — доступную для записи папку на вашем компьютере, — и модуль будет скопирован туда в виде готовой к загрузке версии.
+* Затем просто загрузите папку мода из целевой директории в Steam Workshop, следуя инструкциям, указанным в разделах «**Создание нового элемента Steam Workshop**» и «**Обновление элемента Steam Workshop**».
 
 {{% notice warning %}}
-If you, as a modder, are going to test your module after uploading to the Steam Workshop, please temporarily move your Module folder under “Steam\steamapps\common\Mount & Blade II Bannerlord\Modules” to somewhere else. If you don’t move it temporarily, then the game will try to fetch the module from Bannerlord/Modules instead of workshop/content/261550.
+Если вы, как моддер, собираетесь тестировать свой модуль после загрузки в Steam Workshop, пожалуйста, временно переместите папку вашего модуля из «Steam\steamapps\common\Mount & Blade II Bannerlord\Modules» куда-нибудь ещё. Если вы не переместите её временно, игра попытается получить модуль из Bannerlord/Modules вместо workshop/content/261550.
 {{% /notice %}}
 
-## Creating a new Steam Workshop Item
+## Создание нового элемента Steam Workshop
 
-### Preparing the WorkshopCreate.xml
+### Подготовка WorkshopCreate.xml
 
-Download [this file](https://download.taleworlds.com/WorkshopCreate.xml) and place it anywhere you want. You can also create one with the following code:
+Скачайте [этот файл](https://download.taleworlds.com/WorkshopCreate.xml) и разместите его в любом удобном месте. Вы также можете создать его самостоятельно со следующим кодом:
 
 	<Tasks>
 		<CreateItem/>
@@ -70,43 +71,43 @@ Download [this file](https://download.taleworlds.com/WorkshopCreate.xml) and pla
 		</UpdateItem>
 	</Tasks>
 
-* Open the file using Notepad, Notepad++ or other tools
-* Edit the `Items` to match your module
-	* `ModuleFolder`: A direct path of your module
-	* `ItemDescription`: A description that will be displayed on Steam Workshop, can be edited via the Steam UI
-	* `Tags`: Allows your mod to be found by filtering categories. Here are the tags you can assign to your item:
+* Откройте файл с помощью Notepad, Notepad++ или других инструментов
+* Отредактируйте `Items` в соответствии со своим модулем
+	* `ModuleFolder`: Прямой путь к вашему модулю
+	* `ItemDescription`: Описание, которое будет отображаться в Steam Workshop; его можно редактировать через интерфейс Steam
+	* `Tags`: Позволяет находить ваш мод с помощью фильтрации по категориям. Вот теги, которые можно присвоить вашему элементу:
 		* `Type`: Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour
 		* `Setting`: Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other
 		* `Game Mode`: Singleplayer, Multiplayer
-		* `Compatible Version`: v1.4.5, v1.4.6,... (the currently available versions can be found at the Steam Workshop "Browse by Tag" section)
-		* You’re encouraged to only use the above tags as they’re what players will be able to filter mods by. Any other tags won’t show up on the Filter list but will show up on your mod Steam Workshop page
-	* `Image`: Determines the featured image displayed on Steam Workshop, a direct path to it must be inserted here (the image should be smaller than 1 MB)
-	* `Visibility`: Determines visibility on Steam Workshop. Can be: Public, FriendsOnly, Private
-* Save the changes made to `WorkshopCreate.xml`
+		* `Compatible Version`: v1.4.5, v1.4.6,... (текущие доступные версии можно найти в разделе Steam Workshop "Browse by Tag")
+		* Рекомендуется использовать только перечисленные выше теги, поскольку именно по ним игроки смогут фильтровать моды. Остальные теги не появятся в списке фильтров, но будут отображаться на странице вашего мода в Steam Workshop
+	* `Image`: Определяет главное изображение, отображаемое в Steam Workshop; здесь нужно указать прямой путь к нему (изображение должно быть меньше 1 МБ)
+	* `Visibility`: Определяет видимость в Steam Workshop. Может быть: Public, FriendsOnly, Private
+* Сохраните изменения, внесённые в `WorkshopCreate.xml`
 
 {{% notice warning %}}
-Steam Cloud must be enabled for the game in order to successfully upload your mod. You can verify that by right-clicking on Mount &amp; Blade II: Bannerlord within your Steam Library, going to Properties and then General. Or by enabling Steam Cloud for all games via the Steam client Settings window, via the Cloud tab.
+Для успешной загрузки вашего мода должна быть включена функция Steam Cloud для игры. Это можно проверить, щёлкнув правой кнопкой мыши на Mount &amp; Blade II: Bannerlord в своей библиотеке Steam, перейдя в Properties, а затем во вкладку General. Либо включив Steam Cloud для всех игр через окно настроек клиента Steam, во вкладке Cloud.
 {{% /notice %}}
 
 {{% notice warning %}}
-You may run into an error during the publishing process. An endless print of the following line: Status: k_EItemUpdateStatusInvalid 0/0 - If that occurs your upload may have completed successfully and you’re free to close the console. If the upload failed, try again.
+Во время процесса публикации вы можете столкнуться с ошибкой. Бесконечный вывод следующей строки: Status: k_EItemUpdateStatusInvalid 0/0 — если это происходит, ваша загрузка, возможно, завершилась успешно, и вы можете свободно закрыть консоль. Если загрузка завершилась неудачно, попробуйте снова.
 {{% /notice %}}
 
 {{% notice tip %}}
-The size of your uploaded module displayed on the Steam Workshop may differ from the actual size of the module. This is normal.
+Размер загруженного вами модуля, отображаемый в Steam Workshop, может отличаться от фактического размера модуля. Это нормально.
 {{% /notice %}}
 
-### Publishing the module
-* Find the following folder `\Steam\steamapps\common\Mount & Blade II Bannerlord\bin\Win64_Shipping_Client` and confirm that the `TaleWorlds.MountAndBlade.SteamWorkshop.exe` is located inside of it
-* Type `cmd` into the bar where the folder location is displayed and press `Enter`
-* Type `TaleWorlds.MountAndBlade.SteamWorkshop.exe c:\path\WorkshopCreate.xml` into the console, with the path directing to your `WorkshopCreate.xml` file and press `Enter`
-* If no errors appear, your mod has been successfully uploaded to Steam Workshop
+### Публикация модуля
+* Найдите папку `\Steam\steamapps\common\Mount & Blade II Bannerlord\bin\Win64_Shipping_Client` и убедитесь, что файл `TaleWorlds.MountAndBlade.SteamWorkshop.exe` находится внутри неё
+* Введите `cmd` в адресной строке, где отображается путь к папке, и нажмите `Enter`
+* Введите `TaleWorlds.MountAndBlade.SteamWorkshop.exe c:\path\WorkshopCreate.xml` в консоли, указав путь к вашему файлу `WorkshopCreate.xml`, и нажмите `Enter`
+* Если ошибок не появилось, ваш мод был успешно загружен в Steam Workshop
 
-## Updating a Steam Workshop Item
+## Обновление элемента Steam Workshop
 
-### Preparing the WorkshopUpdate.xml
+### Подготовка WorkshopUpdate.xml
 
-Download [this file](https://download.taleworlds.com/WorkshopUpdate.xml) and place it anywhere you want. You can also create one with the following code:
+Скачайте [этот файл](https://download.taleworlds.com/WorkshopUpdate.xml) и разместите его в любом удобном месте. Вы также можете создать его самостоятельно со следующим кодом:
 
 	<Tasks>
 		<GetItem>
@@ -133,16 +134,16 @@ Download [this file](https://download.taleworlds.com/WorkshopUpdate.xml) and pla
 		</UpdateItem>
 	</Tasks>
 
-* Open the file using Notepad, Notepad++ or other tools
-* Edit the `Items` to match your module
-	* `ItemId`: Insert the ID of your workshop module. You can find it by going to your workshop module page, right-clicking on a blank slot and selecting `Copy Page URL`. If you then paste the URL somewhere, you’ll see the ID.
-	* `ModuleFolder`: A direct path of your module
-	* `ChangeNotes`: Think of this as patch notes, they will be displayed on the “Change Notes” section of your Workshop module
-	* `Tags`: Allows your mod to be found by filtering categories. Updating tags can be done through the `WorkshopUpdate.xml` file
-* Save the changes made to `WorkshopUpdate.xml`
+* Откройте файл с помощью Notepad, Notepad++ или других инструментов
+* Отредактируйте `Items` в соответствии со своим модулем
+	* `ItemId`: Введите ID вашего модуля из мастерской. Его можно найти, перейдя на страницу своего модуля в мастерской, щёлкнув правой кнопкой мыши на пустом месте и выбрав `Copy Page URL`. Если затем вставить URL куда-нибудь, вы увидите ID.
+	* `ModuleFolder`: Прямой путь к вашему модулю
+	* `ChangeNotes`: Воспринимайте это как список изменений (патчноуты) — они будут отображаться в разделе «Change Notes» вашего модуля в мастерской
+	* `Tags`: Позволяет находить ваш мод с помощью фильтрации по категориям. Обновление тегов можно выполнить через файл `WorkshopUpdate.xml`
+* Сохраните изменения, внесённые в `WorkshopUpdate.xml`
 
-### Publishing the update
-* Find the following folder `\Steam\steamapps\common\Mount & Blade II Bannerlord\bin\Win64_Shipping_Client` and confirm that the `TaleWorlds.MountAndBlade.SteamWorkshop.exe` is located inside of it
-* Type `cmd` into the bar where the folder location is displayed and press `Enter`
-* Type `TaleWorlds.MountAndBlade.SteamWorkshop.exe c:\path\WorkshopUpdate.xml` into the console, with the path directing to your `WorkshopUpdate.xml` file and press `Enter`
-* If no errors appear, your mod has been successfully updated
+### Публикация обновления
+* Найдите папку `\Steam\steamapps\common\Mount & Blade II Bannerlord\bin\Win64_Shipping_Client` и убедитесь, что файл `TaleWorlds.MountAndBlade.SteamWorkshop.exe` находится внутри неё
+* Введите `cmd` в адресной строке, где отображается путь к папке, и нажмите `Enter`
+* Введите `TaleWorlds.MountAndBlade.SteamWorkshop.exe c:\path\WorkshopUpdate.xml` в консоли, указав путь к вашему файлу `WorkshopUpdate.xml`, и нажмите `Enter`
+* Если ошибок не появилось, ваш мод был успешно обновлён

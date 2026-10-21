@@ -1,5 +1,5 @@
 +++
-title = "Paths"
+title = "路径"
 description = ""
 weight = 1
 +++

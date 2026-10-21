@@ -1,69 +1,70 @@
 +++
-title = "Editor Shortcuts"
+title = "Горячие клавиши редактора"
 description = ""
 weight = 1
+ai_translated = true
 +++
 
-General Editor Usage | Shortcut | Editor State
+Общее использование редактора | Горячая клавиша | Состояние редактора
 ------- | ------- | --------
-Show/hide helpers | H | Any mode
-New scene | Alt + 1 | Any mode
-Save scene | Alt + 2 | Any mode
-Open scene | Alt + 3 | Any mode
-Start mission | Alt + 4 | Any mode
-Start mission as | Alt + 5 | Any mode
-Scene Options | Alt + 6 | Any mode
-Terrain Options | Alt + 7 | Terrain select
-Terrain Elevation | Alt + 8 | Terrain Paint Elevate
-Terrain Paint | Alt + 9 | Terrain Paint Paint
-Shift between relevant 2 editor modes (select-add, select-elevatepaint etc) | Space | Any mode
-Undo/Redo | Ctrl+Z, Ctrl+Y | Any mode
+Показать/скрыть помощники | H | Любой режим
+Новая сцена | Alt + 1 | Любой режим
+Сохранить сцену | Alt + 2 | Любой режим
+Открыть сцену | Alt + 3 | Любой режим
+Запустить миссию | Alt + 4 | Любой режим
+Запустить миссию как | Alt + 5 | Любой режим
+Параметры сцены | Alt + 6 | Любой режим
+Параметры ландшафта | Alt + 7 | Выбор ландшафта
+Высота ландшафта | Alt + 8 | Рисование ландшафта - Подъём
+Рисование ландшафта | Alt + 9 | Рисование ландшафта - Рисование
+Переключение между двумя соответствующими режимами редактора (выбор-добавление, выбор-подъём/рисование и т. д.) | Пробел | Любой режим
+Отменить/Повторить | Ctrl+Z, Ctrl+Y | Любой режим
 
-Camera Controls | Shortcut | Editor State
+Управление камерой | Горячая клавиша | Состояние редактора
 ------- | ------- | --------
-Focus on selected entity | F | Entity Select
-Editor camera orbiting mode | Alt (Hold) + Right Mouse Button | Entity Select
-Pan | Alt (Hold) + Middle Mouse Button | Entity Select
-Zoom in/out | Alt (Hold) + Mouse scroll wheel | Entity Select
-Camera speed increase/decrease | Ctrl + Mouse scroll wheel | Any mode
-Camera speed set to 1 | Ctrl + Middle mouse button | Any mode
+Сфокусироваться на выбранном объекте | F | Выбор объекта
+Режим вращения камеры редактора (орбита) | Alt (удерживать) + правая кнопка мыши | Выбор объекта
+Панорамирование | Alt (удерживать) + средняя кнопка мыши | Выбор объекта
+Увеличение/уменьшение масштаба | Alt (удерживать) + колесо прокрутки мыши | Выбор объекта
+Увеличение/уменьшение скорости камеры | Ctrl + колесо прокрутки мыши | Любой режим
+Установить скорость камеры на 1 | Ctrl + средняя кнопка мыши | Любой режим
 
-Prefab transform | Shortcut | Editor State
+Трансформация префаба | Горячая клавиша | Состояние редактора
 ------- | ------- | --------
-Rotate while placing | Z, X, C, T, reset to default with R | Entity Add
-Move entity with placing on terrain | Hold P | Entity Select
-Move entity vertically | Hold N | Entity Select
-Move entity on the XY plane | Hold G | Entity Select
-Show translate triad | T | Entity Select
-Show rotating triad | R | Entity Select
-Show scaling triad | Y | Entity Select
-Duplicate the entity dragging on the translate triad | Shift+Click or Shift+Drag to side | Entity Select
-Hide any triad on selected entity | V | Entity Select
-Triads shown based on local coordinates (default) | Alt+L | Entity Select
-Triads shown based on world coordinates | Alt+W | Entity Select
-Material of an object under mouse opens in material editor (or material comes to inspector) | M+Click | Entity Select
+Вращение при размещении | Z, X, C, T, сброс к значению по умолчанию — R | Добавление объекта
+Перемещение объекта с привязкой к ландшафту | Удерживать P | Выбор объекта
+Перемещение объекта по вертикали | Удерживать N | Выбор объекта
+Перемещение объекта по плоскости XY | Удерживать G | Выбор объекта
+Показать триаду перемещения | T | Выбор объекта
+Показать триаду вращения | R | Выбор объекта
+Показать триаду масштабирования | Y | Выбор объекта
+Дублировать объект перетаскиванием за триаду перемещения | Shift+Клик или Shift+Перетаскивание в сторону | Выбор объекта
+Скрыть любую триаду на выбранном объекте | V | Выбор объекта
+Триады отображаются на основе локальных координат (по умолчанию) | Alt+L | Выбор объекта
+Триады отображаются на основе мировых координат | Alt+W | Выбор объекта
+Материал объекта под курсором мыши открывается в редакторе материалов (или материал отображается в инспекторе) | M+Клик | Выбор объекта
 
-Terrain | Shortcut | Editor State
+Ландшафт | Горячая клавиша | Состояние редактора
 ------- | ------- | --------
-Select all terrain nodes | Ctrl + A | Terrain Select
-Lower when rise selected | Alt + Click | Terrain Paint Elevate
-Rise when lower selected | Alt + Click | Terrain Paint Elevate
-Flatten when Rise or Lower selected | Ctrl + Left Mouse Click | Terrain Paint Elevate
-Smoothen when Rise or Lower selected | Shift + Click | Terrain Paint Elevate
-Transfer height value to Flatten (when flatten selected) | Alt + Click | Terrain Paint Elevate
-Flora paint (Not from layers) | Left Mouse Click  | Entity Paint
-Resize currently selected flora | B (hold) + Mouse drag left/right | Entity Paint
-Place 1 flora (flora seen on brush) | Ctrl + Left Mouse Click | Entity Paint
+Выбрать все узлы ландшафта | Ctrl + A | Выбор ландшафта
+Понижение при выбранном подъёме | Alt + Клик | Рисование ландшафта - Подъём
+Подъём при выбранном понижении | Alt + Клик | Рисование ландшафта - Подъём
+Выровнять при выбранном подъёме или понижении | Ctrl + левый клик мыши | Рисование ландшафта - Подъём
+Сгладить при выбранном подъёме или понижении | Shift + Клик | Рисование ландшафта - Подъём
+Перенести значение высоты в инструмент выравнивания (при выбранном выравнивании) | Alt + Клик | Рисование ландшафта - Подъём
+Рисование флоры (не из слоёв) | Левый клик мыши | Рисование объектов
+Изменить размер выбранной флоры | B (удерживать) + перетаскивание мыши влево/вправо | Рисование объектов
+Разместить 1 объект флоры (флора, видимая на кисти) | Ctrl + левый клик мыши | Рисование объектов
 
-Navmesh hotkeys | Shortcut | Editor State
+Горячие клавиши навигационной сетки | Горячая клавиша | Состояние редактора
 ------- | ------- | --------
-Fill in closest 4 vertices (creates a quad) | Shift + Click | Navigation Mesh Add
-Fill in the last 4 vertices (creates a quad) | Ctrl + Space | Navigation Mesh Add
-Move vertex without selecting | Ctrl + Drag | Navigation Mesh Add
-Delete face with mouse over (leaves vertices) | Alt + Click | Navigation Mesh Add
-Delete face and remove all vertices  | Alt + X + Click | Navigation Mesh Add
-Selection mode - vertex | 1 | Navigation Mesh Select
-Selection mode - edge | 2 | Navigation Mesh Select
-Selection mode - face | 3 | Navigation Mesh Select
-Select all vertices, edges or face (depends on the current selection) | Ctrl + A | Navigation Mesh Select
-Delete selected vertices, edges or face  | Delete | Navigation Mesh Select
+Заполнить ближайшие 4 вершины (создаёт четырёхугольник) | Shift + Клик | Добавление навигационной сетки
+Заполнить последние 4 вершины (создаёт четырёхугольник) | Ctrl + Пробел | Добавление навигационной сетки
+Переместить вершину без выбора | Ctrl + Перетаскивание | Добавление навигационной сетки
+Удалить грань под курсором мыши (оставляет вершины) | Alt + Клик | Добавление навигационной сетки
+Удалить грань и все вершины | Alt + X + Клик | Добавление навигационной сетки
+Режим выбора - вершина | 1 | Выбор навигационной сетки
+Режим выбора - ребро | 2 | Выбор навигационной сетки
+Режим выбора - грань | 3 | Выбор навигационной сетки
+Выбрать все вершины, рёбра или грани (в зависимости от текущего выбора) | Ctrl + A | Выбор навигационной сетки
+Удалить выбранные вершины, рёбра или грани | Delete | Выбор навигационной сетки

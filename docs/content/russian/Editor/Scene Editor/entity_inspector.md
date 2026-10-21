@@ -1,61 +1,62 @@
 +++
-title = "Entity Inspector"
+title = "Инспектор сущности (Entity Inspector)"
 description = ""
 weight = 20
+ai_translated = true
 +++
 
-### Transform Panel ###
+### Панель Transform (Transform Panel) ###
 ![](/img/inspectors/entity_inspector/transform/transform.PNG)
 
-Transform panel allows you to change position, rotation and scale properties of the selected entities.
-All of these values are relative to the parent of the selected entity. If Entity has no parent, then they are the Global values. (in <b>[World]({{< ref "#world-space" >}})</b> space).
+Панель Transform позволяет изменять свойства положения, вращения и масштаба выбранных сущностей.
+Все эти значения относительны родителю выбранной сущности. Если у сущности нет родителя, то это глобальные значения (в пространстве <b>[World]({{< ref "#world-space" >}})</b>).
 
-#### Scale ####
-##### Locked #####
+#### Масштаб (Scale) ####
+##### Заблокировано (Locked) #####
 ![](/img/inspectors/entity_inspector/transform/scale_locked.PNG)
-If the lock icon is in locked state, changing any component of scale parameter will set all scale components to the same value, entity will be in uniform scaling mode.
-##### Unlocked #####
+Если иконка замка находится в заблокированном состоянии, изменение любого компонента параметра масштаба установит одинаковое значение для всех компонентов масштаба, сущность будет находиться в режиме равномерного масштабирования.
+##### Разблокировано (Unlocked) #####
 ![](/img/inspectors/entity_inspector/transform/scale_unlocked.PNG)
-If the lock icon is in unlocked state, every scale component can be changed independently, and will allow non-uniform scaling.
+Если иконка замка находится в разблокированном состоянии, каждый компонент масштаба можно изменять независимо, что позволяет неравномерное масштабирование.
 
-### Transform with Gizmo ###
+### Transform с помощью гизмо (Gizmo) ###
 
-#### Transform modes ####
+#### Режимы трансформации ####
 
-All of the transformation can also be done using Gizmo.
-Gizmo can be activated by selecting an entity (or multiple entities) and pressing one of the hotkeys below.
+Все трансформации также можно выполнять с помощью гизмо (Gizmo).
+Гизмо можно активировать, выбрав сущность (или несколько сущностей) и нажав одну из горячих клавиш ниже.
 
-Rotate | Translate | Scale
+Поворот (Rotate) | Перемещение (Translate) | Масштаб (Scale)
 ---- | ---- | ----
-Hotkey: R | Hotkey: T | Hotkey: Y
+Горячая клавиша: R | Горячая клавиша: T | Горячая клавиша: Y
 ![](/img/inspectors/entity_inspector/transform/gizmo_rotate.PNG) | ![](/img/inspectors/entity_inspector/transform/gizmo_translate.PNG) | ![](/img/inspectors/entity_inspector/transform/gizmo_scale.PNG)
 
-#### Transform spaces ####
+#### Пространства трансформации ####
 
-Gizmo can work in three different spaces; <b>[World]({{< ref "#world-space" >}})</b> space, <b>[Local]({{< ref "#local-space" >}})</b> space and <b>[Screen]({{< ref "#screen-space" >}})</b> space.
+Гизмо может работать в трёх разных пространствах: <b>[World]({{< ref "#world-space" >}})</b> (мировое пространство), <b>[Local]({{< ref "#local-space" >}})</b> (локальное пространство) и <b>[Screen]({{< ref "#screen-space" >}})</b> (экранное пространство).
 
-##### World space #####
+##### Мировое пространство (World space) #####
 
-World coordinates is just a fixed, parent coordinate system. This is the global coordinate system that everything is defined relative to.
-World Coordinate has a fixed [1, 0, 0] in the <span style="color: #CC4000">X</span> direction, [0, 1, 0] in the <span style="color: #40AA00">Y</span> direction, and [0, 0, 1] in the <span style="color: #0080DD">Z</span> direction.
+Мировые координаты — это просто фиксированная, родительская система координат. Это глобальная система координат, относительно которой определено всё остальное.
+Мировая система координат имеет фиксированное значение [1, 0, 0] по направлению <span style="color: #CC4000">X</span>, [0, 1, 0] по направлению <span style="color: #40AA00">Y</span> и [0, 0, 1] по направлению <span style="color: #0080DD">Z</span>.
 
-##### Local space #####
-Local coordinates are relative to the entity itself, every transform is defined such as that the center of the entity is center of the universe.
+##### Локальное пространство (Local space) #####
+Локальные координаты относительны самой сущности — каждая трансформация определена так, что центр сущности является центром вселенной.
 
-##### Screen space #####
-Screen space coordinates are relative to the camera. Right of your viewport is always the <span style="color: #CC4000">X</span> axis, Top is always the <span style="color: #40AA00">Y</span> axis, and forward is always the <span style="color: #0080DD">-Z</span> (minus Z) axis.
+##### Экранное пространство (Screen space) #####
+Координаты экранного пространства относительны камере. Правая сторона вашего вьюпорта всегда является осью <span style="color: #CC4000">X</span>, верх всегда является осью <span style="color: #40AA00">Y</span>, а вперёд всегда является осью <span style="color: #0080DD">-Z</span> (минус Z).
 
 
 
-### Entity Tag System ###
-An entity on editor can be identified by a tag defined by the user. 
+### Система тегов сущностей (Entity Tag System) ###
+Сущность в редакторе может быть идентифицирована с помощью тега, определённого пользователем.
 
-####  Adding Tags
-In the Entity Inspector, under the "Tags" title, there is a button with label "Add New Tag". This button opens a window asking for the name of the tag.
+#### Добавление тегов
+В инспекторе сущности (Entity Inspector), под заголовком «Tags», есть кнопка с надписью «Add New Tag». Эта кнопка открывает окно с запросом имени тега.
 
-#### Using an Existing Tag
-After clicking on the "Add New Tag" button, from the dropdown menu in the window, you can select tags, which were added to the current scene entities before.
+#### Использование существующего тега
+После нажатия кнопки «Add New Tag» в выпадающем меню окна можно выбрать теги, которые ранее были добавлены к другим сущностям текущей сцены.
 
-#### A Special Case: Prefabs
-If you are modifying a prefab entity, adding tags to the prefab does not break it. In other words, if you change the prefab after tagging the prefab entity in the scene, the scene entity will have all the changes as well.
-The tags are stored in the xml files with "< tags  >... < / tags >" syntax. (without the white spaces between characters)
+#### Особый случай: префабы (Prefabs)
+Если вы изменяете сущность-префаб, добавление тегов к префабу не нарушает его работу. Другими словами, если вы измените префаб после присвоения тега сущности-префабу на сцене, сущность на сцене получит все изменения тоже.
+Теги хранятся в XML-файлах в формате «< tags >... < / tags >» (без пробелов между символами).

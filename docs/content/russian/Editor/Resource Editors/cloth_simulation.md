@@ -1,125 +1,126 @@
 +++
-title = "Cloth Simulation"
+title = "Симуляция ткани"
+ai_translated = true
 
 [menu.main]
 identifier = "cloth_simulation"
 parent = "core_components"
 +++
 
-## Preparing Mesh
-Cloth simulation system uses alpha channels of vertices of meshes. Values in the alpha channel represents how much a vertex can move away from its original position. 0.1 of alpha means vertex can be moved 0.1 units from its original position by cloth simulation. If you set zero to alpha value that means that vertex will be fixed to its position and will not be updated by simulation. 
+## Подготовка меша
+Система симуляции ткани использует альфа-каналы вершин мешей. Значения в альфа-канале показывают, насколько сильно вершина может отклониться от своего исходного положения. Значение альфа 0,1 означает, что вершина может быть смещена на 0,1 единицы от исходного положения в результате симуляции ткани. Если установить для альфа-значения ноль, это означает, что вершина будет зафиксирована в своей позиции и не будет обновляться симуляцией.
 
 | Shaded | Vertex Alpha |
 | ------ | ------------ |
 | ![](/img/cloth_simulation/image1.png) | ![](/img/cloth_simulation/image6.png) |
 
 
-Black parts are driven by skinning system while white parts are simulated. It is worth to mention that skinning calculations are done for all vertices whether they are fixed or not. Positions of skinned vertices are used as anchor points for simulated vertices. You can imagine that a simulated vertex can only move inside a sphere with radius R and center C. Here alpha channel of the vertex color is used as radius and skinned position is used as center.
+Чёрные участки управляются системой скиннинга, в то время как белые участки симулируются. Стоит отметить, что расчёты скиннинга выполняются для всех вершин, независимо от того, зафиксированы они или нет. Позиции скиннингованных вершин используются как опорные точки (anchor points) для симулируемых вершин. Можно представить, что симулируемая вершина может перемещаться только внутри сферы с радиусом R и центром C. Здесь альфа-канал цвета вершины используется как радиус, а позиция после скиннинга — как центр.
 
 | Shaded | Vertex Alpha |
 | ------ | ------------ |
 | ![](/img/cloth_simulation/image7.png) | ![](/img/cloth_simulation/image3.png) |
 
-## Simulation Types
-### Direct simulation
-In direct simulation, vertices of rendered mesh are simulated directly by cloth simulation. This technique can be used for meshes with simple topology(like grid) and small amount of vertices. As the number of vertices increases performance hit of simulation will be greater.
+## Типы симуляции
+### Прямая симуляция (Direct simulation)
+При прямой симуляции вершины отрисовываемого меша симулируются напрямую системой симуляции ткани. Эта техника может использоваться для мешей с простой топологией (например, сетка) и небольшим количеством вершин. По мере увеличения количества вершин нагрузка на производительность от симуляции будет расти.
 
-### Mapped simulation
-In some cases, your mesh may not be suitable for cloth simulation. Some examples are armors with double sided polygons, clothes with more than one layer or meshes with high numbers of polygons. For such cases a separate mesh can be used for simulation. If a separate simulation mesh is used vertices of this mesh are simulated by cloth simulation. Vertices of original mesh will be mapped to simulated mesh and move with them.
+### Маппированная симуляция (Mapped simulation)
+В некоторых случаях ваш меш может не подходить для симуляции ткани. Примеры: доспехи с двусторонними полигонами, одежда с более чем одним слоем или меши с большим количеством полигонов. Для таких случаев можно использовать отдельный меш для симуляции. Если используется отдельный симуляционный меш, вершины именно этого меша симулируются системой симуляции ткани. Вершины исходного меша будут замаплены (mapped) на симулируемый меш и будут перемещаться вместе с ним.
 
 ![](/img/cloth_simulation/image4.png)
 ![](/img/cloth_simulation/image2.png)
 
-In the above images, meshes on the right side are used for simulation and the left ones are rendered according to simulated results.
-To achieve realistic results, your simulation mesh should tightly map to render mesh and it must never cover it. In other words, render mesh should never penetrate to simulation mesh. If it does, since collision calculations are done for simulation mesh you may see collision artifacts like penetrating leg to armor.
+На изображениях выше меши справа используются для симуляции, а меши слева отрисовываются в соответствии с результатами симуляции.
+Чтобы добиться реалистичных результатов, ваш симуляционный меш должен плотно соответствовать отрисовываемому мешу и никогда не должен его покрывать. Другими словами, отрисовываемый меш никогда не должен проникать внутрь симуляционного меша. Если это происходит, поскольку расчёты коллизий выполняются для симуляционного меша, вы можете увидеть артефакты коллизий, например, ногу, проникающую сквозь доспех.
 
-## Cloth Editor
-To enable cloth simulation for a mesh some ingame settings must be adjusted. Cloth editor is used to setup a mesh for simulation. Cloth editor can be opened from toolbar menu in editor. 
+## Редактор ткани (Cloth Editor)
+Чтобы включить симуляцию ткани для меша, необходимо настроить некоторые игровые параметры. Редактор ткани используется для настройки меша для симуляции. Редактор ткани можно открыть из меню панели инструментов редактора.
 
 ![](/img/cloth_simulation/image5.png)
 
-### Preview properties
-#### Preview mesh
-To start working with a mesh you should select it from Preview mesh menu and select the sub meshes which will be simulated from Render mesh cloth properties panel. If alpha channels of mesh painted properly it should start to be simulated on the preview window. 
+### Свойства предпросмотра (Preview properties)
+#### Preview mesh (меш предпросмотра)
+Чтобы начать работу с мешем, выберите его в меню Preview mesh и выберите подмеши, которые будут симулироваться, на панели свойств ткани отрисовываемого меша (Render mesh cloth properties). Если альфа-каналы меша правильно прокрашены, симуляция должна начаться в окне предпросмотра.
 
-#### Simulation mesh
-If you want to use a separate simulation mesh, select it from Simulation mesh menu. Alpha channel of this mesh must also be painted because it is the actual mesh being simulated. In this case alpha channel of preview mesh is used to determine if a vertex will be mapped to the simulation mesh or it will be rendered with original skinning data. Alpha values greater than zero means that vertex must be mapped to simulation mesh. Vertices with zero alpha values will use the original skinning data. Since simulation mesh has less polygon count than the original mesh, this can be used to increase skinning quality of original mesh for non-simulated parts.
+#### Simulation mesh (симуляционный меш)
+Если вы хотите использовать отдельный симуляционный меш, выберите его в меню Simulation mesh. Альфа-канал этого меша также должен быть прокрашен, так как именно этот меш фактически симулируется. В этом случае альфа-канал меша предпросмотра используется, чтобы определить, будет ли вершина замаплена на симуляционный меш или будет отрисовываться с использованием исходных данных скиннинга. Значения альфа больше нуля означают, что вершина должна быть замаплена на симуляционный меш. Вершины с нулевым значением альфа будут использовать исходные данные скиннинга. Поскольку симуляционный меш имеет меньшее количество полигонов, чем исходный меш, это можно использовать для повышения качества скиннинга исходного меша для несимулируемых частей.
 
-#### Helper mesh
-You can select a helper mesh to preview your actual simulation mesh with an arbitrary mesh. Selecting a horse mesh for a simulated mane mesh is a good example.
+#### Helper mesh (вспомогательный меш)
+Вы можете выбрать вспомогательный меш, чтобы предпросматривать ваш фактический симуляционный меш с помощью произвольного меша. Хороший пример — выбор меша лошади для симулируемого меша гривы.
 
-#### Preview skeleton
-If you want to work on a skinned mesh and preview collision capsules and animations, you should select corresponding skeleton.
+#### Preview skeleton (скелет предпросмотра)
+Если вы хотите работать со скиннингованным мешем и просматривать коллизионные капсулы и анимации, выберите соответствующий скелет.
 
-#### Preview body
-You can assign an existing collision body to your Preview mesh with Preview body menu. Modification of collision bodies can be done from Cloth Bodies panel.
+#### Preview body (тело предпросмотра)
+Вы можете назначить существующее коллизионное тело вашему мешу предпросмотра через меню Preview body. Изменение коллизионных тел можно выполнить на панели Cloth Bodies.
 
-#### Preview animation name
-You can test your cloth with an animation. You must write its name in asset folder, not the one in animations*.xml and its start and end frame numbers and duration. You can start and stop animation with Toggle Animation button.
+#### Preview animation name (имя анимации предпросмотра)
+Вы можете протестировать вашу ткань с анимацией. Необходимо указать её имя в папке asset, а не то, что указано в animations*.xml, а также номера начального и конечного кадра и длительность. Запускать и останавливать анимацию можно кнопкой Toggle Animation.
 
-#### Scene update coef
-Slow motion can be simulated by decreasing this value. Default value is 1 which means all simulations are done normally.
+#### Scene update coef (коэффициент обновления сцены)
+Эффект замедленной съёмки можно симулировать, уменьшая это значение. Значение по умолчанию — 1, что означает, что все симуляции выполняются в нормальном режиме.
 
-#### Render mesh cloth properties
-You can select which submeshes will be simulated by checking checkbox next to each submesh. 
-Different cloth materials can be assigned to each submesh by Cloth material column. Max distance multiplier is used to scale vertex color paintings of mesh which controls how much a vertex can move away from its original position. 0.5 value of vertex alpha with 3.0 max distance multiplier value means that, that vertex can move 1.5 units away from its original position.
+#### Render mesh cloth properties (свойства ткани отрисовываемого меша)
+Вы можете выбрать, какие подмеши будут симулироваться, установив флажок рядом с каждым подмешем.
+Разным подмешам можно назначить разные материалы ткани через столбец Cloth material. Параметр Max distance multiplier используется для масштабирования прокрашенных значений цвета вершин, которые определяют, насколько далеко вершина может сместиться от своей исходной позиции. Значение альфа вершины 0,5 при значении Max distance multiplier 3,0 означает, что эта вершина может сместиться на 1,5 единицы от своей исходной позиции.
 \\
-If you are using a separate simulation mesh, max distance value and cloth material of simulation mesh overrides these settings. All submeshes will use same cloth material assigned to simulation mesh.
+Если вы используете отдельный симуляционный меш, значение max distance и материал ткани симуляционного меша переопределяют эти настройки. Все подмеши будут использовать тот же материал ткани, что назначен симуляционному мешу.
 
-#### Simulation mesh cloth properties
-If you use a separate simulation mesh, you can adjust its settings from here just like render mesh properties mentioned above. Cloth material and max distance value selected here will be used for all sub meshes of render mesh.
+#### Simulation mesh cloth properties (свойства ткани симуляционного меша)
+Если вы используете отдельный симуляционный меш, вы можете настроить его параметры здесь так же, как и свойства отрисовываемого меша, упомянутые выше. Материал ткани и значение max distance, выбранные здесь, будут использоваться для всех подмешей отрисовываемого меша.
 
 {{% notice warning %}}
-It is important to note that you must save your settings by pressing Save mesh settings button.
+Важно отметить, что вы должны сохранить свои настройки, нажав кнопку Save mesh settings.
 {{% /notice %}}
 
-### Collision Bodies
-Collision presets can be created and modified from <b>Collision bodies</b> window. You can open <b>Collision bodies</b> window from <b>Edit > Edit collision bodies</b> menu.
+### Коллизионные тела (Collision Bodies)
+Пресеты коллизий можно создавать и изменять в окне <b>Collision bodies</b>. Открыть окно <b>Collision bodies</b> можно через меню <b>Edit > Edit collision bodies</b>.
 ![](/img/cloth_simulation/image8.png)
 
-A capsule consists of two end points. These points can be skinned to a skeleton separately by assigning owner bones and weights. One capsule point can be skinned to at most two bones. Like mesh skinning, weights are used to determine influence of that bone on the selected capsule.
+Капсула состоит из двух конечных точек. Эти точки можно скиннинговать на скелет отдельно, назначая им кости-владельцы (owner bones) и веса. Одна точка капсулы может быть привязана максимум к двум костям. Как и при скиннинге меша, веса определяют степень влияния этой кости на выбранную капсулу.
 
-### Cloth materials
-All simulation parameters to customize cloth behaviour is supplied with cloth materials. Cloth material presets can be created and modified from <b>Material templates</b> window. 
+### Материалы ткани (Cloth materials)
+Все параметры симуляции для настройки поведения ткани задаются материалами ткани. Пресеты материалов ткани можно создавать и изменять в окне <b>Material templates</b>.
 ![](/img/cloth_simulation/image9.png)
-You can open this window from <b>Edit > Edit merial templates</b> menu.
-Materials shown in this windows are presets so changing these presets does not affect configurations of existing cloth meshes. To change parameters of an existing cloth mesh, you can click <b>Change parameters</b> button in Simulation/Render mesh properties panel and adjust each settings in <b>Mesh specific parameters</b> window.
+Открыть это окно можно через меню <b>Edit > Edit merial templates</b>.
+Материалы, показанные в этом окне, являются пресетами, поэтому изменение этих пресетов не влияет на конфигурации уже существующих мешей ткани. Чтобы изменить параметры существующего меша ткани, нажмите кнопку <b>Change parameters</b> на панели свойств симуляционного/отрисовываемого меша и настройте каждый параметр в окне <b>Mesh specific parameters</b>.
 ![](/img/cloth_simulation/image10.png)
 ![](/img/cloth_simulation/image11.png)
-Current parameters are as follows:
+Текущие параметры следующие:
 
-#### Bending, Stretching, Shearing, Stiffness
-Determines how much a fabric constraint will resist to the corresponding case.
+#### Bending, Stretching, Shearing, Stiffness (изгиб, растяжение, сдвиг, жёсткость)
+Определяет, насколько сильно ограничение ткани будет сопротивляться соответствующему воздействию.
 
-#### Anchor Stiffness 
-This constraint strictly limits the freedom of a vertex. It tries to keep distances constant between simulated and fixed vertices. You can try to increase this value if your mesh stretches too much.
+#### Anchor Stiffness (жёсткость привязки)
+Это ограничение строго лимитирует свободу вершины. Оно пытается сохранять постоянное расстояние между симулируемыми и фиксированными вершинами. Вы можете попробовать увеличить это значение, если ваш меш слишком сильно растягивается.
 
-#### Damping
-Dampening values for vertices. Determines the fraction of current frame's velocity to transfer to the next frame.
+#### Damping (демпфирование)
+Значения демпфирования для вершин. Определяют долю скорости текущего кадра, которая переносится на следующий кадр.
 
-#### Linear Inertia
-Since our cloth simulation is done in local space, global frame changes are transferred to cloth virtually. This value determines how much of acceleration of entity will be transferred to cloth. You can test this by adding a cloth mesh into a scene and shake its entity randomly.
+#### Linear Inertia (линейная инерция)
+Поскольку наша симуляция ткани выполняется в локальном пространстве, глобальные изменения кадра передаются ткани виртуально. Это значение определяет, какая часть ускорения сущности будет передана ткани. Вы можете протестировать это, добавив меш ткани в сцену и случайным образом потрясти его сущность.
 
-#### Air drag
-For a cloth mesh moving with a constant velocity this value determines how much air force will affect its vertices. 
+#### Air drag (сопротивление воздуха)
+Для меша ткани, движущегося с постоянной скоростью, это значение определяет, насколько сильно сила воздуха будет влиять на его вершины.
 
-#### Wind
-You can control how much wind force the cloth will use. This value is a multiplier for actual wind force of scene. If there is no wind in the scene increasing this value has no effect.
+#### Wind (ветер)
+Вы можете контролировать, насколько сильно сила ветра будет воздействовать на ткань. Это значение является множителем для фактической силы ветра в сцене. Если в сцене нет ветра, увеличение этого значения не даст эффекта.
 
-#### Gravity
-Constant gravity force affecting each simulated vertex. You can decrease this value to achieve a silky cloth behaviour.
+#### Gravity (гравитация)
+Постоянная сила гравитации, воздействующая на каждую симулируемую вершину. Вы можете уменьшить это значение, чтобы добиться шелковистого поведения ткани.
 
-#### Iteration Frequency
-How many times a cloth mesh will be simulated in a second. You can leave this parameter with its default value unless your mesh has big triangles or it moves so fast that collision capsules can not catch simulated vertices. Increasing this value results in more stable collision behaviour but performance hit also increases linearly.
+#### Iteration Frequency (частота итераций)
+Сколько раз меш ткани будет симулироваться в секунду. Это значение можно оставить по умолчанию, если только ваш меш не имеет крупных треугольников или не движется настолько быстро, что коллизионные капсулы не успевают "поймать" симулируемые вершины. Увеличение этого значения приводит к более стабильному поведению коллизий, но нагрузка на производительность также растёт линейно.
 
-#### Precise Simulation
-We trade accuracy with performance by doing some compressions during simulation. As a result simulated mesh might move to a different state than its rest state slightly. If this accuracy is important for your mesh, you can enable this option to get more correct results.
+#### Precise Simulation (точная симуляция)
+Мы жертвуем точностью ради производительности, применяя некоторые сжатия во время симуляции. В результате симулируемый меш может немного отклоняться от своего состояния покоя. Если точность важна для вашего меша, вы можете включить эту опцию для получения более корректных результатов.
 
-#### Dummy Collision Particles
-If simulated mesh has big triangle sizes with respect to collision capsules, capsules may not collide with cloth mesh properly. To overcome this we place dummy vertices in every triangle of mesh. These vertices are not simulated but only used during collision stage. This option has big performance hit so you should avoid enabling this as much as possible.
+#### Dummy Collision Particles (фиктивные частицы коллизии)
+Если симулируемый меш имеет крупные треугольники относительно коллизионных капсул, капсулы могут некорректно сталкиваться с мешем ткани. Чтобы решить эту проблему, мы размещаем фиктивные вершины в каждом треугольнике меша. Эти вершины не симулируются, а используются только на этапе коллизии. Эта опция сильно влияет на производительность, поэтому её следует включать как можно реже.
 
-## Cloth Content Files
-Our simulation system generates two files with <strong> *.tcc</strong> and <strong> *.tcm</strong> extensions.
-Tcc files contains preprocessed data used by cloth simulation like constraint indices, constraint lengths etc.
-Tcm files contains mapping data of a render mesh to a simulation mesh.
-You must commit both these files to Plastic SCM to ensure that nobody will wait for cooking process to complete during scene loading stage.
+## Файлы контента ткани (Cloth Content Files)
+Наша система симуляции генерирует два файла с расширениями <strong> *.tcc</strong> и <strong> *.tcm</strong>.
+Файлы Tcc содержат предварительно обработанные данные, используемые симуляцией ткани, такие как индексы ограничений, длины ограничений и т. д.
+Файлы Tcm содержат данные маппинга отрисовываемого меша на симуляционный меш.
+Вы обязательно должны закоммитить оба этих файла в Plastic SCM, чтобы никому не приходилось ждать завершения процесса компиляции (cooking) при загрузке сцены.

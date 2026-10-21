@@ -1,49 +1,46 @@
 +++
-title = "Spawn Point Debug Tool"
+title = "Инструмент отладки точек спавна (Spawn Point Debug Tool)"
+ai_translated = true
 
 [menu.main]
 identifier = "spawn_point_debug_tool"
 parent = "bannerlord_scenes"
 +++
 
-## Introduction
+## Введение
 
-The tool which has prefab named "SpawnPointDebugView" can be added to scene. Prefab has "SpawnPointDebugView" script attached and tool can be opened through inspector toggle.
-Tool has 3 tabs named "Scene basic information tab", "Scene entity check tab" and "Navigation mesh check tab".
+Инструмент, имеющий префаб с именем "SpawnPointDebugView", можно добавить в сцену. К префабу прикреплён скрипт "SpawnPointDebugView", и инструмент можно открыть переключателем в инспекторе.
+Инструмент имеет 3 вкладки: "Scene basic information tab", "Scene entity check tab" и "Navigation mesh check tab".
 
 ![](/img/spawn_point_debug_tool/tooldocument1.png)
 
-## 1. Scene Basic Information Tab
+## 1. Вкладка базовой информации о сцене (Scene Basic Information Tab)
 
-This tab tries to determine the scene type in order to find necessities; if detected type is not correct, artist can override the type using toggle buttons below.
+Эта вкладка пытается определить тип сцены, чтобы найти необходимые требования; если определённый тип неверен, художник может переопределить тип с помощью переключателей ниже.
 
-## 2. Scene Entity Check Tab
+## 2. Вкладка проверки сущностей сцены (Scene Entity Check Tab)
 
-This tab calculates the spawn point count and warns artist if counts are not in the scene criteria. Clicking the "Count Entities" button and toggling the categories will fill the table of calculations. "DONT USE" toggle stands for outdated entities which scene must not include. Last column of table shows how many agent will be spawned on current spawn points.
+Эта вкладка подсчитывает количество точек спавна и предупреждает художника, если количество не соответствует критериям сцены. Нажатие кнопки "Count Entities" и переключение категорий заполнит таблицу расчётов. Переключатель "DONT USE" обозначает устаревшие сущности, которые сцена не должна содержать. Последний столбец таблицы показывает, сколько агентов будет порождено на текущих точках спавна.
 
 ![](/img/spawn_point_debug_tool/tooldocument2.png)
 
-At the end of each row there is a button which can list all game prefabs with clicked button's tag. Clicking the button will open a new window that list all prefabs with particular tag.
+В конце каждой строки есть кнопка, которая может вывести список всех игровых префабов с тегом нажатой кнопки. Нажатие кнопки откроет новое окно со списком всех префабов с определённым тегом.
 
 ![](/img/spawn_point_debug_tool/tooldocument4.png)
 ![](/img/spawn_point_debug_tool/tooldocument5.png)
 
-## 3. Navigation Mesh Check Tab
-This tool will mark the spawn points which are not on the navigation mesh or on the navigation mesh that will be deactivated by 'Navigation Mesh Deactivator'. If scene does not have 'Navigation Mesh Deactivator', Deactivation face id will be 0 and scene entity check tab will warn artist to place it in scene. Clicking "CHECK" button and toggling the categories will show debug lines on the invalid spawn points with category color.
-Navigation Mesh Check tool shows the spawn points according to scene level. Each toggle will activate 2 buttons named "Previous" and "Next". Clicking these buttons will make editor camera to focus on the misplaced spawn points one by one.
+## 3. Вкладка проверки навигационной сетки (Navigation Mesh Check Tab)
+Этот инструмент пометит точки спавна, которые не находятся на навигационной сетке или находятся на навигационной сетке, которая будет деактивирована с помощью 'Navigation Mesh Deactivator'. Если в сцене нет 'Navigation Mesh Deactivator', Deactivation face id будет равен 0, и вкладка проверки сущностей сцены предупредит художника о необходимости разместить его в сцене. Нажатие кнопки "CHECK" и переключение категорий отобразит отладочные линии на недопустимых точках спавна с цветом категории.
+Инструмент проверки навигационной сетки отображает точки спавна в соответствии с уровнем сцены. Каждый переключатель активирует 2 кнопки с именами "Previous" и "Next". Нажатие этих кнопок заставит камеру редактора фокусироваться на неправильно размещённых точках спавна по очереди.
 
 ![](/img/spawn_point_debug_tool/tooldocument6.png)
 
-This tab can also checks points that are out of mission bound but this feature is only working in missions.
+Эта вкладка также может проверять точки, находящиеся за пределами границы миссии, но эта функция работает только в миссиях.
 
 {{% notice tip %}}
-To check points that out of mission bounds, tool can be activated in the mission if current scene has "SpawnPointDebugView" tool prefab with console  command "debug.mission_spawnpoint_count_and_mesh_checker_ui".
+Чтобы проверить точки за пределами границ миссии, инструмент можно активировать в миссии, если текущая сцена имеет префаб инструмента "SpawnPointDebugView", с помощью консольной команды "debug.mission_spawnpoint_count_and_mesh_checker_ui".
 {{% /notice %}}
 
 {{% notice warning %}}
-If you are seeing the tab buttons multiple time, there are more than one "SpawnPointDebugView" in the scene, please remove them. 
+Если вы видите кнопки вкладок несколько раз, значит в сцене находится более одного "SpawnPointDebugView", пожалуйста, удалите лишние.
 {{% /notice %}}
-
-
-
-

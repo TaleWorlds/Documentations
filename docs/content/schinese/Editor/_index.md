@@ -1,6 +1,6 @@
 +++
 title = "编辑器"
-description = "editor"
+description = "编辑器"
 weight = 1
 +++
 

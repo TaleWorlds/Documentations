@@ -1,24 +1,25 @@
 +++
-title = "Audio Systems & Optimization"
+title = "Аудиосистемы и оптимизация"
 weight = 40
+ai_translated = true
 +++
 
-_Last updated: April 3, 2026_
+_Последнее обновление: 3 апреля 2026 г._
 
 ---
 
-## Voice System {#voice-system}
+## Система голосов {#voice-system}
 
-Non-dialogue vocalizations for humans, mounts, and animals (grunts, pain sounds, commands, etc.) are not hardcoded into game logic. Instead, they're managed through an external configuration file called `voice_definitions.xml`. This makes it straightforward to add or adjust voices without touching code. All declarations and definitions are written in XML and link directly to FMOD event paths.
+Недиалоговые вокализации людей, лошадей и животных (хрюканье, звуки боли, команды и т. д.) не прописаны жёстко в игровой логике. Вместо этого они управляются через внешний конфигурационный файл `voice_definitions.xml`. Это позволяет легко добавлять или изменять голоса без изменения кода. Все объявления и определения записываются в XML и напрямую связываются с путями событий FMOD.
 
-**File path:**
+**Путь к файлу:**
 ```
 ..\Modules\Native\ModuleData\voice_definitions.xml
 ```
 
-### Voice Type Declarations
+### Объявления типов голосов
 
-Before a voice can be used, it must be declared under the `<voice_type_declarations>` section. This registers the voice type so it can be referenced later.
+Прежде чем голос можно будет использовать, его необходимо объявить в разделе `<voice_type_declarations>`. Это регистрирует тип голоса, чтобы на него можно было ссылаться позднее.
 
 ```xml
 <voice_type_declarations>
@@ -26,11 +27,11 @@ Before a voice can be used, it must be declared under the `<voice_type_declarati
 </voice_type_declarations>
 ```
 
-Here, the voice type `Grunt` is declared and can now be used in one or more definitions.
+Здесь объявляется тип голоса `Grunt`, который теперь можно использовать в одном или нескольких определениях.
 
-### Voice Definitions
+### Определения голосов
 
-Once a type is declared, a **voice definition** links it to an FMOD event path and defines metadata such as pitch variation and usage restrictions.
+После объявления типа, **определение голоса** связывает его с путём события FMOD и задаёт метаданные, такие как разброс высоты тона и ограничения использования.
 
 ```xml
 <voice_definition
@@ -48,245 +49,245 @@ Once a type is declared, a **voice definition** links it to an FMOD event path a
 </voice_definition>
 ```
 
-### Definition Attributes
+### Атрибуты определения
 
-| Attribute | Description |
+| Атрибут | Описание |
 |---|---|
-| `name` | Unique identifier for the voice definition |
-| `sound_and_collision_info_class` | Class of entity this voice belongs to (e.g. `human`, `horse`) |
-| `only_for_npcs` | If `true`, this voice cannot be assigned to the player |
-| `min_pitch_multiplier` / `max_pitch_multiplier` | Defines the pitch variation range |
+| `name` | Уникальный идентификатор определения голоса |
+| `sound_and_collision_info_class` | Класс сущности, которой принадлежит этот голос (например, `human`, `horse`) |
+| `only_for_npcs` | Если `true`, этот голос нельзя назначить игроку |
+| `min_pitch_multiplier` / `max_pitch_multiplier` | Задаёт диапазон изменения высоты тона |
 
-### Voice Node Details
+### Подробности узла voice
 
-Inside a `<voice_definition>`, one or more `<voice>` entries can be added:
+Внутри `<voice_definition>` можно добавить один или несколько элементов `<voice>`:
 
-| Attribute | Description |
+| Атрибут | Описание |
 |---|---|
-| `type` | Must match a declared `<voice_type>` |
-| `path` | FMOD event path triggered for this voice |
-| `face_anim` | Facial animation tag associated with this voice (e.g. `grunt`) |
+| `type` | Должен соответствовать объявленному `<voice_type>` |
+| `path` | Путь события FMOD, срабатывающий для этого голоса |
+| `face_anim` | Тег лицевой анимации, связанный с этим голосом (например, `grunt`) |
 
-### Workflow Summary
+### Краткое описание процесса
 
-1. Add a new `<voice_type>` under `<voice_type_declarations>`
-2. Create a `<voice_definition>` with a name, class, restrictions, and pitch range
-3. Add one or more `<voice>` elements linking the definition to FMOD event paths
-4. Assign `face_anim` for animation syncing
+1. Добавьте новый `<voice_type>` в раздел `<voice_type_declarations>`
+2. Создайте `<voice_definition>` с именем, классом, ограничениями и диапазоном высоты тона
+3. Добавьте один или несколько элементов `<voice>`, связывающих определение с путями событий FMOD
+4. Назначьте `face_anim` для синхронизации анимации
 
 ---
 
-## Physics Materials
+## Физические материалы
 
-The physics system manages all material-to-material interactions in the game and determines which sound events are triggered when collisions occur. Instead of handling each case independently, all physical interactions — wood striking metal, stone colliding with a projectile, metal on metal — are processed in a single unified system. This keeps logic consistent, reduces duplication, and makes it easier to maintain and expand audio coverage as the game grows.
+Физическая система управляет всеми взаимодействиями материалов друг с другом в игре и определяет, какие звуковые события срабатывают при столкновениях. Вместо того чтобы обрабатывать каждый случай отдельно, все физические взаимодействия — удар дерева о металл, столкновение камня со снарядом, металл о металл — обрабатываются единой унифицированной системой. Это сохраняет согласованность логики, уменьшает дублирование и облегчает поддержку и расширение аудиопокрытия по мере роста игры.
 
-### Material Interaction Handling
+### Обработка взаимодействия материалов
 
-Each material type is defined in the physics system along with its interaction rules when colliding with other materials. For example:
+Каждый тип материала определяется в физической системе вместе с правилами его взаимодействия при столкновении с другими материалами. Например:
 
-| Interaction | Result |
+| Взаимодействие | Результат |
 |---|---|
-| Wood vs. Metal | A metallic clash with resonant overtones |
-| Stone vs. Missile | A sharp, brittle impact sound |
-| Wood vs. Stone | A dull, muted collision |
+| Дерево против металла | Металлический лязг с резонирующими обертонами |
+| Камень против снаряда | Резкий, хрупкий звук удара |
+| Дерево против камня | Глухое, приглушённое столкновение |
 
-When two materials collide, the system evaluates their properties and selects the correct FMOD event to play. This removes the need to hard-code every possible pairwise interaction and ensures audio scales automatically as new materials are introduced.
+Когда два материала сталкиваются, система оценивает их свойства и выбирает подходящее событие FMOD для воспроизведения. Это устраняет необходимость жёстко прописывать каждое возможное парное взаимодействие и гарантирует автоматическое масштабирование аудио при появлении новых материалов.
 
-### Special Case: Water Interactions
+### Особый случай: взаимодействие с водой
 
-Water requires unique treatment compared to solid materials. Unlike other pairings, "object + water" doesn't need a dedicated event for every possible object type. Regardless of what enters the water, the player primarily perceives it as a water sound — not as "body hitting water" or "stone hitting water."
+Вода требует особого подхода по сравнению с твёрдыми материалами. В отличие от других пар, сочетание «объект + вода» не требует отдельного события для каждого возможного типа объекта. Независимо от того, что попадает в воду, игрок в первую очередь воспринимает это как звук воды, а не как «тело, ударившееся о воду» или «камень, ударившийся о воду».
 
-To simplify implementation, the system uses a **single generic water event** parameterized by the physical properties of the object entering the water:
+Чтобы упростить реализацию, система использует **одно общее событие воды**, параметризованное физическими свойствами объекта, входящего в воду:
 
-| Parameter | Description |
+| Параметр | Описание |
 |---|---|
-| **Volume** | Determines how large the displaced splash should sound |
-| **Mass** | Scales the weight and depth of the impact |
-| **Force** (velocity/acceleration) | Controls the intensity and sharpness of the splash |
+| **Объём** | Определяет, насколько большим должен звучать вытесненный всплеск |
+| **Масса** | Масштабирует вес и глубину удара |
+| **Сила** (скорость/ускорение) | Контролирует интенсивность и резкость всплеска |
 
-By combining these variables, the system can produce a wide range of splash sounds from the same event — from a small pebble skipping across the surface to a heavy boulder crashing into deep water.
+Комбинируя эти переменные, система может создавать широкий диапазон звуков всплеска из одного и того же события — от маленького камешка, скачущего по поверхности, до тяжёлого валуна, врезающегося в глубокую воду.
 
-**Benefits of this approach:**
+**Преимущества такого подхода:**
 
-- **Unified logic** — All material interactions are handled consistently in one system
-- **Scalability** — Adding new materials only requires defining their properties, not rewriting interaction logic
-- **Efficiency** — Parameter-driven variations replace dozens of unique event definitions
-- **Water optimization** — One generic event covers all possible water interactions, driven dynamically by physics parameters
-- **Realism** — Splash sounds scale naturally with object size, weight, and velocity
+- **Единая логика** — все взаимодействия материалов обрабатываются согласованно в одной системе
+- **Масштабируемость** — добавление новых материалов требует только определения их свойств, а не переписывания логики взаимодействия
+- **Эффективность** — вариации, управляемые параметрами, заменяют десятки уникальных определений событий
+- **Оптимизация воды** — одно общее событие покрывает все возможные взаимодействия с водой, динамически управляемое физическими параметрами
+- **Реализм** — звуки всплеска естественно масштабируются в зависимости от размера, веса и скорости объекта
 
 ---
 
-## Priority System {#priority-system}
+## Система приоритетов {#priority-system}
 
-This system runs **before** FMOD's built-in priority system, acting as a pre-filter to reduce the CPU cost of evaluating large numbers of events. It applies its own rules to decide which sounds are eligible, and only those are passed on to FMOD for playback. FMOD's internal priority system still applies once events are submitted, so you can continue using it to refine prioritization among active events.
+Эта система работает **перед** встроенной системой приоритетов FMOD, выступая в роли предварительного фильтра для снижения нагрузки на процессор при оценке большого количества событий. Она применяет собственные правила, чтобы решить, какие звуки допустимы, и только они передаются в FMOD для воспроизведения. Внутренняя система приоритетов FMOD по-прежнему применяется после отправки событий, так что вы можете продолжать использовать её для уточнения приоритизации среди активных событий.
 
-### Core Mechanism
+### Основной механизм
 
-The system maintains an array whose maximum size corresponds to the maximum number of events it's allowed to manage at once. Each candidate event is evaluated against a priority scheme based on:
+Система поддерживает массив, максимальный размер которого соответствует максимальному количеству событий, которыми ей разрешено управлять одновременно. Каждое событие-кандидат оценивается по схеме приоритетов, основанной на:
 
-| Parameter | Description |
+| Параметр | Описание |
 |---|---|
-| **Length** | Duration of the event — used to determine whether short transient sounds or long events should be favored |
-| **Distance** | Spatial distance between emitter and listener. If this exceeds the event's defined max distance in FMOD, the sound is culled immediately and never passed to FMOD |
-| **PriorityMultiplier** | A user-defined multiplier that adjusts the relative importance of an event compared to others |
+| **Длина** | Продолжительность события — используется для определения того, следует ли отдавать предпочтение коротким переходным звукам или длинным событиям |
+| **Расстояние** | Пространственное расстояние между источником и слушателем. Если оно превышает заданное в FMOD максимальное расстояние события, звук немедленно отсеивается и никогда не передаётся в FMOD |
+| **PriorityMultiplier** | Заданный пользователем множитель, который корректирует относительную важность события по сравнению с другими |
 
-These parameters are stored in the **SEDF (Sound Event Data File)** for every event, ensuring consistent evaluation.
+Эти параметры хранятся в **SEDF (Sound Event Data File)** для каждого события, обеспечивая согласованную оценку.
 
-### Distance Filtering
+### Фильтрация по расстоянию
 
-Events that fall outside their maximum audible distance are killed before FMOD ever processes them. This prevents FMOD from spending resources evaluating voices that can't be heard.
+События, выходящие за пределы максимального слышимого расстояния, отбраковываются ещё до того, как FMOD вообще их обработает. Это предотвращает трату ресурсов FMOD на оценку голосов, которые невозможно услышать.
 
-### Exceptions and Looping Events
+### Исключения и зацикленные события
 
-Looping sounds need special handling:
+Зацикленные звуки требуют особой обработки:
 
-- **Ambient sounds** are excluded from this system entirely and marked as persistent within FMOD — they are never culled by pre-priority logic.
-- **Looped sounds** present a problem: if they're killed and restarted, they can't resume from their previous play position, causing synchronization issues.
+- **Фоновые звуки (ambient)** полностью исключены из этой системы и помечены как постоянные в FMOD — они никогда не отсеиваются логикой предварительного приоритета.
+- **Зацикленные звуки** создают проблему: если их остановить и запустить заново, они не могут возобновиться с предыдущей позиции воспроизведения, что вызывает проблемы синхронизации.
 
-To handle this, looped sounds can be **virtualized** instead of killed. Virtualization lets the event stop consuming CPU while still tracking its playback position, so when it returns to audible range it continues seamlessly from where it left off.
+Чтобы решить эту проблему, зацикленные звуки могут быть **виртуализованы** вместо остановки. Виртуализация позволяет событию прекратить потребление ресурсов процессора, продолжая при этом отслеживать позицию воспроизведения, так что при возвращении в слышимый диапазон оно продолжает воспроизведение без прерывания с того места, где остановилось.
 
-### User Property Overrides
+### Переопределения через пользовательские свойства
 
-User Properties provide additional flexibility (see [User Properties]({{< ref "audio-modding-event-setup.md#user-properties" >}})):
+Пользовательские свойства (User Properties) обеспечивают дополнительную гибкость (см. [Пользовательские свойства]({{< ref "audio-modding-event-setup.md#user-properties" >}})):
 
-- **Ignore flags** — Distance or length checks can be bypassed for specific events if tagged accordingly
-- **Custom multipliers** — A multiplier can be defined per event through User Properties, modifying its relative priority when compared with others
+- **Флаги игнорирования** — проверки расстояния или длины можно обойти для определённых событий, если они соответствующим образом помечены
+- **Пользовательские множители** — множитель можно задать для каждого события через пользовательские свойства, изменяя его относительный приоритет по сравнению с другими
 
-**Benefits:**
+**Преимущества:**
 
-- **CPU efficiency** — Reduces FMOD's workload by culling inaudible or unnecessary sounds before they reach the engine
-- **Flexible prioritization** — Length, distance, and multipliers allow fine-tuned control over event importance
-- **Synchronization safety** — Virtualization ensures looped events remain consistent when reactivated
-- **Designer control** — User Properties enable exceptions and weighting without code changes
+- **Эффективность процессора** — снижает нагрузку на FMOD за счёт отсеивания неслышимых или ненужных звуков до того, как они достигнут движка
+- **Гибкая приоритизация** — длина, расстояние и множители позволяют точно настраивать важность события
+- **Безопасность синхронизации** — виртуализация обеспечивает согласованность зацикленных событий при их повторной активации
+- **Контроль со стороны дизайнера** — пользовательские свойства позволяют задавать исключения и весовые коэффициенты без изменения кода
 
 ---
 
-## Battle Ambient Sound System {#battle-ambient-sound-system}
+## Система фонового звука боя {#battle-ambient-sound-system}
 
-The Battle Ambient Sound System — abbreviated as **BASS** — is designed to optimize the playback of high-density sound effects, such as multiple sword clashes occurring in the same area. Instead of letting each individual sound play independently (which can quickly overwhelm both the mix and the CPU), BASS aggregates these events and replaces them with a single emitter that represents the group.
+Система фонового звука боя — сокращённо **BASS** (Battle Ambient Sound System) — предназначена для оптимизации воспроизведения звуковых эффектов высокой плотности, таких как множественные удары мечей, происходящие в одной и той же области. Вместо того чтобы позволить каждому отдельному звуку воспроизводиться независимо (что может быстро перегрузить и микс, и процессор), BASS агрегирует эти события и заменяет их единым излучателем, представляющим всю группу.
 
-### How It Works
+### Как это работает
 
-Within a defined region, BASS monitors the number of sound events triggered over a given period. When the count exceeds a specified threshold, the system suppresses the individual sounds in that region and spawns a single **group emitter event** in their place.
+В пределах заданной области BASS отслеживает количество звуковых событий, вызванных за определённый период. Когда количество превышает заданный порог, система подавляет отдельные звуки в этой области и порождает вместо них единое событие **группового излучателя**.
 
-This emitter event includes a parameter reflecting the density of sounds in the area. As the parameter increases, the mix shifts from sparse individual clashes to dense, chaotic battle noise. Players still perceive an intense soundscape, but without the overhead of dozens of overlapping one-shots.
+Это событие-излучатель включает параметр, отражающий плотность звуков в области. По мере увеличения этого параметра микс смещается от редких отдельных ударов к плотному, хаотичному шуму боя. Игроки по-прежнему воспринимают насыщенный звуковой ландшафт, но без накладных расходов на десятки перекрывающихся одноразовых звуков.
 
-### Interaction with the Priority System
+### Взаимодействие с системой приоритетов
 
-BASS operates **before** our proprietary engine's priority system. Normally, the priority system decides which sounds to cull when many voices compete for playback. In this workflow, BASS preemptively reduces polyphony at the source level — only the grouped emitter remains active, meaning the priority system has fewer voices to manage. This prevents unnecessary CPU/DSP usage and ensures consistent sound quality during crowded combat.
+BASS работает **до** системы приоритетов нашего собственного движка. Обычно система приоритетов решает, какие звуки отсеивать, когда за воспроизведение конкурирует множество голосов. В этом рабочем процессе BASS заранее снижает полифонию на уровне источника — активным остаётся только сгруппированный излучатель, а значит, системе приоритетов приходится управлять меньшим количеством голосов. Это предотвращает излишнее использование ЦП/DSP и обеспечивает стабильное качество звука во время массовых боёв.
 
-### BASS Group IDs
+### Идентификаторы групп BASS
 
-Use the `battle_ambient_group_id` user property (see [User Properties]({{< ref "audio-modding-event-setup.md#user-properties" >}})) to assign an event to a BASS group.
+Используйте пользовательское свойство `battle_ambient_group_id` (см. [Пользовательские свойства]({{< ref "audio-modding-event-setup.md#user-properties" >}})), чтобы назначить событие группе BASS.
 
-| ID | Group |
+| ID | Группа |
 |---|---|
-| 0 | Infantry move |
-| 1 | Cavalry move |
-| 2 | Weapons fight |
-| 3 | Shield fight |
-| 4 | Missile volley |
-| 5 | Human fight |
-| 6 | Human victory |
-| 7 | Horse vocal |
+| 0 | Движение пехоты |
+| 1 | Движение кавалерии |
+| 2 | Бой оружием |
+| 3 | Бой щитами |
+| 4 | Залп снарядов |
+| 5 | Человеческий бой |
+| 6 | Победа человека |
+| 7 | Вокализация лошади |
 
-**Examples:**
-- Adding a new weapon event → set `battle_ambient_group_id` to **2**
-- Adding a footstep event for a new mount type → set `battle_ambient_group_id` to **1**
+**Примеры:**
+- Добавление нового события оружия → установите `battle_ambient_group_id` равным **2**
+- Добавление события шага для нового типа верхового животного → установите `battle_ambient_group_id` равным **1**
 
-By assigning the correct group ID, BASS fires one unified event per group instead of hundreds of individual ones, significantly reducing active event count and saving system resources.
+Назначая правильный идентификатор группы, BASS запускает одно унифицированное событие на группу вместо сотен отдельных, значительно снижая количество активных событий и экономя системные ресурсы.
 
-**Benefits:**
+**Преимущества:**
 
-- **Performance optimization** — Prevents CPU and memory spikes from excessive overlapping sounds
-- **Mix clarity** — Replaces cluttered layers of transients with a single controlled emitter
-- **Scalability** — Parameter-driven event design adapts automatically to combat density
+- **Оптимизация производительности** — предотвращает всплески нагрузки на ЦП и память из-за чрезмерного количества перекрывающихся звуков
+- **Чистота микса** — заменяет загромождённые слои переходных звуков единым управляемым излучателем
+- **Масштабируемость** — дизайн событий, управляемый параметрами, автоматически адаптируется к плотности боя
 
 ---
 
-## Performance and Optimization
+## Производительность и оптимизация
 
-In a CPU- and memory-intensive title like **Mount & Blade II: Bannerlord**, FMOD must be treated as part of the overall performance budget. Poorly managed audio banks, codecs, or event design can consume resources the game engine needs for everything else. Optimization is not a one-off task — it's an ongoing discipline throughout the entire modding process.
+В такой требовательной к ЦП и памяти игре, как **Mount & Blade II: Bannerlord**, FMOD должен рассматриваться как часть общего бюджета производительности. Плохо управляемые звуковые банки, кодеки или дизайн событий могут потреблять ресурсы, необходимые игровому движку для всего остального. Оптимизация — это не разовая задача, а постоянная дисциплина на протяжении всего процесса моддинга.
 
-### Codec and Asset Strategy
+### Стратегия кодеков и ассетов
 
-Every decoded sample costs CPU, every oversized file costs memory and disk I/O, and every resample costs even more CPU. Codec strategy must be set deliberately, not left to chance.
+Каждый декодированный сэмпл стоит процессорного времени, каждый слишком большой файл стоит памяти и операций ввода-вывода диска, а каждый ресэмплинг стоит ещё больше процессорного времени. Стратегию кодеков нужно задавать осознанно, а не оставлять на волю случая.
 
-FMOD lets you set a default codec for the entire audio build in the bank build settings (ensuring consistency across the project) and override codecs per asset when specific files demand different treatment.
+FMOD позволяет задать кодек по умолчанию для всей аудиосборки в настройках сборки банков (обеспечивая согласованность по всему проекту) и переопределить кодеки для отдельных ассетов, когда конкретные файлы требуют иного подхода.
 
-FMOD Studio's practical PC formats are:
+Практичные для ПК форматы FMOD Studio:
 
-| Codec | Characteristics |
+| Кодек | Характеристики |
 |---|---|
-| **Vorbis** | Best compression, but higher decode cost. Best overall choice when CPU is available |
-| **ADPCM** | Larger than Vorbis but almost free to decode. Good fallback when Vorbis is too CPU-heavy |
-| **PCM** | No compression, no decode cost. Can quickly bloat memory — avoid unless strictly necessary |
+| **Vorbis** | Лучшее сжатие, но более высокая стоимость декодирования. Лучший общий выбор, когда доступен запас процессора |
+| **ADPCM** | Больше, чем Vorbis, но декодирование почти бесплатно. Хороший запасной вариант, когда Vorbis слишком нагружает процессор |
+| **PCM** | Без сжатия, без затрат на декодирование. Может быстро раздуть объём памяти — избегайте, если это не строго необходимо |
 
-#### Load Types
+#### Типы загрузки
 
-Each asset has a **Load Type** setting that determines how it lives in memory:
+Каждый ассет имеет настройку **Load Type** (тип загрузки), которая определяет, как он хранится в памяти:
 
-| Load Type | Description |
+| Тип загрузки | Описание |
 |---|---|
-| **Compressed** | Loaded in compressed form and decompressed at playback. Less memory, slightly more CPU at play time |
-| **Decompressed** | Decompressed into PCM when banks load, not at playback. Not recommended unless you have a specific need (e.g. very low-spec devices) |
-| **Streaming** | Loaded in chunks from disk as needed. Good for long music and ambiences that aren't time-sensitive |
+| **Compressed** (сжатый) | Загружается в сжатом виде и распаковывается при воспроизведении. Меньше памяти, немного больше нагрузки на ЦП во время воспроизведения |
+| **Decompressed** (распакованный) | Распаковывается в PCM при загрузке банков, а не при воспроизведении. Не рекомендуется, если у вас нет конкретной необходимости (например, устройства с очень низкими характеристиками) |
+| **Streaming** (потоковый) | Загружается частями с диска по мере необходимости. Хорошо подходит для длинной музыки и фоновых звуков, не критичных по времени |
 
-### Streaming and Bank Management
+### Потоковая передача и управление банками
 
-On PC, long assets like music or ambiences can balloon RAM usage if kept fully in memory. Streaming solves this by pulling audio in chunks from disk, but every stream adds CPU overhead and disk I/O pressure. Stream too many files at once and you risk stutters and thread contention, especially on HDDs or low-end systems. **Stream only what needs it.**
+На ПК длинные ассеты, такие как музыка или фоновые звуки, могут значительно увеличить использование оперативной памяти, если хранятся полностью в памяти. Потоковая передача решает эту проблему, подгружая аудио частями с диска, но каждый поток добавляет нагрузку на ЦП и дисковый ввод-вывод. Если одновременно воспроизводить слишком много потоковых файлов, возникает риск заиканий и конкуренции потоков, особенно на жёстких дисках (HDD) или слабых системах. **Используйте потоковую передачу только там, где это действительно необходимо.**
 
-Banks are containers for events, assets, and metadata — they determine what FMOD loads into RAM at runtime. Poorly structured banks leave unnecessary assets in memory, extend load times, and create streaming bottlenecks. Each event should live in a single bank; the same event should never appear in multiple banks unless there's an unavoidable design requirement.
+Банки — это контейнеры для событий, ассетов и метаданных — они определяют, что FMOD загружает в оперативную память во время выполнения. Плохо структурированные банки оставляют ненужные ассеты в памяти, увеличивают время загрузки и создают узкие места при потоковой передаче. Каждое событие должно находиться в одном банке; одно и то же событие никогда не должно присутствовать в нескольких банках, если только это не неизбежное требование дизайна.
 
-### Event, DSP, and Channel Management
+### Управление событиями, DSP и каналами
 
-Every event generates one or more voices, each consuming CPU and memory. Stereo, quad, or 5.1 events multiply the number of channels being mixed. Combine this with DSP on each path and costs grow fast. If you don't actively manage instances, channels, and DSP chains, your mix can choke the CPU long before your assets fill memory.
+Каждое событие создаёт один или несколько голосов, каждый из которых потребляет ЦП и память. Стерео-, квадро- или 5.1-события умножают количество каналов, участвующих в микшировании. Добавьте к этому DSP на каждом тракте, и затраты растут быстро. Если вы активно не управляете экземплярами, каналами и цепочками DSP, ваш микс может задушить процессор задолго до того, как ассеты заполнят память.
 
-#### Controlling Event Instances and Channels
+#### Контроль экземпляров событий и каналов
 
-Although we already handle this with our custom priority system, you can set max instance limits on heavily triggered events if needed. For each event, define a sensible polyphony cap and choose a **stealing rule**:
+Хотя мы уже обрабатываем это с помощью нашей собственной системы приоритетов, при необходимости вы можете задать ограничения на максимальное количество экземпляров для часто вызываемых событий. Для каждого события определите разумный предел полифонии и выберите **правило вытеснения**:
 
-| Rule | Behavior |
+| Правило | Поведение |
 |---|---|
-| **Oldest** | Cuts off the instance that has been playing the longest |
-| **Newest** | Blocks the most recently triggered instance from starting |
-| **Quietest** | Stops the currently lowest-volume instance |
-| **Virtualize** | Suspends an instance into a no-CPU "virtual" state while keeping its timeline active. Useful for VO and music |
-| **None** | Prevents new instances from starting if the max is already reached |
-| **Furthest** | Stops the instance furthest from the listener |
+| **Oldest** (старейший) | Отключает экземпляр, который воспроизводится дольше всего |
+| **Newest** (новейший) | Блокирует запуск самого недавно вызванного экземпляра |
+| **Quietest** (тишайший) | Останавливает экземпляр с наименьшей текущей громкостью |
+| **Virtualize** (виртуализировать) | Переводит экземпляр в состояние «виртуального» без затрат ЦП, сохраняя активной его временную шкалу. Полезно для озвучки (VO) и музыки |
+| **None** (нет) | Предотвращает запуск новых экземпляров, если максимум уже достигнут |
+| **Furthest** (самый дальний) | Останавливает экземпляр, наиболее удалённый от слушателя |
 
-Keep channel counts realistic:
+Держите количество каналов реалистичным:
 
-- Use **mono** for any sound with no spatial width
-- Use **stereo** only when width is essential (music, ambiences, UI)
-- Save **quad or 5.1+** for true surround beds that justify the cost
+- Используйте **моно** для любого звука без пространственной ширины
+- Используйте **стерео** только тогда, когда ширина действительно важна (музыка, фоновые звуки, UI)
+- Приберегите **квадро или 5.1+** для настоящих окружающих звуковых подложек, оправдывающих такие затраты
 
-Every extra channel means extra mixing, panning, and potential DSP. Don't waste channels on one-shots that will collapse to mono in most contexts anyway.
+Каждый дополнительный канал означает дополнительное микширование, панорамирование и потенциальную обработку DSP. Не тратьте каналы на одноразовые звуки, которые в большинстве контекстов всё равно сводятся к моно.
 
-#### Managing DSP Load
+#### Управление нагрузкой DSP
 
-DSP processing is the heaviest part of runtime audio performance. Effects like convolution reverb, FFT filters, and multiband dynamics consume significant CPU — often more than their audible benefit justifies. Apply DSP only when it provides clear value, such as shaping the overall mix in a way that can't be pre-baked. For common one-shot events, keep them clean or embed processing directly into the audio file.
+Обработка DSP — самая тяжёлая часть производительности аудио во время выполнения. Эффекты, такие как свёрточная реверберация (convolution reverb), FFT-фильтры и многополосная динамика, потребляют значительные ресурсы ЦП — часто больше, чем оправдывает их слышимая польза. Применяйте DSP только там, где это даёт очевидную ценность, например, при формировании общего микса таким образом, который нельзя предварительно «запечь» в файл. Для обычных одноразовых событий держите их чистыми или встраивайте обработку прямо в аудиофайл.
 
-Channel count multiplies DSP cost: a stereo convolution reverb is twice the work of mono, and a quad instance multiplies it further. Use mono effects wherever possible.
+Количество каналов умножает стоимость DSP: стерео свёрточная реверберация требует вдвое больше работы, чем моно, а квадро-экземпляр умножает её ещё сильнее. Используйте моно-эффекты, где это возможно.
 
-### Bus and Routing
+### Шины и маршрутизация
 
-Bus hierarchies should stay functional and minimal. Group major categories under dedicated sub-buses only where it serves a clear purpose. Use sends and sidechains intentionally — every extra routing hop adds to channel mixing and DSP load. Consolidate DSP chains at the bus level instead of stacking them across many individual events. Snapshots can then modify the properties of a single DSP effect across multiple states, significantly cutting down on total DSP instances required.
+Иерархии шин должны оставаться функциональными и минимальными. Группируйте основные категории под выделенными подшинами только там, где это служит ясной цели. Используйте сенды и сайдчейны осознанно — каждый дополнительный переход маршрутизации добавляет нагрузку на микширование каналов и DSP. Консолидируйте цепочки DSP на уровне шины вместо того, чтобы складывать их на множестве отдельных событий. Снапшоты (snapshots) затем могут изменять свойства одного эффекта DSP сразу в нескольких состояниях, значительно сокращая общее количество необходимых экземпляров DSP.
 
-### Using Baked Effects
+### Использование запечённых эффектов
 
-If a sound always needs coloration (EQ, distortion, static reverb), bake it into the source file. Reserve runtime DSP for genuinely interactive processing: parameter-driven filters, ducking, pitch modulation, or environmental reverb zones that change dynamically. This prevents the slow creep of redundant DSP costs.
+Если звуку всегда нужна окраска (эквализация, дисторшн, статичная реверберация), запеките её прямо в исходный файл. Оставьте DSP во время выполнения для действительно интерактивной обработки: фильтров, управляемых параметрами, дакинга, модуляции высоты тона или зон реверберации окружения, которые меняются динамически. Это предотвращает медленное накопление избыточных затрат на DSP.
 
-### Importing Assets
+### Импорт ассетов
 
-Keep assets lean before they reach FMOD:
+Держите ассеты компактными до того, как они попадут в FMOD:
 
-- **Trim silence** from samples
-- **Normalize loudness** to a consistent LUFS baseline
-- **Match the project sample rate** (48 kHz) to avoid hidden resampling and wasted CPU cycles
+- **Обрезайте тишину** из сэмплов
+- **Нормализуйте громкость** до согласованной базовой линии LUFS
+- **Соответствуйте частоте дискретизации проекта** (48 кГц), чтобы избежать скрытого ресэмплинга и потраченных впустую циклов процессора
 
-While FMOD encodes assets into its own formats at build time, the **source format** you import still affects workflow. Using `.wav` for everything bloats the project since .wav files are uncompressed. Switching to **`.flac`** for source assets can drastically reduce disk footprint while preserving lossless quality — this doesn't affect the final encoded format (PCM, Vorbis, ADPCM, etc.), but makes asset management lighter and faster.
+Хотя FMOD кодирует ассеты в собственные форматы на этапе сборки, **исходный формат**, который вы импортируете, всё равно влияет на рабочий процесс. Использование `.wav` для всего раздувает проект, поскольку файлы .wav не сжаты. Переход на **`.flac`** для исходных ассетов может значительно сократить объём занимаемого места на диске при сохранении качества без потерь — это не влияет на итоговый закодированный формат (PCM, Vorbis, ADPCM и т. д.), но делает управление ассетами более лёгким и быстрым.
 
-### Testing for Edge Cases
+### Тестирование граничных случаев
 
-Always test edge conditions: thousands of agents in combat, long campaign sessions, or rapid scene transitions. These scenarios reveal memory leaks, mismanaged banks, or runaway event counts before they become real-world problems reported by players.
+Всегда тестируйте предельные условия: тысячи агентов в бою, долгие сессии кампании или быстрые переходы между сценами. Эти сценарии выявляют утечки памяти, неправильное управление банками или неконтролируемый рост количества событий ещё до того, как они станут реальными проблемами, о которых сообщат игроки.

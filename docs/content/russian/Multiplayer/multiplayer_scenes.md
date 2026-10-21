@@ -1,190 +1,191 @@
 +++
-title = "What Makes a Multiplayer Scene"
+title = "Что делает сцену многопользовательской"
 description = ""
 weight = 15
+ai_translated = true
 +++
 
-### Introduction
-This technical introduction should enable you to create a custom multiplayer scene, for a specific gamemode. It goes into details on what requirements your MP scene needs to meet so that it doesn't crash. This is not a design guideline or best practice document.
+### Введение
+Это техническое введение должно помочь вам создать пользовательскую многопользовательскую сцену для конкретного игрового режима. Оно подробно описывает требования, которым должна соответствовать ваша MP-сцена, чтобы она не вызывала краш игры. Это не руководство по дизайну и не документ с лучшими практиками.
 
-### Gamemode Specifics
-Each Gamemode in Bannerlord will require a few different setups of relevant prefabs.
+### Особенности игровых режимов
+Каждый игровой режим в Bannerlord требует нескольких разных наборов соответствующих префабов.
 
 {{% notice tip %}}
-It is possible to make scenes compatible with multiple game modes by including all needed prefabs. Scenes cannot be compatible with modes that use a different spawning system, for example a TDM scene can't be compatible with a Captain scene, but a Captain scene can also be used for Skirmish if it has a proper respawn setup.
+Можно сделать сцены совместимыми с несколькими игровыми режимами, включив все необходимые префабы. Сцены не могут быть совместимы с режимами, использующими другую систему спавна, например, сцена TDM не может быть совместима со сценой Captain, но сцена Captain также может использоваться для Skirmish, если в ней настроен правильный респавн.
 {{% /notice %}}
 
-#### Game Objects
-Gameobjects found as prefabs that are needed for the gamemode to work in your scene. You can find these in the “Prefabs” window.
+#### Игровые объекты
+Игровые объекты, найденные как префабы, необходимые для работы игрового режима на вашей сцене. Вы можете найти их в окне «Prefabs».
 
-##### General
+##### Общие
 ###### mp_camera_start_pos
-Initial camera position, that is set for joining players. It basically defines the backdrop for choosing the faction upon joining a custom server. It will also be the first thing people see of your scene. Make sure you rotate it slightly (it is initially rotated downwards). Only place one!
+Начальная позиция камеры, устанавливаемая для присоединяющихся игроков. По сути, она определяет фон для выбора фракции при присоединении к пользовательскому серверу. Это также будет первое, что люди увидят на вашей сцене. Обязательно немного поверните её (изначально она направлена вниз). Размещайте только одну!
 
 ###### border_soft
-Define the soft border around your scene. If players cross they have a few seconds to return back. This border is needed to set the scene boundaries. Make sure the border does not cross into your playbale area. You define the border (best practice is to do a hexagon shape) by placing the border probes around your map. The probes will always try to connect to the 2 closest probes to them.
+Определяет мягкую границу вокруг вашей сцены. Если игроки пересекают её, у них есть несколько секунд, чтобы вернуться обратно. Эта граница нужна для задания пределов сцены. Убедитесь, что граница не пересекает игровую зону. Вы задаёте границу (лучшая практика — делать это в форме шестиугольника), размещая пробники границы (border probes) вокруг вашей карты. Пробники всегда будут пытаться соединиться с 2 ближайшими к ним пробниками.
 
 {{% notice tip %}}
-You can check your resulting border by enabling “Borders” in the Visibility window, sometimes it is good to reload the scene before doing that.
+Вы можете проверить получившуюся границу, включив «Borders» в окне Visibility, иногда перед этим полезно перезагрузить сцену.
 {{% /notice %}}
 
 ###### flee_line
-The lines that AI (in our gamemodes only AI horses) uses to leave the battlefield. They will try to find these using the navmesh. So these positions need to be placed where AI can reach them via the navmesh. Once they reach it they will fade out after a short period. You can place multiple instances of these.
+Линии, которые ИИ (в наших игровых режимах — только ИИ-лошади) использует, чтобы покинуть поле боя. Они будут пытаться найти их с помощью навигационной сетки (navmesh). Поэтому эти позиции должны быть размещены там, куда ИИ может добраться через навмеш. Как только они достигают линии, они исчезают через короткий промежуток времени. Вы можете разместить несколько экземпляров этих объектов.
 
 {{% notice tip %}}
-For siege, make sure there are flee lines inside the castle as well, so horses that got inside can get out without trying to pass the gate. Navmesh and AI can not dıstinguish between stairs and ramps, and horses can not traverse stairs. You might need to adjust or remove navigation meshes on stairs to avoid riderless horses blocking them.
+Для осады убедитесь, что линии бегства (flee lines) также есть внутри замка, чтобы лошади, оказавшиеся внутри, могли выбраться, не пытаясь пройти через ворота. Навмеш и ИИ не различают лестницы и пандусы, а лошади не могут передвигаться по лестницам. Возможно, вам потребуется скорректировать или убрать навигационные сетки на лестницах, чтобы избежать блокировки прохода бесхозными лошадьми.
 {{% /notice %}}
 
 ###### envmap_prop
-Should already be there when you create a new scene, if it’s not place it and set it to “IsGlobal” in the “Inspector” window. Also make sure it's in a valid position. You can of course have multiple probes, but use the local_envmap_probe for further probes.
+Должен уже присутствовать при создании новой сцены; если его нет, разместите его и установите «IsGlobal» в окне «Inspector». Также убедитесь, что он находится в правильной позиции. Конечно, у вас может быть несколько пробников, но для дополнительных пробников используйте local_envmap_probe.
 
 ##### Flag Domination (Skirmish, Battle, Captain)
 
-###### Flags
-Each of these gamemodes use 3 flags. Don't be put off by their naming but all game modes use the same prefabs!
+###### Флаги
+Каждый из этих игровых режимов использует 3 флага. Не смущайтесь их названиями — все игровые режимы используют одни и те же префабы!
 
-Their prefabs: flag_pole_big_sergeant_A, flag_pole_big_sergeant_B, flag_pole_big_sergeant_C
+Их префабы: flag_pole_big_sergeant_A, flag_pole_big_sergeant_B, flag_pole_big_sergeant_C
 
-Flag Domination modes need three individual flags, so don't duplicate the A flag 2 times.
+Режимам Flag Domination нужны три отдельных флага, поэтому не дублируйте флаг A дважды.
 
 ##### Siege
-###### Flags
-Uses the same flags as Flag Domination, but more of them (obviously). Place all flags from A to F and the main flag which is G.
+###### Флаги
+Использует те же флаги, что и Flag Domination, но больше их (что очевидно). Разместите все флаги от A до F и главный флаг, который G.
 
-Their prefabs: flag_pole_big_sergeant_A, flag_pole_big_sergeant_B, flag_pole_big_sergeant_C, flag_pole_big_sergeant_D, flag_pole_big_sergeant_E, flag_pole_big_sergeant_F, flag_pole_big_sergeant_main
+Их префабы: flag_pole_big_sergeant_A, flag_pole_big_sergeant_B, flag_pole_big_sergeant_C, flag_pole_big_sergeant_D, flag_pole_big_sergeant_E, flag_pole_big_sergeant_F, flag_pole_big_sergeant_main
 
-###### Siege Engines
-Technically they work in the same way as for singleplayer sieges. Still there are some significant differences. First of all most of them use different prefabs for multiplayer, make sure you are using those!
+###### Осадные орудия
+Технически они работают так же, как и в одиночных осадах. Тем не менее, есть некоторые существенные отличия. Прежде всего, большинство из них используют другие префабы для многопользовательского режима, убедитесь, что вы используете именно их!
 
-There is also no minimum (or maximum) amount of siege engines needed in your scene, and no need for deployment points, since the siege engines are set by your scene and not by the sandbox campaign. Also you don't need to do extensive navmesh work for your siege tower, rams and ladders. So you can ignore all the nav mesh inputs in the Inspector.
+Также нет минимального (или максимального) количества осадных орудий, необходимого на вашей сцене, и не нужны точки развёртывания, поскольку осадные орудия задаются вашей сценой, а не песочницей кампании. Также вам не нужно проводить обширную работу с навмешем для осадной башни, таранов и лестниц. Так что вы можете игнорировать все поля для навигационной сетки в Inspector.
 
-Rams and siege towers will still need a path to move along though. Simply create a path, remember its name and set it in the script in the inspector as “PathEntityName”.
+Тем не менее, таранам и осадным башням всё равно понадобится путь для движения. Просто создайте путь, запомните его имя и укажите его в скрипте в Inspector как «PathEntityName».
 
-Multiplayer specific prefabs: siege_tower_5m_spawnerMP, siege_tower_9m_spawnerMP, siege_tower_12m_spawnerMP, batteringram_a_spawnerMP, mangonel_a_spawnerMP, mangonel_a_spawnerFireMP, mangonel_b_spawnerMP, mangonel_b_spawnerFireMP, mangonel_a_spawnerMP, mangonel_a_spawnerFireMP, ballista_a_spawnerMP, ballista_a_spawnerFireMP, ballista_b_spawnerMP, ballista_b_spawnerFireMP
+Префабы, специфичные для многопользовательского режима: siege_tower_5m_spawnerMP, siege_tower_9m_spawnerMP, siege_tower_12m_spawnerMP, batteringram_a_spawnerMP, mangonel_a_spawnerMP, mangonel_a_spawnerFireMP, mangonel_b_spawnerMP, mangonel_b_spawnerFireMP, mangonel_a_spawnerMP, mangonel_a_spawnerFireMP, ballista_a_spawnerMP, ballista_a_spawnerFireMP, ballista_b_spawnerMP, ballista_b_spawnerFireMP
 
 {{% notice tip %}}
-Prefabs for gates and ladders are the same as for singleplayer.
+Префабы для ворот и лестниц такие же, как и для одиночной игры.
 {{% /notice %}}
 
 ###### arrow_barrel
-You can place this prefab anywhere in your scene. Players can use it to refill their ammunition.
+Вы можете разместить этот префаб в любом месте вашей сцены. Игроки могут использовать его, чтобы пополнить боезапас.
 
 ###### rock_pile
-Placing this prefab allows players to pick up rocks, they work the same way as the ones coming with siege engines by default. In the StonePile script you can set how many rocks this prefab comes with. There is also a firepot version of this prefab: “pot_pile”
+Размещение этого префаба позволяет игрокам подбирать камни, они работают так же, как и те, что по умолчанию идут с осадными орудиями. В скрипте StonePile вы можете задать, сколько камней идёт в комплекте с этим префабом. Также есть версия этого префаба с горшками с огнём: «pot_pile».
 
-The prefab comes with children “icon_man” that define the positions you can pick up the rocks from. You can delete those children if you don't want your pile to be accessible from any direction.
+Префаб поставляется с дочерними объектами «icon_man», которые определяют позиции, с которых можно подбирать камни. Вы можете удалить эти дочерние объекты, если не хотите, чтобы к вашей куче можно было подойти с любой стороны.
 
-Rock_pile and pot_pile prefabs can also be used with mangonels and trebuchets. If you want to give players the option to choose ammunation, you can simply place piles next to siege engines.
+Префабы rock_pile и pot_pile также можно использовать с мангонелями и требушетами. Если вы хотите дать игрокам возможность выбирать боеприпасы, вы можете просто разместить кучи рядом с осадными орудиями.
 
 ##### Duel
-For duel mode you will need to create landmarks by hand. There are two kinds of landmarks, three that define the troop types and 16 smaller ones that define the arenas and which type they belong to.
+Для режима дуэли вам нужно будет создать ориентиры (landmarks) вручную. Есть два вида ориентиров, три из которых определяют типы отрядов, и 16 поменьше, которые определяют арены и то, к какому типу они относятся.
 
-###### Big landmarks
-You can use any prefab for this, it will need to have these two tags: “duel_zone_landmark” and “flag_x”. The x stands for the troop type so replace it with either: “infantry”, ”cavalry” or ”archery”.
+###### Большие ориентиры
+Для этого можно использовать любой префаб, но ему нужно будет иметь два тега: «duel_zone_landmark» и «flag_x». X обозначает тип отряда, поэтому замените его на: «infantry», «cavalry» или «archery».
 
-You also need to define the zone's troop type (again) with a script. For that, add the “DuelZoneLandmark” to your prefab and set it to whatever troop type you intend to spawn here.
+Вам также нужно будет (снова) задать тип отряда зоны с помощью скрипта. Для этого добавьте «DuelZoneLandmark» к вашему префабу и установите тот тип отряда, который вы хотите здесь заспавнить.
 
-###### Arena landmarks
-These landmarks define the arenas that are grouped by the big landmarks. Again you can use any prefab as a base for this. It will need two tags set, the first one “flag_x” is used to reference it to the big landmark. So if you want this arena to be used for Cavalry fights, you should use the tag “flag_cavalry”.
+###### Ориентиры арены
+Эти ориентиры определяют арены, сгруппированные большими ориентирами. Опять же, в качестве основы можно использовать любой префаб. Ему нужно установить два тега: первый, «flag_x», используется для привязки к большому ориентиру. Так что если вы хотите, чтобы эта арена использовалась для боёв кавалерии, используйте тег «flag_cavalry».
 
-Your landmark will also need a tag that references the actual arena area (described below), basically serving as an ID. For that, use the tag “area_flag_x”, x being the ID of your arena. So if you have 16 arenas, each of them should have their own tag, ranging from “area_flag_1” to “area_flag_16”.
+Вашему ориентиру также понадобится тег, ссылающийся на фактическую область арены (описана ниже), по сути служащий идентификатором. Для этого используйте тег «area_flag_x», где x — ID вашей арены. Так что если у вас 16 арен, каждая из них должна иметь свой собственный тег, от «area_flag_1» до «area_flag_16».
 
 ###### volume_box
-This box defines the area where combatants duel in your arena. All dropped weapons and bodies will be cleared inside this box after each duel. Make sure that it is slightly bigger than the physical arena you have built in the scene editor. You can use the volume_box prefab and scale it to your liking. The box will need a tag referencing the ID of your arena: “area_box_x”, x being the ID of your arena.
+Этот блок определяет область, в которой участники сражаются на вашей арене. Всё брошенное оружие и тела будут удаляться внутри этого блока после каждой дуэли. Убедитесь, что он немного больше физической арены, которую вы построили в редакторе сцен. Вы можете использовать префаб volume_box и масштабировать его по своему усмотрению. Блоку понадобится тег, ссылающийся на ID вашей арены: «area_box_x», где x — ID вашей арены.
 
-So if the tag for your arena was “area_flag_5”, you should tag your volmue_box with “area_box_5”.
+Так что если тег вашей арены был «area_flag_5», вам следует пометить ваш volume_box тегом «area_box_5».
 
-The spawn points for both combatants need to be placed within this volume. Check below.
+Точки спавна для обоих участников должны быть размещены внутри этого объёма. Смотрите ниже.
 
-#### Spawn Points
-Points where players start the round, or respawn during that round. Flag Domination modes (Captain, Skirmish, Battle) use nearly the same spawning system and scenes are compatible between each other with a little bit of work. Compatible in a technical sense that is.
+#### Точки спавна
+Точки, в которых игроки начинают раунд или возрождаются в течение раунда. Режимы Flag Domination (Captain, Skirmish, Battle) используют почти одинаковую систему спавна, и сцены совместимы друг с другом при небольшой доработке. Совместимы в техническом смысле.
 
-Most spawn points require the right side tag to be set. The prefabs come with default tags that are either “attacker” or “defender”. You will obviously need to duplicate those and adjust all tags on the prefabs and its children for the opposite team. Sometimes if a tag is not yet present in your scene you need to manually add it to the list, it won’t show up in the drop down menu otherwise!
+Для большинства точек спавна требуется установить правильный тег стороны. Префабы поставляются с тегами по умолчанию, которые либо «attacker», либо «defender». Вам, очевидно, нужно будет продублировать их и скорректировать все теги на префабах и их дочерних объектах для противоположной команды. Иногда, если тег ещё не присутствует в вашей сцене, его нужно добавить в список вручную, иначе он не появится в выпадающем меню!
 
-##### General
+##### Общие
 ###### spawn_visual
-Position in which the class and perk selection happens. The prefab has 6 child objects, one for the player and 5 for their teammates. For most game modes (every gamemode except skirmish and captain), only the child with the tag “sp_visual_0” is used, since we don't have a set amount of team mates.
+Позиция, в которой происходит выбор класса и перков. У префаба 6 дочерних объектов: один для игрока и 5 для его товарищей по команде. Для большинства игровых режимов (всех, кроме skirmish и captain) используется только дочерний объект с тегом «sp_visual_0», поскольку у нас нет фиксированного количества товарищей по команде.
 
-During the class/perk selection a camera will be placed in front of the “sp_visual_0” child object.
+Во время выбора класса/перков камера будет размещена перед дочерним объектом «sp_visual_0».
 
 {{% notice tip %}}
-You can ignore the “attacker” tag on the child objects. Unlike many other spawn positions, this one does not need to be duplicated for the defender team.
+Тег «attacker» на дочерних объектах можно игнорировать. В отличие от многих других позиций спавна, эту не нужно дублировать для команды защитников.
 {{% /notice %}}
 
 ##### Flag Domination (Skirmish, Battle, Captain)
 ###### skirmish_start_spawn
-Prefab that defines the initial spawn. Don't be put off by the name of the prefab, it can be used for all 3 Flag Domination game modes.
+Префаб, определяющий начальный спавн. Не смущайтесь названием префаба, он может использоваться для всех 3 режимов Flag Domination.
 
-Comes with 9 child spawns, but you can duplicate those to have more possible spawn positions (e.g. if you don't want people to spawn on top of each other for a 50 vs 50 battle mode). All children need to have the “spawnpoint” and “attacker” or “defender” tag. The main zone’s tags “starting” and “spawn_zone” should not be touched.
+Поставляется с 9 дочерними точками спавна, но вы можете продублировать их, чтобы получить больше возможных позиций спавна (например, если вы не хотите, чтобы игроки появлялись друг на друге в режиме битвы 50 на 50). У всех дочерних объектов должны быть теги «spawnpoint» и «attacker» или «defender». Теги главной зоны «starting» и «spawn_zone» трогать не следует.
 
 {{% notice tip %}}
-Make sure that the points are not below the terrain and ground assets you are using. Also remember that horses that spawn will require more space around them. So don't place your spawns too close to each other and other prefabs.
+Убедитесь, что точки не находятся ниже местности и используемых объектов земли. Также помните, что заспавнившимся лошадям потребуется больше места вокруг. Поэтому не размещайте точки спавна слишком близко друг к другу и к другим префабам.
 {{% /notice %}}
 
 ###### skirmish_respawn
-Prefab that defines the respawn positions for skirmish mode. So players spawn here after they have died. If you don't place these positions, players will spawn at the start spawn when respawning.
+Префаб, определяющий позиции возрождения для режима skirmish. То есть игроки появляются здесь после смерти. Если вы не разместите эти позиции, игроки будут появляться в начальной точке спавна при возрождении.
 
-You can place up to 3 of these per side. Just like with the start spawn it is important you make duplicates for both sides “attacker” and “defender”. The main zone’s tag “spawn_zone” should not be touched.
+Вы можете разместить до 3 таких объектов на каждую сторону. Как и в случае с начальной точкой спавна, важно сделать дубликаты для обеих сторон «attacker» и «defender». Тег главной зоны «spawn_zone» трогать не следует.
 
-Spawn point selection system relies on the location of the parent entity while checking for nearby enemies, while players will spawn in the child entities. You can use this to your advantage to adjust spawn location biases.
+Система выбора точки спавна полагается на расположение родительского объекта при проверке близлежащих врагов, в то время как игроки будут появляться в дочерних объектах. Вы можете использовать это в своих интересах для настройки смещения точек спавна.
 
 ##### Siege
-The spawns in siege are fundamentally different to other modes. Spawnzones in siege are inactive or active depending on how many flags have been removed in the match. Each spawn zone is connected to this gamemode logic via the tag sp_zone_x (x is a number between 0 and 6)
+Спавн в осаде принципиально отличается от других режимов. Зоны спавна в осаде активны или неактивны в зависимости от того, сколько флагов было снято в матче. Каждая зона спавна связана с этой логикой игрового режима через тег sp_zone_x (x — число от 0 до 6).
 
-The tag in question is set in the main spawn point prefab, which has the single spawn points “mp_spawnpoint” as children. The “x” of the tag defines how many flags need to be captured (and removed) by the attackers, for this spawn area to be active. So at the start of the siege players will spawn in the zone with the tag sp_zone_0, once the first flag is removed they will spawn in the zone with the tag sp_zone_1, so and so on. If only G (the main flag) is left, players will spawn in the zone with the tag sp_zone_6.
+Этот тег задаётся в главном префабе точки спавна, у которого есть дочерние одиночные точки спавна «mp_spawnpoint». «X» в теге определяет, сколько флагов нужно захватить (и снять) атакующим, чтобы эта зона спавна стала активной. Так, в начале осады игроки будут появляться в зоне с тегом sp_zone_0, как только первый флаг будет снят, они будут появляться в зоне с тегом sp_zone_1, и так далее. Если остался только G (главный флаг), игроки будут появляться в зоне с тегом sp_zone_6.
 
-You can put multiple of these tags on the same spawn zone, so you can have a spawn zone for the first two flags, by simply giving it the sp_zone_0 and sp_zone_1 tags.
+Вы можете разместить несколько таких тегов на одной и той же зоне спавна, так что можно сделать зону спавна для первых двух флагов, просто дав ей теги sp_zone_0 и sp_zone_1.
 
-Make sure to tag the children of the spawn zones with the “spawnpoint” and “attacker” or “defender” tag. Just like in the other modes.
+Обязательно пометьте дочерние объекты зон спавна тегами «spawnpoint» и «attacker» или «defender». Так же, как и в других режимах.
 
-There is no prefab for this spawnpoint, so you'll need to set most tags by yourself. I suggest you use the “skirmish_start_spawn” prefab. For that you need to delete the “starting” tag from the zone and replace it with the “sp_zone_x” tag / tags.
+Для этой точки спавна нет префаба, поэтому вам нужно будет настроить большинство тегов самостоятельно. Я предлагаю использовать префаб «skirmish_start_spawn». Для этого вам нужно удалить тег «starting» из зоны и заменить его на тег(и) «sp_zone_x».
 
-Don't forget to place attacker and defender spawns!
+Не забудьте разместить точки спавна для атакующих и защитников!
 
 {{% notice tip %}}
-You can use special tags on the “mp_spawnpoint” children of the spawn zones to adjust which troops can spawn there. The self explanatory tags for this are: “exclude_mounted” and “exclude_footmen”.
+Вы можете использовать специальные теги на дочерних объектах «mp_spawnpoint» зон спавна, чтобы настроить, какие отряды могут там появляться. Понятные из названия теги для этого: «exclude_mounted» и «exclude_footmen».
 {{% /notice %}}
 
 ##### TDM
-TDM doesn't use spawn zones, spawn points are placed around the scene without side tags. Use the “mp_spawnpoint” prefab for that. Make sure they are not a child to another prefab and only have the tag “spawnpoint”.
+TDM не использует зоны спавна, точки спавна размещаются по сцене без тегов стороны. Используйте для этого префаб «mp_spawnpoint». Убедитесь, что они не являются дочерними объектами другого префаба и имеют только тег «spawnpoint».
 
 ##### Duel
-Duel doesn't use spawn zones, spawn points are placed around the scene (preferably a sort of lobby area) without side tags. Use the “mp_spawnpoint” prefab for that. Make sure they are not a child to another prefab and only have the tag “spawnpoint”.
+Duel не использует зоны спавна, точки спавна размещаются по сцене (предпочтительно в своего рода лобби-зоне) без тегов стороны. Используйте для этого префаб «mp_spawnpoint». Убедитесь, что они не являются дочерними объектами другого префаба и имеют только тег «spawnpoint».
 
-Remember to also place two mp_spawnpoints inside each arena. They need to be tagged linking to the arena landmark. So with “spawnpoint_area_x”, x being the ID of the arena they belong to. Also make sure they are placed inside the volume_box of that arena.
+Не забудьте также разместить две точки mp_spawnpoint внутри каждой арены. Их нужно пометить тегами, связывающими их с ориентиром арены. Так, с помощью «spawnpoint_area_x», где x — ID арены, к которой они относятся. Также убедитесь, что они размещены внутри volume_box этой арены.
 
-#### Navigation Mesh
-In general Navmesh is much less important in multiplayer, as most Native gamemodes don’t use AI soldiers. Still the navmesh is used for espacing horses, to find their way to flee lines and also it is used for baking GI.
+#### Навигационная сетка
+В целом навмеш гораздо менее важен в многопользовательском режиме, поскольку большинство родных игровых режимов не используют солдат ИИ. Тем не менее, навмеш используется для бегущих лошадей, чтобы найти путь к линиям бегства, а также для запекания GI.
 
-For how to create a proper navmesh refer to our [existing documentation]({{< ref "nav_mesh" >}}).
+О том, как создать правильный навмеш, смотрите в нашей [существующей документации]({{< ref "nav_mesh" >}}).
 
-You can ignore specific IDs for AI scripting.
+Вы можете игнорировать конкретные ID для скриптинга ИИ.
 
 ##### Captain
-Generally for captain mode the same thing applies as for singleplayer battle terrain navmesh work. You will have to cover a relatively huge scene, with very accurate navmesh. You dont need to worry about IDs. You can use navmesh cost just like in singleplayer, to deter agents from using certain navmesh faces.
+В целом для режима captain применимо то же самое, что и для работы с навмешем местности битвы в одиночной игре. Вам нужно будет покрыть относительно огромную сцену очень точным навмешем. Об ID беспокоиться не нужно. Вы можете использовать стоимость навмеша (navmesh cost) так же, как в одиночной игре, чтобы удерживать агентов от использования определённых граней навмеша.
 
 {{% notice info %}}
-Keep in mind: Much more important than in singleplayer, areas that are reachable for players but don't have navmesh on them, bear a huge exploit potential. Try to avoid having spots like that.
+Имейте в виду: гораздо важнее, чем в одиночной игре, избегать областей, доступных для игроков, но не имеющих навмеша — такие места несут огромный потенциал для эксплойтов. Старайтесь избегать подобных мест.
 {{% /notice %}}
 
 ##### Siege
-The castle gates will need proper navmesh to be set in the scripts. Just like in singleplayer (refer to the documentation linked above). If you don't create a proper navmesh for these, horses will be confused and get stuck in your gates. Additionally we ignore the navmesh castle gates for GI generation, this will prevent light leakage into the body of your gatehouse.
+Воротам замка нужен правильный навмеш, настроенный в скриптах. Так же, как и в одиночной игре (см. документацию, указанную выше). Если вы не создадите правильный навмеш для них, лошади будут путаться и застревать в ваших воротах. Кроме того, мы игнорируем навмеш замковых ворот при генерации GI, это предотвратит утечку света внутрь надвратной башни.
 
-Also make sure that horses have access to flee lines inside and outside of the castle. Keep in mind that horses will always choose the closest “flee_line” to flee too, if that “flee_line” happens to be outside of the castle they will try to find a way out, leading them to get stuck if you haven't set up your ladders and gates correctly.
+Также убедитесь, что у лошадей есть доступ к линиям бегства внутри и снаружи замка. Имейте в виду, что лошади всегда будут выбирать ближайшую «flee_line» для бегства, и если эта «flee_line» окажется снаружи замка, они попытаются найти выход наружу, что приведёт к застреванию, если вы не настроили лестницы и ворота правильно.
 
-### Other
-###### Atmosphere
-Unlike in singleplayer, multiplayer scenes only ever use one atmosphere. Don't forget to save it when making edits.
+### Другое
+###### Атмосфера
+В отличие от одиночной игры, многопользовательские сцены всегда используют только одну атмосферу. Не забудьте сохранить её при внесении изменений.
 
-###### Label
-In the “SceneOptions” window, you can set a Label for your scene. This is helpful if you scan your scene for problems (2nd to last button in the top icon bar). If you set this label to “mp” it will filter out all singleplayer related problems.
+###### Метка (Label)
+В окне «SceneOptions» вы можете задать метку (Label) для вашей сцены. Это полезно, если вы сканируете свою сцену на наличие проблем (предпоследняя кнопка на верхней панели иконок). Если вы установите эту метку как «mp», это отфильтрует все проблемы, связанные с одиночной игрой.
 
-###### Avoid animation point prefab
-Using certain prefabs that are meant for singleplayer can cause your scene to crash. Watch out you are not placing any assets with animation points attached. This is important for chairs and the like, but also for any shop_prop prefabs that might have an animation attached.
+###### Избегайте префабов с точками анимации
+Использование некоторых префабов, предназначенных для одиночной игры, может привести к краху вашей сцены. Следите за тем, чтобы не размещать объекты с прикреплёнными точками анимации. Это важно для стульев и подобных объектов, а также для любых префабов shop_prop, которые могут иметь прикреплённую анимацию.
 
-Usually all these prefabs have a non animation point version of themselves. Otherwise you can always use those assets by simply deleting the animation point child and removing all tags and script from the prefab.
+Обычно у всех этих префабов есть версия без точки анимации. В противном случае вы всегда можете использовать эти объекты, просто удалив дочерний объект точки анимации и убрав все теги и скрипты с префаба.
 
-###### Avoid destructible objects outside of siege
-Destructible objects are only properly synced with our siege gamemode. Placing breakable objects like barricades, or siege engines in other modes will probably crash your game or cause other problems.
+###### Избегайте разрушаемых объектов вне осады
+Разрушаемые объекты правильно синхронизируются только в нашем игровом режиме осады. Размещение ломающихся объектов, таких как баррикады или осадные орудия, в других режимах, вероятно, приведёт к краху вашей игры или вызовет другие проблемы.
 
-The same goes for merlons on walls or destructible roofs.
+То же самое касается зубцов стен (merlons) или разрушаемых крыш.

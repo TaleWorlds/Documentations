@@ -1,205 +1,205 @@
 +++
-title = "What Makes a Village Scene"
+title = "Что делает сцену деревней"
 description = ""
-weight = 1
+weight = 15
+ai_translated = true
 +++
 
-#### Introduction
-This list of checkpoints should aid you in creation of village scenes and provide you with an insight into what we pay attention to when creating village scenes.
+#### Введение
+Этот список контрольных пунктов поможет вам в создании сцен деревень и даст представление о том, на что мы обращаем внимание при создании таких сцен.
 
-#### Navigation Mesh
+#### Навигационная сетка (Navigation Mesh)
 
-* Navigation mesh consists of triangles and quads. It is used by the AI for pathfinding. The global illumination system also uses it to find the visible locations of the scene.
-* Keep in mind that the navigation mesh faces should not be too far away from the physics below it. The distance should at 1.5m maximum.
-* The faces can be labeled to give cues to the agent spawning and the navigation inside the scene.
-* In order to make the agents follow roads, we label the faces on top of the roads with the ID 2. 
-* Note that all of the agent spawnpoints should be connected by navigation mesh faces with ID 2. 
-* For the animals, navigation mesh ID 3 can be used. Typically, these faces are kept within separate islands in structures like ditches. The animals will then roam inside those islands only. 
-* Change the ID's of all other faces to 1 (from 0).
-* Remember that the agents will use the navigation mesh ID's 2. In order to create realistic pathing (on roads), scene designers should place a Navigation Mesh Deactivator (prefab name is Navigation_Mesh_Deactivator). It can be placed anywhere in the scene. Its purpose is to disable the ID 1 faces in civilian modes. The DisableFaceWithID variable of the script should be 1.
-* For the animals, the variable "DisableFaceWithIDForAnimals" within the same script should be 3. 
-* Make sure the faces are fairly equal in size outside of the village area / where troops will maneuver.
-* Make sure there are no disconnected navmeshes.
-* The better the navmesh, the better will AI perform on it. Always think about that there might be big field battle inside the village. So try to avoid having many enclosed areas like a pig farm with only 1 entrance (for example: throw over some fences to create more entries)
-* Avoid having big areas accessible to the player but not AI. Player will be able to shoot AI from places without navmesh.
-* Use “_barrier_ai_x” to prevent AI from falling off from cliffs or getting stuck in tight areas (like a market booth) off the navmesh.
+* Навигационная сетка состоит из треугольников и четырёхугольников. Она используется ИИ для построения пути (pathfinding). Система глобального освещения также использует её для определения видимых участков сцены.
+* Помните, что грани навигационной сетки не должны находиться слишком далеко от физики под ними. Максимальное расстояние — 1,5 м.
+* Грани можно помечать, чтобы давать подсказки для спавна агентов и навигации внутри сцены.
+* Чтобы агенты следовали по дорогам, помечайте грани поверх дорог идентификатором (ID) 2.
+* Обратите внимание, что все точки спавна агентов должны быть соединены гранями навигационной сетки с ID 2.
+* Для животных можно использовать ID навигационной сетки 3. Обычно такие грани располагаются на отдельных «островах» в таких структурах, как рвы. В этом случае животные будут перемещаться только внутри этих островов.
+* Измените ID всех остальных граней на 1 (с 0).
+* Помните, что агенты будут использовать грани навигационной сетки с ID 2. Чтобы создать реалистичное передвижение (по дорогам), дизайнеры сцен должны разместить Navigation Mesh Deactivator (имя префаба — Navigation_Mesh_Deactivator). Его можно разместить в любом месте сцены. Его назначение — отключать грани с ID 1 в гражданских режимах. Переменная DisableFaceWithID скрипта должна быть равна 1.
+* Для животных переменная "DisableFaceWithIDForAnimals" в том же скрипте должна быть равна 3.
+* Убедитесь, что грани примерно одинакового размера за пределами территории деревни / там, где будут маневрировать войска.
+* Убедитесь, что нет разъединённых участков навигационной сетки.
+* Чем лучше навигационная сетка, тем лучше будет работать ИИ на ней. Всегда учитывайте, что внутри деревни может происходить крупное полевое сражение. Поэтому старайтесь избегать множества замкнутых зон, таких как свиноферма только с одним входом (например, можно разобрать часть забора, чтобы создать больше входов).
+* Избегайте больших зон, доступных игроку, но не доступных ИИ. Игрок сможет стрелять по ИИ из мест без навигационной сетки.
+* Используйте "_barrier_ai_x", чтобы ИИ не падал с обрывов и не застревал в узких местах (например, в рыночном прилавке) за пределами навигационной сетки.
 
 ![](/img/village_scenes/navmesh.png)
 
-#### Spawn Points
+#### Точки спавна (Spawn Points)
 
-As noted before, all spawn points need to be placed on top of navmesh (ID 2) and inside the soft borders. Remember that some prefabs (like chairs and benches) come with spawn points attached to them. If the spawn points aren't compatible with the village mission, they will most likely crash the game or cause errors. One example is "sp_blacksmith_with_smithing_machine". The most important thing about the entry points are their tags. They decide what type of NPC will spawn there. For your own sake, don't play around with those tags too much and keep them as they are from the prefabs.
+Как было сказано ранее, все точки спавна должны располагаться на навигационной сетке (ID 2) и внутри мягких границ (soft borders). Помните, что некоторые префабы (например, стулья и скамейки) уже содержат прикреплённые к ним точки спавна. Если точки спавна несовместимы с миссией деревни, они, скорее всего, приведут к вылету игры или ошибкам. Один из примеров — "sp_blacksmith_with_smithing_machine". Самое важное в точках входа — это их теги. Именно они определяют, какой тип NPC будет там появляться. Ради собственного спокойствия не экспериментируйте слишком сильно с этими тегами и оставляйте их такими, какими они заданы в префабах.
 
 ![](/img/village_scenes/3. Entry Points.png)
 
-##### Player Spawnpoint
+##### Точка спавна игрока (Player Spawnpoint)
 
-* Prefab: **sp_player**.
-* Make sure it's placed in a location where it can be seen from or at least has a clear path leading towards it. Do not place it too far away.
-* There should be a navigation mesh under the spawnpoint.
+* Префаб: **sp_player**.
+* Убедитесь, что она размещена в месте, которое видно или к которому хотя бы ведёт чёткий путь. Не размещайте её слишком далеко.
+* Под точкой спавна должна быть навигационная сетка.
 
-##### Battle Spawnpoints
- 
-* Prefab: **Sp_battle_set**.
-* Make sure the attacker and defender spawns aren't too close to each other or at least don't have direct line of sight to each other.
-* Make sure to move the reinforcement point out of sight as best as possible while still not being too far from the front lines.
-* Make sure all spawnpoints have some empty space around for troops to properly spawn in.
+##### Боевые точки спавна (Battle Spawnpoints)
 
-##### Conversation Spawnpoints (civilian)
+* Префаб: **Sp_battle_set**.
+* Убедитесь, что точки спавна атакующих и защищающихся не расположены слишком близко друг к другу или хотя бы не имеют прямой видимости друг на друга.
+* Постарайтесь максимально убрать точку подкрепления (reinforcement point) из поля зрения, не размещая её при этом слишком далеко от передовой.
+* Убедитесь, что вокруг всех точек спавна достаточно свободного места, чтобы войска могли корректно появляться.
 
-* Prefab: **sp_player_conversation**.
-* Conversation points define where the agent and the conversation partner spawn when the player enters the village via the "Talk to Notable" button from the World Map.
-* Make sure they have a nice vista but keep them relatively close to the village center.
+##### Точки спавна для разговоров (гражданские)
 
-##### Animation Points (civilian)
+* Префаб: **sp_player_conversation**.
+* Точки разговора определяют, где появляются агент и собеседник, когда игрок заходит в деревню через кнопку "Talk to Notable" на карте мира.
+* Убедитесь, что из них открывается приятный вид, но при этом они находятся относительно близко к центру деревни.
 
-* Prefab: **sp_npc_x**.
-* These are used for normal villagers. You can use around 40 positions.
-* They define the positions in scenes where the villagers will spawn and walk to.
-* Make sure they are nicely spaced throughout the village and close surroundings.
-* Villagers will wonder along paths to get to them.
-* If the paths are too long you might find your villagers wondering around at all times with nobody actually doing anything. Try to avoid long distances and place points close to the main paths.
-* Placing more or less spawnpoints doesn't influence how many villagers will populate the scene.
+##### Точки анимации (гражданские)
 
-##### Rural Noteable Spawnpoints
+* Префаб: **sp_npc_x**.
+* Используются для обычных жителей деревни. Можно использовать около 40 позиций.
+* Они определяют позиции в сцене, где будут появляться и куда будут ходить жители.
+* Убедитесь, что они хорошо распределены по деревне и ближайшим окрестностям.
+* Жители будут бродить по путям, чтобы добраться до них.
+* Если пути слишком длинные, жители могут постоянно бродить, при этом никто фактически ничего не делает. Старайтесь избегать больших расстояний и размещайте точки ближе к основным путям.
+* Размещение большего или меньшего количества точек спавна не влияет на то, сколько жителей будет населять сцену.
 
-* Prefab: **sp_notable_x**.
-* The number of prefabs should be around 6.
-* These are the spawnpoints for the notables of the village (quest givers) and lords.
-* Make sure they are in a prominent location of the village or generally places where village elder / lords would hang around.
-* You can check the Debug Window (documentation will cover that) to make sure you have placed the correct notable positions.
-* Go to the “Scene Entity Check Tab” and tick the “NPCs” Box and count.
+##### Точки спавна сельских знатных персонажей (Rural Noteable Spawnpoints)
 
-##### Bandit Camps
+* Префаб: **sp_notable_x**.
+* Количество префабов должно быть около 6.
+* Это точки спавна для знатных персонажей деревни (дающих задания) и лордов.
+* Убедитесь, что они находятся в заметном месте деревни или в местах, где обычно находятся старейшины деревни / лорды.
+* Вы можете проверить отладочное окно (Debug Window) (документация будет это рассматривать), чтобы убедиться, что вы разместили правильные позиции знатных персонажей.
+* Перейдите на вкладку "Scene Entity Check Tab", включите флажок "NPCs" и посчитайте.
 
-* Prefab: **common_area_x**.
-* Each village scene has 3 Bandit Camps outside the village (place 3 prefabs), used for scene quests.
-* Use the same spawns as for normal villagers (~15 per camp). Try to not have them do chores like farming.
-* You can also use patrol spawnpoints: **sp_guard_patrol_simple, sp_guard_patrol”.**
-* All spawn points in the radius will spawn bandits instead of villagers.
-* You can increase the radius by scaling the common area prefab.
-* Use civilian animation points as spawn points for bandits, some suggestions: “sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait”.
-* Make sure that there is some indication to where they could be so that the player has a chance of finding them (especially at night).
-* Don't place them too close to each other.
+##### Лагеря бандитов (Bandit Camps)
+
+* Префаб: **common_area_x**.
+* У каждой сцены деревни есть 3 лагеря бандитов за пределами деревни (разместите 3 префаба), используемых для квестов сцены.
+* Используйте те же точки спавна, что и для обычных жителей (~15 на лагерь). Старайтесь не заставлять их выполнять такие дела, как земледелие.
+* Также можно использовать точки патрулирования: **sp_guard_patrol_simple, sp_guard_patrol**.
+* Все точки спавна в радиусе будут порождать бандитов вместо жителей деревни.
+* Радиус можно увеличить, масштабируя префаб common area.
+* Используйте гражданские точки анимации в качестве точек спавна для бандитов, вот некоторые варианты: "sp_npc_wait_wall, lookout, sp_npc_argue_set, sp_npc_wait".
+* Убедитесь, что есть какой-то намёк на то, где они могут находиться, чтобы у игрока был шанс их найти (особенно ночью).
+* Не размещайте их слишком близко друг к другу.
 
 ![](/img/village_scenes/4. Bandit Camps.png)
 
-##### Animal Spawnpoints
+##### Точки спавна животных (Animal Spawnpoints)
 
-* Prefab: **sp_animalName**.
-* Use “DisableWandering” in the AnimalSpawnSettings script, to stop animals from walking around your scene.
-* Overall its best to put it on all bigger animals like cows and pigs if they aren't there to wonder around.
+* Префаб: **sp_animalName**.
+* Используйте "DisableWandering" в скрипте AnimalSpawnSettings, чтобы животные не бродили по вашей сцене.
+* В целом лучше всего применять это для всех крупных животных, таких как коровы и свиньи, если им не нужно бродить вокруг.
 
-##### Tactical Region
+##### Тактический регион (Tactical Region)
 
-* Prefab: **TacticalRegion**.
-* Used to tell the AI where there are relevant bigger regions (forests, hills etc.).
-* AI will position themselves inside the radius or avoid it.
-* Don't overuse it, stick to ~5 (make sure there is some variety).
+* Префаб: **TacticalRegion**.
+* Используется, чтобы сообщить ИИ о местах, где есть значимые крупные регионы (леса, холмы и т. д.).
+* ИИ будет позиционировать себя внутри радиуса или избегать его.
+* Не злоупотребляйте этим, придерживайтесь ~5 (обеспечивая некоторое разнообразие).
 
-##### Tactical Positions
+##### Тактические позиции (Tactical Positions)
 
-* Prefab: **TacticalPosition**.
-* Used to tell the AI where there are relevant smaller positions (like choke points between buildings, cliffs for archers and so on).
-* AI will position themselves according to the rotation of the Prefab and in regards to the width given by the script.
-* You can use them quite often.
-* The higher the slope the “better” is the position.
+* Префаб: **TacticalPosition**.
+* Используется, чтобы сообщить ИИ о значимых небольших позициях (например, узких проходах между зданиями, обрывах для лучников и т. д.).
+* ИИ будет позиционировать себя в соответствии с поворотом префаба и с учётом ширины, заданной скриптом.
+* Их можно использовать довольно часто.
+* Чем выше уклон, тем "лучше" позиция.
 
 ![](/img/village_scenes/5. Tactical Positions.png)
 
-##### Flee Positions
+##### Точки бегства (Flee Positions)
 
-* Positions to which fleeing troops and also horses will run away too.
-* Make sure they are inside the Soft Border and that there is a navmesh below them.
+* Позиции, к которым будут убегать отступающие войска, а также лошади.
+* Убедитесь, что они находятся внутри мягкой границы (Soft Border) и что под ними есть навигационная сетка.
 
 ![](/img/village_scenes/7. Flee Positions.png)
 
-#### Debug Window
+#### Отладочное окно (Debug Window)
 
-* Prefab: **SpawnPointDebugView**.
-* There is a built-in debug tool which can be enabled by adding the above prefab to the scene. Place the prefab anywhere in the scene and activate the window with the check box in its script.
-* This prefab opens a little debug window in the editor that helps you make sure you meet the requirements for the mission (like spawn points, navmesh).
-* In the “Scene Entity Check Tab” you can count your Entry Points and make sure you have placed enough of them (or too many).
-* In the “Navigation Mesh Check Tab” you can make sure all your Entry Points are connected to the navmesh properly.
+* Префаб: **SpawnPointDebugView**.
+* Существует встроенный инструмент отладки, который можно включить, добавив указанный выше префаб в сцену. Разместите префаб в любом месте сцены и активируйте окно с помощью флажка в его скрипте.
+* Этот префаб открывает небольшое отладочное окно в редакторе, которое помогает убедиться, что вы соответствуете требованиям для миссии (например, точки спавна, навигационная сетка).
+* На вкладке "Scene Entity Check Tab" вы можете посчитать свои точки входа и убедиться, что вы разместили их достаточно (или слишком много).
+* На вкладке "Navigation Mesh Check Tab" вы можете убедиться, что все ваши точки входа правильно соединены с навигационной сеткой.
 
 ![](/img/village_scenes/2. Debug Window.png)
 
-#### Soft Border
+#### Мягкая граница (Soft Border)
 
-* Prefab: **border_soft**.
-* They define the red borders of the scene.
-* When placed they form a polygon where the 2 edges connect between the closest two border entities (but never more than two).
-* To check the current borders, go into the "Visibility Window" → "Visibility Masks" and enable "Borders".
-* After crossing them the player has a few seconds to return inside the map borders, make sure this can't be abused somehow.
+* Префаб: **border_soft**.
+* Определяют красные границы сцены.
+* При размещении они образуют многоугольник, в котором 2 ребра соединяются между двумя ближайшими граничными сущностями (но никогда более чем между двумя).
+* Чтобы проверить текущие границы, зайдите в "Visibility Window" → "Visibility Masks" и включите "Borders".
+* После пересечения границ у игрока есть несколько секунд, чтобы вернуться внутрь границ карты, убедитесь, что этим нельзя как-либо злоупотребить.
 
 ![](/img/village_scenes/6. Borders.png)
 
-#### Sounds
+#### Звуки
 
-##### Master Ambient Sound
+##### Основной фоновый звук (Master Ambient Sound)
 
-* Prefab: **x_ambient_sound**.
-* Choose a mandatory master ambient sound.
-* You can place the prefab for the mandatory ambient sound anywhere.
-* Make sure it has the “Is Master Sound” enabled.
-* Make sure it doesn't have the “Is Triggered” enabled.
+* Префаб: **x_ambient_sound**.
+* Выберите обязательный основной (master) фоновый звук.
+* Префаб для обязательного фонового звука можно разместить где угодно.
+* Убедитесь, что у него включена опция "Is Master Sound".
+* Убедитесь, что у него отключена опция "Is Triggered".
 
-##### Additional Ambient sounds
+##### Дополнительные фоновые звуки (Additional Ambient sounds)
 
-* Used for bigger areas (like forests).
-* Needs to have the “Is Triggered” bool.
-* To see how far it reaches, from the "Visibility Window" enable "Sound Entities" under the ""Visibility Masks" group.
-* To change their reach, you can scale them like you would do with other editor entities (using the “b” key or the gizmo).
+* Используются для более крупных зон (например, лесов).
+* Должны иметь включённый булевый параметр "Is Triggered".
+* Чтобы увидеть, насколько далеко он распространяется, в окне "Visibility Window" включите "Sound Entities" в группе "Visibility Masks".
+* Чтобы изменить их радиус действия, их можно масштабировать так же, как и другие сущности редактора (с помощью клавиши "b" или гизмо).
 
 ![](/img/village_scenes/8. Sounds.png)
 
-##### Reverb
+##### Реверберация (Reverb)
 
-* There are different prefabs for each use case: **reverb_x**.
-* Adds reverb effect to any sound spawned inside its boundary. 
-* They are generally used for tight or underground areas.
-* You can place these in tight alleys between taller buildings, cliffs, in caves or in dense forests.
-* Needs to have the “Is Triggered” enabled.
+* Для каждого случая использования существуют разные префабы: **reverb_x**.
+* Добавляет эффект реверберации к любому звуку, порождённому внутри его границ.
+* Обычно используются для тесных или подземных зон.
+* Их можно размещать в узких переулках между высокими зданиями, на обрывах, в пещерах или в густых лесах.
+* Должны иметь включённую опцию "Is Triggered".
 
-##### Detail
+##### Детали (Detail)
 
-* Used for small details.
-* Make sure “Is Triggered” is disabled.
-* Place them where ever you want them to play.
+* Используются для небольших деталей.
+* Убедитесь, что "Is Triggered" отключена.
+* Размещайте их там, где хотите, чтобы они воспроизводились.
 
-##### Moving sounds on paths (for rivers and such)
+##### Перемещение звуков по путям (для рек и т. п.)
 
-Sometimes it's useful to move sounds along a coast line or a river. The below technique is more performance-friendly and more precise than placing multiple sound entities along your river for example. 
+Иногда полезно перемещать звуки вдоль береговой линии или реки. Описанная ниже техника более производительна и точна, чем размещение множества звуковых сущностей вдоль, например, реки.
 
-* Place a path on the river. For more information, see <strong>[Path Editing]({{< ref "path_editing.md" >}})</strong>.
-* Add the sound to the scene.
-* Place any additional Ambient sound as explained above.
-* Add the “path_converger” script to your ambient sound's entity.
-* Enter the name of your path to the "path_converger".
-* The sound will now follow the path according to the camera position.
+* Разместите путь (path) вдоль реки. Подробнее см. <strong>[Редактирование путей (Path Editing)]({{< ref "path_editing.md" >}})</strong>.
+* Добавьте звук в сцену.
+* Разместите любой дополнительный фоновый звук, как описано выше.
+* Добавьте скрипт "path_converger" к сущности вашего фонового звука.
+* Введите имя вашего пути в поле "path_converger".
+* Теперь звук будет следовать по пути в зависимости от позиции камеры.
 
-##### Sounds in the Engine
+##### Звуки в движке
 
-You can check the "MODDING_TOOLS_DIRECTORY/Sounds/GUIDs.txt" file for the list of the sounds in the game. These names can be used inside the script of the sound entities.
+Вы можете проверить файл "MODDING_TOOLS_DIRECTORY/Sounds/GUIDs.txt" для получения списка звуков в игре. Эти имена можно использовать внутри скрипта звуковых сущностей.
 
-#### Lights
+#### Освещение (Lights)
 
-* Have at least one “**envmap_prop**” in your scene.
-* For darker areas like caves use “**local_envmap_prop**”.
-* It will affect the lighting in an area depending on the values of its “ReflectionCapturer” script.
-* Make sure the village and bandit camps are nicely lit.
-* Take extra care for the conversation points.
-* Use torches and other entities.
-* Make sure torches inside buildings and other dark areas have “alwaysBurn” enabled in the LightCycle script.
-* Try to avoid placing “artificial lights” without an actual source.
-* You can bake the ambient lighting in your scene with the GI system. This will make the ambient lighting much more realistic. For more information, see <strong>[GI System]({{< ref "prt.md" >}})</strong>.
+* Разместите в сцене хотя бы один "**envmap_prop**".
+* Для тёмных зон, таких как пещеры, используйте "**local_envmap_prop**".
+* Он будет влиять на освещение в зоне в зависимости от значений своего скрипта "ReflectionCapturer".
+* Убедитесь, что деревня и лагеря бандитов хорошо освещены.
+* Уделите особое внимание точкам разговора.
+* Используйте факелы и другие сущности.
+* Убедитесь, что у факелов внутри зданий и других тёмных мест включена опция "alwaysBurn" в скрипте LightCycle.
+* Старайтесь избегать размещения "искусственного освещения" без реального источника.
+* Вы можете запечь (bake) фоновое освещение в вашей сцене с помощью системы GI. Это сделает фоновое освещение гораздо более реалистичным. Подробнее см. <strong>[Система GI (GI System)]({{< ref "prt.md" >}})</strong>.
 
 ![](/img/village_scenes/9. Lights.png)
 
-#### Atmosphere
+#### Атмосфера (Atmosphere)
 
-* Make sure your scene works and looks fine with all of the “**TOD_x**” atmospheres and in all seasons! (since it will be tested with those).
-* Choose a “Color Grade” that fits your scene (we suggest using the ones for the faction your scene is for, like: “color_grade_empire_soft”).
+* Убедитесь, что ваша сцена работает и хорошо выглядит со всеми атмосферами "**TOD_x**" и во всех временах года! (так как она будет тестироваться именно с ними).
+* Выберите "Color Grade", которая подходит вашей сцене (мы рекомендуем использовать те, что предназначены для фракции, для которой создаётся сцена, например: "color_grade_empire_soft").
 
 ![](/img/village_scenes/10. Atmosphere.png)
-

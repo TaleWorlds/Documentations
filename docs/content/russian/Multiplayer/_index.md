@@ -1,5 +1,5 @@
 +++
-title = "Multiplayer"
+title = "Мультиплеер"
 description = ""
 weight = 30
 +++

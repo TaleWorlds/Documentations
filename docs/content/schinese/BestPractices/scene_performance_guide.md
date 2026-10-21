@@ -1,5 +1,6 @@
 +++
-title = "Scene Performance Guide"
+title = "场景性能指南"
+ai_translated = true
 
 [menu.main]
 identifier = "scene_performance"
@@ -7,40 +8,40 @@ parent = "bestpractices"
 +++
 
 
-##### Performance Requirements of Mount & Blade II: Bannerlord
-- Singleplayer Scenes: Very High Config / 60 FPS / Gtx 1060.
-- Multiplayer Scenes: Very High Config / 60 FPS / Gtx 970.
+##### 《骑马与砍杀2:领主》的性能要求
+- 单人场景：极高配置 / 60 FPS / GTX 1060。
+- 多人场景：极高配置 / 60 FPS / GTX 970。
 
 {{% notice warning %}}
-Do not test the final performance of your scene in the Scene Editor. Editor has low performance due to being editable at runtime. Also, you should check the final performance with the agents in the mission.
+请勿在场景编辑器（Scene Editor）中测试场景的最终性能。由于编辑器在运行时是可编辑的，因此其性能较低。此外，你还应该在任务中有代理（agents）的情况下检查最终性能。
 {{% /notice %}}
 
 
-#### Possible Performance Bottlenecks
+#### 可能的性能瓶颈
 
-##### Missing occluders
-Occluders are physical objects that define occlusion boundaries for meshes. If an object’s bounding box is fully occluded by an occluder, those objects are not rendered. Occluders drastically reduce the performance problems of wide and large scenes. At runtime, all of the occluders are rendered to a different screen and the depth values of every pixel in this screen is checked with every mesh' bounding box. In your scene, all of the building blocks and big meshes should have occluders. If the “Enable Occlusion Culling” and “Show Occluders” options are enabled from the “Visibility” tab, the occluders of every mesh are rendered with debug meshes. If any of the big meshes in your scene has missing occluders, you should contact the ART team.
+##### 缺少遮挡体（Occluders）
+遮挡体（Occluders）是定义网格遮挡边界的物理对象。如果一个物体的包围盒完全被遮挡体遮挡，那么这些物体将不会被渲染。遮挡体可以大幅减少宽阔及大型场景的性能问题。在运行时，所有遮挡体都会被渲染到一个单独的屏幕上，并将该屏幕中每个像素的深度值与每个网格的包围盒进行比对。在你的场景中，所有建筑模块和大型网格都应该拥有遮挡体。如果在"可见性(Visibility)"选项卡中启用了"启用遮挡剔除(Enable Occlusion Culling)"和"显示遮挡体(Show Occluders)"选项，每个网格的遮挡体都会以调试网格的形式渲染出来。如果场景中任何大型网格缺少遮挡体，你应该联系美术（ART）团队。
 
-##### Too much pointlight overdraw & unnecessary shadow maps
-Our engine uses a grid based point light rendering system. This system divides the screen into fixed size grids. Then, the visible point lights are registered to every grid in which it’s bounding box intersects. Then, every shaded pixel in the screen uses all of the point lights inside its tile to shade itself. Every pointlight in your scene should have the minimum possible radius. Also, to not increase the overdraw, you should not use too many point lights. You can use the “Debug Tiled Lights” debug renderer to fix issues like too much point light in tight spots or lights with high radius. If there are any grid tiles with yellowish or red color, than those tiles probably have low performance. Those areas of the scene should be re-adjusted by either decreasing the point light radiuses or decreasing the point light count.
+##### 过多的点光源过度绘制（Overdraw）与不必要的阴影贴图
+我们的引擎使用基于网格的点光源渲染系统。该系统将屏幕划分为固定大小的网格。然后，可见的点光源会被注册到其包围盒相交的每个网格中。接着，屏幕中每个被着色的像素都会使用其所在网格内的所有点光源进行着色。场景中的每个点光源都应具有尽可能小的半径。此外，为了不增加过度绘制（overdraw），你不应使用过多的点光源。你可以使用"调试平铺光源(Debug Tiled Lights)"调试渲染器来修复诸如狭小空间中点光源过多或光源半径过大等问题。如果有任何网格块显示为黄色或红色，那么这些区域的性能可能较低。场景中的这些区域应通过减少点光源半径或减少点光源数量来进行重新调整。
 
-##### Outer Areas Flora Usage
-The grass like flora that we use in our scenes has a limited viewing range. Also, we can cull out (decide to not render) these floras in high ranges. However, this flora will have a major memory impact in the scenes, also there will be a mild CPU culling cost as well. Thus, for the outer areas where the grass would not be rendered, you should not use terrain layers with high grass density. 
+##### 外围区域植被（Flora）的使用
+我们在场景中使用的类似草地的植被（flora）具有有限的可视范围。此外，我们可以在较远距离剔除（决定不渲染）这些植被。然而，这些植被会对场景产生较大的内存影响，同时也会带来一定的CPU剔除开销。因此，对于那些不会渲染草地的外围区域，你不应使用具有高草密度的地形图层。
 
-##### Too many meshes without LOD’s
-For modern GPUs, performance wise, polygon density per pixel is much more important than the total polygon count. In this case, the worst situation are meshes without LOD. This can be checked by switching into wireframe mode. Every triangle in the scene should contain a healthy amount of pixels inside, not the other way around. You should contact the ART team if you find a mesh without LOD’s.
+##### 过多没有LOD的网格
+对于现代GPU而言，从性能角度看，每像素的多边形密度远比多边形总数更重要。在这种情况下，最糟糕的情况就是没有LOD的网格。你可以通过切换到线框模式来检查这一点。场景中的每个三角形内部都应包含适量的像素，而不是相反的情况。如果你发现没有LOD的网格，应联系美术（ART）团队。
 
-##### Terrain LOD Multiplier and Vertex Density
-Always check your terrain vertex density. In many cases, the terrain resolution can be reduced without any noticeable change. Also, try not to use terrain LOD multiplier for terrain nodes. Having more nodes and only using terrain LOD multiplier in nodes with detailed curvature will increase your scene's performance. Terrain LOD multiplier should be set accordingly, preferably **not over 3**.
+##### 地形LOD倍增器与顶点密度
+请始终检查你的地形顶点密度。在很多情况下，地形分辨率可以在不产生明显变化的情况下降低。另外，尽量不要在地形节点中使用地形LOD倍增器。拥有更多节点，并仅在具有精细曲率的节点中使用地形LOD倍增器，将会提升场景的性能。地形LOD倍增器应设置得当，最好**不超过3**。
 
-##### Vertex / Meter Ratio
-Vertex / Meter ratio should be **at most 1.8**.
+##### 顶点/米 比率
+顶点/米比率应**最多为1.8**。
 
-##### Nodes & & Dimensions
-There should be **at least 10 nodes** in each dimension for better LOD management by the engine. Each dimension should be **no more than 1.6 km wide** (total width of the scene). Beyond that, outer meshes can be used to give the feeling of a large landscape.
+##### 节点与维度
+为了让引擎更好地管理LOD，每个维度应**至少有10个节点**。每个维度（场景总宽度）应**不超过1.6公里宽**。超出此范围时，可以使用外部网格来营造广阔地貌的感觉。
 
-##### Outer Terrain Nodes
-Outer terrain nodes that the player can't access, with respect to their complexity, should have a lower vertex density than the center ones.
+##### 外围地形节点
+玩家无法到达的外围地形节点，根据其复杂程度，应比中心区域的节点具有更低的顶点密度。
 
-##### Terrain Flora Density
-Terrain flora density should in general **not exceed 60** apart from certain cases (low polycount flora, for example, flora_reed_X or flora_dry_plant_f). That value is recommended when no colony setting is used(radius=0, threshold=0). Colony system works by removing flora which reduces visible density.
+##### 地形植被密度
+除某些特殊情况外（低多边形数量的植被，例如flora_reed_X或flora_dry_plant_f），地形植被密度通常**不应超过60**。该数值是在未使用群落（colony）设置时（radius=0, threshold=0）的推荐值。群落系统通过移除植被来降低可见密度。

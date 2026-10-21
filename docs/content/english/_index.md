@@ -101,7 +101,51 @@ Upload and update your mod on the Steam Workshop.
 
 - **[API Documentation](https://apidoc.bannerlord.com/)**: reference for the Bannerlord code base.
 - **[Mount & Blade Modding Discord](https://discord.gg/ykFVJGQ)**: ask questions and talk with other modders.
-- **[Bannerlord Documentation (community)](https://docs.bannerlordmodding.com/)**: community-written guides, including Gauntlet UI and packaging mods for Vortex.
-- **[BannerlordModding.LT (community)](https://docs.bannerlordmodding.lt/)**: a community wiki of modding processes, techniques and tips.
+- **[Developer Workshop – Map Editor](https://www.youtube.com/watch?v=ovQiJfeQB8s)**: an official TaleWorlds stream showing how to work with the campaign map editor.
 - **[TaleWorlds Forums – The Smithy](https://forums.taleworlds.com/index.php?forums/the-smithy-mod-development.643/)**: the official mod development forum.
 - **[Contribute on GitHub](https://github.com/TaleWorlds/Documentations)**: suggest fixes or new pages for this documentation.
+
+## Community-Made Resources
+
+These resources are made and maintained by the community, not by TaleWorlds. Some were made for older game versions, so details may differ in the current version.
+
+### Documentation & Guides
+
+- **[Bannerlord Documentation](https://docs.bannerlordmodding.com/)**: community-written guides, including Gauntlet UI and packaging mods for Vortex.
+- **[BannerlordModding.LT](https://docs.bannerlordmodding.lt/)**: a community wiki of modding processes, techniques and tips.
+- **[Unofficial Bannerlord API Docs (BUTR)](https://bannerlordapi.butr.link/)**: API reference for each game version, generated from the game files.
+- **[BUTR Documentation](https://butr.github.io/documentation)**: how-tos for Harmony debugging, crash reports and publishing mods with GitHub Actions.
+- **[Documentation & Tutorials forum](https://forums.taleworlds.com/index.php?forums/documentation-tutorials.753/)**: tutorials shared by the community on the TaleWorlds Forums.
+
+### Community Guides (Google Docs)
+
+- **[3D Asset Workflow](https://docs.google.com/document/d/1aHBsO3mzkT0JsbCt9aCOh6CWAFATXwKtSaVb__TYIoo/edit)**: preparing 3D assets for Bannerlord.
+- **[Asset Import Workflow](https://docs.google.com/document/d/11-J8HzS2FdnwwXfR7JmD_FQSQ6dWaJj_BZr1-vVW9Ks/edit)**: step-by-step workflow for importing assets.
+- **[Importing Assets into BL Editor](https://docs.google.com/document/d/1ZnkRjNu6wUx3UM0exMiC8WhE8iDXPJKqYcbZdRh_q0o/edit)**: getting your assets into the Bannerlord editor.
+- **[Importing Material Maps in Editor](https://docs.google.com/document/d/1843jpWFYLylJya1-_-wQpkemV58KT3EomEoqUYKpZTo/edit)**: importing textures and material maps.
+- **[Basic World Mapping](https://docs.google.com/document/d/1npGJ9p1ySdu2RDU19P_2aE-OCsKWie_G02vcws36UIs/edit)**: an introduction to building your own campaign map.
+- **[Adding Custom Scenes to Custom Battle](https://docs.google.com/document/d/1Rwsd9pdv5QA5s3K4oOuJX16_K9A5NaoWh0p78IcUi1w/edit)**: testing your own scenes in Custom Battle.
+- **[Adding Flora to flora_kinds](https://docs.google.com/document/d/1VGpct-__3s6hn15GXHo5P1TS-yMrGfDxCed1UZ3AaNI/edit)**: registering new flora in flora_kinds.
+- **[Bannerlord Layer Buttons, Options, and Settings](https://docs.google.com/document/d/1EiLvSZEJ_88fnva6d9s8H36XLH13YkVdim6jABe095s/edit)** (partly finished): what the editor's layer buttons, options and settings do.
+
+### Video Tutorials
+
+- **[Lesser Scholar – Artisan Workshop Mod](https://www.youtube.com/playlist?list=PLzebdAxJeltRwfJ8jzsNolgHkRvLjoCRC)**: a 19-part C# course covering setup, campaign behaviors, dialogs, Gauntlet UI, Harmony and publishing.
+- **[A_Jannik](https://www.youtube.com/playlist?list=PLXLt7zu34iHFzZVDzZpvareujNqbJiypj)**: C# entry points, debugging and Harmony patching.
+- **[Danqna & Gispry](https://www.youtube.com/watch?v=duvR9xFvu9Q)**: a 6-part C# series covering Visual Studio setup, dialogue, saving and MCM menus.
+- **[Macbeth of Gondor](https://www.youtube.com/@MacbethofGondor)**: a 19-part Scene Editor series covering terrain, flora, navmesh, seasons, prefabs and barriers.
+- **[Banner Lab](https://www.youtube.com/playlist?list=PLxhni8XI_dRDjRRDsCzEBZg4eUInzkzQT)**: XML modding without code: troops, items, cultures, kingdoms, heroes and settlements.
+- **[Lykon Development](https://www.youtube.com/@LykonDevelopment/videos)**: XML troops, weapons and kingdoms, loading screens and weight painting in Blender.
+- **[Adam Dotlačil](https://www.youtube.com/@enpremi)**: custom bows, crossbows and quivers, and hand animations for custom meshes.
+- **[BabyLettuce – Skeletons & Races](https://www.youtube.com/watch?v=eXHd8yjoxk0)**: a full tutorial on custom skeletons and races.
+
+### Tools
+
+- **[Bannerlord Scene Toolkit](https://github.com/fiefevictionnotice/BannerlordSceneToolkit)** by FiefEvictionNotice: tools that run inside the Scene Editor for material swaps and recolors, prefab creation, distribution and mirroring, scene analysis and backups. See the [tutorial video](https://www.youtube.com/watch?v=f1uzZ-qQm3c).
+- **[XBannerlord](https://forums.taleworlds.com/index.php?threads/tool-xbannerlord-an-ai-powered-xml-editor-for-bannerlord-mod-xmls.470278/)** by cookgreen: a Windows XML editor that shows Bannerlord XML files as a tree and lets you edit the selected node by chatting with an AI model. English and Chinese interface. [Source on GitHub](https://github.com/cookgreen/XBannerlord).
+- **[Bannerlord Crafting Tool](https://github.com/haterade22/TAOM/releases/tag/crafting-tool-v1.0)** by haterade22: a Windows tool that previews weapon crafting pieces in 2D and 3D, so you can tune their offsets and check weapon length without launching the game.
+
+### Starter Packs
+
+- **[Campaign Map Prefab Starter Pack](https://www.nexusmods.com/mountandblade2bannerlord/mods/11608)** by Lemmy1916: a ready-to-use campaign map with pre-built settlements and scripts, to start a new world map.
+- **[War Sails Campaign Map Prefab Starter Pack](https://www.nexusmods.com/mountandblade2bannerlord/mods/13602)** by Lemmy1916: the same starter map set up for War Sails.

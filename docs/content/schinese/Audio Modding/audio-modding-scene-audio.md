@@ -1,52 +1,53 @@
 +++
-title = "Scene Audio"
+title = "场景音频"
 weight = 30
+ai_translated = true
 +++
 
-_Last updated: April 3, 2026_
+_最后更新:2026 年 4 月 3 日_
 
 ---
 
-## Adding Sound Entities
+## 添加声音实体 (Adding Sound Entities)
 
-In our proprietary game engine, placing sounds into a scene is straightforward. Start by creating an **empty entity** in the scene.
+在我们的专有游戏引擎中,将声音放入场景非常简单。首先在场景中创建一个**空实体 (empty entity)**。
 
-Once the entity is added, select it in the scene hierarchy to open the **Inspector Window**. If the Inspector doesn't appear, enable it through **Window > Inspector Window**.
+添加实体后,在场景层级结构中选中它以打开**检查器窗口 (Inspector Window)**。如果检查器未显示,可通过 **Window > Inspector Window** 启用它。
 
-In the Inspector, expand the **Scripts** dropdown and choose **Add New Script**. From the dialog, select **AmbientSoundEmitter** to attach a sound emitter script to the entity.
+在检查器中,展开 **Scripts** 下拉菜单并选择 **Add New Script**。在弹出的对话框中,选择 **AmbientSoundEmitter** 以将声音发射器脚本附加到该实体上。
 
-The script exposes several options for controlling playback:
+该脚本提供了若干用于控制播放的选项:
 
-| Property | Description |
+| 属性 | 说明 |
 |---|---|
-| **Event Path** | The FMOD event path for the sound to be played in the scene |
-| **Play On Startup** | If enabled, the sound plays automatically when the scene loads. Useful for ambiences or persistent sounds |
-| **Is Static** | Marks the emitter as fixed in place. Static emitters are cheaper to process since the engine doesn't need to track their position dynamically |
-| **Override Sound** | Enables overrides for certain FMOD parameters specifically for 3D sound events |
-| **Override Volume Multiplier** | Adjusts playback volume by a multiplier. Use commas (`,`) instead of periods (`.`) for decimal values |
-| **Override Max Distance** | Sets a custom maximum audible distance for the event |
-| **Override Min Distance** | Sets a custom minimum audible distance for the event |
-| **Is Master Sound** | Tags the emitter as a master sound, used for global mix behaviors |
-| **Is Master Suppressor** | When active inside a trigger volume, ducks (reduces) any sounds tagged as master sound |
-| **Is Triggered** | Configures the emitter as a trigger volume, only playing when the listener enters the defined space |
-| **Trigger Shape** | Defines the shape of the trigger volume (box or sphere) |
+| **Event Path** | 要在场景中播放的声音的 FMOD 事件路径 |
+| **Play On Startup** | 若启用,场景加载时声音会自动播放。适用于环境音或持续性声音 |
+| **Is Static** | 将该发射器标记为固定不动。静态发射器处理成本更低,因为引擎无需动态追踪其位置 |
+| **Override Sound** | 为特定的 3D 声音事件启用对某些 FMOD 参数的覆盖 |
+| **Override Volume Multiplier** | 通过一个乘数调整播放音量。小数值请使用逗号(`,`)而非句点(`.`) |
+| **Override Max Distance** | 为该事件设置自定义的最大可听距离 |
+| **Override Min Distance** | 为该事件设置自定义的最小可听距离 |
+| **Is Master Sound** | 将该发射器标记为主声音(master sound),用于全局混音行为 |
+| **Is Master Suppressor** | 当在触发体积内激活时,压低(降低)所有被标记为主声音的声音 |
+| **Is Triggered** | 将发射器配置为触发体积,仅当监听者进入定义的空间时才播放 |
+| **Trigger Shape** | 定义触发体积的形状(box 或 sphere) |
 
 ---
 
-## Reverb Zones
+## 混响区域 (Reverb Zones)
 
-The same process applies when adding reverb zones to a scene. In FMOD, reverbs are snapshot events that can be triggered through trigger volumes, just like standard sound events.
+向场景添加混响区域的流程是一样的。在 FMOD 中,混响是可以像标准声音事件一样通过触发体积触发的快照事件(snapshot events)。
 
-To set one up:
+设置步骤如下:
 
-1. Create a new entity in the scene
-2. Attach an **AmbientSoundEmitter** script
-3. Enter the path to the reverb snapshot event
-4. Enable **Is Triggered**
-5. Select the appropriate trigger shape
-6. Resize the volume using the transform tools to cover the desired area
+1. 在场景中创建一个新实体
+2. 附加一个 **AmbientSoundEmitter** 脚本
+3. 输入混响快照事件的路径
+4. 启用 **Is Triggered**
+5. 选择合适的触发形状
+6. 使用变换工具调整体积大小,以覆盖所需区域
 
-The following snapshot event paths are available out of the box. You're also free to create and add your own snapshots and snapshot events.
+以下快照事件路径是开箱即用的。你也可以自由创建和添加自己的快照及快照事件。
 
 - `event:/mission/ambient/reverb/alley`
 - `event:/mission/ambient/reverb/caves`
@@ -62,54 +63,54 @@ The following snapshot event paths are available out of the box. You're also fre
 
 ---
 
-## Paths
+## 路径 (Paths)
 
-Paths are routes you can place in a scene for entities to follow. This is useful when you want a sound emitter to move along a defined trajectory relative to the listener — for example, to simulate a river flowing past.
+路径是你可以放置在场景中供实体跟随的路线。当你希望声音发射器沿着相对于监听者定义的轨迹移动时非常有用——例如,模拟河流流淌而过的效果。
 
-### Creating a Path
+### 创建路径
 
-1. Click **Add New Path** on the taskbar
-2. Assign a name to the path
-3. Click **Add Component**
-4. Place path points in the scene — they will automatically be connected in order
+1. 在任务栏上点击 **Add New Path**
+2. 为路径指定名称
+3. 点击 **Add Component**
+4. 在场景中放置路径点——它们会按顺序自动连接
 
-To attach a sound emitter to a path, select the sound emitter entity, go to the **Scripts** tab, click **Add New Script**, and add the **path_converger** script. This enables the entity to follow the defined path.
+要将声音发射器附加到路径上,请选中声音发射器实体,转到 **Scripts** 标签页,点击 **Add New Script**,然后添加 **path_converger** 脚本。这将使该实体能够沿着定义的路径移动。
 
-The **path_converger** script exposes a few options:
+**path_converger** 脚本提供了几个选项:
 
-| Property | Description |
+| 属性 | 说明 |
 |---|---|
-| **Path Name** | The name of the path the emitter should follow. Must exactly match the path you created |
-| **Rotate To Camera** | If enabled, the emitter rotates to face the listener's camera as it moves along the path |
-| **Apply Scale** | Determines whether the emitter inherits scaling transformations from the path |
+| **Path Name** | 发射器应跟随的路径名称。必须与你创建的路径名称完全一致 |
+| **Rotate To Camera** | 若启用,发射器在沿路径移动时会面向监听者的摄像机旋转 |
+| **Apply Scale** | 决定发射器是否继承路径的缩放变换 |
 
 ---
 
-## Modifying Emitter Transforms
+## 修改发射器变换 (Modifying Emitter Transforms)
 
-To see a sound emitter's trigger volume shape and its min/max distance spheres, you need to enable **Sound Entities** visibility. If the **Visibility** tab isn't visible, open it via **Window > Visibility Window**.
+要查看声音发射器的触发体积形状及其最小/最大距离球体,你需要启用 **Sound Entities** 可见性。如果 **Visibility** 标签页不可见,可通过 **Window > Visibility Window** 打开它。
 
-In the **Visibility** tab, go to **Visibility Masks** and check the box next to **Sound Entities**. This enables display of sound-related components in the scene view. Once enabled, the trigger volume (a box or sphere wireframe) and two concentric distance spheres representing the min and max audible range become visible directly in the scene, making it much easier to position and resize emitters accurately.
+在 **Visibility** 标签页中,进入 **Visibility Masks** 并勾选 **Sound Entities** 旁边的复选框。这将启用场景视图中声音相关组件的显示。启用后,触发体积(box 或 sphere 线框)以及代表最小和最大可听范围的两个同心距离球体会直接显示在场景中,从而大大方便了发射器的定位和调整大小。
 
 ---
 
-## Adding Sound Events to Animation Clips
+## 为动画片段添加声音事件 (Adding Sound Events to Animation Clips)
 
-To attach sounds to animation clips, open the **Resource Browser** via **Window > Show Resource Browser**. The Resource Browser lets you browse, filter, and search through project assets.
+要将声音附加到动画片段,请通过 **Window > Show Resource Browser** 打开**资源浏览器 (Resource Browser)**。资源浏览器可让你浏览、筛选和搜索项目资源。
 
-You can filter by asset class to narrow down results. If you're not sure where an asset is, use the search bar — just make sure you're searching within the correct directory. Once you find the animation clip, select it to open the **Animation Clip Inspector**.
+你可以按资源类别进行筛选以缩小结果范围。如果你不确定某个资源的位置,可以使用搜索栏——只需确保你是在正确的目录内进行搜索。找到动画片段后,选中它以打开**动画片段检查器 (Animation Clip Inspector)**。
 
-In the **Animation Clip Inspector**, you can view and adjust all parameters linked to the selected clip. For audio, focus on the sound-related parameters:
+在**动画片段检查器**中,你可以查看和调整与所选片段相关联的所有参数。对于音频,请关注与声音相关的参数:
 
-| Property | Description |
+| 属性 | 说明 |
 |---|---|
-| **Step Points** | The X-axis value defines the timing offset within the clip. Set to `−1.00` by default if no sound is attached. Set to `0.00` or adjust to sync sound with animation |
-| **Sound Code** | The FMOD event path to attach. Entering a valid path ensures the sound plays at the correct point in the animation timeline |
-| **Voice Code** | Combat voice type to attach to the animation. See built-in types below, or add custom types as described in the [Voice System]({{< ref "audio-modding-systems.md#voice-system" >}}) section |
+| **Step Points** | X 轴值定义了片段内的时间偏移。如果未附加声音,默认值为 `−1.00`。将其设为 `0.00` 或进行调整以使声音与动画同步 |
+| **Sound Code** | 要附加的 FMOD 事件路径。输入有效路径可确保声音在动画时间轴上的正确位置播放 |
+| **Voice Code** | 要附加到动画的战斗语音类型。请参阅下方的内置类型,或按照 [语音系统]({{< ref "audio-modding-systems.md#voice-system" >}}) 一节所述添加自定义类型 |
 
-**Built-in Voice Codes:**
+**内置语音代码 (Built-in Voice Codes):**
 
-| Voice Code |
+| 语音代码 |
 |---|
 | Grunt |
 | Jump |
@@ -126,66 +127,66 @@ In the **Animation Clip Inspector**, you can view and adjust all parameters link
 | HorseRally |
 | Drown |
 
-**Animation sound flags:**
+**动画声音标志 (Animation sound flags):**
 
-| Flag | Description |
+| 标志 | 说明 |
 |---|---|
-| `make_bodyfall_sound` | Triggers a body-fall sound at this animation point |
-| `make_walk_sound` | Triggers a footstep sound at this animation point |
-| `do_not_keep_track_of_sound` | Stops the engine from tracking the sound's playback state |
-| `attach_sound_to_agent` | Attaches the sound directly to the agent rather than the world position |
+| `make_bodyfall_sound` | 在该动画点触发身体倒地声音 |
+| `make_walk_sound` | 在该动画点触发脚步声 |
+| `do_not_keep_track_of_sound` | 阻止引擎追踪该声音的播放状态 |
+| `attach_sound_to_agent` | 将声音直接附加到角色(agent)上,而不是世界坐标位置 |
 
 ---
 
-## Adding Sound Events to Particles
+## 为粒子添加声音事件 (Adding Sound Events to Particles)
 
-Just like animation clips, particle assets can be accessed through the **Resource Browser**. Filter the asset list to show only particles, or use the search bar to locate a specific particle within a directory. Once found, double-click it to open the **Inspector Window**.
+与动画片段一样,粒子资源也可以通过**资源浏览器**访问。筛选资源列表仅显示粒子,或使用搜索栏在目录中定位特定粒子。找到后,双击它以打开**检查器窗口**。
 
-In the Inspector, you can view the particle's layers, LODs, and parameters. Before attaching audio, make sure you've selected the correct **layer** and **LOD** of the particle.
+在检查器中,你可以查看该粒子的层(layers)、LOD 以及参数。在附加音频之前,请确保你已选中粒子正确的**层**和 **LOD**。
 
-> Keep in mind: if the effect isn't visually strong enough to justify rendering at a higher LOD, it isn't strong enough to justify a sound either. In those cases, keep audio only at **LOD 0**.
+> 请记住:如果某个效果在视觉上不够突出,不足以在更高的 LOD 下渲染,那么它也不足以配上声音。在这种情况下,仅在 **LOD 0** 保留音频即可。
 
-Once the correct layer and LOD are selected, open the **Sound** tab:
+选中正确的层和 LOD 后,打开 **Sound** 标签页:
 
-| Property | Description |
+| 属性 | 说明 |
 |---|---|
-| **Continuous sound** | Use for looping sounds. Enter the FMOD event path of the looped event |
-| **One shot sound** | Use for single-playback sounds. Enter the FMOD event path of the one-shot event |
-| **Size Parameter** | Applies a multiplier to override the size of a 3D sound event |
+| **Continuous sound** | 用于循环声音。输入循环事件的 FMOD 事件路径 |
+| **One shot sound** | 用于单次播放的声音。输入单次事件的 FMOD 事件路径 |
+| **Size Parameter** | 应用一个乘数,以覆盖 3D 声音事件的大小 |
 
 ---
 
-## Quadraphonic Ambients {#quadraphonic-ambients}
+## 四声道环境音 (Quadraphonic Ambients) {#quadraphonic-ambients}
 
-**Mount & Blade II: Bannerlord** is a performance-critical title. Adding hundreds of 3D sound emitters into scenes can quickly overwhelm CPU, memory, and disk I/O — especially during large-scale battles with thousands of active agents. To maintain immersion without sacrificing performance, we use **quadraphonic ambients**.
+**《骑马与砍杀2:霸主》(Mount & Blade II: Bannerlord)** 是一款对性能要求极高的游戏。在场景中添加数百个 3D 声音发射器会迅速耗尽 CPU、内存和磁盘 I/O 资源——尤其是在拥有数千个活跃角色的大规模战斗中。为了在不牺牲性能的前提下保持沉浸感,我们使用了**四声道环境音 (quadraphonic ambients)**。
 
-Quadraphonic is a four-channel surround format that creates the illusion of being surrounded by many emitters while actually using only four channels. Rather than relying on FMOD's built-in quad system, we implemented our own approach. It's a bit more involved to set up, but once you understand it, it's more flexible than FMOD's internal solution.
+四声道(Quadraphonic)是一种四声道环绕格式,它能在实际上仅使用四个声道的情况下,营造出被众多发射器环绕的错觉。我们没有依赖 FMOD 内置的四声道系统,而是实现了自己的方案。虽然设置起来稍微复杂一些,但一旦理解其原理,它会比 FMOD 的内部方案更灵活。
 
-The system spawns **four 3D emitters** around the listener at fixed positions: **0°, 90°, 180°, and 270°** relative to the listener's facing direction. These emitters move with the listener's position, but their distance to the listener stays constant. As the listener turns, they continuously receive different signals from the surrounding emitters — creating the illusion of a dynamic, shifting environment without needing dozens of independent sources.
+该系统会在监听者周围固定位置生成**四个 3D 发射器**:相对于监听者朝向的 **0°、90°、180° 和 270°**。这些发射器会随监听者的位置移动,但它们与监听者的距离保持不变。当监听者转向时,他们会持续从周围的发射器接收到不同的信号——从而在无需使用数十个独立声源的情况下,营造出动态变化环境的错觉。
 
-### Setting Up Quad Ambients
+### 设置四声道环境音
 
-First, create a **stereo ambient event**. This is **not optional** — it acts as a fallback in case the quad setup fails or isn't found. Without it, ambience may be missing during gameplay.
+首先,创建一个**立体声环境事件 (stereo ambient event)**。这一步**并非可选**——它充当了四声道设置失败或未找到时的回退方案。如果没有它,游戏过程中可能会缺失环境音。
 
-For example, create a 2D event called `plains`.
+例如,创建一个名为 `plains` 的 2D 事件。
 
-Next, create a **folder with the same name** as the stereo event (`plains` in this example). This naming is critical — the system matches stereo events to their quad alternatives by name. Events inside this folder will be treated as the quad channels.
+接下来,创建一个与立体声事件**同名的文件夹**(本例中为 `plains`)。这个命名至关重要——系统会根据名称将立体声事件与对应的四声道替代方案进行匹配。该文件夹内的事件将被视为四声道通道。
 
-Inside the folder, create four 3D events named exactly:
+在该文件夹内,创建四个 3D 事件,名称必须严格为:
 
 - `north`
 - `east`
 - `south`
 - `west`
 
-> The names are **case-sensitive** and must be **lowercase**. Event order doesn't matter.
+> 这些名称**区分大小写**,必须全部为**小写**。事件的顺序无关紧要。
 
-For each of the four quad events, open the **Spatializer** and **disable distance attenuation**. These emitters should radiate a consistent signal regardless of their distance from the listener. If attenuation is left on, volumes may be incorrectly reduced depending on distance settings.
+对于这四个四声道事件中的每一个,打开**空间化器 (Spatializer)** 并**禁用距离衰减 (distance attenuation)**。这些发射器应无论与监听者的距离如何,都发出一致的信号。如果衰减保持开启,音量可能会因距离设置而被错误地降低。
 
-Finally, go back to the stereo event (`plains`) and set a **User Property**:
+最后,返回立体声事件(`plains`),设置一个**用户属性 (User Property)**:
 
-| Property | Value |
+| 属性 | 值 |
 |---|---|
 | `isQuad` | `True` |
 
-This flag tells the system to look for a matching quad setup. If found, the quad version plays; if not, the stereo event plays as a fallback.
+该标志会告知系统去查找匹配的四声道设置。如果找到,则播放四声道版本;如果未找到,则播放立体声事件作为回退方案。

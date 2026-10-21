@@ -1,28 +1,29 @@
 +++
-title = "Добавление звуков в ваш модуль (Outdated)"
+title = "Добавление звуков в ваш модуль (Устарело)"
 weight = 100
+ai_translated = true
 +++
 
-Аудиосистема Bannerlord построена на собственной звуковой системе FMOD.
-Чтобы сохранить производительность звукового движка и сделать его доступным для всех, нам потребовалось создать прослойку.
+Звуковая система Bannerlord построена на основе проприетарной звуковой системы FMOD.
+Чтобы сохранить производительность звукового движка, сделав его при этом доступным для всех, нам понадобилось создать промежуточный слой.
 
 ## Ключевые элементы
 
-* `...\Modules\*YOUR_MOD*\ModuleData\module_sounds.xml` файл, в который вы добавляете пользовательские определения для ваших собственных звуков.
-* `...\Modules\*YOUR_MOD*\ModuleSounds` папка, в которую вы помещаете аудиофайлы (`.ogg`, `.wav`)
+* Файл `...\Modules\*YOUR_MOD*\ModuleData\module_sounds.xml`, куда вы добавляете пользовательские определения для своих собственных звуков
+* Папка `...\Modules\*YOUR_MOD*\ModuleSounds`, куда вы помещаете аудиофайлы (`.ogg`, `.wav`)
 
-Вы можете посмотреть пример в модуле 'Native'.
+Примеры можно увидеть в модуле 'Native'.
 
-## Основное руководство
+## Базовое руководство
 
-1. Скопируйте файлы примеров и папку в свой собственный модуль
+1. Скопируйте примеры файлов и папку в свой собственный модуль
 2. Добавьте новые звуки в папку ModuleSounds
-3. Откройте module_sounds.xml в вашем модуле
-4. Вы увидите категории звуков, пример кода для воспроизведения звуков и примеры записей module_sound в исходном файле module_sounds.xml.
-5. Добавьте новую запись в файл вашего мода module_sounds.xml
-6. Воспроизведите новый звук из кода
+3. Откройте файл module_sounds.xml вашего модуля
+4. Вы увидите категории звуков, пример кода для воспроизведения звуков и примеры записей module_sound в исходном файле module_sounds.xml
+5. Добавьте новую запись в module_sounds.xml вашего мода
+6. Воспроизведите новую звуковую запись из кода
 
-## Двигаемся дальше
+## Идём дальше
 
 ### Использование module_sounds.xml
 
@@ -30,53 +31,53 @@ weight = 100
     <module_sound name="example/combat/hit" is_2d="true" sound_category="mission_combat" path="example_sound_modders.ogg" />
 ```
 
-* **'name'**: Любое уникальное имя по вашему желанию. Это идентификатор вашего звука.
-    - Используйте при воспроизведении звука из кода.
-    - Используйте для воспроизведения звука анимации. Добавьте к анимации атрибут 'sound_code'.
-* **'is_2d'**: Если пространственные свойства звука не будут использоваться. 3D-звуки имеют такие свойства, как положение, скорость и т.д.
-* **'sound_category'**: Все звуки должны быть отнесены к категории, чтобы они правильно проходили через наши трубы. Доступные категории:
-    - mission_ambient_bed (2D ambient loops like base wind)
-    - mission_ambient_3d_big (Sounds that should be heard from long distance, like a burning castle)
-    - mission_ambient_3d_medium (Sounds that should be heard from medium distance, like bonfires)
-    - mission_ambient_3d_small (Sounds that should be heard from nearby, like campfires)
-    - mission_material_impact (Physics material impacts like *metal* sword hitting *stone* wall)
-    - mission_combat_trivial (Unimportant damage sounds, like low/no damage)
-    - mission_combat (Damage sounds)
-    - mission_foley (Swings, movement sounds, animal movements)
-    - mission_voice_shout (Human/Animal voices that should be heard from long distance like battle yells)
-    - mission_voice (Human/Animal grunts, knockouts etc.)
-    - mission_voice_trivial (Quiet vocalizations like climbing, jumping)
-    - mission_siege_loud (Big siege sounds like boulder hits wall, Catapult fires, Door breaks)
-    - mission_footstep (Standard footsteps for humans and smaller animals)
-    - mission_footstep_run (Louder footsteps that could be head from distance when in crowds)
-    - mission_horse_gallop (Horse, camel gallops)
-    - mission_horse_walk (Horse, camel single soft footstep)
-    - ui (2D sounds for UI and notifications)
-    - alert (Psuedo-3d sounds for alerting the player from mid distance)
-    - campaign_node (Positional sound nodes for World Map, farms, seas, waterfalls)
-    - campaign_bed (2D ambient sounds for World Map, desert gusts, pasture winds etc.)
-* **'path'**: Звуковой файл для воспроизведения. Путь указывается относительно папки ModuleSounds вашего модуля. Вы можете создавать дочерние папки.
+* **'name'**: Любое уникальное имя по вашему выбору. Это идентификатор вашего звука.
+    - Используется при воспроизведении звука из кода.
+    - Используется для воспроизведения звука анимации. Добавьте его в атрибут 'sound_code' анимации.
+* **'is_2d'**: Указывает, не будут ли использоваться пространственные свойства звука. У 3D-звуков есть такие свойства, как позиция, скорость и т. д.
+* **'sound_category'**: Все звуки должны быть отнесены к категории, чтобы правильно маршрутизировать их через наши каналы. Доступные категории:
+    - mission_ambient_bed (2D-зацикленные окружающие звуки, например базовый ветер)
+    - mission_ambient_3d_big (Звуки, которые должны быть слышны с большого расстояния, например горящий замок)
+    - mission_ambient_3d_medium (Звуки, которые должны быть слышны со среднего расстояния, например костры)
+    - mission_ambient_3d_small (Звуки, которые должны быть слышны с близкого расстояния, например лагерные костры)
+    - mission_material_impact (Физические удары материалов, например *металлический* меч, ударяющийся о *каменную* стену)
+    - mission_combat_trivial (Незначительные звуки урона, например при низком/нулевом уроне)
+    - mission_combat (Звуки урона)
+    - mission_foley (Звуки размахов, движений, движения животных)
+    - mission_voice_shout (Голоса людей/животных, которые должны быть слышны с большого расстояния, например боевые кличи)
+    - mission_voice (Хрюканье/рычание людей/животных, звуки нокаута и т. д.)
+    - mission_voice_trivial (Тихие вокализации, например при лазании, прыжках)
+    - mission_siege_loud (Громкие звуки осады, например удар валуна о стену, выстрел катапульты, пробитие двери)
+    - mission_footstep (Обычные шаги людей и мелких животных)
+    - mission_footstep_run (Более громкие шаги, которые могут быть слышны издалека при скоплении толпы)
+    - mission_horse_gallop (Галоп лошади, верблюда)
+    - mission_horse_walk (Одиночный мягкий шаг лошади, верблюда)
+    - ui (2D-звуки для интерфейса и уведомлений)
+    - alert (Псевдо-3D звуки для оповещения игрока со среднего расстояния)
+    - campaign_node (Позиционные звуковые узлы для карты мира, ферм, морей, водопадов)
+    - campaign_bed (2D окружающие звуки для карты мира, порывы ветра в пустыне, ветер на пастбищах и т. д.)
+* **'path'**: Звуковой файл, который будет воспроизводиться. Путь указывается относительно папки ModuleSounds вашего модуля. Вы можете создавать дочерние папки.
 
 
-### Воспроизведение звука в примере кода
+### Пример воспроизведения звука из кода
 
 ```C#
     int soundIndex = SoundEvent.GetEventIdFromString("example/voice/charge"); //чтобы избежать строковых операций во время выполнения, soundIndex можно кэшировать.
     if (playOneshot)
     {
-        MakeSound(soundIndex, MainAgent.Position, false, true, -1, -1); //воспроизводит звук одного выстрела в позиции с заданными параметрами.
+        MakeSound(soundIndex, MainAgent.Position, false, true, -1, -1); //воспроизводит одиночный звук в указанной позиции с заданными параметрами.
     }
     else
     {
-        SoundEvent eventRef = SoundEvent.CreateEvent(soundIndex, Scene); //получить ссылку на звук и обновить параметры позже.
+        SoundEvent eventRef = SoundEvent.CreateEvent(soundIndex, Scene); //получить ссылку на звук и обновлять параметры позже.
         eventRef.SetPosition(MainAgent.Position);
         eventRef.Play();
     }
 ```
 
-У вас есть два способа воспроизвести звук:
+У вас есть два способа воспроизведения звука:
 
-* Один выстрел
-    Лучшая производительность меньше контроля. Стреляй и забудь. Подходит для звуков, связанных с боем.
+* Одиночное воспроизведение (One Shot)
+    Лучшая производительность, меньше контроля. Запустил и забыл. Хорошо подходит для звуков, связанных с боем.
 * Создание и хранение ссылки
-  Хуже производительность. Контролируйте каждый параметр звука, когда захотите. т.е. пауза, обновление позиции. 
+    Худшая производительность. Контроль над каждым параметром звука в любой момент. Например, пауза, обновление позиции.

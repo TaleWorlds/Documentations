@@ -1,26 +1,27 @@
 +++
-title = "Weapon Smithing & Crafting Pieces"
+title = "武器锻造与制作部件"
 weight = 15
+ai_translated = true
 +++
 
-#### Introduction
-The Smithing screen allows for the creation of all melee and throwing weapons in the game (swords, daggers, throwing knives, throwing axes, maces, polearms, pikes, javelins).
+#### 简介
+锻造界面（Smithing screen）允许创建游戏中所有的近战和投掷武器（剑、匕首、飞刀、飞斧、钉锤、长柄武器、长枪、标枪）。
 <img src="/img/weapon_smithing/weapon_smithing_1.png" style="height:500px;"/>
-<p style="text-align:center">Picture 1: Fine Steel Cavalry Broadsword being created on Smithing screen.</p>
+<p style="text-align:center">图1：在锻造界面上创建精钢骑兵阔剑。</p>
 
-#### Adding Weapons to the Smithing System
-To be able to create a weapon on the Smithing screen, all the individual weapon parts need to be exported to the game separately. You can find out how to export assets to the editor on [Asset Management]({{< ref "Asset Management" >}}). After the meshes are added to the editor, the mesh name and measurements specific to the added weapon part need to be put into the relevant XML document. Adding weapon parts is explained below by giving sword and dagger parts as examples (other weapon parts can be added to the editor using the same process).
+#### 将武器添加到锻造系统
+要能够在锻造界面上创建武器，所有单独的武器部件都需要单独导出到游戏中。你可以在[资源管理（Asset Management）]({{< ref "Asset Management" >}})中了解如何将资源导出到编辑器。网格被添加到编辑器后，需要将网格名称以及该武器部件特有的尺寸信息填入相应的XML文档中。下面以剑和匕首的部件为例说明如何添加武器部件（其他武器部件也可以使用相同的流程添加到编辑器中）。
 
-#### Swords And Daggers
-Five parts are needed to create a sword (similar to daggers). Those are the blade, guard, grip,  pommel and optionally scabbard. All meshes’ pivot points need to be at the numeric centre of the object and the position of the object needs to be at the world origin (Picture 2, Picture 3). This way we can export all the parts in a single FBX file or export each part individually using separate FBX files. For example, we export all of the sword blades in a single FBX file. Other parts are also exported together to their respective FBX files (guards, grips, pommels, scabbards). (Picture 4)
+#### 剑和匕首
+制作一把剑（与匕首类似）需要五个部件。它们分别是刀身（blade）、护手（guard）、握柄（grip）、剑柄头（pommel），以及可选的剑鞘（scabbard）。所有网格的轴心点（pivot point）都需要位于物体的数值中心，并且物体的位置需要位于世界原点（图2、图3）。这样我们就可以将所有部件导出到单个FBX文件中，或使用单独的FBX文件分别导出每个部件。例如，我们将所有的剑刀身导出到一个FBX文件中。其他部件也会一起导出到各自对应的FBX文件中（护手、握柄、剑柄头、剑鞘）。（图4）
 <img src="/img/weapon_smithing/weapon_smithing_2.png" style="height:500px;"/>
-<p style="text-align:center">Picture 2: Example, battania_grip_1 mesh in Blender viewport before exporting.</p>
+<p style="text-align:center">图2：示例，battania_grip_1网格在导出前于Blender视口中的样子。</p>
 <img src="/img/weapon_smithing/weapon_smithing_3.png" style="height:500px;"/>
-<p style="text-align:center">Picture 3: All weapon parts positioned neatly at the world origin.</p>
+<p style="text-align:center">图3：所有武器部件整齐地定位在世界原点处。</p>
 <img src="/img/weapon_smithing/weapon_smithing_4.png" style="height:300px;"/>
-<p style="text-align:center">Picture 4: Sword parts directory hierarchy.</p>
+<p style="text-align:center">图4：剑部件目录层级结构。</p>
 
-#### CraftingPieces XmlNode Example
+#### CraftingPieces XmlNode 示例
 
 ```
 <CraftingPieces>
@@ -55,40 +56,40 @@ Five parts are needed to create a sword (similar to daggers). Those are the blad
 </CraftingPieces>
 ```
 
-##### CraftingPieces/CraftingPiece Node
-When a crafting piece is created the following pieces of information should be defined.
+##### CraftingPieces/CraftingPiece 节点
+创建制作部件（crafting piece）时，需要定义以下信息。
 
-* **id**: Unique string id of the piece. Each piece must have a unique id to differ from other pieces.
-* **name**: Name of the piece that will be shown to the players in the game.
-* **piece_type**: References to the “CraftingPiece.PieceTypes”. PieceTypes are definitions that are used to label which part the piece belongs to. Each crafting piece is composed of different pieces.
-* **mesh**: A unique mesh id is required to define the visual shape of the crafting piece.
-* **weight**: Weight of the crafting piece in kilograms.
-* **length**: Measured length of the piece in centimeters (Pivot point is always centered).
-* **culture (optional)**: Defined culture of the current item. If an item is set for a culture, the item will only be sold on the markets of the same culture.
-* **full_scale (optional)**: Defines scaling factors of the piece in dimensions. When set as "true"  the piece should scale in all three dimensions. Setting it "false" scales in a single dimension which is the build axis.
-* **appearance (optional)**: A value (price) calculation factor.
-* **center_of_mass (optional)**: Center of mass percentage of the piece, normally 0.5 (in the middle).
-* **tier (optional)**: Defaults as “1”. Tier defines the quality of the crafting piece. Tier helps setting the weapon tier and the crafting difficulty.
-* **is_default (optional)**:  When set as "true" the piece comes out unlocked for the crafting feature, if the piece is set as "false" the piece must be unlocked through crafting different weapons.
-* **is_hidden (optional)**: When set as “true” the piece won’t show up on the crafting feature. Therefore it won’t be usable. When this variable is not set or set as “false” the crafting piece is available for the crafting feature.
-* **item_holster_pos_shift (optional)**: Value given to this parameter sets position offset for the holster.
-* **excluded_item_usage_features (optional)**: ":" separated values of item usage features which the piece cannot use. For example, when "thrust" is defined as an exclusion on a weapon piece. A weapon with that piece can not make thrust attacks.
+* **id**：部件的唯一字符串ID。每个部件都必须拥有唯一的ID，以区别于其他部件。
+* **name**：该部件在游戏中向玩家显示的名称。
+* **piece_type**：引用"CraftingPiece.PieceTypes"。PieceTypes是用于标记该部件所属类别的定义。每个制作部件都由不同的部件组成。
+* **mesh**：需要一个唯一的网格ID来定义制作部件的视觉形状。
+* **weight**：制作部件的重量，单位为千克。
+* **length**：部件的测量长度，单位为厘米（轴心点始终位于中心）。
+* **culture（可选）**：当前物品所属的文化。如果为物品设置了文化，该物品将只会在相同文化的市场上出售。
+* **full_scale（可选）**：定义该部件在各维度上的缩放系数。设置为"true"时，部件会在所有三个维度上进行缩放。设置为"false"则只在单一维度（即构建轴）上缩放。
+* **appearance（可选）**：一个价值（价格）计算系数。
+* **center_of_mass（可选）**：部件的质心百分比，通常为0.5（即居中）。
+* **tier（可选）**：默认值为"1"。Tier定义了制作部件的品质。Tier有助于设定武器的等级和制作难度。
+* **is_default（可选）**：设置为"true"时，该部件在制作功能中默认处于解锁状态；如果设置为"false"，则该部件必须通过制作不同的武器来解锁。
+* **is_hidden（可选）**：设置为"true"时，该部件不会出现在制作功能中，因此无法使用。当未设置该变量或将其设置为"false"时，该制作部件可用于制作功能。
+* **item_holster_pos_shift（可选）**：为该参数赋值可设置挂载位置（holster）的位置偏移。
+* **excluded_item_usage_features（可选）**：以":"分隔的值，表示该部件无法使用的物品使用特性（item usage features）。例如，当武器部件上定义了排除"thrust"（突刺）时，使用该部件的武器将无法进行突刺攻击。
 
-##### CraftingPieces/CraftingPiece/BuildData Node
-* **piece_offset**: Given value sets distance adjustment for the piece from the origin of the weapon in centimeters.
-* **next_piece_offset**: Given value sets the distance of the next piece in terms of centimeters. When a positive number is set, the distance to the next piece is closer. Negative values can be given to separate the pieces further apart.
-* **previous_piece_offset**: Given value sets the distance of the previous piece in terms of centimeters. While the positive values bring pieces together, negative pieces set them further apart.
+##### CraftingPieces/CraftingPiece/BuildData 节点
+* **piece_offset**：给定的值以厘米为单位，设置该部件相对于武器原点的距离调整。
+* **next_piece_offset**：给定的值以厘米为单位，设置与下一个部件之间的距离。设置为正数时，与下一个部件的距离会更近。可以设置负值使部件进一步分离。
+* **previous_piece_offset**：给定的值以厘米为单位，设置与上一个部件之间的距离。正值会使部件靠拢，负值则会使部件进一步分离。
 
-##### CraftingPieces/CraftingPiece/Materials/Material Node
-Material sets the required number of materials needed to craft the piece. Materials are also used in the smelting formula. Results of the smelting can not be more than material count and can not result in materials that are not listed in the material list. (Current formula in Bannerlord generates 1 lesser quality material of the highest material defined) Multiple materials can be set for specific items. A sword guard might require 3 counts of Iron2 and 1 count of Iron4.
+##### CraftingPieces/CraftingPiece/Materials/Material 节点
+Material用于设置制作该部件所需的材料数量。材料同时也用于熔炼公式（smelting formula）。熔炼的结果不能超过材料数量，也不能产生材料列表中未列出的材料。（Bannerlord中当前的公式会生成1个品质低于所定义最高品质材料的材料）可以为特定物品设置多种材料。例如，一个剑护手可能需要3个Iron2和1个Iron4。
 
-* **id**: References to the “CraftingMaterials”. CraftingMaterials are definitions used for pieces that generate a crafting piece when combined.
-* **count**: Amount of material required to craft the piece.
+* **id**：引用"CraftingMaterials"。CraftingMaterials是用于组合生成制作部件的材料定义。
+* **count**：制作该部件所需的材料数量。
 
-##### CraftingPieces/CraftingPiece/Flags/Flag Node
-Flags are used for defining different properties that allow crafted items to have different features. There are two different variables when a flag needs to be set;
+##### CraftingPieces/CraftingPiece/Flags/Flag 节点
+Flags用于定义允许已制作物品拥有不同特性的各种属性。设置Flag时需要两个不同的变量；
 
-**name**: References to the “ItemFlags” or “WeaponFlags”.
+**name**：引用"ItemFlags"或"WeaponFlags"。
 
 * ItemFlags
 	* ForceAttachOffHandPrimaryItemBone
@@ -149,9 +150,9 @@ Flags are used for defining different properties that allow crafted items to hav
 	* AmmoBreakOnBounceBackMask
 	* AmmoSticksWhenShot
 
-**type**: “ItemFlags” or “WeaponFlags”. WeaponFlags is the default if omitted.
+**type**："ItemFlags"或"WeaponFlags"。如果省略，则默认为WeaponFlags。
 
-#### CraftingTemplates XmlNode Example
+#### CraftingTemplates XmlNode 示例
 
 ```
 <CraftingTemplates>
@@ -205,41 +206,41 @@ Flags are used for defining different properties that allow crafted items to hav
 </CraftingTemplates>
 ```
 
-##### CraftingTemplates/CraftingTemplate Node
-When generating a crafting template the following values must be defined.
+##### CraftingTemplates/CraftingTemplate 节点
+生成制作模板（crafting template）时必须定义以下值。
 
-* **id**: Unique string id of the template. Each template must have a unique id to differ from other templates.
-* **item_modifier_group**: A reference to an item modifier group from item_modifier_groups.xml.
+* **id**：模板的唯一字符串ID。每个模板都必须拥有唯一的ID，以区别于其他模板。
+* **item_modifier_group**：引用item_modifier_groups.xml中的一个物品修饰符组（item modifier group）。
 
-For example both two handed maces and maces fall under the mace category here.
+例如，双手钉锤和单手钉锤在这里都属于钉锤（mace）类别。
 
 	item_modifier_group="mace"
 
-* **item_holsters**: Defines where the item can be holstered. For items of multiple pieces common holsters will be used within the game. Piece types should be separated by ”:”. Separated references can be found from item_holsters.xml.
-* **piece_type_to_scale_holster_with**: This defines the piece type to scale the holster mesh (if exists) with. As an example if the “Blade” is set for this parameter, the blade piece will be scaling the holster of the weapon. Other pieces will be disregarded.
-* **hidden_piece_types_on_holster**: ":" separated values of “CraftingPiece.PieceTypes” to be hidden in the holster mesh.
-* **default_item_holster_position_offset**: Default position offset for the holster. This is set in the format of "x,y,z".  Applies to all weapons that are using the template. Further adjustment per piece can be applied from item_holster_pos_shift variable under a crafting piece.
-* **use_weapon_as_holster_mesh**: When set as “true”, all weapons using the template will have itself as the holster mesh. The weapon itself will appear in place of the holster.
-* **rotate_weapon_in_holster**: When set as “true”, all weapons using the template will be put in the opposite direction in the holster mesh. Useful for javelins to have their blades sticking out.
-* **always_show_holster_with_weapon**: When set as “true”, the weapon mesh inside the holster mesh will not be hidden when the weapon is drawn. This feature is most useful for weapons with multiple stacks inside the holster such as quivers.
+* **item_holsters**：定义该物品可以挂载（holster）的位置。对于由多个部件组成的物品，游戏中会使用通用的挂载点。部件类型之间应以":"分隔。可以在item_holsters.xml中找到可引用的分隔值。
+* **piece_type_to_scale_holster_with**：定义用于缩放挂载网格（如果存在）的部件类型。例如，如果此参数设置为"Blade"，则刀身部件将用于缩放武器的挂载网格。其他部件将被忽略。
+* **hidden_piece_types_on_holster**：以":"分隔的"CraftingPiece.PieceTypes"值，表示在挂载网格中应隐藏的部件类型。
+* **default_item_holster_position_offset**：挂载点的默认位置偏移。格式为"x,y,z"。适用于所有使用该模板的武器。每个部件还可以通过制作部件下的item_holster_pos_shift变量进行进一步调整。
+* **use_weapon_as_holster_mesh**：设置为"true"时，所有使用该模板的武器都会以自身作为挂载网格。武器本身会出现在挂载位置。
+* **rotate_weapon_in_holster**：设置为"true"时，所有使用该模板的武器在挂载网格中会以相反方向放置。这对于需要刀身露出的标枪很有用。
+* **always_show_holster_with_weapon**：设置为"true"时，当武器被拔出时，挂载网格内的武器模型不会被隐藏。此特性对于箭袋等在挂载处有多层堆叠的武器最为有用。
 
-##### CraftingTemplates/CraftingTemplate/PieceDatas/PieceData Node
-Defines which type of pieces can be used with the template and in which order they will be assembled.
+##### CraftingTemplates/CraftingTemplate/PieceDatas/PieceData 节点
+定义可与该模板一起使用的部件类型及其组装顺序。
 
-* **piece_type**: References to the “CraftingPiece.PieceTypes”.
-* **build_order**: In which order the piece is going to be built. All weapons are built around the handle pieces. Since all weapons must have handles, the order of a handle should be set to 0. Any piece which is on top of a handle should have incremental positive values and any piece which is on the other side of the handle should have incremental negative values.
+* **piece_type**：引用"CraftingPiece.PieceTypes"。
+* **build_order**：部件的构建顺序。所有武器都是围绕握柄部件构建的。由于所有武器都必须拥有握柄，握柄的顺序应设置为0。位于握柄一侧的部件应使用递增的正值，位于握柄另一侧的部件应使用递减的负值。
 
-##### CraftingTemplates/CraftingTemplate/WeaponDescriptions/WeaponDescription Node
-A WeaponDescription is simply the primary usage or one of the alternative usages of a weapon. They are defined in weapon_descriptions.xml and referenced in the template.
+##### CraftingTemplates/CraftingTemplate/WeaponDescriptions/WeaponDescription 节点
+WeaponDescription即武器的主要用途或其中一种替代用途。它们在weapon_descriptions.xml中定义，并在模板中被引用。
 
-* **id**: Unique string id of the description. Each description must have a unique id to differ from other descriptions.
+* **id**：描述的唯一字符串ID。每个描述都必须拥有唯一的ID，以区别于其他描述。
 
-##### CraftingTemplates/CraftingTemplate/StatsData Node
-This is used for defining which basic stats for the weapon will be shown on the inventory or the crafting screen.
+##### CraftingTemplates/CraftingTemplate/StatsData 节点
+用于定义将在库存界面或制作界面上显示的武器基础属性。
 
-* **weapon_description (optional)**: If specified, given data will be used only for the defined description instead of the template. When at least one StatsData node has this optional attribute defined, either all weapon descriptions referenced in the template must have their own StatsData entries or a default one must be provided before the specific one.
+* **weapon_description（可选）**：如果指定，给定的数据将仅用于所定义的描述，而非整个模板。当至少有一个StatsData节点定义了此可选属性时，模板中引用的所有武器描述要么必须拥有各自的StatsData条目，要么必须在特定条目之前提供一个默认条目。
 
-An example is given below;
+下面给出一个示例；
 
     <StatsData usage_data="Javelin">
 		<StatData stat_type="Weight"
@@ -256,18 +257,18 @@ An example is given below;
 			max_value="5" />
 	</StatsData>
 
-##### CraftingTemplates/CraftingTemplate/StatsData/StatData Node
-* **stat_type**: References to the “CraftingTemplate.CraftingStatTypes”. Defines different characteristics of a weapon.
-* **max_value**: Maximum value defines the upper limit a stat can have.
+##### CraftingTemplates/CraftingTemplate/StatsData/StatData 节点
+* **stat_type**：引用"CraftingTemplate.CraftingStatTypes"。定义武器的不同特性。
+* **max_value**：最大值定义了某项属性可达到的上限。
 
-##### CraftingTemplates/CraftingTemplate/UsablePieces/UsablePiece Node
-* **piece_id**: References to the “CraftingPiece.PieceTypes”.
+##### CraftingTemplates/CraftingTemplate/UsablePieces/UsablePiece 节点
+* **piece_id**：引用"CraftingPiece.PieceTypes"。
 
-Example: In order to enable spear_blade_7 as a javelin part, it must be listed under the “javelin” id. The same piece must also be listed on the weapon_descriptions.xml under the related part.
+示例：要将spear_blade_7启用为标枪（javelin）部件，必须将其列在"javelin" id下。同一部件也必须在weapon_descriptions.xml中列在相关部分下。
 
 	<UsablePiece piece_id="spear_blade_7" />
 
-#### WeaponDescriptions XmlNode Example
+#### WeaponDescriptions XmlNode 示例
 
 ```
 <WeaponDescriptions>
@@ -287,32 +288,32 @@ Example: In order to enable spear_blade_7 as a javelin part, it must be listed u
 </WeaponDescriptions>
 ```
 
-##### WeaponDescriptions/WeaponDescription Node
-A **Weapon description** is used for defining different usages and features. Defined parts listed under the crafting templates nodes must also be listed under the weapon_descriptions.xml to be used.
+##### WeaponDescriptions/WeaponDescription 节点
+**Weapon description（武器描述）**用于定义不同的用途和特性。在制作模板节点下列出的部件，也必须在weapon_descriptions.xml中列出才能使用。
 
-* **id**: Unique string id of the WeaponDescription.
-* **weapon_class**: References to the “WeaponClass”. This defines which weapon type will be used by the weapon descriptions.
-* **item_usage_features**: “:” separated values of item usage features which are available for the description. This is used for defining possible features (“_” separated pieces) of an item_usage_set (from item_usage_sets.xml).
+* **id**：WeaponDescription的唯一字符串ID。
+* **weapon_class**：引用"WeaponClass"。定义该武器描述将使用哪种武器类型。
+* **item_usage_features**：以":"分隔的物品使用特性值，表示该描述可用的特性。这用于定义item_usage_set（来自item_usage_sets.xml）的可能特性（以"_"分隔的部件）。
 
-An example is listed below;
+下面列出一个示例；
 
 	item_usage_features="onehanded:block:shield:swing:thrust">
 
-* **rotated_in_hand**: When set as “true”, all weapons using the description will be held 180 degrees rotated in hand. A common use case for this is throwable polearms.
-* **use_center_of_mass_as_hand_base**: When set as “true”, instead of the usual handle pivot, the weapon will be held from the calculated center of mass position. This is also used in throwable polearms.
+* **rotated_in_hand**：设置为"true"时，所有使用该描述的武器在手中会旋转180度持握。此特性常用于可投掷的长柄武器。
+* **use_center_of_mass_as_hand_base**：设置为"true"时，武器将以计算出的质心位置持握，而不是通常的握柄轴心。这同样也用于可投掷的长柄武器。
 
-##### WeaponDescriptions/WeaponDescription/WeaponFlags/WeaponFlag Node
-Default WeaponFlags used for all weapons for the description.
+##### WeaponDescriptions/WeaponDescription/WeaponFlags/WeaponFlag 节点
+该描述下所有武器使用的默认WeaponFlags。
 
-* **value**: References to the “WeaponFlags”.
+* **value**：引用"WeaponFlags"。
 
-##### WeaponDescriptions/WeaponDescription/AvailablePieces/AvailablePiece Node
-List of available pieces.
+##### WeaponDescriptions/WeaponDescription/AvailablePieces/AvailablePiece 节点
+可用部件列表。
 
-* **id**:  A reference to a crafting piece.
+* **id**：对制作部件的引用。
 
-#### Example: Adding crafting pieces to existing weapon templates via XML & XSLT
-**Example case**: We have created 8 crafting pieces suitable for one handed swords with the following mesh names in the .fbx files:
+#### 示例：通过XML和XSLT向现有武器模板添加制作部件
+**示例情况**：我们已经创建了8个适用于单手剑的制作部件，其在.fbx文件中的网格名称如下：
 
 * yourforumusername_blade_1
 * yourforumusername_blade_2
@@ -323,24 +324,24 @@ List of available pieces.
 * yourforumusername_pommel_1
 * yourforumusername_pommel_2
 
-We have also created 4 crafting pieces suitable for two handed swords:
+我们还创建了4个适用于双手剑的制作部件：
 
 * yourforumusername_blade_3
 * yourforumusername_guard_3
 * yourforumusername_grip_3
 * yourforumusername_pommel_3
 
-We **haven’t yet created our new module** which is why we launched the Mount & Blade II: Bannerlord Modding Kit, opened the Editor, clicked on File->Create New Module, gave our module a name **“OurModule”** and clicked “Create”.
+我们**尚未创建自己的新模组**，因此我们启动了《骑马与砍杀2:领主》模组制作工具包（Modding Kit），打开编辑器（Editor），点击File->Create New Module，为我们的模组命名为**"OurModule"**，然后点击"Create"。
 <img src="/img/weapon_smithing/weapon_smithing_5.png" style="height:200px;"/>
 
-We have then added **all of the meshes and materials** to our module with the help of the editor. This requires more than just adding the source files to the AssetSources\element folder. The files then need to be exported to the game via the Resource browser and the module published.
+然后我们借助编辑器将**所有网格和材质**添加到了我们的模组中。这不仅仅是将源文件添加到AssetSources\element文件夹那么简单。这些文件还需要通过资源浏览器（Resource browser）导出到游戏中，并发布模组。
 <img src="/img/weapon_smithing/weapon_smithing_6.png" style="height:200px;"/>
 
-Now, we want to do the necessary steps for these crafting pieces to **appear in-game**. We need to create a **new XML** file within our module:
+现在，我们需要执行必要的步骤，使这些制作部件能够**在游戏中显示**。我们需要在模组中创建一个**新的XML**文件：
 
 * Modules\OurModule\ModuleData\Custom_crafting_pieces.xml
 
-We also need to modify the native Crafting_templates.xml and Weapon_descriptions.xml via XSLT. That’s why we need to create these 2 files within our module:
+我们还需要通过XSLT修改原生的Crafting_templates.xml和Weapon_descriptions.xml。因此我们需要在模组中创建以下这2个文件：
 
 * Modules\OurModule\ModuleData\Crafting_templates.xsl
 * Modules\OurModule\ModuleData\Weapon_descriptions.xsl
@@ -348,7 +349,7 @@ We also need to modify the native Crafting_templates.xml and Weapon_descriptions
 <img src="/img/weapon_smithing/weapon_smithing_7.png" style="height:200px;"/>
 
 ##### SubModule.xml
-We also need to add the new XML & XSL files to our SubModule.xml:
+我们还需要将新的XML和XSL文件添加到我们的SubModule.xml中：
 
 	<Xmls>
 		<XmlNode>
@@ -375,7 +376,7 @@ We also need to add the new XML & XSL files to our SubModule.xml:
 	</Xmls>
 
 ##### Custom_crafting_pieces.xml
-Within the **Custom_crafting_pieces.xml**, we’ll add the 12 crafting pieces. We’ll also define all of the required properties of these pieces as explained in this document above.
+在**Custom_crafting_pieces.xml**中，我们将添加12个制作部件。我们还将按照本文档前面说明的方式，定义这些部件所需的所有属性。
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -596,7 +597,7 @@ Within the **Custom_crafting_pieces.xml**, we’ll add the 12 crafting pieces. W
 ```
 
 ##### Crafting_templates.xsl
-Now, we need to add the crafting pieces to the **Crafting_templates.xsl**:
+现在，我们需要将这些制作部件添加到**Crafting_templates.xsl**中：
 ```
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   
@@ -635,10 +636,10 @@ Now, we need to add the crafting pieces to the **Crafting_templates.xsl**:
 </xsl:stylesheet>
 ```
 
-The above XSLT code modifies the two native crafting templates “OneHandedSword” and “TwoHandedSword”. The use of XSLT is required in order to modify the existing templates. If we were to add a new template, for example “Firearms”, the use of XSLT wouldn’t be required. Instead, we could simply create a new custom_crafting_templates.xml and add the new template there.
+上面的XSLT代码修改了两个原生制作模板"OneHandedSword"和"TwoHandedSword"。要修改现有模板，必须使用XSLT。如果我们要添加一个新模板，例如"Firearms"，则不需要使用XSLT。相反，我们只需简单地创建一个新的custom_crafting_templates.xml并在其中添加新模板即可。
 
 ##### Weapon_descriptions.xsl
-We also need to modify the **Weapon_descriptions.xsl** with the following:
+我们还需要按照以下内容修改**Weapon_descriptions.xsl**：
 
 ```
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -678,21 +679,7 @@ We also need to modify the **Weapon_descriptions.xsl** with the following:
 </xsl:stylesheet>
 ```
 
-That’s it. Our crafting pieces will now show up on the crafting screen in-game. 
+就是这样。我们的制作部件现在将在游戏中的锻造界面上显示出来。
 
-##### Example Mod Download
-If you would like to download the example module presented above [click here](https://download3.taleworlds.com/OurModule.zip).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+##### 示例模组下载
+如果你想下载上文展示的示例模组，请[点击这里](https://download3.taleworlds.com/OurModule.zip)。

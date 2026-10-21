@@ -1,52 +1,53 @@
 +++
-title = "Scene Audio"
+title = "Звук сцены"
 weight = 30
+ai_translated = true
 +++
 
-_Last updated: April 3, 2026_
+_Последнее обновление: 3 апреля 2026 г._
 
 ---
 
-## Adding Sound Entities
+## Добавление звуковых сущностей
 
-In our proprietary game engine, placing sounds into a scene is straightforward. Start by creating an **empty entity** in the scene.
+В нашем проприетарном игровом движке размещение звуков в сцене выполняется просто. Начните с создания **пустой сущности** (empty entity) в сцене.
 
-Once the entity is added, select it in the scene hierarchy to open the **Inspector Window**. If the Inspector doesn't appear, enable it through **Window > Inspector Window**.
+После добавления сущности выберите её в иерархии сцены, чтобы открыть **окно инспектора** (Inspector Window). Если инспектор не появляется, включите его через **Window > Inspector Window**.
 
-In the Inspector, expand the **Scripts** dropdown and choose **Add New Script**. From the dialog, select **AmbientSoundEmitter** to attach a sound emitter script to the entity.
+В инспекторе разверните выпадающий список **Scripts** и выберите **Add New Script**. В диалоговом окне выберите **AmbientSoundEmitter**, чтобы прикрепить скрипт излучателя звука к сущности.
 
-The script exposes several options for controlling playback:
+Скрипт предоставляет несколько опций для управления воспроизведением:
 
-| Property | Description |
+| Свойство | Описание |
 |---|---|
-| **Event Path** | The FMOD event path for the sound to be played in the scene |
-| **Play On Startup** | If enabled, the sound plays automatically when the scene loads. Useful for ambiences or persistent sounds |
-| **Is Static** | Marks the emitter as fixed in place. Static emitters are cheaper to process since the engine doesn't need to track their position dynamically |
-| **Override Sound** | Enables overrides for certain FMOD parameters specifically for 3D sound events |
-| **Override Volume Multiplier** | Adjusts playback volume by a multiplier. Use commas (`,`) instead of periods (`.`) for decimal values |
-| **Override Max Distance** | Sets a custom maximum audible distance for the event |
-| **Override Min Distance** | Sets a custom minimum audible distance for the event |
-| **Is Master Sound** | Tags the emitter as a master sound, used for global mix behaviors |
-| **Is Master Suppressor** | When active inside a trigger volume, ducks (reduces) any sounds tagged as master sound |
-| **Is Triggered** | Configures the emitter as a trigger volume, only playing when the listener enters the defined space |
-| **Trigger Shape** | Defines the shape of the trigger volume (box or sphere) |
+| **Event Path** | Путь к событию FMOD для звука, который будет проигрываться в сцене |
+| **Play On Startup** | Если включено, звук проигрывается автоматически при загрузке сцены. Полезно для амбиентов или постоянных звуков |
+| **Is Static** | Помечает излучатель как неподвижный. Статичные излучатели дешевле в обработке, поскольку движку не нужно динамически отслеживать их положение |
+| **Override Sound** | Включает переопределения для определённых параметров FMOD, специфичных для 3D звуковых событий |
+| **Override Volume Multiplier** | Регулирует громкость воспроизведения с помощью множителя. Используйте запятые (`,`) вместо точек (`.`) для десятичных значений |
+| **Override Max Distance** | Задаёт пользовательское максимальное расстояние слышимости для события |
+| **Override Min Distance** | Задаёт пользовательское минимальное расстояние слышимости для события |
+| **Is Master Sound** | Помечает излучатель как главный звук (master sound), используется для глобального поведения микса |
+| **Is Master Suppressor** | Когда активен внутри триггерного объёма, приглушает (уменьшает громкость) любых звуков, помеченных как master sound |
+| **Is Triggered** | Настраивает излучатель как триггерный объём, проигрывающийся только когда слушатель входит в заданное пространство |
+| **Trigger Shape** | Задаёт форму триггерного объёма (куб или сфера) |
 
 ---
 
-## Reverb Zones
+## Зоны реверберации
 
-The same process applies when adding reverb zones to a scene. In FMOD, reverbs are snapshot events that can be triggered through trigger volumes, just like standard sound events.
+Тот же процесс применяется при добавлении зон реверберации в сцену. В FMOD реверберации являются событиями-снапшотами (snapshot events), которые могут запускаться через триггерные объёмы, так же как и обычные звуковые события.
 
-To set one up:
+Чтобы настроить одну из них:
 
-1. Create a new entity in the scene
-2. Attach an **AmbientSoundEmitter** script
-3. Enter the path to the reverb snapshot event
-4. Enable **Is Triggered**
-5. Select the appropriate trigger shape
-6. Resize the volume using the transform tools to cover the desired area
+1. Создайте новую сущность в сцене
+2. Прикрепите скрипт **AmbientSoundEmitter**
+3. Введите путь к событию-снапшоту реверберации
+4. Включите **Is Triggered**
+5. Выберите подходящую форму триггера
+6. Измените размер объёма с помощью инструментов трансформации, чтобы охватить нужную область
 
-The following snapshot event paths are available out of the box. You're also free to create and add your own snapshots and snapshot events.
+Следующие пути событий-снапшотов доступны «из коробки». Вы также можете свободно создавать и добавлять свои собственные снапшоты и события-снапшоты.
 
 - `event:/mission/ambient/reverb/alley`
 - `event:/mission/ambient/reverb/caves`
@@ -62,52 +63,52 @@ The following snapshot event paths are available out of the box. You're also fre
 
 ---
 
-## Paths
+## Пути (Paths)
 
-Paths are routes you can place in a scene for entities to follow. This is useful when you want a sound emitter to move along a defined trajectory relative to the listener — for example, to simulate a river flowing past.
+Пути (paths) — это маршруты, которые вы можете размещать в сцене, чтобы сущности следовали по ним. Это полезно, когда вы хотите, чтобы звуковой излучатель двигался по заданной траектории относительно слушателя — например, для имитации реки, протекающей мимо.
 
-### Creating a Path
+### Создание пути
 
-1. Click **Add New Path** on the taskbar
-2. Assign a name to the path
-3. Click **Add Component**
-4. Place path points in the scene — they will automatically be connected in order
+1. Нажмите **Add New Path** на панели инструментов
+2. Присвойте пути имя
+3. Нажмите **Add Component**
+4. Разместите точки пути в сцене — они будут автоматически соединены по порядку
 
-To attach a sound emitter to a path, select the sound emitter entity, go to the **Scripts** tab, click **Add New Script**, and add the **path_converger** script. This enables the entity to follow the defined path.
+Чтобы прикрепить звуковой излучатель к пути, выберите сущность звукового излучателя, перейдите на вкладку **Scripts**, нажмите **Add New Script** и добавьте скрипт **path_converger**. Это позволяет сущности следовать по заданному пути.
 
-The **path_converger** script exposes a few options:
+Скрипт **path_converger** предоставляет несколько опций:
 
-| Property | Description |
+| Свойство | Описание |
 |---|---|
-| **Path Name** | The name of the path the emitter should follow. Must exactly match the path you created |
-| **Rotate To Camera** | If enabled, the emitter rotates to face the listener's camera as it moves along the path |
-| **Apply Scale** | Determines whether the emitter inherits scaling transformations from the path |
+| **Path Name** | Имя пути, по которому должен следовать излучатель. Должно точно совпадать с именем созданного вами пути |
+| **Rotate To Camera** | Если включено, излучатель поворачивается лицом к камере слушателя по мере движения по пути |
+| **Apply Scale** | Определяет, наследует ли излучатель трансформации масштабирования от пути |
 
 ---
 
-## Modifying Emitter Transforms
+## Изменение трансформаций излучателя
 
-To see a sound emitter's trigger volume shape and its min/max distance spheres, you need to enable **Sound Entities** visibility. If the **Visibility** tab isn't visible, open it via **Window > Visibility Window**.
+Чтобы увидеть форму триггерного объёма звукового излучателя и его сферы минимального/максимального расстояния, вам нужно включить видимость **Sound Entities**. Если вкладка **Visibility** не отображается, откройте её через **Window > Visibility Window**.
 
-In the **Visibility** tab, go to **Visibility Masks** and check the box next to **Sound Entities**. This enables display of sound-related components in the scene view. Once enabled, the trigger volume (a box or sphere wireframe) and two concentric distance spheres representing the min and max audible range become visible directly in the scene, making it much easier to position and resize emitters accurately.
+На вкладке **Visibility** перейдите в **Visibility Masks** и отметьте флажок рядом с **Sound Entities**. Это включает отображение компонентов, связанных со звуком, в виде сцены. После включения триггерный объём (каркас куба или сферы) и две концентрические сферы расстояния, представляющие минимальный и максимальный диапазон слышимости, становятся видимыми прямо в сцене, что значительно облегчает точное позиционирование и изменение размера излучателей.
 
 ---
 
-## Adding Sound Events to Animation Clips
+## Добавление звуковых событий в клипы анимации
 
-To attach sounds to animation clips, open the **Resource Browser** via **Window > Show Resource Browser**. The Resource Browser lets you browse, filter, and search through project assets.
+Чтобы прикрепить звуки к клипам анимации, откройте **браузер ресурсов** (Resource Browser) через **Window > Show Resource Browser**. Браузер ресурсов позволяет просматривать, фильтровать и искать ресурсы проекта.
 
-You can filter by asset class to narrow down results. If you're not sure where an asset is, use the search bar — just make sure you're searching within the correct directory. Once you find the animation clip, select it to open the **Animation Clip Inspector**.
+Вы можете фильтровать по классу ресурса, чтобы сузить результаты. Если вы не уверены, где находится ресурс, используйте строку поиска — просто убедитесь, что вы ищете в правильной директории. Найдя клип анимации, выберите его, чтобы открыть **инспектор клипа анимации** (Animation Clip Inspector).
 
-In the **Animation Clip Inspector**, you can view and adjust all parameters linked to the selected clip. For audio, focus on the sound-related parameters:
+В **инспекторе клипа анимации** вы можете просматривать и настраивать все параметры, связанные с выбранным клипом. Для аудио сосредоточьтесь на параметрах, связанных со звуком:
 
-| Property | Description |
+| Свойство | Описание |
 |---|---|
-| **Step Points** | The X-axis value defines the timing offset within the clip. Set to `−1.00` by default if no sound is attached. Set to `0.00` or adjust to sync sound with animation |
-| **Sound Code** | The FMOD event path to attach. Entering a valid path ensures the sound plays at the correct point in the animation timeline |
-| **Voice Code** | Combat voice type to attach to the animation. See built-in types below, or add custom types as described in the [Voice System]({{< ref "audio-modding-systems.md#voice-system" >}}) section |
+| **Step Points** | Значение по оси X определяет временное смещение в рамках клипа. По умолчанию установлено значение `−1.00`, если звук не прикреплён. Установите `0.00` или скорректируйте значение для синхронизации звука с анимацией |
+| **Sound Code** | Путь к событию FMOD для прикрепления. Ввод корректного пути обеспечивает проигрывание звука в нужной точке временной шкалы анимации |
+| **Voice Code** | Тип боевого голоса, прикрепляемый к анимации. См. встроенные типы ниже, или добавьте пользовательские типы, как описано в разделе [Voice System]({{< ref "audio-modding-systems.md#voice-system" >}}) |
 
-**Built-in Voice Codes:**
+**Встроенные коды голоса:**
 
 | Voice Code |
 |---|
@@ -126,66 +127,66 @@ In the **Animation Clip Inspector**, you can view and adjust all parameters link
 | HorseRally |
 | Drown |
 
-**Animation sound flags:**
+**Флаги звука анимации:**
 
-| Flag | Description |
+| Флаг | Описание |
 |---|---|
-| `make_bodyfall_sound` | Triggers a body-fall sound at this animation point |
-| `make_walk_sound` | Triggers a footstep sound at this animation point |
-| `do_not_keep_track_of_sound` | Stops the engine from tracking the sound's playback state |
-| `attach_sound_to_agent` | Attaches the sound directly to the agent rather than the world position |
+| `make_bodyfall_sound` | Запускает звук падения тела в этой точке анимации |
+| `make_walk_sound` | Запускает звук шага в этой точке анимации |
+| `do_not_keep_track_of_sound` | Останавливает отслеживание движком состояния воспроизведения звука |
+| `attach_sound_to_agent` | Прикрепляет звук напрямую к агенту, а не к позиции в мире |
 
 ---
 
-## Adding Sound Events to Particles
+## Добавление звуковых событий в частицы
 
-Just like animation clips, particle assets can be accessed through the **Resource Browser**. Filter the asset list to show only particles, or use the search bar to locate a specific particle within a directory. Once found, double-click it to open the **Inspector Window**.
+Как и клипы анимации, ресурсы частиц доступны через **браузер ресурсов**. Отфильтруйте список ресурсов, чтобы показать только частицы, или используйте строку поиска, чтобы найти конкретную частицу в директории. Найдя нужную, дважды щёлкните по ней, чтобы открыть **окно инспектора**.
 
-In the Inspector, you can view the particle's layers, LODs, and parameters. Before attaching audio, make sure you've selected the correct **layer** and **LOD** of the particle.
+В инспекторе вы можете просматривать слои, LOD-уровни и параметры частицы. Перед прикреплением аудио убедитесь, что вы выбрали правильный **слой** (layer) и **LOD** частицы.
 
-> Keep in mind: if the effect isn't visually strong enough to justify rendering at a higher LOD, it isn't strong enough to justify a sound either. In those cases, keep audio only at **LOD 0**.
+> Имейте в виду: если эффект недостаточно силён визуально, чтобы оправдать рендеринг на более высоком LOD, он недостаточно силён и для звука. В таких случаях оставляйте аудио только на **LOD 0**.
 
-Once the correct layer and LOD are selected, open the **Sound** tab:
+После выбора правильного слоя и LOD откройте вкладку **Sound**:
 
-| Property | Description |
+| Свойство | Описание |
 |---|---|
-| **Continuous sound** | Use for looping sounds. Enter the FMOD event path of the looped event |
-| **One shot sound** | Use for single-playback sounds. Enter the FMOD event path of the one-shot event |
-| **Size Parameter** | Applies a multiplier to override the size of a 3D sound event |
+| **Continuous sound** | Используется для зацикленных звуков. Введите путь к событию FMOD зацикленного события |
+| **One shot sound** | Используется для одноразового воспроизведения звуков. Введите путь к событию FMOD одноразового события |
+| **Size Parameter** | Применяет множитель для переопределения размера 3D звукового события |
 
 ---
 
-## Quadraphonic Ambients {#quadraphonic-ambients}
+## Квадрафонические амбиенты {#quadraphonic-ambients}
 
-**Mount & Blade II: Bannerlord** is a performance-critical title. Adding hundreds of 3D sound emitters into scenes can quickly overwhelm CPU, memory, and disk I/O — especially during large-scale battles with thousands of active agents. To maintain immersion without sacrificing performance, we use **quadraphonic ambients**.
+**Mount & Blade II: Bannerlord** — требовательная к производительности игра. Добавление сотен 3D звуковых излучателей в сцены может быстро перегрузить CPU, память и дисковый ввод/вывод — особенно во время масштабных сражений с тысячами активных агентов. Чтобы сохранить погружение без ущерба для производительности, мы используем **квадрафонические амбиенты**.
 
-Quadraphonic is a four-channel surround format that creates the illusion of being surrounded by many emitters while actually using only four channels. Rather than relying on FMOD's built-in quad system, we implemented our own approach. It's a bit more involved to set up, but once you understand it, it's more flexible than FMOD's internal solution.
+Квадрафония — это формат четырёхканального окружающего звука, который создаёт иллюзию окружения множеством излучателей, фактически используя лишь четыре канала. Вместо того чтобы полагаться на встроенную квадросистему FMOD, мы реализовали собственный подход. Он немного сложнее в настройке, но после того, как вы его поймёте, он более гибкий, чем внутреннее решение FMOD.
 
-The system spawns **four 3D emitters** around the listener at fixed positions: **0°, 90°, 180°, and 270°** relative to the listener's facing direction. These emitters move with the listener's position, but their distance to the listener stays constant. As the listener turns, they continuously receive different signals from the surrounding emitters — creating the illusion of a dynamic, shifting environment without needing dozens of independent sources.
+Система порождает **четыре 3D излучателя** вокруг слушателя в фиксированных позициях: **0°, 90°, 180° и 270°** относительно направления, в котором смотрит слушатель. Эти излучатели двигаются вместе с позицией слушателя, но расстояние до слушателя остаётся постоянным. По мере того как слушатель поворачивается, он непрерывно получает различные сигналы от окружающих излучателей — создавая иллюзию динамичной, меняющейся окружающей среды без необходимости в десятках независимых источников.
 
-### Setting Up Quad Ambients
+### Настройка квадро-амбиентов
 
-First, create a **stereo ambient event**. This is **not optional** — it acts as a fallback in case the quad setup fails or isn't found. Without it, ambience may be missing during gameplay.
+Сначала создайте **стерео-событие амбиента** (stereo ambient event). Это **не опционально** — оно служит запасным вариантом на случай, если настройка квадро не удалась или не найдена. Без него амбиент может отсутствовать во время игры.
 
-For example, create a 2D event called `plains`.
+Например, создайте 2D-событие с именем `plains`.
 
-Next, create a **folder with the same name** as the stereo event (`plains` in this example). This naming is critical — the system matches stereo events to their quad alternatives by name. Events inside this folder will be treated as the quad channels.
+Далее создайте **папку с таким же именем**, что и стерео-событие (`plains` в этом примере). Это именование критически важно — система сопоставляет стерео-события с их квадро-альтернативами по имени. События внутри этой папки будут рассматриваться как квадро-каналы.
 
-Inside the folder, create four 3D events named exactly:
+Внутри папки создайте четыре 3D-события с точными именами:
 
 - `north`
 - `east`
 - `south`
 - `west`
 
-> The names are **case-sensitive** and must be **lowercase**. Event order doesn't matter.
+> Имена **чувствительны к регистру** и должны быть **строчными**. Порядок событий не имеет значения.
 
-For each of the four quad events, open the **Spatializer** and **disable distance attenuation**. These emitters should radiate a consistent signal regardless of their distance from the listener. If attenuation is left on, volumes may be incorrectly reduced depending on distance settings.
+Для каждого из четырёх квадро-событий откройте **Spatializer** и **отключите затухание по расстоянию** (distance attenuation). Эти излучатели должны излучать постоянный сигнал независимо от расстояния до слушателя. Если затухание оставлено включённым, громкость может быть неправильно уменьшена в зависимости от настроек расстояния.
 
-Finally, go back to the stereo event (`plains`) and set a **User Property**:
+Наконец, вернитесь к стерео-событию (`plains`) и установите **пользовательское свойство** (User Property):
 
-| Property | Value |
+| Свойство | Значение |
 |---|---|
 | `isQuad` | `True` |
 
-This flag tells the system to look for a matching quad setup. If found, the quad version plays; if not, the stereo event plays as a fallback.
+Этот флаг указывает системе искать соответствующую квадро-настройку. Если она найдена, проигрывается квадро-версия; если нет, в качестве запасного варианта проигрывается стерео-событие.
