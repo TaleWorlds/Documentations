@@ -1,0 +1,16 @@
+{{- $desc := .Site.Params.description -}}
+{{- with .Summary }}{{ $desc = . | plainify | htmlUnescape | replaceRE "\\s+" " " | replaceRE "[\"“”«»]" "'" | truncate 160 }}{{ end -}}
+{{- with .Description }}{{ $desc = . }}{{ end -}}
+<meta name="description" content="{{ $desc }}">
+{{- if .IsHome }}
+<style>
+  .tw-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 16px 0 32px; }
+  .tw-card { border: 1px solid #e1e4e8; border-radius: 6px; padding: 14px 18px; background: #fff; transition: border-color .15s, box-shadow .15s; }
+  .tw-card:hover { border-color: #b8bec6; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .tw-card .tw-card-title { margin: 0 0 8px; font-size: 1.15em; border: 0; padding: 0; }
+  .tw-card .tw-card-title i { margin-right: 6px; opacity: .75; }
+  .tw-card .tw-card-body p { margin: 0 0 6px; }
+  .tw-card .tw-card-body ul { margin: 0; padding-left: 18px; }
+  .tw-card .tw-card-body li { margin: 2px 0; }
+</style>
+{{- end }}
