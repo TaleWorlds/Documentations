@@ -251,7 +251,7 @@ The kinematic\_batch\_entity system handles physics optimization for the ship. W
 > * ray\_cast — Batches shapes used only for raycasts (targeting, line-of-sight, etc.)
 
 **Required Setup:**  
-Add the kinematic\_batch\_entity as a nested prefab directly under the ship root. The prefab is located at: NavalDLC/NestedPrefabs/kinematic\_batch\_entity.xml
+Add the kinematic\_batch\_entity nested prefab directly under the ship root. To find it, open the prefab window in the Modding Toolkit and search for kinematic\_batch\_entity. Then drag it onto the ship root entity.
 
 After placing it, verify the following in the entity inspector:
 

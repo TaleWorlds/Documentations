@@ -252,7 +252,7 @@ kinematic\_batch\_entity 系统处理船只的物理优化。如果没有它,船
 > * ray\_cast —— 批处理仅用于射线检测的形状(瞄准、视线检测等)
 
 **所需设置:**
-将 kinematic\_batch\_entity 作为嵌套预制体直接添加到船只根节点下。该预制体位于:NavalDLC/NestedPrefabs/kinematic\_batch\_entity.xml
+将 kinematic\_batch\_entity 嵌套预制体直接添加到船只根节点下。查找方法:在 Modding Toolkit 中打开预制体窗口,搜索 kinematic\_batch\_entity,然后将其拖放到船只根实体上。
 
 放置后,在实体检查器中验证以下内容:
 
