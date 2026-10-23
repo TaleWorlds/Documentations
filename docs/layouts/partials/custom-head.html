@@ -2,6 +2,16 @@
 {{- with .Summary }}{{ $desc = . | plainify | htmlUnescape | replaceRE "\\s+" " " | replaceRE "[\"“”«»]" "'" | truncate 160 }}{{ end -}}
 {{- with .Description }}{{ $desc = . }}{{ end -}}
 <meta name="description" content="{{ $desc }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ "images/og-image.jpg" | absURL }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TaleWorlds Modding Documentation">
+<meta name="twitter:card" content="summary_large_image">
 {{- if .IsHome }}
 <style>
   .tw-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 16px 0 32px; }
