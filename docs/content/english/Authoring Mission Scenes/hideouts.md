@@ -7,6 +7,8 @@ weight = 5
 #### Introduction
 This list of checkpoints should aid you in creation of hideout scenes and provide you with an insight into what we pay attention to when creating them. Unlike many other of our scenes, hideouts are only used for fighting missions and usually have a very strict one way layout.
 
+For the stealth version of the hideout mission, see [What Makes a Stealth Hideout Scene]({{< ref "stealth_hideouts.md" >}}).
+
 #### Navigation Mesh
 * [Works similarly to how it does with village scenes.]({{< ref "villages.md/#navigation-mesh" >}})
 * No need to have special ID’s on paths or around animal enclosures.
